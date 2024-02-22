@@ -1,6 +1,6 @@
 import React from "react";
-import brandSm from "../../assets/dist/img/brand-sm.svg";
-import brand from "../../assets/dist/img/Jampack.svg";
+import brandSm from "../../assets/brand-sm.svg";
+import brand from "../../assets/Jampack.svg";
 import { Link } from "react-router-dom";
 
 const VerticalNavbar = () => {
