@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/services/auth";
-import defaultAvatar from "../../assets/dist/img/avatar12.jpg";
 import _ from "lodash";
 import Dialer from "../PhoneDialer/Dialer";
 
@@ -472,7 +471,7 @@ const TopNavbar = () => {
                 >
                   <div className="avatar avatar-rounded avatar-xs">
                     <img
-                      src={defaultAvatar}
+                      src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
                       alt="user"
                       className="avatar-img"
                     />
