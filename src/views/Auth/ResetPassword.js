@@ -1,5 +1,5 @@
 import React from "react";
-import brand from "../../assets/dist/img/logo-light.png";
+import brand from "../../assets/logo-light.png";
 import InputField from "../../components/FormFields/InputField";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";

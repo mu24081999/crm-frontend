@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
-import brand from "../../assets/dist/img/logo-light.png";
+import brand from "../../assets/logo-light.png";
 import InputField from "../../components/FormFields/InputField";
 import { useDispatch } from "react-redux";
 import { verifyOTP } from "../../redux/services/auth";

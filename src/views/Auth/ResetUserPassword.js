@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import brand from "../../assets/dist/img/logo-light.png";
+import brand from "../../assets/logo-light.png";
 import InputField from "../../components/FormFields/InputField";
 import { ResetPassword } from "../../redux/services/auth";
 const ResetUserPassword = () => {

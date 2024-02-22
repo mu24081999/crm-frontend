@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import brand from "../../assets/dist/img/logo-light.png";
+import brand from "../../assets/logo-light.png";
 // import FormRender from "../../components/FormRender";
 import InputField from "../../components/FormFields/InputField";
 import { useForm } from "react-hook-form";
