@@ -14,7 +14,7 @@ const BoardContent = () => {
   const [toggleType, setToggleType] = useState("board");
   const [boardsData, setBoardsData] = useState([]);
   const [teamsData, setTeamsData] = useState([]);
-  const [isShowTask, setShowTask] = useState(false);
+  const [isShowTask, setShowTask] = useState(true);
   const { token } = useSelector((state) => state.auth);
   const { boards } = useSelector((state) => state.board);
   const { teams } = useSelector((state) => state.board_team);

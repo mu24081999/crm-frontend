@@ -271,7 +271,7 @@ const Boards = ({ boardsData }) => {
                           className="initial-wrap"
                           style={{ color: "white" }}
                         >
-                          J
+                          {board.avatar_text}
                         </span>
                       </div>
                     </div>
