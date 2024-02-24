@@ -4,6 +4,7 @@ import { RouterProvider } from "react-router-dom";
 import router from "./router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./assets/distt/css/style.css";
 
 const App = () => {
   return (
