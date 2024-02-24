@@ -9,15 +9,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBoardList } from "../../redux/services/board";
 import { getBoardTeamList } from "../../redux/services/boardTeam";
 import TasksContent from "./TasksContent";
+import AddTaskList from "./components/AddTaskList";
+import AddNewProjectTask from "./components/AddNewProjectTask";
+import { getTasksList } from "../../redux/services/project-task";
+import EditProjectTask from "./components/EditProjectTask";
 
 const BoardContent = () => {
   const [toggleType, setToggleType] = useState("board");
   const [boardsData, setBoardsData] = useState([]);
   const [teamsData, setTeamsData] = useState([]);
-  const [isShowTask, setShowTask] = useState(true);
+  const [tasksData, setTasksData] = useState([]);
+  const [isShowTask, setShowTask] = useState(false);
   const { token } = useSelector((state) => state.auth);
   const { boards } = useSelector((state) => state.board);
   const { teams } = useSelector((state) => state.board_team);
+  const { tasks } = useSelector((state) => state.board_task);
+
   const dispatch = useDispatch();
   const handleToggleChange = (value) => {
     setToggleType(value);
@@ -25,6 +32,7 @@ const BoardContent = () => {
   useEffect(() => {
     dispatch(getBoardList(token));
     dispatch(getBoardTeamList(token));
+    dispatch(getTasksList(token));
   }, [token, dispatch]);
   useEffect(() => {
     setBoardsData(boards);
@@ -32,6 +40,12 @@ const BoardContent = () => {
   useEffect(() => {
     setTeamsData(teams);
   }, [teams]);
+  useEffect(() => {
+    setTasksData(tasks);
+  }, [tasks]);
+  const hnadleShowTask = (value) => {
+    setShowTask(value);
+  };
   return (
     <div>
       {/* <!-- Main Content --> */}
@@ -43,7 +57,9 @@ const BoardContent = () => {
 
             <div className="taskboardapp-content">
               <div className="taskboardapp-detail-wrap">
-                {isShowTask && <TasksContent />}
+                {isShowTask && (
+                  <TasksContent tasksData={tasksData} token={token} />
+                )}
                 {!isShowTask && (
                   <>
                     <BoardHeader onToggle={handleToggleChange} />
@@ -56,6 +72,7 @@ const BoardContent = () => {
                                 toggleType={toggleType}
                                 boardsData={boardsData}
                                 teamsData={teamsData}
+                                onDataFromChild={hnadleShowTask}
                               />
                             </div>
                           </div>
@@ -302,146 +319,8 @@ const BoardContent = () => {
               </div>
               {/* <!-- /Add Fav Board --> */}
               {/* <!-- Add New Card --> */}
-              <div
-                id="add_new_card"
-                className="modal fade add-new-task"
-                tabindex="-1"
-                role="dialog"
-                aria-hidden="true"
-              >
-                <div
-                  className="modal-dialog modal-dialog-centered"
-                  role="document"
-                >
-                  <div className="modal-content">
-                    <div className="modal-body">
-                      <button
-                        type="button"
-                        className="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <span aria-hidden="true">×</span>
-                      </button>
-                      <h5 className="mb-4">Create New Card</h5>
-                      <form>
-                        <div className="row gx-3">
-                          <div className="col-sm-12">
-                            <div className="form-group">
-                              <label className="form-label">Name</label>
-                              <input
-                                className="form-control task-name"
-                                type="text"
-                              />
-                            </div>
-                          </div>
-                          <div className="col-sm-12">
-                            <div className="form-group">
-                              <label className="form-label">Start Date</label>
-                              <input
-                                className="form-control"
-                                name="single-date-pick"
-                                type="text"
-                              />
-                            </div>
-                          </div>
-                          <div className="col-sm-12">
-                            <div className="form-group">
-                              <label className="form-label">End Date</label>
-                              <input
-                                className="form-control"
-                                name="single-date-pick"
-                                type="text"
-                              />
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label className="form-label">
-                                Note/Description
-                              </label>
-                              <textarea
-                                className="form-control"
-                                rows="3"
-                              ></textarea>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group mt-3">
-                              <label className="form-label">
-                                Set priority:
-                              </label>
-                              <div className="form-check form-check-inline">
-                                <div className="form-check form-check-primary">
-                                  <input
-                                    type="radio"
-                                    id="customRadioc2"
-                                    name="customRadioc2"
-                                    className="form-check-input"
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    for="customRadioc2"
-                                  >
-                                    High
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="form-check form-check-inline">
-                                <div className="form-check form-check-primary">
-                                  <input
-                                    type="radio"
-                                    id="customRadioc3"
-                                    name="customRadioc2"
-                                    className="form-check-input"
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    for="customRadioc3"
-                                  >
-                                    Medium
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="form-check form-check-inline">
-                                <div className="form-check form-check-primary">
-                                  <input
-                                    type="radio"
-                                    id="customRadioc4"
-                                    name="customRadioc2"
-                                    className="form-check-input"
-                                  />
-                                  <label
-                                    className="form-check-label"
-                                    for="customRadioc4"
-                                  >
-                                    Low
-                                  </label>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                    <div className="modal-footer align-items-center">
-                      <button
-                        type="button"
-                        className="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-primary btn-add-task"
-                      >
-                        Add
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <AddNewProjectTask teamsData={teamsData} token={token} />
+              <EditProjectTask teamsData={teamsData} token={token} />
               {/* <!-- /Add New Card --> */}
               {/* <!-- Task Details --> */}
               <div
@@ -2459,57 +2338,7 @@ const BoardContent = () => {
               {/* <!-- /Add New Card --> */}
 
               {/* <!-- Add Task List --> */}
-              <div
-                id="add_task_list"
-                className="modal fade add-tasklist-modal"
-                tabindex="-1"
-                role="dialog"
-                aria-hidden="true"
-              >
-                <div
-                  className="modal-dialog modal-dialog-centered modal-sm"
-                  role="document"
-                >
-                  <div className="modal-content">
-                    <div className="modal-body">
-                      <button
-                        type="button"
-                        className="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <span aria-hidden="true">×</span>
-                      </button>
-                      <h5 className="mb-4">Add Task List</h5>
-                      <form>
-                        <div className="row gx-3">
-                          <div className="col-sm-12">
-                            <div className="form-group">
-                              <label className="form-label">Name</label>
-                              <input className="form-control" type="text" />
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                    <div className="modal-footer align-items-center">
-                      <button
-                        type="button"
-                        className="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-primary btn-add-tasklist"
-                      >
-                        Add
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <AddTaskList />
               {/* <!-- /Add Task List --> */}
 
               {/* <!-- Edit Task List --> */}

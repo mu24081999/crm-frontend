@@ -2,13 +2,17 @@ import React from "react";
 import { FaCopy, FaEdit, FaGlobe, FaTrash } from "react-icons/fa";
 import { CiMenuKebab } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteBoardRec } from "../../../redux/services/board";
+import { deleteBoardRec, getBoardDetails } from "../../../redux/services/board";
 
-const Boards = ({ boardsData }) => {
+const Boards = ({ boardsData, onDataFromChild }) => {
   const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const handleDelete = (id) => {
     dispatch(deleteBoardRec(token, id));
+  };
+  const handleEditBoard = (id) => {
+    dispatch(getBoardDetails(token, id));
+    onDataFromChild(true);
   };
   return (
     <div className="tab-pane fade show active" id="tab_boards">
@@ -134,10 +138,13 @@ const Boards = ({ boardsData }) => {
                         role="menu"
                         className="dropdown-menu dropdown-menu-end"
                       >
-                        <a className="dropdown-item" href="/">
+                        <button
+                          className="dropdown-item"
+                          onClick={() => handleEditBoard(board.id)}
+                        >
                           <FaEdit />
                           Edit
-                        </a>
+                        </button>
                         <a className="dropdown-item" href="/">
                           <FaCopy />
                           Copy Link

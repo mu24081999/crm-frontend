@@ -138,8 +138,8 @@ const AddNewTask = ({ teamsData }) => {
                     isMulti={true}
                     control={control}
                     options={
-                      teamsData.length > 0
-                        ? teamsData.map((member) => {
+                      teamsData?.length > 0
+                        ? teamsData?.map((member) => {
                             return {
                               ...member,
                               label: member.name,

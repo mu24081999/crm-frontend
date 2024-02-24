@@ -1,13 +1,15 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const TaskHeader = () => {
+  const { boardDetails } = useSelector((state) => state.board);
   return (
     <header className="taskboard-header">
       <div className="d-flex align-items-center flex-1">
         <div className="d-flex">
           <a className="taskboardapp-title link-dark" href="/">
             <h1>
-              Jampack
+              {boardDetails.name}
               <span className="task-star marked">
                 <span className="feather-icon">
                   <i data-feather="star"></i>

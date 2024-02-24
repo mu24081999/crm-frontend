@@ -2,42 +2,43 @@
 import axios from "axios";
 import {
   invalidRequest,
-  boardRequestLoading,
-  boardDetails,
-  addBoard,
-  getAllBoards,
-  deleteBoard,
-  updateBoard,
-} from "../slices/board";
+  taskRequestLoading,
+  addTask,
+  getTasks,
+  deleteTask,
+  taskDetails,
+  updateTask,
+} from "../slices/project-tasks";
 import { toast } from "react-toastify";
 const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
 
-export const storeBoard = (token, data) => async (dispatch) => {
+export const postTask = (token, data) => async (dispatch) => {
   try {
-    dispatch(boardRequestLoading());
+    dispatch(taskRequestLoading());
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         "x-access-token": token,
       },
     };
     await axios
-      .post(`${backendURL}/user/board/post-board`, data, config)
+      .post(`${backendURL}/user/board/task/post-task`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        console.log("🚀 ~ .then ~ response:", response);
+        if (response?.data?.code === 404) {
           return dispatch(invalidRequest(response.data.message));
         }
-        dispatch(addBoard(response.data.message));
+        dispatch(addTask(response.data.message));
         toast.success(response.data.message);
-        dispatch(getBoardList(token));
+        dispatch(getTasksList(token));
       });
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }
 };
-export const getBoardList = (token) => async (dispatch) => {
+export const getTasksList = (token) => async (dispatch) => {
   try {
-    dispatch(boardRequestLoading());
+    dispatch(taskRequestLoading());
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -45,21 +46,20 @@ export const getBoardList = (token) => async (dispatch) => {
       },
     };
     await axios
-      .get(`${backendURL}/user/board/get-boards`, config)
+      .get(`${backendURL}/user/board/task/get-tasks`, config)
       .then((response) => {
-        console.log("🚀 ~ .then ~ response:", response);
         if (response?.status !== 200) {
           return dispatch(invalidRequest(response.data.message));
         }
-        dispatch(getAllBoards(response.data.data.boardsData));
+        dispatch(getTasks(response.data.data.tasksData));
       });
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }
 };
-export const getBoardDetails = (token, board_id) => async (dispatch) => {
+export const getTaskDetails = (token, task_id) => async (dispatch) => {
   try {
-    dispatch(boardRequestLoading());
+    dispatch(taskRequestLoading());
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -67,22 +67,22 @@ export const getBoardDetails = (token, board_id) => async (dispatch) => {
       },
     };
     await axios
-      .get(`${backendURL}/user/board/board-details/${board_id}`, config)
+      .get(`${backendURL}/user/board/task//task-details/${task_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         if (response?.status !== 200) {
           return dispatch(invalidRequest(response.data.message));
         }
-        dispatch(boardDetails(response.data.data.boardData));
+        dispatch(taskDetails(response.data.data.taskData));
       });
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }
 };
 
-export const updateBoardRec = (token, board_id, data) => async (dispatch) => {
+export const updateTaskRec = (token, task_id, data) => async (dispatch) => {
   try {
-    dispatch(boardRequestLoading());
+    dispatch(taskRequestLoading());
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -90,23 +90,23 @@ export const updateBoardRec = (token, board_id, data) => async (dispatch) => {
       },
     };
     await axios
-      .put(`${backendURL}/user/contact/board-update/${board_id}`, data, config)
+      .put(`${backendURL}/user/board/task/task-update/${task_id}`, data, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         if (response?.status !== 200) {
           return dispatch(invalidRequest(response.data.message));
         }
-        dispatch(updateBoard(response.data.message));
-        dispatch(getBoardList(token));
+        dispatch(updateTask(response.data.message));
+        dispatch(getTasksList(token));
         toast.success(response.data.message);
       });
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }
 };
-export const deleteBoardRec = (token, board_id) => async (dispatch) => {
+export const deleteTaskRec = (token, task_id) => async (dispatch) => {
   try {
-    dispatch(boardRequestLoading());
+    dispatch(taskRequestLoading());
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -114,15 +114,14 @@ export const deleteBoardRec = (token, board_id) => async (dispatch) => {
       },
     };
     await axios
-      .delete(`${backendURL}/user/board/delete-board/${board_id}`, config)
+      .delete(`${backendURL}/user/board/task/delete-task/${task_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         if (response?.status !== 200) {
           return dispatch(invalidRequest(response.data.message));
         }
-        dispatch(deleteBoard(response.data.message));
-        dispatch(getBoardList(token));
-        toast.success(response.data.message);
+        dispatch(deleteTask(response.data.message));
+        dispatch(getTasksList(token));
       });
   } catch (e) {
     dispatch(invalidRequest(e.message));

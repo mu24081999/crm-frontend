@@ -24,6 +24,8 @@ const DatePickerFeild = React.forwardRef((props, ref) => {
     maxDate,
     isHighLight = false,
     showYearPicker,
+    showTime,
+    label,
     ...others
   } = props;
   const { field, fieldState } = useController(props);
@@ -50,43 +52,47 @@ const DatePickerFeild = React.forwardRef((props, ref) => {
             updateDate = "";
           }
           return (
-            <DatePicker
-              {...field}
-              ref={ref}
-              autoComplete="off"
-              autoFocus={false}
-              placeholderText="Select Date"
-              onChange={(e) => {
-                field.onChange(moment(e).format("yyyy-MM-DD HH:mm:ss"));
-                if (onChange) {
-                  onChange(e, props?.name);
+            <>
+              <label class="form-label-group">{label}</label>
+
+              <DatePicker
+                {...field}
+                ref={ref}
+                autoComplete="off"
+                autoFocus={false}
+                placeholderText="Select Date"
+                onChange={(e) => {
+                  field.onChange(moment(e).format("yyyy-MM-DD"));
+                  if (onChange) {
+                    onChange(e, props?.name);
+                  }
+                }}
+                selected={updateDate}
+                //new change for handling reset (start)
+                // value={defaultValue}
+                //(end)
+                onFocus={() => setFocusState(true)}
+                onBlur={() => {
+                  // field.onBlur;
+                  setFocusState(false);
+                }}
+                dateFormat={showYearPicker ? "yyyy" : "yyyy-MM-DD HH:mm:ss"}
+                className={`form-control text-lg  ${
+                  isDisabled ? "opacity-50" : ""
                 }
-              }}
-              selected={updateDate}
-              //new change for handling reset (start)
-              // value={defaultValue}
-              //(end)
-              onFocus={() => setFocusState(true)}
-              onBlur={() => {
-                // field.onBlur;
-                setFocusState(false);
-              }}
-              dateFormat={showYearPicker ? "yyyy" : "yyyy-MM-DD HH:mm:ss"}
-              className={`form-control text-lg  ${
-                isDisabled ? "opacity-50" : ""
-              }
                                    ${isHighLight && " focus:bg-dark   "}`}
-              placeholder={props.placeholder ? props.placeholder : ""}
-              disabled={isDisabled}
-              maxDate={props?.maxDate}
-              minDate={props?.minDate}
-              showTimeSelect
-              isClearable
-              timeFormat="HH:mm:ss"
-              timeIntervals={15}
-              showYearPicker={showYearPicker ? showYearPicker : false}
-              {...others}
-            />
+                placeholder={props.placeholder ? props.placeholder : ""}
+                disabled={isDisabled}
+                maxDate={props?.maxDate}
+                minDate={props?.minDate}
+                showTimeSelect={showTime}
+                isClearable
+                timeFormat="HH:mm:ss"
+                timeIntervals={15}
+                showYearPicker={showYearPicker ? showYearPicker : false}
+                {...others}
+              />
+            </>
           );
         }}
       />

@@ -5,6 +5,7 @@ import contactReducer from "./slices/contact";
 import emailReducer from "./slices/email";
 import boardReducer from "./slices/board";
 import boardTeamReducer from "./slices/board_team";
+import taskReducer from "./slices/project-tasks";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -13,4 +14,5 @@ export const rootReducer = combineReducers({
   email: emailReducer,
   board: boardReducer,
   board_team: boardTeamReducer,
+  board_task: taskReducer,
 });

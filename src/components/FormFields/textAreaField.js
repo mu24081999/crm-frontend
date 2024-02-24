@@ -15,6 +15,7 @@ export const TextAreaField = React.forwardRef((props, ref) => {
     defaultValue,
     disabled = false,
     showTextLimit,
+    label,
     ...others
   } = props;
   let err = _.get(errors, props.name);
@@ -26,27 +27,31 @@ export const TextAreaField = React.forwardRef((props, ref) => {
         rules={props?.rules}
         defaultValue={defaultValue}
         render={({ field }) => (
-          <textarea
-            {...field}
-            onChange={(e) => {
-              field.onChange(e);
-              if (props.onChange) {
-                props.onChange(e);
-              }
-            }}
-            style={{ borderRadius: "16px !important" }}
-            disabled={disabled}
-            onBlurCapture={() => setFocusState(false)}
-            onFocus={() => setFocusState(true)}
-            rows={props.rows || 2}
-            value={field.value}
-            placeholder={props.placeholder ? props.placeholder : ""}
-            className={`form-control ${
-              disabled && "bg-gray-100"
-            }                     ${
-              isHighLight && " bg-highLight  "
-            }                            `}
-          />
+          <div className="form-group pt-2">
+            <label class="form-label-group">{label}</label>
+
+            <textarea
+              {...field}
+              onChange={(e) => {
+                field.onChange(e);
+                if (props.onChange) {
+                  props.onChange(e);
+                }
+              }}
+              style={{ borderRadius: "16px !important" }}
+              disabled={disabled}
+              onBlurCapture={() => setFocusState(false)}
+              onFocus={() => setFocusState(true)}
+              rows={props.rows || 2}
+              value={field.value}
+              placeholder={props.placeholder ? props.placeholder : ""}
+              className={`form-control ${
+                disabled && "bg-gray-100"
+              }                     ${
+                isHighLight && " bg-highLight  "
+              }                            `}
+            />
+          </div>
         )}
       />
 

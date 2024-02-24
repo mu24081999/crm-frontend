@@ -1,7 +1,26 @@
 import React from "react";
 import TaskHeader from "./components/TaskHeader";
 import TaskHeading from "./components/TaskHeading";
-const TasksContent = () => {
+import { CiMenuKebab } from "react-icons/ci";
+
+import moment from "moment";
+import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { getTaskDetails } from "../../redux/services/project-task";
+const TasksContent = ({ tasksData, token }) => {
+  const dispatch = useDispatch();
+  const pendingData =
+    tasksData?.length > 0 &&
+    tasksData?.filter((task) => task.status === "pending");
+  const inProgressData =
+    tasksData?.length > 0 &&
+    tasksData?.filter((task) => task.status === "in-progress");
+  const completedData =
+    tasksData?.length > 0 &&
+    tasksData?.filter((task) => task.status === "completed");
+  const handleUpdateTask = (id) => {
+    dispatch(getTaskDetails(token, id));
+  };
   return (
     <div>
       {/* <div className="taskboardapp-detail-wrap"> */}
@@ -30,7 +49,8 @@ const TasksContent = () => {
                         >
                           <span className="icon">
                             <span className="feather-icon">
-                              <i data-feather="more-horizontal"></i>
+                              {/* <i data-feather="more-horizontal"></i> */}
+                              <CiMenuKebab />
                             </span>
                           </span>
                         </a>
@@ -63,2566 +83,111 @@ const TasksContent = () => {
                       <span>
                         <span className="icon">
                           <span className="feather-icon">
-                            <i data-feather="plus"></i>
+                            {/* <i data-feather="plus"></i> */}
+                            <FaPlus />
                           </span>
                         </span>
                       </span>
                     </button>
                   </div>
                   <div data-simplebar className="card-body">
-                    <div id="i1" className="tasklist-cards-wrap">
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Application Pages</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-body">
-                          <div className="avatar-group avatar-group-overlapped">
-                            <div
-                              className="avatar avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Dean"
-                            >
-                              <img
-                                src="dist/img/avatar13.jpg"
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                            <div
-                              className="avatar avatar-xs avatar-soft-danger avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Tom"
-                            >
-                              <span className="initial-wrap">B</span>
-                            </div>
-                            <div
-                              className="avatar avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Danial"
-                            >
-                              <img
-                                src="dist/img/avatar2.jpg"
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>4/8</span>
-                            </span>
-                            <span className="task-discuss">
-                              <span>
-                                <i className="ri-message-3-line"></i>
-                              </span>
-                              <span>24</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">22 Sep, 22</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Authentication</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>12/18</span>
-                            </span>
-                            <span className="task-discuss">
-                              <span>
-                                <i className="ri-message-3-line"></i>
-                              </span>
-                              <span>24</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">22 Sep, 22</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Menu Modules</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Content</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-body">
-                          <div className="avatar-group avatar-group-overlapped">
-                            <div
-                              className="avatar avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Dean"
-                            >
-                              <img
-                                src="dist/img/avatar13.jpg"
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                            <div
-                              className="avatar avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Winston"
-                            >
-                              <img
-                                src="dist/img/avatar10.jpg"
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>0/3</span>
-                            </span>
-                            <span className="task-discuss">
-                              <span>
-                                <i className="ri-message-3-line"></i>
-                              </span>
-                              <span>24</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">24 Sep, 22</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Utilities</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Forms</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>18/18</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">28 Sep, 22</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Tables</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>1/9</span>
-                            </span>
-                            <span className="task-discuss">
-                              <span>
-                                <i className="ri-message-3-line"></i>
-                              </span>
-                              <span>5</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">30 Sep, 22</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Charts</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Maps</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Final Package</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-body">
-                          <div className="avatar-group avatar-group-overlapped">
-                            <div
-                              className="avatar avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Danial"
-                            >
-                              <img
-                                src="dist/img/avatar2.jpg"
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>40/127</span>
-                            </span>
-                            <span className="task-discuss">
-                              <span>
-                                <i className="ri-message-3-line"></i>
-                              </span>
-                              <span>24</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">15 Oct, 20</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="card card-simple card-border tasklist">
-                  <div className="card-header card-header-action">
-                    <div className="tasklist-handle">
-                      <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
-                        <span className="tasklist-name">In progress</span>
-                        <span className="badge badge-pill badge-soft-violet ms-2">
-                          6
-                        </span>
-                      </h6>
-                      <div className="card-action-wrap">
-                        <a
-                          className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                          href="/"
-                          data-bs-toggle="dropdown"
-                        >
-                          <span className="icon">
-                            <span className="feather-icon">
-                              <i data-feather="more-horizontal"></i>
-                            </span>
-                          </span>
-                        </a>
-                        <div
-                          role="menu"
-                          className="dropdown-menu dropdown-menu-end"
-                        >
-                          <a
-                            className="dropdown-item edit-tasklist"
-                            href="/"
-                            data-bs-toggle="modal"
-                            data-bs-target="#edit_task_list"
+                    <div style={{ height: "100%", overflowY: "scroll" }}>
+                      {tasksData?.length > 0 &&
+                        tasksData.map((task, index) => (
+                          <div
+                            className="card card-border card-simple tasklist-card"
+                            key={index}
                           >
-                            Edit
-                          </a>
-                          <a className="dropdown-item delete-tasklist" href="/">
-                            Delete
-                          </a>
-                          <a className="dropdown-item clear-tasklist" href="/">
-                            Clear All
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      className="btn btn-white btn-block btn-add-newtask"
-                      data-bs-toggle="modal"
-                      data-bs-target="#add_new_card"
-                    >
-                      <span>
-                        <span className="icon">
-                          <span className="feather-icon">
-                            <i data-feather="plus"></i>
-                          </span>
-                        </span>
-                      </span>
-                    </button>
-                  </div>
-                  <div data-simplebar className="card-body">
-                    <div id="i2" className="tasklist-cards-wrap">
-                      <div className="card card-border card-wth-progress card-simple tasklist-card">
-                        <div className="progress progress-bar-xs">
-                          <div
-                            className="progress-bar bg-warning w-45"
-                            role="progressbar"
-                            aria-valuenow="25"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                          ></div>
-                        </div>
+                            <div className="card-header card-header-action">
+                              <h6 className="fw-bold">{task.name}</h6>
+                              <div className="card-action-wrap">
+                                <a
+                                  className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
+                                  href="/"
+                                  data-bs-toggle="dropdown"
+                                >
+                                  <span className="icon">
+                                    <span className="feather-icon">
+                                      {/* <i data-feather="more-vertical"></i> */}
+                                      <CiMenuKebab />
+                                    </span>
+                                  </span>
+                                </a>
+                                <div className="dropdown-menu dropdown-menu-end">
+                                  <button
+                                    className="dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#edit_project_task"
+                                    onClick={() => handleUpdateTask(task.id)}
+                                  >
+                                    <span className="feather-icon dropdown-icon">
+                                      {/* <i data-feather="edit-2"></i> */}
+                                      <FaEdit />
+                                    </span>
+                                    <span>Edit</span>
+                                  </button>
 
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Profile Pages</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
+                                  <a
+                                    className="dropdown-item delete-task"
+                                    href="/"
+                                  >
+                                    <span className="feather-icon dropdown-icon">
+                                      {/* <i data-feather="trash-2"></i> */}
+                                      <FaTrash />
+                                    </span>
+                                    <span>Delete</span>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="card-body">
+                              <div className="avatar-group avatar-group-overlapped">
+                                {task.asign_to?.members?.map(
+                                  (member, index) => (
+                                    <div
+                                      key={index}
+                                      className="avatar avatar-rounded"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title=""
+                                      data-bs-original-title="Dean"
+                                    >
+                                      <img
+                                        src={member.image}
+                                        alt="user"
+                                        className="avatar-img"
+                                      />
+                                    </div>
+                                  )
+                                )}
+                              </div>
+                              <div>{task.description.slice(0, 150)}...</div>
+                            </div>
+                            <div className="card-footer text-muted justify-content-between">
+                              <div>
+                                <span className="task-counter">
+                                  <span>
+                                    <i className="ri-checkbox-line"></i>
+                                  </span>
+                                  <span>4/8</span>
                                 </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
+                                <span className="task-discuss">
+                                  <span>
+                                    <i className="ri-message-3-line"></i>
+                                  </span>
+                                  <span>24</span>
                                 </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
+                              </div>
+                              <div>
+                                <span className="task-deadline">
+                                  {moment(task.created_at).format(
+                                    "DD MMM YYYY"
+                                  )}
                                 </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="card-body">
-                          <div className="avatar-group avatar-group-overlapped">
-                            <div
-                              className="avatar avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Katharine"
-                            >
-                              <img
-                                src="dist/img/avatar8.jpg"
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>4/8</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">18 Sep, 22</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-wth-progress card-simple tasklist-card">
-                        <div className="progress progress-bar-xs">
-                          <div
-                            className="progress-bar bg-primary w-85"
-                            role="progressbar"
-                            aria-valuenow="25"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                          ></div>
-                        </div>
-
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Advance Tables</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>4/8</span>
-                            </span>
-                            <span className="task-discuss">
-                              <span>
-                                <i className="ri-message-3-line"></i>
-                              </span>
-                              <span>24</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">22 Sep, 22</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-wth-progress card-simple tasklist-card">
-                        <div className="progress progress-bar-xs">
-                          <div
-                            className="progress-bar bg-primary w-60"
-                            role="progressbar"
-                            aria-valuenow="25"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                          ></div>
-                        </div>
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">CSS Compilation</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-body">
-                          <div className="avatar-group avatar-group-overlapped">
-                            <div
-                              className="avatar avatar-soft-success avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Huma"
-                            >
-                              <span className="initial-wrap">
-                                <span>A</span>
-                              </span>
-                            </div>
-                            <div
-                              className="avatar avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Danial"
-                            >
-                              <img
-                                src="dist/img/avatar2.jpg"
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                          </div>
-                          <div className="mt-2">
-                            <span className="badge badge-soft-primary my-1">
-                              Priority
-                            </span>
-                            <span className="badge badge-soft-danger my-1">
-                              Angular
-                            </span>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>4/8</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">18 Sep, 22</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-wth-progress card-simple tasklist-card">
-                        <div className="progress progress-bar-xs">
-                          <div
-                            className="progress-bar bg-primary w-20"
-                            role="progressbar"
-                            aria-valuenow="25"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                          ></div>
-                        </div>
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Lists</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>18/18</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">28 Sep, 22</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-wth-progress card-simple tasklist-card">
-                        <div className="progress progress-bar-xs">
-                          <div
-                            className="progress-bar bg-danger w-10"
-                            role="progressbar"
-                            aria-valuenow="25"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                          ></div>
-                        </div>
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Dashboards</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>18/18</span>
-                            </span>
-                            <span className="task-discuss">
-                              <span>
-                                <i className="ri-message-3-line"></i>
-                              </span>
-                              <span>24</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">28 Sep, 22</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-wth-progress card-simple tasklist-card">
-                        <div className="progress progress-bar-xs">
-                          <div
-                            className="progress-bar bg-primary w-70"
-                            role="progressbar"
-                            aria-valuenow="25"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                          ></div>
-                        </div>
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Detail Pages</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-body">
-                          <div className="avatar-group avatar-group-overlapped">
-                            <div
-                              className="avatar avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Danial"
-                            >
-                              <img
-                                src="dist/img/avatar2.jpg"
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>18/18</span>
-                            </span>
-                            <span className="task-discuss">
-                              <span>
-                                <i className="ri-message-3-line"></i>
-                              </span>
-                              <span>24</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">28 Sep, 22</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="card card-simple card-border tasklist">
-                  <div className="card-header card-header-action">
-                    <div className="tasklist-handle">
-                      <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
-                        <span className="tasklist-name">Completed</span>
-                        <span className="badge badge-pill badge-soft-violet ms-2">
-                          4
-                        </span>
-                      </h6>
-                      <div className="card-action-wrap">
-                        <a
-                          className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                          href="/"
-                          data-bs-toggle="dropdown"
-                        >
-                          <span className="icon">
-                            <span className="feather-icon">
-                              <i data-feather="more-horizontal"></i>
-                            </span>
-                          </span>
-                        </a>
-                        <div
-                          role="menu"
-                          className="dropdown-menu dropdown-menu-end"
-                        >
-                          <a
-                            className="dropdown-item edit-tasklist"
-                            href="/"
-                            data-bs-toggle="modal"
-                            data-bs-target="#edit_task_list"
-                          >
-                            Edit
-                          </a>
-                          <a className="dropdown-item delete-tasklist" href="/">
-                            Delete
-                          </a>
-                          <a className="dropdown-item clear-tasklist" href="/">
-                            Clear All
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      className="btn btn-white btn-block btn-add-newtask"
-                      data-bs-toggle="modal"
-                      data-bs-target="#add_new_card"
-                    >
-                      <span>
-                        <span className="icon">
-                          <span className="feather-icon">
-                            <i data-feather="plus"></i>
-                          </span>
-                        </span>
-                      </span>
-                    </button>
-                  </div>
-                  <div data-simplebar className="card-body">
-                    <div id="i3" className="tasklist-cards-wrap">
-                      <div className="card card-border card-simple card-wth-progress tasklist-card">
-                        <div className="progress progress-bar-xs">
-                          <div
-                            className="progress-bar bg-success w-100"
-                            role="progressbar"
-                            aria-valuenow="25"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                          ></div>
-                        </div>
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Forms</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-body">
-                          <p>
-                            Form validation works only online. Check by
-                            activating local server.
-                          </p>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>18/18</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">28 Sep, 22</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple card-wth-progress tasklist-card">
-                        <div className="progress progress-bar-xs">
-                          <div
-                            className="progress-bar bg-success w-100"
-                            role="progressbar"
-                            aria-valuenow="25"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                          ></div>
-                        </div>
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Tables</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>1/9</span>
-                            </span>
-                            <span className="task-discuss">
-                              <span>
-                                <i className="ri-message-3-line"></i>
-                              </span>
-                              <span>5</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">30 Sep, 22</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple card-wth-progress tasklist-card">
-                        <div className="progress progress-bar-xs">
-                          <div
-                            className="progress-bar bg-success w-100"
-                            role="progressbar"
-                            aria-valuenow="25"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                          ></div>
-                        </div>
-
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Application Pages</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-body">
-                          <div className="avatar-group avatar-group-overlapped">
-                            <div
-                              className="avatar avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Danial"
-                            >
-                              <img
-                                src="dist/img/avatar9.jpg"
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                            <div
-                              className="avatar avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Dean"
-                            >
-                              <img
-                                src="dist/img/avatar3.jpg"
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                            <div
-                              className="avatar avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Huma"
-                            >
-                              <img
-                                src="dist/img/avatar7.jpg"
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                            <div
-                              className="avatar avatar-soft-info avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Huma"
-                            >
-                              <span className="initial-wrap">
-                                <span>C</span>
-                              </span>
-                            </div>
-                            <div
-                              className="avatar avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Charlie"
-                            >
-                              <img
-                                src="dist/img/avatar13.jpg"
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>4/8</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">18 Sep, 22</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple card-wth-progress tasklist-card">
-                        <div className="progress progress-bar-xs">
-                          <div
-                            className="progress-bar bg-success w-100"
-                            role="progressbar"
-                            aria-valuenow="25"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                          ></div>
-                        </div>
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Authentication</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>1/9</span>
-                            </span>
-                            <span className="task-discuss">
-                              <span>
-                                <i className="ri-message-3-line"></i>
-                              </span>
-                              <span>5</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">30 Sep, 20</span>
-                          </div>
-                        </div>
-                      </div>
+                        ))}
                     </div>
                   </div>
                 </div>
@@ -2632,7 +197,7 @@ const TasksContent = () => {
                       <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
                         <span className="tasklist-name">Pending</span>
                         <span className="badge badge-pill badge-soft-violet ms-2">
-                          7
+                          19
                         </span>
                       </h6>
                       <div className="card-action-wrap">
@@ -2643,7 +208,8 @@ const TasksContent = () => {
                         >
                           <span className="icon">
                             <span className="feather-icon">
-                              <i data-feather="more-horizontal"></i>
+                              {/* <i data-feather="more-horizontal"></i> */}
+                              <CiMenuKebab />
                             </span>
                           </span>
                         </a>
@@ -2676,871 +242,431 @@ const TasksContent = () => {
                       <span>
                         <span className="icon">
                           <span className="feather-icon">
-                            <i data-feather="plus"></i>
+                            {/* <i data-feather="plus"></i> */}
+                            <FaPlus />
                           </span>
                         </span>
                       </span>
                     </button>
                   </div>
                   <div data-simplebar className="card-body">
-                    <div id="i4" className="tasklist-cards-wrap">
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Authentication</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
+                    <div style={{ height: "100%", overflowY: "scroll" }}>
+                      {pendingData?.length > 0 &&
+                        pendingData.map((task, index) => (
+                          <div
+                            className="card card-border card-simple tasklist-card"
+                            key={index}
+                          >
+                            <div className="card-header card-header-action">
+                              <h6 className="fw-bold">{task.name}</h6>
+                              <div className="card-action-wrap">
+                                <a
+                                  className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
+                                  href="/"
+                                  data-bs-toggle="dropdown"
+                                >
+                                  <span className="icon">
+                                    <span className="feather-icon">
+                                      {/* <i data-feather="more-vertical"></i> */}
+                                      <CiMenuKebab />
+                                    </span>
+                                  </span>
+                                </a>
+                                <div className="dropdown-menu dropdown-menu-end">
+                                  <button
+                                    className="dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#edit_project_task"
+                                    onClick={() => handleUpdateTask(task.id)}
+                                  >
+                                    <span className="feather-icon dropdown-icon">
+                                      {/* <i data-feather="edit-2"></i> */}
+                                      <FaEdit />
+                                    </span>
+                                    <span>Edit</span>
+                                  </button>
+
+                                  <a
+                                    className="dropdown-item delete-task"
+                                    href="/"
+                                  >
+                                    <span className="feather-icon dropdown-icon">
+                                      {/* <i data-feather="trash-2"></i> */}
+                                      <FaTrash />
+                                    </span>
+                                    <span>Delete</span>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="card-body">
+                              <div className="avatar-group avatar-group-overlapped">
+                                {task.asign_to?.members?.map(
+                                  (member, index) => (
+                                    <div
+                                      key={index}
+                                      className="avatar avatar-rounded"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title=""
+                                      data-bs-original-title="Dean"
+                                    >
+                                      <img
+                                        src={member.image}
+                                        alt="user"
+                                        className="avatar-img"
+                                      />
+                                    </div>
+                                  )
+                                )}
+                              </div>
+                              <div>{task.description.slice(0, 150)}...</div>
+                            </div>
+                            <div className="card-footer text-muted justify-content-between">
+                              <div>
+                                <span className="task-counter">
+                                  <span>
+                                    <i className="ri-checkbox-line"></i>
+                                  </span>
+                                  <span>4/8</span>
                                 </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
+                                <span className="task-discuss">
+                                  <span>
+                                    <i className="ri-message-3-line"></i>
+                                  </span>
+                                  <span>24</span>
                                 </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
+                              </div>
+                              <div>
+                                <span className="task-deadline">
+                                  {moment(task.created_at).format(
+                                    "DD MMM YYYY"
+                                  )}
                                 </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="card-body">
-                          <div>
-                            <span className="badge badge-soft-light my-1">
-                              Unassigned
-                            </span>
-                            <span className="badge badge-soft-danger my-1">
-                              Collaborator
-                            </span>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>12/18</span>
-                            </span>
-                            <span className="task-discuss">
-                              <span>
-                                <i className="ri-message-3-line"></i>
-                              </span>
-                              <span>24</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">22 Sep, 20</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Menu Modules</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Content</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-body">
-                          <div className="avatar-group avatar-group-overlapped">
-                            <div
-                              className="avatar avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Dean"
-                            >
-                              <img
-                                src="dist/img/avatar13.jpg"
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                            <div
-                              className="avatar avatar-rounded"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title=""
-                              data-bs-original-title="Winston"
-                            >
-                              <img
-                                src="dist/img/avatar10.jpg"
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>0/3</span>
-                            </span>
-                            <span className="task-discuss">
-                              <span>
-                                <i className="ri-message-3-line"></i>
-                              </span>
-                              <span>24</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">24 Sep, 20</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Utilities</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Forms</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>18/18</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">28 Sep, 20</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Tables</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="card-footer text-muted justify-content-between">
-                          <div>
-                            <span className="task-counter">
-                              <span>
-                                <i className="ri-checkbox-line"></i>
-                              </span>
-                              <span>1/9</span>
-                            </span>
-                            <span className="task-discuss">
-                              <span>
-                                <i className="ri-message-3-line"></i>
-                              </span>
-                              <span>5</span>
-                            </span>
-                          </div>
-                          <div>
-                            <span className="task-deadline">30 Sep, 20</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Charts</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card card-border card-simple tasklist-card">
-                        <div className="card-header card-header-action">
-                          <h6 className="fw-bold">Maps</h6>
-                          <div className="card-action-wrap">
-                            <a
-                              className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              href="/"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  <i data-feather="more-vertical"></i>
-                                </span>
-                              </span>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                className="dropdown-item"
-                                href="/"
-                                data-bs-toggle="modal"
-                                data-bs-target="#task_detail"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="edit-2"></i>
-                                </span>
-                                <span>Edit</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="user"></i>
-                                </span>
-                                <span>Assign to</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="paperclip"></i>
-                                </span>
-                                <span>Attach files</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="tag"></i>
-                                </span>
-                                <span>Apply Labels</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="calendar"></i>
-                                </span>
-                                <span>Set Due Date</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="bookmark"></i>
-                                </span>
-                                <span>Follow Task</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="arrow-up"></i>
-                                </span>
-                                <span>Set as Top Priority</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="repeat"></i>
-                                </span>
-                                <span>Change Status</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="pocket"></i>
-                                </span>
-                                <span>Save as Template</span>
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="archive"></i>
-                                </span>
-                                <span>Move to archive</span>
-                              </a>
-                              <a className="dropdown-item delete-task" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  <i data-feather="trash-2"></i>
-                                </span>
-                                <span>Delete</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                        ))}
                     </div>
                   </div>
                 </div>
-                <div className="card card-simple card-border tasklist add-new-task">
-                  <button
-                    className="btn btn-soft-primary btn-add-newlist flex-shrink-0"
-                    data-bs-toggle="modal"
-                    data-bs-target="#add_task_list"
-                  >
-                    Add New List
-                  </button>
+                <div className="card card-simple card-border tasklist">
+                  <div className="card-header card-header-action">
+                    <div className="tasklist-handle">
+                      <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
+                        <span className="tasklist-name">In-Progress</span>
+                        <span className="badge badge-pill badge-soft-violet ms-2">
+                          19
+                        </span>
+                      </h6>
+                      <div className="card-action-wrap">
+                        <a
+                          className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
+                          href="/"
+                          data-bs-toggle="dropdown"
+                        >
+                          <span className="icon">
+                            <span className="feather-icon">
+                              {/* <i data-feather="more-horizontal"></i> */}
+                              <CiMenuKebab />
+                            </span>
+                          </span>
+                        </a>
+                        <div
+                          role="menu"
+                          className="dropdown-menu dropdown-menu-end"
+                        >
+                          <a
+                            className="dropdown-item edit-tasklist"
+                            href="/"
+                            data-bs-toggle="modal"
+                            data-bs-target="#edit_task_list"
+                          >
+                            Edit
+                          </a>
+                          <a className="dropdown-item delete-tasklist" href="/">
+                            Delete
+                          </a>
+                          <a className="dropdown-item clear-tasklist" href="/">
+                            Clear All
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      className="btn btn-white btn-block btn-add-newtask"
+                      data-bs-toggle="modal"
+                      data-bs-target="#add_new_card"
+                    >
+                      <span>
+                        <span className="icon">
+                          <span className="feather-icon">
+                            {/* <i data-feather="plus"></i> */}
+                            <FaPlus />
+                          </span>
+                        </span>
+                      </span>
+                    </button>
+                  </div>
+                  <div data-simplebar className="card-body">
+                    <div style={{ height: "100%", overflowY: "scroll" }}>
+                      {inProgressData?.length > 0 &&
+                        inProgressData.map((task, index) => (
+                          <div
+                            className="card card-border card-simple tasklist-card"
+                            key={index}
+                          >
+                            <div className="card-header card-header-action">
+                              <h6 className="fw-bold">{task.name}</h6>
+                              <div className="card-action-wrap">
+                                <a
+                                  className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
+                                  href="/"
+                                  data-bs-toggle="dropdown"
+                                >
+                                  <span className="icon">
+                                    <span className="feather-icon">
+                                      {/* <i data-feather="more-vertical"></i> */}
+                                      <CiMenuKebab />
+                                    </span>
+                                  </span>
+                                </a>
+                                <div className="dropdown-menu dropdown-menu-end">
+                                  <button
+                                    className="dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#edit_project_task"
+                                    onClick={() => handleUpdateTask(task.id)}
+                                  >
+                                    <span className="feather-icon dropdown-icon">
+                                      {/* <i data-feather="edit-2"></i> */}
+                                      <FaEdit />
+                                    </span>
+                                    <span>Edit</span>
+                                  </button>
+
+                                  <a
+                                    className="dropdown-item delete-task"
+                                    href="/"
+                                  >
+                                    <span className="feather-icon dropdown-icon">
+                                      {/* <i data-feather="trash-2"></i> */}
+                                      <FaTrash />
+                                    </span>
+                                    <span>Delete</span>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="card-body">
+                              <div className="avatar-group avatar-group-overlapped">
+                                {task.asign_to?.members?.map(
+                                  (member, index) => (
+                                    <div
+                                      key={index}
+                                      className="avatar avatar-rounded"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title=""
+                                      data-bs-original-title="Dean"
+                                    >
+                                      <img
+                                        src={member.image}
+                                        alt="user"
+                                        className="avatar-img"
+                                      />
+                                    </div>
+                                  )
+                                )}
+                              </div>
+                              <div>{task.description.slice(0, 150)}...</div>
+                            </div>
+                            <div className="card-footer text-muted justify-content-between">
+                              <div>
+                                <span className="task-counter">
+                                  <span>
+                                    <i className="ri-checkbox-line"></i>
+                                  </span>
+                                  <span>4/8</span>
+                                </span>
+                                <span className="task-discuss">
+                                  <span>
+                                    <i className="ri-message-3-line"></i>
+                                  </span>
+                                  <span>24</span>
+                                </span>
+                              </div>
+                              <div>
+                                <span className="task-deadline">
+                                  {moment(task.created_at).format(
+                                    "DD MMM YYYY"
+                                  )}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="card card-simple card-border tasklist">
+                  <div className="card-header card-header-action">
+                    <div className="tasklist-handle">
+                      <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
+                        <span className="tasklist-name">Completed</span>
+                        <span className="badge badge-pill badge-soft-violet ms-2">
+                          19
+                        </span>
+                      </h6>
+                      <div className="card-action-wrap">
+                        <a
+                          className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
+                          href="/"
+                          data-bs-toggle="dropdown"
+                        >
+                          <span className="icon">
+                            <span className="feather-icon">
+                              {/* <i data-feather="more-horizontal"></i> */}
+                              <CiMenuKebab />
+                            </span>
+                          </span>
+                        </a>
+                        <div
+                          role="menu"
+                          className="dropdown-menu dropdown-menu-end"
+                        >
+                          <a
+                            className="dropdown-item edit-tasklist"
+                            href="/"
+                            data-bs-toggle="modal"
+                            data-bs-target="#edit_task_list"
+                          >
+                            Edit
+                          </a>
+                          <a className="dropdown-item delete-tasklist" href="/">
+                            Delete
+                          </a>
+                          <a className="dropdown-item clear-tasklist" href="/">
+                            Clear All
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      className="btn btn-white btn-block btn-add-newtask"
+                      data-bs-toggle="modal"
+                      data-bs-target="#add_new_card"
+                    >
+                      <span>
+                        <span className="icon">
+                          <span className="feather-icon">
+                            {/* <i data-feather="plus"></i> */}
+                            <FaPlus />
+                          </span>
+                        </span>
+                      </span>
+                    </button>
+                  </div>
+                  <div data-simplebar className="card-body">
+                    <div style={{ height: "100%", overflowY: "scroll" }}>
+                      {completedData?.length > 0 &&
+                        completedData.map((task, index) => (
+                          <div
+                            className="card card-border card-simple tasklist-card"
+                            key={index}
+                          >
+                            <div className="card-header card-header-action">
+                              <h6 className="fw-bold">{task.name}</h6>
+                              <div className="card-action-wrap">
+                                <a
+                                  className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
+                                  href="/"
+                                  data-bs-toggle="dropdown"
+                                >
+                                  <span className="icon">
+                                    <span className="feather-icon">
+                                      {/* <i data-feather="more-vertical"></i> */}
+                                      <CiMenuKebab />
+                                    </span>
+                                  </span>
+                                </a>
+                                <div className="dropdown-menu dropdown-menu-end">
+                                  <button
+                                    className="dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#edit_project_task"
+                                    onClick={() => handleUpdateTask(task.id)}
+                                  >
+                                    <span className="feather-icon dropdown-icon">
+                                      {/* <i data-feather="edit-2"></i> */}
+                                      <FaEdit />
+                                    </span>
+                                    <span>Edit</span>
+                                  </button>
+
+                                  <a
+                                    className="dropdown-item delete-task"
+                                    href="/"
+                                  >
+                                    <span className="feather-icon dropdown-icon">
+                                      {/* <i data-feather="trash-2"></i> */}
+                                      <FaTrash />
+                                    </span>
+                                    <span>Delete</span>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="card-body">
+                              <div className="avatar-group avatar-group-overlapped">
+                                {task.asign_to?.members?.map(
+                                  (member, index) => (
+                                    <div
+                                      key={index}
+                                      className="avatar avatar-rounded"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title=""
+                                      data-bs-original-title="Dean"
+                                    >
+                                      <img
+                                        src={member.image}
+                                        alt="user"
+                                        className="avatar-img"
+                                      />
+                                    </div>
+                                  )
+                                )}
+                              </div>
+                              <div>{task.description.slice(0, 150)}...</div>
+                            </div>
+                            <div className="card-footer text-muted justify-content-between">
+                              <div>
+                                <span className="task-counter">
+                                  <span>
+                                    <i className="ri-checkbox-line"></i>
+                                  </span>
+                                  <span>4/8</span>
+                                </span>
+                                <span className="task-discuss">
+                                  <span>
+                                    <i className="ri-message-3-line"></i>
+                                  </span>
+                                  <span>24</span>
+                                </span>
+                              </div>
+                              <div>
+                                <span className="task-deadline">
+                                  {moment(task.created_at).format(
+                                    "DD MMM YYYY"
+                                  )}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
