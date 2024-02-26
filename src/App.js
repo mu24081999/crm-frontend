@@ -5,10 +5,13 @@ import router from "./router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./assets/distt/css/style.css";
+import Dialer from "./components/PhoneDialer/Dialer";
 
 const App = () => {
+  document.getElementsByClassName("hk-sidebar-togglable");
   return (
     <>
+      <Dialer />
       <ToastContainer />
       <RouterProvider router={router} />;
     </>

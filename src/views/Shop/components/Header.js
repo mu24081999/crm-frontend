@@ -13,7 +13,7 @@ const Header = () => {
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <h1>Contacts</h1>
+            <h1>Available Contacts</h1>
           </a>
           <div className="dropdown-menu">
             <a className="dropdown-item" href="/">

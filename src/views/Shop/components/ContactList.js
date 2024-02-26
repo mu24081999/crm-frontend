@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { getUsers } from "../../../redux/services/users";
 
 const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
   useEffect(() => {
     if (token) {
       dispatch(getContactsList(token));
+      dispatch(getUsers(token));
     }
   }, [dispatch, token]);
   // useEffect(() => {
@@ -64,12 +66,12 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                       ></label>
                     </span>
                   </th>
-                  <th>Name</th>
-                  <th>Email Address</th>
-                  <th>Phone</th>
-                  <th>Tags</th>
-                  <th>Labels</th>
-                  <th>Date Created</th>
+                  <th>Prefix</th>
+                  <th>Country Code</th>
+                  <th>Number</th>
+                  <th>Voice</th>
+                  <th>Chat</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -88,149 +90,20 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                           </span>
                         </div>
                       </td>
+                      <td>744</td>
+                      <td>🏴+51</td>
+                      <td className="">5454343</td>
                       <td>
-                        <div className="media align-items-center">
-                          <div className="media-head me-2">
-                            <div className="avatar avatar-xs avatar-rounded">
-                              <img
-                                src={contact.avatar}
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                          </div>
-                          <div className="media-body">
-                            <span className="d-block text-high-em">
-                              {contact.lastname},{contact.firstname}{" "}
-                              {contact.middlename}
-                            </span>
-                          </div>
-                        </div>
+                        <input type="radio" checked />
                       </td>
-                      <td className="text-truncate">{contact.email}</td>
-                      <td>{contact.phone}</td>
                       <td>
-                        {contact.tags &&
-                          contact.tags.length > 0 &&
-                          contact.tags.map((tag, index) => (
-                            <span
-                              key={index}
-                              className="badge badge-soft-danger  my-1  me-2"
-                            >
-                              {tag.name}
-                            </span>
-                          ))}
+                        <input type="radio" disabled />
                       </td>
-                      <td>{contact.designation}</td>
-                      <td>
-                        {moment(contact.created_at).format("DD MMM, YYYY")}
-                      </td>
+                      <td className="text-success">Available</td>
                       <td>
                         <div className="d-flex align-items-center">
                           <div className="d-flex">
-                            <a
-                              className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                              data-bs-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              data-bs-original-title="Archive"
-                              href="/"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  {/* <i data-feather="archive"></i> */}
-                                  <FaArchive />
-                                </span>
-                              </span>
-                            </a>
-                            <a
-                              className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                              data-bs-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              data-bs-original-title="Edit"
-                              // to={`/edit-contact/${contact.id}`}
-                              onClick={() => handleToggle(contact.id)}
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  {/* <i data-feather="edit"></i> */}
-                                  <FaEdit />
-                                </span>
-                              </span>
-                            </a>
-                            <button
-                              className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
-                              onClick={() => handleDeleteContact(contact.id)}
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  {/* <i data-feather="trash"></i> */}
-                                  <FaTrash />
-                                </span>
-                              </span>
-                            </button>
-                          </div>
-                          <div className="dropdown">
-                            <button
-                              className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                              aria-expanded="false"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  {/* <i data-feather="more-vertical"></i> */}
-                                  <FaArrowDown />
-                                </span>
-                              </span>
-                            </button>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a
-                                onClick={() => handleToggle()}
-                                className="dropdown-item"
-                                // href="edit-contact.html"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  {/* <i data-feather="edit"></i> */}
-                                  <FaEdit />
-                                </span>
-                                <span>Edit Contact</span>
-                              </a>
-                              <button
-                                onClick={() => handleDeleteContact(contact.id)}
-                                className="dropdown-item"
-                                href="/"
-                              >
-                                <span className="feather-icon dropdown-icon">
-                                  {/* <i data-feather="trash-2"></i> */}
-                                  <FaTrash />
-                                </span>
-                                <span>Delete</span>
-                              </button>
-                              <a className="dropdown-item" href="/">
-                                <span className="feather-icon dropdown-icon">
-                                  {/* <i data-feather="copy"></i> */}
-                                  <FaCopy />
-                                </span>
-                                <span>Duplicate</span>
-                              </a>
-                              <div className="dropdown-divider"></div>
-                              <h6 className="dropdown-header dropdown-header-bold">
-                                Change Labels
-                              </h6>
-                              <a className="dropdown-item" href="/">
-                                Design
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                Developer
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                Inventory
-                              </a>
-                              <a className="dropdown-item" href="/">
-                                Human Resource
-                              </a>
-                            </div>
+                            <button className="btn btn-primary">Get</button>
                           </div>
                         </div>
                       </td>

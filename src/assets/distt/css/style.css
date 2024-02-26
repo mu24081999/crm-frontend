@@ -85124,7 +85124,8 @@ div.hopscotch-bubble
   height: calc(100vh - 65px);
 }
 .contactapp-wrap .contactapp-sidebar {
-  position: absolute;
+  /* position: absolute; */
+
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

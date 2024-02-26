@@ -2,6 +2,7 @@ import React from "react";
 import brandSm from "../../assets/brand-sm.svg";
 import brand from "../../assets/Jampack.svg";
 import { Link } from "react-router-dom";
+import { FaShoppingCart } from "react-icons/fa";
 
 const VerticalNavbar = () => {
   return (
@@ -220,6 +221,16 @@ const VerticalNavbar = () => {
                   </span>
                   <span className="nav-link-text">Calendar</span>
                 </a>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/shop">
+                  <span className="nav-icon-wrap">
+                    <span className="svg-icon">
+                      <FaShoppingCart />
+                    </span>
+                  </span>
+                  <span className="nav-link-text">Shop</span>
+                </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/emails">

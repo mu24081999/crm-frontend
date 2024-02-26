@@ -5,7 +5,7 @@ import ContactList from "./components/ContactList";
 import AddContactList from "./components/AddContactList";
 import { useSelector } from "react-redux";
 import ContactDetails from "./components/ContactDetails";
-
+import "./contact.css";
 const ContactsContent = () => {
   const [data, setData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);

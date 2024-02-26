@@ -8,6 +8,10 @@ import InputField from "../FormFields/InputField";
 import { useForm } from "react-hook-form";
 import { IoIosKeypad } from "react-icons/io";
 import { MdOutlineContacts } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getUsers } from "../../redux/services/users";
+import { useSelector } from "react-redux";
 
 const Dialer = () => {
   const {
@@ -19,10 +23,17 @@ const Dialer = () => {
   } = useForm();
   const [inputValue, setInputValue] = useState("");
   const [isDial, setIsDial] = useState(true);
+  const [active, setActive] = useState(true);
+  const [selectedNumber, setSelectedNumber] = useState(null);
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
+  const { users } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(getUsers(token));
+  }, [dispatch, token]);
 
   const dialerClick = (type, value) => {
-    console.log("dialerClick", type, value);
-    console.log("🚀 ~ dialerClick ~ type:", type);
     if (type === "dial") {
       setInputValue((prevValue) => prevValue + value);
     } else if (type === "delete") {
@@ -35,7 +46,10 @@ const Dialer = () => {
   };
 
   return (
-    <div className="container" style={{ margin: "300px" }}>
+    <div
+      className="container d-flex justify-content-end float-end"
+      style={{ bottom: "80px", position: "absolute", marginLeft: "13%" }}
+    >
       <Popup
         trigger={
           <button className="btn btn-icon btn-floating btn-primary btn-lg btn-rounded ">
@@ -43,9 +57,9 @@ const Dialer = () => {
             {<FaPhone />}
           </button>
         }
-        position="bottom center"
+        position="top right"
       >
-        {isDial && (
+        {isDial ? (
           <table id="dialer_table">
             <tr>
               <td>
@@ -126,7 +140,7 @@ const Dialer = () => {
               </td>
             </tr>
             <tr class="dialer_num_tr">
-              <td class="dialer_del_td">
+              {/* <td class="dialer_del_td">
                 <img
                   alt="clear"
                   onClick={() => dialerClick("clear", "clear")}
@@ -134,6 +148,9 @@ const Dialer = () => {
                   width="22px"
                   title="Clear"
                 />
+              </td> */}
+              <td class="dialer_num" onClick={() => dialerClick("dial", "+")}>
+                +<span className="px-2">,.:</span>
               </td>
               <td class="dialer_num" onClick={() => dialerClick("dial", 0)}>
                 0<span className="px-3"></span>
@@ -166,19 +183,173 @@ const Dialer = () => {
               </td>
             </tr>
           </table>
+        ) : (
+          <>
+            <header>
+              <div className="row p-3">
+                <button className="col-6 btn btn-primary ">All Contacts</button>
+                <button className="btn btn-primary col-6">Recent</button>
+              </div>
+              <InputField
+                name="firstname"
+                placeholder="Your name"
+                // label="First Name"
+                control={control}
+                rules={{
+                  required: {
+                    value: true,
+                    message: "Field required!",
+                  },
+                }}
+                errors={errors}
+              />{" "}
+            </header>
+            <div
+              className="list-group"
+              style={{ height: "400px", overflow: "scroll" }}
+            >
+              {users?.length > 0 &&
+                users?.map((user, index) => (
+                  <button
+                    key={index}
+                    className={`list-group-item list-group-item-action ${
+                      // active ? "active" : ""
+                      ""
+                    }`}
+                    aria-current="true"
+                    onClick={() => {
+                      setActive(!active);
+                      // setSelectedNumber(user.phone);
+                      setIsDial(true);
+                      setInputValue(user.phone);
+                    }}
+                  >
+                    <div className="d-flex w-100 justify-content-between">
+                      <img
+                        src={
+                          user.avatar ||
+                          "https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
+                        }
+                        width={50}
+                        className="img-fluid rounded-circle me-2"
+                        alt={user.name}
+                      />
+                      <h5 className="mb-1 fs-6">{user?.name}</h5>
+                      <small>3 days ago</small>
+                    </div>
+                    <p style={{ marginLeft: "20%" }}>{user?.phone}</p>
+                  </button>
+                ))}
+              {/* 
+              <a
+                href="#"
+                className="list-group-item list-group-item-action "
+                aria-current="true"
+              >
+                <div className="d-flex w-100 justify-content-between">
+                  <img
+                    src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
+                    width={50}
+                    className="img-fluid rounded-circle me-2"
+                  />
+                  <h5 className="mb-1">List group item heading</h5>
+                  <small>3 days ago</small>
+                </div>
+              </a>
+              <a
+                href="#"
+                className="list-group-item list-group-item-action "
+                aria-current="true"
+              >
+                <div className="d-flex w-100 justify-content-between">
+                  <img
+                    src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
+                    width={50}
+                    className="img-fluid rounded-circle me-2"
+                  />
+                  <h5 className="mb-1">List group item heading</h5>
+                  <small>3 days ago</small>
+                </div>
+              </a>
+              <a
+                href="#"
+                className="list-group-item list-group-item-action "
+                aria-current="true"
+              >
+                <div className="d-flex w-100 justify-content-between">
+                  <img
+                    src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
+                    width={50}
+                    className="img-fluid rounded-circle me-2"
+                  />
+                  <h5 className="mb-1">List group item heading</h5>
+                  <small>3 days ago</small>
+                </div>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+                <div className="d-flex w-100 justify-content-between">
+                  <img
+                    src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
+                    width={50}
+                    className="img-fluid rounded-circle me-2"
+                  />
+                  <h5 className="mb-1">List group item heading</h5>
+                  <small className="text-muted">3 days ago</small>
+                </div>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+                <div className="d-flex w-100 justify-content-between">
+                  <img
+                    src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
+                    width={50}
+                    className="img-fluid rounded-circle me-2"
+                  />
+                  <h5 className="mb-1">List group item heading</h5>
+                  <small className="text-muted">3 days ago</small>
+                </div>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+                <div className="d-flex w-100 justify-content-between">
+                  <img
+                    src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
+                    width={50}
+                    className="img-fluid rounded-circle me-2"
+                  />
+                  <h5 className="mb-1">List group item heading</h5>
+                  <small className="text-muted">3 days ago</small>
+                </div>
+              </a>
+              <a href="#" className="list-group-item list-group-item-action">
+                <div className="d-flex w-100 justify-content-between">
+                  <img
+                    src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
+                    width={50}
+                    className="img-fluid rounded-circle me-2"
+                  />
+                  <h5 className="mb-1">List group item heading</h5>
+                  <small className="text-muted">3 days ago</small>
+                </div>
+              </a> */}
+            </div>
+          </>
         )}
+
         <footer className="w-100 d-flex p-1 gap-1">
-          <button type="button" class="btn btn-primary btn-lg ">
+          <button
+            type="button"
+            class="btn btn-primary btn-md "
+            onClick={() => setIsDial(!isDial)}
+          >
             <MdOutlineContacts />
-            Contacts
+            &nbsp; Contacts
           </button>
           <button
             type="button"
-            class="btn btn-primary btn-lg w-50"
+            class="btn btn-primary btn-md w-50"
             onClick={() => setIsDial(!isDial)}
           >
             <IoIosKeypad className="mb-1" />
-            Dial
+            &nbsp; Dial
           </button>
         </footer>
       </Popup>
