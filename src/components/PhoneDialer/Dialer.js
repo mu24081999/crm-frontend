@@ -26,7 +26,7 @@ const Dialer = () => {
   const [active, setActive] = useState(true);
   const [selectedNumber, setSelectedNumber] = useState(null);
   const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
+  const { token, user } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -177,7 +177,7 @@ const Dialer = () => {
                     placeholder="Phone Number"
                     control={control}
                     errors={errors}
-                    value={inputValue}
+                    value={user.phone}
                   />
                 </div>
               </td>
