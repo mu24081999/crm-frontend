@@ -15,6 +15,7 @@ import Test from "./views/Test/Test";
 import ContactDetails from "./views/Contacts/components/ContactDetails";
 import Email from "./views/Email/Email";
 import Board from "./views/Board/Board";
+import Shop from "./views/Shop/Shop";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/test",
     element: <Test />,
+  },
+  {
+    path: "/shop",
+    element: <Shop />,
   },
   {
     path: "/projects-board",
