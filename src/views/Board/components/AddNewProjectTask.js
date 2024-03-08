@@ -149,7 +149,7 @@ const AddNewProjectTask = ({ teamsData, token }) => {
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary btn-add-task">
-                  Add
+                  Add Task
                 </button>
               </div>
             </form>

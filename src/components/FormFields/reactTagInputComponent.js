@@ -18,9 +18,11 @@ const ReactTagInputComponent = React.forwardRef((props, ref) => {
     menuPlacement,
     ellipses,
     value,
+    placeHolder,
     ...others
   } = props;
   const { field, fieldState, formState } = useController(props);
+  console.log("🚀 ~ ReactTagInputComponent ~ field:", field);
 
   let err = _.get(errors, props.name);
   const handleOnChange = (value) => {
@@ -52,7 +54,7 @@ const ReactTagInputComponent = React.forwardRef((props, ref) => {
               value={selected}
               onChange={handleOnChange}
               name={props.name}
-              placeHolder="input tags"
+              placeHolder={placeHolder}
             />
           </>
         )}

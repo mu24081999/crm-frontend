@@ -3,6 +3,7 @@ import brandSm from "../../assets/brand-sm.svg";
 import brand from "../../assets/Jampack.svg";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
+import { MdMarkEmailRead } from "react-icons/md";
 
 const VerticalNavbar = () => {
   return (
@@ -194,7 +195,7 @@ const VerticalNavbar = () => {
                 </ul>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="calendar.html">
+                <Link className="nav-link" to="/calendar">
                   <span className="nav-icon-wrap">
                     <span className="svg-icon">
                       <svg
@@ -220,7 +221,7 @@ const VerticalNavbar = () => {
                     </span>
                   </span>
                   <span className="nav-link-text">Calendar</span>
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/shop">
@@ -232,30 +233,43 @@ const VerticalNavbar = () => {
                   <span className="nav-link-text">Shop</span>
                 </Link>
               </li>
+
               <li className="nav-item">
-                <Link className="nav-link" to="/emails">
-                  <span className="nav-icon-wrap">
+                <a
+                  className="nav-link"
+                  href="/"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#dash_scrumboard"
+                >
+                  <span className="nav-icon-wrap position-relative">
+                    <span className="badge badge-sm badge-primary badge-sm badge-pill position-top-end-overflow">
+                      3
+                    </span>
                     <span className="svg-icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-inbox"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <rect x="4" y="4" width="16" height="16" rx="2" />
-                        <path d="M4 13h3l3 3h4l3 -3h3" />
-                      </svg>
+                      <MdMarkEmailRead />
                     </span>
                   </span>
                   <span className="nav-link-text">Email</span>
-                </Link>
+                </a>
+                <ul
+                  id="dash_scrumboard"
+                  className="nav flex-column collapse  nav-children"
+                >
+                  <li className="nav-item">
+                    <ul className="nav flex-column">
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/emails">
+                          <span className="nav-link-text">Emails</span>
+                        </Link>
+                      </li>
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/bulk-emails">
+                          <span className="nav-link-text">Bulk Emails</span>
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
               </li>
               <li className="nav-item">
                 <a
@@ -409,21 +423,16 @@ const VerticalNavbar = () => {
                   <li className="nav-item">
                     <ul className="nav flex-column">
                       <li className="nav-item">
-                        <a className="nav-link" href="file-manager-list.html">
-                          <span className="nav-link-text">List View</span>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="file-manager-grid.html">
-                          <span className="nav-link-text">Grid View</span>
-                        </a>
+                        <Link className="nav-link" to="/file-manager">
+                          <span className="nav-link-text">File Manager</span>
+                        </Link>
                       </li>
                     </ul>
                   </li>
                 </ul>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="gallery.html">
+                <Link className="nav-link" to="/gallery">
                   <span className="nav-icon-wrap">
                     <span className="svg-icon">
                       <svg
@@ -447,7 +456,7 @@ const VerticalNavbar = () => {
                     </span>
                   </span>
                   <span className="nav-link-text">Gallery</span>
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <a
@@ -490,15 +499,15 @@ const VerticalNavbar = () => {
                   <li className="nav-item">
                     <ul className="nav flex-column">
                       <li className="nav-item">
-                        <a className="nav-link" href="tasklist.html">
+                        <Link className="nav-link" to="/todos">
                           <span className="nav-link-text">Tasklist</span>
-                        </a>
+                        </Link>
                       </li>
-                      <li className="nav-item">
+                      {/* <li className="nav-item">
                         <a className="nav-link" href="gantt.html">
                           <span className="nav-link-text">Gantt</span>
                         </a>
-                      </li>
+                      </li> */}
                     </ul>
                   </li>
                 </ul>
@@ -540,11 +549,11 @@ const VerticalNavbar = () => {
                   <li className="nav-item">
                     <ul className="nav flex-column">
                       <li className="nav-item">
-                        <a className="nav-link" href="posts.html">
+                        <Link className="nav-link" to="/posts">
                           <span className="nav-link-text">Posts</span>
-                        </a>
+                        </Link>
                       </li>
-                      <li className="nav-item">
+                      {/* <li className="nav-item">
                         <a className="nav-link" href="add-new-post.html">
                           <span className="nav-link-text">Add New Post</span>
                         </a>
@@ -553,7 +562,7 @@ const VerticalNavbar = () => {
                         <a className="nav-link" href="post-detail.html">
                           <span className="nav-link-text">Post Detail</span>
                         </a>
-                      </li>
+                      </li> */}
                     </ul>
                   </li>
                 </ul>
@@ -596,9 +605,9 @@ const VerticalNavbar = () => {
                   <li className="nav-item">
                     <ul className="nav flex-column">
                       <li className="nav-item">
-                        <a className="nav-link" href="invoice-list.html">
+                        <Link className="nav-link" to="/invoices">
                           <span className="nav-link-text">Invoice List</span>
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
                         <a className="nav-link" href="invoice-templates.html">

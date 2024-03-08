@@ -142,7 +142,9 @@ const ContextProvider = ({ children }) => {
       socket.emit("answerCall", { signal: data, to: call.from });
     });
     peer.on("stream", (currentStream) => {
+      console.log(userVideo.current.srcObject);
       if (userVideo.current) userVideo.current.srcObject = currentStream;
+      console.log(userVideo.current.srcObject);
     });
     peer.signal(call.signal);
     if (connectionRef.current) connectionRef.current = peer;
@@ -160,7 +162,7 @@ const ContextProvider = ({ children }) => {
       });
     });
     peer.on("stream", (currentStream) => {
-      if (userVideo.current) userVideo.current.srcObject = currentStream;
+      userVideo.current.srcObject = currentStream;
     });
     socket.on("callAccepted", (signal) => {
       setCallAccepted(true);
@@ -187,6 +189,10 @@ const ContextProvider = ({ children }) => {
 
     // Clear the user's video stream
     if (userVideo.current) {
+      console.log(
+        "🚀 ~ leaveCall ~ userVideo.current.srcObject:",
+        userVideo.current.srcObject
+      );
       userVideo.current.srcObject = null;
     }
 

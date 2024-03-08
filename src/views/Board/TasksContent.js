@@ -38,7 +38,7 @@ const TasksContent = ({ tasksData, token }) => {
                       <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
                         <span className="tasklist-name">All Modules</span>
                         <span className="badge badge-pill badge-soft-violet ms-2">
-                          19
+                          {tasksData?.length}
                         </span>
                       </h6>
                       <div className="card-action-wrap">
@@ -91,7 +91,7 @@ const TasksContent = ({ tasksData, token }) => {
                     </button>
                   </div>
                   <div data-simplebar className="card-body">
-                    <div style={{ height: "100%", overflowY: "scroll" }}>
+                    <div style={{ height: "500px", overflow: "scroll" }}>
                       {tasksData?.length > 0 &&
                         tasksData.map((task, index) => (
                           <div
@@ -197,7 +197,7 @@ const TasksContent = ({ tasksData, token }) => {
                       <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
                         <span className="tasklist-name">Pending</span>
                         <span className="badge badge-pill badge-soft-violet ms-2">
-                          19
+                          {pendingData?.length}
                         </span>
                       </h6>
                       <div className="card-action-wrap">
@@ -250,7 +250,7 @@ const TasksContent = ({ tasksData, token }) => {
                     </button>
                   </div>
                   <div data-simplebar className="card-body">
-                    <div style={{ height: "100%", overflowY: "scroll" }}>
+                    <div style={{ height: "500px", overflow: "scroll" }}>
                       {pendingData?.length > 0 &&
                         pendingData.map((task, index) => (
                           <div
@@ -356,7 +356,7 @@ const TasksContent = ({ tasksData, token }) => {
                       <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
                         <span className="tasklist-name">In-Progress</span>
                         <span className="badge badge-pill badge-soft-violet ms-2">
-                          19
+                          {inProgressData?.length}
                         </span>
                       </h6>
                       <div className="card-action-wrap">
@@ -409,7 +409,7 @@ const TasksContent = ({ tasksData, token }) => {
                     </button>
                   </div>
                   <div data-simplebar className="card-body">
-                    <div style={{ height: "100%", overflowY: "scroll" }}>
+                    <div style={{ height: "500px", overflow: "scroll" }}>
                       {inProgressData?.length > 0 &&
                         inProgressData.map((task, index) => (
                           <div
@@ -515,7 +515,7 @@ const TasksContent = ({ tasksData, token }) => {
                       <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
                         <span className="tasklist-name">Completed</span>
                         <span className="badge badge-pill badge-soft-violet ms-2">
-                          19
+                          {completedData?.length}
                         </span>
                       </h6>
                       <div className="card-action-wrap">
@@ -568,7 +568,7 @@ const TasksContent = ({ tasksData, token }) => {
                     </button>
                   </div>
                   <div data-simplebar className="card-body">
-                    <div style={{ height: "100%", overflowY: "scroll" }}>
+                    <div style={{ height: "500px", overflow: "scroll" }}>
                       {completedData?.length > 0 &&
                         completedData.map((task, index) => (
                           <div

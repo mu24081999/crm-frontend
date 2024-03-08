@@ -47,8 +47,13 @@ const Dialer = () => {
 
   return (
     <div
-      className="container d-flex justify-content-end float-end"
-      style={{ bottom: "80px", position: "absolute", marginLeft: "13%" }}
+      className=" d-flex justify-content-end float-end"
+      style={{
+        bottom: "80px",
+        position: "absolute",
+        width: "100%",
+        paddingRight: "1.6%",
+      }}
     >
       <Popup
         trigger={

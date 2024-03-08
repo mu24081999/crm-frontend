@@ -16,6 +16,7 @@ export const TextAreaField = React.forwardRef((props, ref) => {
     disabled = false,
     showTextLimit,
     label,
+    height,
     ...others
   } = props;
   let err = _.get(errors, props.name);
@@ -38,7 +39,7 @@ export const TextAreaField = React.forwardRef((props, ref) => {
                   props.onChange(e);
                 }
               }}
-              style={{ borderRadius: "16px !important" }}
+              style={{ borderRadius: "16px !important", height: height }}
               disabled={disabled}
               onBlurCapture={() => setFocusState(false)}
               onFocus={() => setFocusState(true)}

@@ -213,7 +213,7 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                   </li>
                 </ul>
                 <div class="avatar avatar-lg avatar-rounded chatapp-caller-img ">
-                  {stream && type === "video" && (
+                  {stream && (
                     <video
                       playsInline
                       muted

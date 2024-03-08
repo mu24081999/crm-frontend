@@ -66,12 +66,36 @@ export const updateEmailRec = (token, emailId, data) => async (dispatch) => {
       },
     };
     await axios
-      .post(`${backendURL}/user/email/update-email/${emailId}`, data, config)
+      .put(`${backendURL}/user/email/update-email/${emailId}`, data, config)
       .then((response) => {
-        if (response?.data?.code !== 200) {
+        if (response?.status !== 200) {
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(updateEmail(response.data.message));
+        dispatch(getEmailList(token));
+        toast.success(response.data.message);
+      });
+  } catch (e) {
+    dispatch(invalidRequest(e.message));
+  }
+};
+export const deleteEmailRec = (token, email_id) => async (dispatch) => {
+  try {
+    dispatch(emailRequestLoading());
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    };
+    await axios
+      .delete(`${backendURL}/user/email/delete-email/${email_id}`, config)
+      .then((response) => {
+        if (response?.status !== 200) {
+          return dispatch(invalidRequest(response.data.message));
+        }
+        dispatch(updateEmail(response.data.message));
+        dispatch(getEmailList(token));
         toast.success(response.data.message);
       });
   } catch (e) {

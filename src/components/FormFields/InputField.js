@@ -20,11 +20,12 @@ const InputField = React.forwardRef((props, ref) => {
     onChange,
     ellipses,
     label,
+    mb,
     ...others
   } = props;
   let err = _.get(errors, props.name);
   return (
-    <div className="w-full mb-5">
+    <div className={`w-full ${mb ? "" : "mb-5"}`}>
       <div
         className={`${style ? "bg-white" : ""}  ${
           props?.rules && err
@@ -41,7 +42,7 @@ const InputField = React.forwardRef((props, ref) => {
           render={({ field }) => {
             return (
               <div className="">
-                <label class="form-label-group">{label}</label>
+                {label && <label class="form-label-group">{label}</label>}
 
                 <input
                   {...props}

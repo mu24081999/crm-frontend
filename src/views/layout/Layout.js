@@ -4,7 +4,7 @@ import VerticalNavbar from "../../components/VerticalNavbar/VerticalNavbar";
 import ChatPopup from "../../components/ChatPopup/ChatPopup";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Dialer from "../../components/PhoneDialer/Dialer";
+// import Dialer from "../../components/PhoneDialer/Dialer";
 const Layout = ({ component }) => {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const redirectTo = useNavigate();

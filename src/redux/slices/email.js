@@ -42,6 +42,12 @@ export const emailSlice = createSlice({
       state.error = "";
       state.type = "success";
     },
+    deleteEmail: (state, action) => {
+      state.isLoading = false;
+      state.message = action.payload;
+      state.error = "";
+      state.type = "success";
+    },
   },
 });
 
@@ -52,4 +58,5 @@ export const {
   sendEmail,
   updateEmail,
   getEmails,
+  deleteEmail,
 } = emailSlice.actions;

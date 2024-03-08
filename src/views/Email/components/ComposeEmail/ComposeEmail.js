@@ -10,6 +10,9 @@ import TextAreaField from "../../../../components/FormFields/textAreaField";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../../../redux/services/users";
 import { sendEmailRec } from "../../../../redux/services/email";
+import ReactTagInputComponent from "../../../../components/FormFields/reactTagInputComponent";
+import Loader from "../../../../components/Loader/Loader";
+import EditorField from "../../../../components/FormFields/Editor";
 
 const ComposeEmail = () => {
   const {
@@ -22,6 +25,7 @@ const ComposeEmail = () => {
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
+  const { isLoading } = useSelector((state) => state.email);
   const [usersData, setUsersData] = useState([]);
 
   useEffect(() => {
@@ -51,16 +55,13 @@ const ComposeEmail = () => {
     formData.append("body", data.body);
     formData.append("type", "email");
     formData.append("from", user.email);
-    data.to.forEach((element) => {
-      formData.append("to", element.email);
+    data?.to?.forEach((element) => {
+      formData.append("to", element);
     });
     data.files &&
       data.files.forEach((element) => {
         formData.append("files", element);
       });
-
-    console.log("🚀 ~ handleSendEmail ~ formData:", formData);
-
     dispatch(sendEmailRec(token, formData));
   };
   return (
@@ -108,101 +109,124 @@ const ComposeEmail = () => {
             </button>
           </div>
         </header>
-        <form onSubmit={handleSubmit(handleSendEmail)}>
-          <div className="w-100 mb-1">
-            <InputField
-              name="subject"
-              placeholder="Subject"
-              control={control}
-              errors={errors}
-            />
-          </div>
-          <div className="w-100 mb-1">
-            <ReactSelectField
-              name="to"
-              placeholder="Select"
-              control={control}
-              isMulti={true}
-              optionData={
-                usersData.length > 0
-                  ? usersData?.map((user, index) => {
-                      return {
-                        label: user.name,
-                        value: user.email,
-                        ...user,
-                      };
-                    })
-                  : []
-              }
-              errors={errors}
-            />
-          </div>
-          <div className="w-100 mb-1">
-            <TextAreaField
-              name="body"
-              placeholder="Text"
-              control={control}
-              errors={errors}
-            />
-          </div>
-          <div class="compose-email-footer">
-            <div>
-              <button class="btn btn-primary me-2" type="submit">
-                Send
-              </button>
-              <input
-                type="file"
-                name="file"
-                multiple
-                onChange={handleFileChange}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <form onSubmit={handleSubmit(handleSendEmail)}>
+            <div className="w-100 mb-1">
+              <InputField
+                name="subject"
+                placeholder="Subject"
+                control={control}
+                errors={errors}
               />
-              <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
-                <span
-                  class="icon"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  title="Add flag"
-                  data-bs-original-title="Add flag"
-                >
-                  <span class="feather-icon">
-                    {/* <i data-feather="paperclip"></i> */}
-                    <FaClipboard />
-                  </span>
-                </span>
-              </button>
             </div>
-            <div>
-              <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
-                <span
-                  class="icon"
-                  data-bs-toggle="Save Draft"
-                  data-bs-placement="top"
-                  title="Save Draft"
-                  data-bs-original-title="Save Draft"
-                >
-                  <span class="feather-icon">
-                    {/* <i data-feather="edit"></i> */}
-                    <FaEdit />
-                  </span>
-                </span>
-              </button>
-              <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
-                <span
-                  class="icon"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  title="Delete"
-                  data-bs-original-title="Delete"
-                >
-                  <span class="feather-icon">
-                    {/* <i data-feather="trash-2"></i> */}
-                    <FaTrash />
-                  </span>
-                </span>
-              </button>
+            <div className="w-100 mb-1">
+              {/* <ReactSelectField
+            name="to"
+            placeholder="Select"
+            control={control}
+            isMulti={true}
+            optionData={
+              usersData.length > 0
+                ? usersData?.map((user, index) => {
+                    return {
+                      label: user.name,
+                      value: user.email,
+                      ...user,
+                    };
+                  })
+                : []
+            }
+            errors={errors}
+          /> */}
+              <ReactTagInputComponent
+                errors={errors}
+                control={control}
+                placeHolder="Enter email and press enter"
+                name="to"
+              />
             </div>
-          </div>
-        </form>
+            <div className="w-100 mb-1">
+              {/* <TextAreaField
+                name="body"
+                placeholder="Text"
+                control={control}
+                errors={errors}
+              /> */}
+              <EditorField
+                name="body"
+                placeholder="Body text"
+                label="Body"
+                control={control}
+                rules={{
+                  required: {
+                    value: true,
+                    message: "Field required!",
+                  },
+                }}
+                errors={errors}
+              />
+            </div>
+            <div class="compose-email-footer">
+              <div>
+                <button class="btn btn-primary me-2" type="submit">
+                  Send
+                </button>
+                <input
+                  type="file"
+                  name="file"
+                  multiple
+                  onChange={handleFileChange}
+                />
+                <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
+                  <span
+                    class="icon"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Add flag"
+                    data-bs-original-title="Add flag"
+                  >
+                    <span class="feather-icon">
+                      {/* <i data-feather="paperclip"></i> */}
+                      <FaClipboard />
+                    </span>
+                  </span>
+                </button>
+              </div>
+              <div>
+                <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
+                  <span
+                    class="icon"
+                    data-bs-toggle="Save Draft"
+                    data-bs-placement="top"
+                    title="Save Draft"
+                    data-bs-original-title="Save Draft"
+                  >
+                    <span class="feather-icon">
+                      {/* <i data-feather="edit"></i> */}
+                      <FaEdit />
+                    </span>
+                  </span>
+                </button>
+                <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
+                  <span
+                    class="icon"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="Delete"
+                    data-bs-original-title="Delete"
+                  >
+                    <span class="feather-icon">
+                      {/* <i data-feather="trash-2"></i> */}
+                      <FaTrash />
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

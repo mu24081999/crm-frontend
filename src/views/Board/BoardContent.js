@@ -13,6 +13,7 @@ import AddTaskList from "./components/AddTaskList";
 import AddNewProjectTask from "./components/AddNewProjectTask";
 import { getTasksList } from "../../redux/services/project-task";
 import EditProjectTask from "./components/EditProjectTask";
+import Kanban from "./Kanban";
 
 const BoardContent = () => {
   const [toggleType, setToggleType] = useState("board");
@@ -58,7 +59,8 @@ const BoardContent = () => {
             <div className="taskboardapp-content">
               <div className="taskboardapp-detail-wrap">
                 {isShowTask && (
-                  <TasksContent tasksData={tasksData} token={token} />
+                  // <TasksContent tasksData={tasksData} token={token} />
+                  <Kanban />
                 )}
                 {!isShowTask && (
                   <>

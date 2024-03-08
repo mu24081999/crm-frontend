@@ -2,7 +2,6 @@ import React from "react";
 import InputField from "../../../components/FormFields/InputField";
 import ReactSelectField from "../../../components/FormFields/reactSelectField";
 
-import TagInput from "../../../components/FormFields/reactTagInputComponent";
 import { useForm } from "react-hook-form";
 import ReactColorInput from "../../../components/FormFields/reactColorInput";
 import FileField from "../../../components/FormFields/fileField";

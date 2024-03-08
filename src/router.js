@@ -16,6 +16,13 @@ import ContactDetails from "./views/Contacts/components/ContactDetails";
 import Email from "./views/Email/Email";
 import Board from "./views/Board/Board";
 import Shop from "./views/Shop/Shop";
+import Todo from "./views/Todo/Todo";
+import Gallery from "./views/Gallery/Gallery";
+import FileManager from "./views/FileManager/FileManager";
+import Post from "./views/Posts/Post";
+import Calender from "./views/Calender/Calender";
+import EmailsBulk from "./views/EmailsBulk/Email";
+import Invoice from "./views/Invoice/Invoice";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +32,34 @@ const router = createBrowserRouter([
   {
     path: "/test",
     element: <Test />,
+  },
+  {
+    path: "/bulk-emails",
+    element: <EmailsBulk />,
+  },
+  {
+    path: "/calendar",
+    element: <Calender />,
+  },
+  {
+    path: "/invoices",
+    element: <Invoice />,
+  },
+  {
+    path: "/gallery",
+    element: <Gallery />,
+  },
+  {
+    path: "/file-manager",
+    element: <FileManager />,
+  },
+  {
+    path: "/todos",
+    element: <Todo />,
+  },
+  {
+    path: "/posts",
+    element: <Post />,
   },
   {
     path: "/shop",

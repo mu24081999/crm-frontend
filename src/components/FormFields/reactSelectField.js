@@ -21,6 +21,7 @@ const ReactSelectField = React.forwardRef((props, ref) => {
     capitalize = true,
     menuPlacement,
     isHighLight = false,
+    mb,
     ellipses,
     ...others
   } = props;
@@ -83,7 +84,7 @@ const ReactSelectField = React.forwardRef((props, ref) => {
   };
 
   return (
-    <div className="mb-5">
+    <div className={mb ? "" : "mb-5"}>
       <Controller
         name={props?.name}
         rules={props?.rules}

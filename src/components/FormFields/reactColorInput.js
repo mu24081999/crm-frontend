@@ -21,8 +21,6 @@ const ReactColorInput = React.forwardRef((props, ref) => {
   } = props;
   const { field, fieldState, formState } = useController(props);
   const [color, setColor] = useState({});
-  console.log("🚀 ~ ReactTagInputComponent ~ color:", field);
-
   let err = _.get(errors, props.name);
   const handleOnChange = (value) => {
     // field.onChange(value);
