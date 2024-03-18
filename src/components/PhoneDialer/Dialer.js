@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaPhone } from "react-icons/fa";
+import { FaPhone, FaPhoneSlash, FaSpeakerDeck } from "react-icons/fa";
 
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
@@ -12,27 +12,112 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getUsers } from "../../redux/services/users";
 import { useSelector } from "react-redux";
+import { Device } from "twilio-client";
+import { makeUserToCall } from "../../redux/services/calling";
+import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
+
+import axios from "axios";
+import { getContactsList } from "../../redux/services/contact";
+
+//Helpers
+const Timer = () => {
+  const [timer, setTimer] = useState({ mins: 0, sec: 0 });
+  const getTime = () => {
+    setTimer((state) => ({
+      mins: state.sec === 60 ? state.mins + 1 : state.mins,
+      sec: state.sec === 60 ? 0 : state.sec + 1,
+    }));
+  };
+  useEffect(() => {
+    const interval = setInterval(() => getTime(), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="timer">
+      {`${timer.mins < 9 ? "0" + timer.mins : timer.mins} : ${
+        timer.sec < 9 ? "0" + timer.sec : timer.sec
+      }`}
+    </div>
+  );
+};
 
 const Dialer = () => {
   const {
-    handleSubmit,
+    // handleSubmit,
     // watch,
     control,
-    setValue,
+    // setValue,
     formState: { errors },
   } = useForm();
   const [inputValue, setInputValue] = useState("");
   const [isDial, setIsDial] = useState(true);
+  const [showContacts, setShowContacts] = useState(false);
+  const [twilioDevice, setTwilioDevice] = useState(null);
+  const [userState, setUserState] = useState("READY");
+  const [connection, setConnection] = useState(null);
   const [active, setActive] = useState(true);
-  const [selectedNumber, setSelectedNumber] = useState(null);
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
-  const { users } = useSelector((state) => state.user);
+  const { contacts } = useSelector((state) => state.contact);
+  // const { users } = useSelector((state) => state.user);
+  const backendURL = process.env.REACT_APP_BACKEND_URL_PRODUCTION;
+  useEffect(() => {
+    axios
+      .get(backendURL + "/user/calling/get-call-token")
+      .then((resp) => {
+        const device = new Device();
+        device.setup(resp.data.token, {
+          logLevel: 1,
+          edge: "ashburn",
+        });
+        setTwilioDevice(device);
+      })
+      .catch((err) => console.error(err));
+    return () => {
+      if (twilioDevice) {
+        twilioDevice.disconnectAll();
+        twilioDevice.destroy();
+      }
+    };
+  }, [backendURL]);
 
   useEffect(() => {
-    dispatch(getUsers(token));
+    // dispatch(getUsers(token));
+    dispatch(getContactsList(token));
   }, [dispatch, token]);
+  const makeCall = () => {
+    const params = { To: inputValue };
+    const outgoingCall = twilioDevice.connect(params);
+    outgoingCall.on("accept", () => {
+      setUserState("ON_CALL");
+      setIsDial(false);
+      setShowContacts(false);
+      console.log("Call accepted");
+    });
+    outgoingCall.on("reject", () => {
+      setUserState("ON_CALL");
+      setIsDial(true);
+      setShowContacts(false);
+      console.log("Call accepted");
+    });
+    outgoingCall.on("disconnect", () => {
+      setUserState("READY");
+      setIsDial(true);
+      setShowContacts(false);
+      console.log("Call disconnected");
+    });
 
+    // dispatch(
+    //   makeUserToCall(token, {
+    //     from: "+14849993639",
+    //     // from: "+12059903341",
+    //     accountSid: "AC1237366c79ad62eb76b0e0775cf053d3",
+    //     authToken: "39a1a699c20634690e6e1c935cfeda9d",
+    //     to: "+923174660027",
+    //   })
+    // );
+  };
   const dialerClick = (type, value) => {
     if (type === "dial") {
       setInputValue((prevValue) => prevValue + value);
@@ -44,6 +129,13 @@ const Dialer = () => {
       setInputValue("");
     }
   };
+  function extractCharactersFromArray(str) {
+    const firstCharacter = str?.charAt(0);
+    const spaceIndex = str?.indexOf(" ");
+    const characterAfterSpace =
+      spaceIndex !== -1 ? str.charAt(spaceIndex + 1) : "";
+    return { firstCharacter, characterAfterSpace };
+  }
 
   return (
     <div
@@ -57,23 +149,17 @@ const Dialer = () => {
     >
       <Popup
         trigger={
-          <button className="btn btn-icon btn-floating btn-primary btn-lg btn-rounded ">
+          <button className="btn btn-icon btn-floating btn-primary btn-lg btn-rounded shadow-lg">
             {" "}
             {<FaPhone />}
           </button>
         }
         position="top right"
       >
-        {isDial ? (
+        {isDial && (
           <table id="dialer_table">
             <tr>
               <td>
-                {/* <input
-               type="number"
-               className="form-control"
-               placeholder="Number"
-               value={inputValue}
-             /> */}
                 <div className="w-100 ">
                   <InputField
                     style={{ height: "70px", fontSize: "25px" }}
@@ -145,15 +231,6 @@ const Dialer = () => {
               </td>
             </tr>
             <tr class="dialer_num_tr">
-              {/* <td class="dialer_del_td">
-                <img
-                  alt="clear"
-                  onClick={() => dialerClick("clear", "clear")}
-                  src="data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhcyIgZGF0YS1pY29uPSJlcmFzZXIiIHJvbGU9ImltZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgY2xhc3M9InN2Zy1pbmxpbmUtLWZhIGZhLWVyYXNlciBmYS13LTE2IGZhLTd4Ij48cGF0aCBmaWxsPSIjYjFiMWIxIiBkPSJNNDk3Ljk0MSAyNzMuOTQxYzE4Ljc0NS0xOC43NDUgMTguNzQ1LTQ5LjEzNyAwLTY3Ljg4MmwtMTYwLTE2MGMtMTguNzQ1LTE4Ljc0NS00OS4xMzYtMTguNzQ2LTY3Ljg4MyAwbC0yNTYgMjU2Yy0xOC43NDUgMTguNzQ1LTE4Ljc0NSA0OS4xMzcgMCA2Ny44ODJsOTYgOTZBNDguMDA0IDQ4LjAwNCAwIDAgMCAxNDQgNDgwaDM1NmM2LjYyNyAwIDEyLTUuMzczIDEyLTEydi00MGMwLTYuNjI3LTUuMzczLTEyLTEyLTEySDM1NS44ODNsMTQyLjA1OC0xNDIuMDU5em0tMzAyLjYyNy02Mi42MjdsMTM3LjM3MyAxMzcuMzczTDI2NS4zNzMgNDE2SDE1MC42MjhsLTgwLTgwIDEyNC42ODYtMTI0LjY4NnoiIGNsYXNzPSIiPjwvcGF0aD48L3N2Zz4="
-                  width="22px"
-                  title="Clear"
-                />
-              </td> */}
               <td class="dialer_num" onClick={() => dialerClick("dial", "+")}>
                 +<span className="px-2">,.:</span>
               </td>
@@ -170,12 +247,15 @@ const Dialer = () => {
                 />
               </td>
             </tr>
-            <tr>
-              <td colspan="p-3">
-                <button className="btn btn-primary rounded-pill btn-lg">
+            <tr className="mt-5">
+              <td colspan="3">
+                <button
+                  className="btn btn-primary rounded-pill btn-lg"
+                  onClick={makeCall}
+                >
                   Call
                 </button>
-                <div className="w-100 d-flex flex-wrap gap-2">
+                <div className="w-100 d-flex flex-wrap gap-2 mt-4">
                   <p className="fs-6 pt-3">Call From</p>
                   <InputField
                     name="subject"
@@ -183,18 +263,20 @@ const Dialer = () => {
                     control={control}
                     errors={errors}
                     value={user.phone}
+                    isDisabled={true}
                   />
                 </div>
               </td>
             </tr>
           </table>
-        ) : (
+        )}
+        {showContacts && (
           <>
             <header>
-              <div className="row p-3">
+              {/* <div className="row p-3">
                 <button className="col-6 btn btn-primary ">All Contacts</button>
                 <button className="btn btn-primary col-6">Recent</button>
-              </div>
+              </div> */}
               <InputField
                 name="firstname"
                 placeholder="Your name"
@@ -213,8 +295,8 @@ const Dialer = () => {
               className="list-group"
               style={{ height: "400px", overflow: "scroll" }}
             >
-              {users?.length > 0 &&
-                users?.map((user, index) => (
+              {contacts?.length > 0 &&
+                contacts?.map((contact, index) => (
                   <button
                     key={index}
                     className={`list-group-item list-group-item-action ${
@@ -224,126 +306,76 @@ const Dialer = () => {
                     aria-current="true"
                     onClick={() => {
                       setActive(!active);
-                      // setSelectedNumber(user.phone);
+                      // setSelectedNumber(contact.phone);
+                      setShowContacts(false);
                       setIsDial(true);
-                      setInputValue(user.phone);
+                      setInputValue(contact.phone);
                     }}
                   >
                     <div className="d-flex w-100 justify-content-between">
-                      <img
-                        src={
-                          user.avatar ||
-                          "https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
-                        }
-                        width={50}
-                        className="img-fluid rounded-circle me-2"
-                        alt={user.name}
-                      />
-                      <h5 className="mb-1 fs-6">{user?.name}</h5>
-                      <small>3 days ago</small>
+                      <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
+                        <span class="initial-wrap">
+                          {extractCharactersFromArray(contact.firstname)
+                            .firstCharacter +
+                            extractCharactersFromArray(contact.lastname)
+                              .characterAfterSpace}
+                        </span>
+                      </div>
+                      <div className="w-75">
+                        <h5 className="mb-1 fs-6">
+                          {contact?.firstname?.slice(0, 20)}&nbsp;
+                          {contact?.lastname}
+                          {/* {contact?.name?.length > 20 ? "..." : ""} */}
+                        </h5>
+                        <p>{contact?.phone}</p>
+                      </div>
+
+                      {/* <small>3 days ago</small> */}
                     </div>
-                    <p style={{ marginLeft: "20%" }}>{user?.phone}</p>
                   </button>
                 ))}
-              {/* 
-              <a
-                href="#"
-                className="list-group-item list-group-item-action "
-                aria-current="true"
-              >
-                <div className="d-flex w-100 justify-content-between">
-                  <img
-                    src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
-                    width={50}
-                    className="img-fluid rounded-circle me-2"
-                  />
-                  <h5 className="mb-1">List group item heading</h5>
-                  <small>3 days ago</small>
-                </div>
-              </a>
-              <a
-                href="#"
-                className="list-group-item list-group-item-action "
-                aria-current="true"
-              >
-                <div className="d-flex w-100 justify-content-between">
-                  <img
-                    src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
-                    width={50}
-                    className="img-fluid rounded-circle me-2"
-                  />
-                  <h5 className="mb-1">List group item heading</h5>
-                  <small>3 days ago</small>
-                </div>
-              </a>
-              <a
-                href="#"
-                className="list-group-item list-group-item-action "
-                aria-current="true"
-              >
-                <div className="d-flex w-100 justify-content-between">
-                  <img
-                    src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
-                    width={50}
-                    className="img-fluid rounded-circle me-2"
-                  />
-                  <h5 className="mb-1">List group item heading</h5>
-                  <small>3 days ago</small>
-                </div>
-              </a>
-              <a href="#" className="list-group-item list-group-item-action">
-                <div className="d-flex w-100 justify-content-between">
-                  <img
-                    src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
-                    width={50}
-                    className="img-fluid rounded-circle me-2"
-                  />
-                  <h5 className="mb-1">List group item heading</h5>
-                  <small className="text-muted">3 days ago</small>
-                </div>
-              </a>
-              <a href="#" className="list-group-item list-group-item-action">
-                <div className="d-flex w-100 justify-content-between">
-                  <img
-                    src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
-                    width={50}
-                    className="img-fluid rounded-circle me-2"
-                  />
-                  <h5 className="mb-1">List group item heading</h5>
-                  <small className="text-muted">3 days ago</small>
-                </div>
-              </a>
-              <a href="#" className="list-group-item list-group-item-action">
-                <div className="d-flex w-100 justify-content-between">
-                  <img
-                    src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
-                    width={50}
-                    className="img-fluid rounded-circle me-2"
-                  />
-                  <h5 className="mb-1">List group item heading</h5>
-                  <small className="text-muted">3 days ago</small>
-                </div>
-              </a>
-              <a href="#" className="list-group-item list-group-item-action">
-                <div className="d-flex w-100 justify-content-between">
-                  <img
-                    src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
-                    width={50}
-                    className="img-fluid rounded-circle me-2"
-                  />
-                  <h5 className="mb-1">List group item heading</h5>
-                  <small className="text-muted">3 days ago</small>
-                </div>
-              </a> */}
             </div>
           </>
+        )}
+        {userState === "ON_CALL" && (
+          <div>
+            <div className="rounded-circle mb-5">
+              <div className="m-auto w-50">
+                <img
+                  src="https://static.vecteezy.com/system/resources/previews/026/619/142/non_2x/default-avatar-profile-icon-of-social-media-user-photo-image-vector.jpg"
+                  alt="new"
+                  width={150}
+                />
+                <p>Muhammad Umar</p>
+              </div>
+            </div>
+            <div className="my-5 text-center">
+              <Timer />
+            </div>
+            <div className="d-flex justify-content-center my-5">
+              <button
+                className="btn btn-danger rounded-circle p-3"
+                onClick={() => {
+                  setIsDial(true);
+                  setShowContacts(false);
+                  setUserState("READY");
+                }}
+              >
+                <FaPhone size={22} />
+              </button>
+            </div>
+          </div>
         )}
 
         <footer className="w-100 d-flex p-1 gap-1">
           <button
             type="button"
             class="btn btn-primary btn-md "
-            onClick={() => setIsDial(!isDial)}
+            onClick={() => {
+              setIsDial(false);
+              setShowContacts(true);
+              setUserState("READY");
+            }}
           >
             <MdOutlineContacts />
             &nbsp; Contacts
@@ -351,7 +383,11 @@ const Dialer = () => {
           <button
             type="button"
             class="btn btn-primary btn-md w-50"
-            onClick={() => setIsDial(!isDial)}
+            onClick={() => {
+              setIsDial(true);
+              setShowContacts(false);
+              setUserState("READY");
+            }}
           >
             <IoIosKeypad className="mb-1" />
             &nbsp; Dial

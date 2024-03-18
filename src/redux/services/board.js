@@ -90,7 +90,7 @@ export const updateBoardRec = (token, board_id, data) => async (dispatch) => {
       },
     };
     await axios
-      .put(`${backendURL}/user/contact/board-update/${board_id}`, data, config)
+      .put(`${backendURL}/user/board/board-update/${board_id}`, data, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         if (response?.status !== 200) {

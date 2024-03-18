@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TaskHeader from "./components/TaskHeader";
 import TaskHeading from "./components/TaskHeading";
 import { CiMenuKebab } from "react-icons/ci";
@@ -6,8 +6,12 @@ import { CiMenuKebab } from "react-icons/ci";
 import moment from "moment";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { getTaskDetails } from "../../redux/services/project-task";
+import {
+  getTaskDetails,
+  updateTaskRec,
+} from "../../redux/services/project-task";
 const TasksContent = ({ tasksData, token }) => {
+  const [updateTaskData, setUpdateTaskData] = useState({});
   const dispatch = useDispatch();
   const pendingData =
     tasksData?.length > 0 &&
@@ -20,6 +24,15 @@ const TasksContent = ({ tasksData, token }) => {
     tasksData?.filter((task) => task.status === "completed");
   const handleUpdateTask = (id) => {
     dispatch(getTaskDetails(token, id));
+  };
+  const handleDragStart = (event, taskId) => {
+    setUpdateTaskData({ task_id: taskId });
+  };
+
+  const handleDrop = (event, status) => {
+    event.preventDefault();
+    dispatch(updateTaskRec(token, updateTaskData?.task_id, { status: status }));
+    setUpdateTaskData({});
   };
   return (
     <div>
@@ -191,7 +204,11 @@ const TasksContent = ({ tasksData, token }) => {
                     </div>
                   </div>
                 </div>
-                <div className="card card-simple card-border tasklist">
+                <div
+                  className="card card-simple card-border tasklist"
+                  onDrop={(event) => handleDrop(event, "pending")}
+                  onDragOver={(event) => event.preventDefault()}
+                >
                   <div className="card-header card-header-action">
                     <div className="tasklist-handle">
                       <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
@@ -256,6 +273,12 @@ const TasksContent = ({ tasksData, token }) => {
                           <div
                             className="card card-border card-simple tasklist-card"
                             key={index}
+                            draggable
+                            onDragStart={(event) =>
+                              handleDragStart(event, task.id)
+                            }
+                            // onDragStart={(e) => onDragStart(e, task.id)}
+                            // onDragEnd={(e) => onDragEnd(e)}
                           >
                             <div className="card-header card-header-action">
                               <h6 className="fw-bold">{task.name}</h6>
@@ -350,7 +373,11 @@ const TasksContent = ({ tasksData, token }) => {
                     </div>
                   </div>
                 </div>
-                <div className="card card-simple card-border tasklist">
+                <div
+                  className="card card-simple card-border tasklist"
+                  onDrop={(event) => handleDrop(event, "in-progress")}
+                  onDragOver={(event) => event.preventDefault()}
+                >
                   <div className="card-header card-header-action">
                     <div className="tasklist-handle">
                       <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
@@ -415,6 +442,10 @@ const TasksContent = ({ tasksData, token }) => {
                           <div
                             className="card card-border card-simple tasklist-card"
                             key={index}
+                            draggable
+                            onDragStart={(event) =>
+                              handleDragStart(event, task.id)
+                            }
                           >
                             <div className="card-header card-header-action">
                               <h6 className="fw-bold">{task.name}</h6>
@@ -509,7 +540,11 @@ const TasksContent = ({ tasksData, token }) => {
                     </div>
                   </div>
                 </div>
-                <div className="card card-simple card-border tasklist">
+                <div
+                  className="card card-simple card-border tasklist"
+                  onDrop={(event) => handleDrop(event, "completed")}
+                  onDragOver={(event) => event.preventDefault()}
+                >
                   <div className="card-header card-header-action">
                     <div className="tasklist-handle">
                       <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
@@ -574,6 +609,10 @@ const TasksContent = ({ tasksData, token }) => {
                           <div
                             className="card card-border card-simple tasklist-card"
                             key={index}
+                            draggable
+                            onDragStart={(event) =>
+                              handleDragStart(event, task.id)
+                            }
                           >
                             <div className="card-header card-header-action">
                               <h6 className="fw-bold">{task.name}</h6>

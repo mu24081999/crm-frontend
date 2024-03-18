@@ -22,6 +22,8 @@ const persistConfig = {
     "post",
     "calendar_event",
     "invoice",
+    "calling",
+    "message",
   ],
   whitelist: ["auth"],
 };

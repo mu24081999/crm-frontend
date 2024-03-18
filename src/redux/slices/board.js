@@ -48,6 +48,9 @@ export const boardSlice = createSlice({
       state.error = "";
       state.type = "success";
     },
+    addBoardHelper: (state, action) => {
+      state.boardDetails = action.payload;
+    },
     deleteBoard: (state, action) => {
       state.isLoading = false;
       state.message = action.payload;
@@ -66,4 +69,5 @@ export const {
   updateBoard,
   deleteBoard,
   boardDetails,
+  addBoardHelper,
 } = boardSlice.actions;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaArchive, FaRegEdit, FaStar, FaTrash, FaUsers } from "react-icons/fa";
 
 const Sidenav = ({
@@ -8,6 +8,7 @@ const Sidenav = ({
   onFilterDataFromChild,
   invoiceData,
 }) => {
+  const [activeBar, setActiveBar] = useState("all");
   const handleCreateClick = () => {
     onShowCreateDataFromChild(true);
     onShowListDataFromChild(false);
@@ -15,15 +16,18 @@ const Sidenav = ({
   };
   const handleAllClick = () => {
     const data = invoiceData?.filter(
-      (inv) => inv.status !== "blocked" && inv.status !== "archived"
+      (inv) => inv.activity !== "blocked" && inv.activity !== "archived"
     );
+    setActiveBar("all");
     onFilterDataFromChild(data);
     onShowListDataFromChild(true);
     onShowCreateDataFromChild(false);
     onShowDetailsDataFromChild(false);
   };
   const onDeleteClick = () => {
-    const data = invoiceData?.filter((inv) => inv.status === "blocked");
+    const data = invoiceData?.filter((inv) => inv.activity === "blocked");
+    setActiveBar("deleted");
+
     onFilterDataFromChild(data);
     onShowListDataFromChild(true);
     onShowCreateDataFromChild(false);
@@ -31,21 +35,26 @@ const Sidenav = ({
   };
   const onPendingClick = () => {
     const data = invoiceData?.filter((inv) => inv.status === "draft");
-    console.log("🚀 ~ onPendingClick ~ data:", data, invoiceData);
+    setActiveBar("draft");
+
     onFilterDataFromChild(data);
     onShowListDataFromChild(true);
     onShowCreateDataFromChild(false);
     onShowDetailsDataFromChild(false);
   };
   const onArchiveClick = () => {
-    const data = invoiceData?.filter((inv) => inv.status === "archived");
+    const data = invoiceData?.filter((inv) => inv.activity === "archived");
+    setActiveBar("archived");
+
     onFilterDataFromChild(data);
     onShowListDataFromChild(true);
     onShowCreateDataFromChild(false);
     onShowDetailsDataFromChild(false);
   };
   const onSentClick = () => {
-    const data = invoiceData?.filter((inv) => inv.status === "archived");
+    const data = invoiceData?.filter((inv) => inv.activity === "sent");
+    setActiveBar("sent");
+
     onFilterDataFromChild(data);
     onShowListDataFromChild(true);
     onShowCreateDataFromChild(false);
@@ -77,7 +86,7 @@ const Sidenav = ({
           </div>
           <div className="menu-group">
             <ul className="nav nav-light navbar-nav flex-column">
-              <li className="nav-item active">
+              <li className={`nav-item ${activeBar === "all" ? "active" : ""}`}>
                 <a className="nav-link" onClick={handleAllClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
@@ -88,7 +97,9 @@ const Sidenav = ({
                   <span className="nav-link-text">All Invoices</span>
                 </a>
               </li>
-              <li className="nav-item">
+              <li
+                className={`nav-item ${activeBar === "sent" ? "active" : ""}`}
+              >
                 <a className="nav-link" onClick={onSentClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
@@ -99,7 +110,11 @@ const Sidenav = ({
                   <span className="nav-link-text">Sent</span>
                 </a>
               </li>
-              <li className="nav-item">
+              <li
+                className={`nav-item ${
+                  activeBar === "archived" ? "active" : ""
+                }`}
+              >
                 <a className="nav-link" onClick={onArchiveClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
@@ -110,7 +125,9 @@ const Sidenav = ({
                   <span className="nav-link-text">Archived</span>
                 </a>
               </li>
-              <li className="nav-item">
+              <li
+                className={`nav-item ${activeBar === "draft" ? "active" : ""}`}
+              >
                 <a className="nav-link" onClick={onPendingClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
@@ -121,7 +138,11 @@ const Sidenav = ({
                   <span className="nav-link-text">Pending</span>
                 </a>
               </li>
-              <li className="nav-item">
+              <li
+                className={`nav-item ${
+                  activeBar === "deleted" ? "active" : ""
+                }`}
+              >
                 <a className="nav-link" onClick={onDeleteClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">

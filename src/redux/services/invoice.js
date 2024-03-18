@@ -86,13 +86,13 @@ export const updateInvoiceRec =
       dispatch(invoiceRequestLoading());
       const config = {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           "x-access-token": token,
         },
       };
       await axios
         .put(
-          `${backendURL}/user/contact/invoice-update/${invoice_id}`,
+          `${backendURL}/user/invoice/invoice-update/${invoice_id}`,
           data,
           config
         )
@@ -121,7 +121,7 @@ export const updateStatusRec =
       };
       await axios
         .put(
-          `${backendURL}/user/invoice/update-status/${invoice_id}`,
+          `${backendURL}/user/invoice/update-activity/${invoice_id}`,
           data,
           config
         )
@@ -138,6 +138,7 @@ export const updateStatusRec =
       dispatch(invalidRequest(e.message));
     }
   };
+
 export const deleteInvoiceRec = (token, invoice_id) => async (dispatch) => {
   try {
     dispatch(invoiceRequestLoading());

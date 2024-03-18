@@ -5,7 +5,7 @@ import { FaMailBulk, FaPhone, FaVideo } from "react-icons/fa";
 import InputField from "../../../components/FormFields/InputField";
 import { useForm } from "react-hook-form";
 
-const ContactDetails = ({ isEdit }) => {
+const ContactDetails = ({ contactDetails }) => {
   const {
     handleSubmit,
     // watch,
@@ -13,7 +13,6 @@ const ContactDetails = ({ isEdit }) => {
     // setValue,
     formState: { errors },
   } = useForm({});
-  const { contactDetails } = useSelector((state) => state.contact);
 
   return (
     <>

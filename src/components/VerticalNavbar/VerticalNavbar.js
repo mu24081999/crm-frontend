@@ -130,9 +130,9 @@ const VerticalNavbar = () => {
                         </Link>
                       </li>
                       <li className="nav-item">
-                        <a className="nav-link" href="chats-group.html">
+                        <Link className="nav-link" to="/chat-group">
                           <span className="nav-link-text">Groups</span>
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
                         <Link to={"/contacts"} className="nav-link">
@@ -181,9 +181,9 @@ const VerticalNavbar = () => {
                   <li className="nav-item">
                     <ul className="nav flex-column">
                       <li className="nav-item">
-                        <a className="nav-link" href="chatpopup.html">
+                        <Link className="nav-link" to="/direct-chat">
                           <span className="nav-link-text">Direct Message</span>
-                        </a>
+                        </Link>
                       </li>
                       <li className="nav-item">
                         <a className="nav-link" href="chatbot.html">

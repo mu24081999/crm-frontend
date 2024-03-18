@@ -5,17 +5,17 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import ChatAside from "../ChatAside/ChatAside";
-import SingleChat from "../Messages/SingleChat";
-import AudioCall from "../AudioCall/AudioCall";
-import VideoCall from "../VideoCall/VideoCall";
-import InvitePeople from "../InvitePeople/InvitePeople";
+import ChatAside from "./components/ChatAside/ChatAside";
+import SingleChat from "./components/Messages/SingleChat";
+import AudioCall from "./components/AudioCall/AudioCall";
+import VideoCall from "./components/VideoCall/VideoCall";
+import InvitePeople from "./components/InvitePeople/InvitePeople";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../../../../redux/services/users";
+import { getUsers } from "../../redux/services/users";
 import io from "socket.io-client";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { SocketContext } from "../../../../Context";
+import { SocketContext } from "../../Context";
 
 const ChatContent = () => {
   const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
@@ -36,6 +36,7 @@ const ChatContent = () => {
   const socket = useMemo(() => io(socketURL), [socketURL]);
   const [selectedRoom, setSelectedRoom] = useState({});
   const [messages, setMessages] = useState([]);
+  console.log("🚀 ~ ChatContent ~ messages:", messages);
   const [allMessages, setAllMessages] = useState([]);
 
   const { user, token } = useSelector((state) => state.auth);
@@ -51,7 +52,7 @@ const ChatContent = () => {
         },
       };
       await axios
-        .get(`${backendURL}/user/chat/get-rooms`, config)
+        .get(`${backendURL}/user/chat/get-group-rooms`, config)
         .then((response) => {
           setRooms(response.data.data.chatRoomsData);
         });
@@ -60,7 +61,7 @@ const ChatContent = () => {
     }
   }, [backendURL, token]);
   const getChats = useCallback(
-    async (room) => {
+    async (room_id) => {
       try {
         const config = {
           headers: {
@@ -69,10 +70,7 @@ const ChatContent = () => {
           },
         };
         await axios
-          .get(
-            `${backendURL}/user/chat/chat-history/${room?.user_id_1}/${room?.user_id_2}`,
-            config
-          )
+          .get(`${backendURL}/user/chat/group-chat-history/${room_id}`, config)
           .then((response) => {
             setMessages(response.data?.data.chatData);
           });
@@ -84,9 +82,9 @@ const ChatContent = () => {
   );
   useMemo(() => {
     if (selectedRoom) {
-      getChats(selectedRoom);
+      getChats(selectedRoom?.room_id);
     }
-  }, [getChats, selectedRoom]);
+  }, [selectedRoom, getChats]);
   const getAllChats = useCallback(
     async (room) => {
       try {
@@ -107,9 +105,33 @@ const ChatContent = () => {
     },
     [backendURL, token]
   );
+  const deleteChatRecord = useCallback(
+    async (room_id) => {
+      try {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": token,
+          },
+        };
+        await axios
+          .delete(
+            `${backendURL}/user/chat/delete-group-chat-history/${room_id}`,
+            config
+          )
+          .then((response) => {
+            console.log("🚀 ~ .then ~ response:", response);
+            getRooms();
+          });
+      } catch (error) {
+        toast.error(error.message);
+      }
+    },
+    [backendURL, token, getRooms]
+  );
   useMemo(() => {
-    if (selectedRoom) {
-      getChats(selectedRoom);
+    if (selectedRoom?.id) {
+      getChats(selectedRoom?.room_id);
     }
   }, [getChats, selectedRoom]);
   useEffect(() => {
@@ -120,19 +142,17 @@ const ChatContent = () => {
     }
   }, [token, dispatch, getRooms, getAllChats]);
   useEffect(() => {
-    // Listen for incoming messages
     socket.on("message_added", (data) => {
-      // setMessages([...messages, data]);
       setMessages(data);
     });
-    socket.on("room_added", (data) => {
-      setRooms(data);
+    socket.on("group_room_added", () => {
+      getRooms();
     });
 
     // return () => {
     //   socket.disconnect();
     // };
-  }, [socket]);
+  }, [socket, getRooms]);
   const handleDataFromChild = (data) => {
     setSelectedRoom(data);
   };
@@ -152,6 +172,7 @@ const ChatContent = () => {
                 authUser={user}
                 onDataFromChild={handleDataFromChild}
                 messages={allMessages}
+                deleteChatRecord={deleteChatRecord}
               />
               {selectedRoom?.id && (
                 <SingleChat

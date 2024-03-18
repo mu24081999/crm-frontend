@@ -1,7 +1,7 @@
 import _ from "lodash";
 import moment from "moment";
 import React from "react";
-import { FaArchive, FaRegEdit, FaTrash, FaTrashAlt } from "react-icons/fa";
+import { FaArchive, FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import {
   deleteInvoiceRec,
   getInvoiceDetails,
@@ -25,8 +25,14 @@ const InvoiceList = ({
   const handleDeleteClick = (invoice_id) => {
     dispatch(deleteInvoiceRec(token, invoice_id));
   };
+  const handleEditClick = (invoice_id) => {
+    dispatch(getInvoiceDetails(token, invoice_id));
+    onShowCreateDataFromChild(true);
+    onShowListDataFromChild(false);
+    onShowDetailsDataFromChild(false);
+  };
   const handleArchiveClick = (invoice_id) => {
-    dispatch(updateStatusRec(token, invoice_id, { status: "archived" }));
+    dispatch(updateStatusRec(token, invoice_id, { activity: "archived" }));
   };
   return (
     <div>
@@ -307,7 +313,7 @@ const InvoiceList = ({
                               data-bs-placement="top"
                               title=""
                               data-bs-original-title="Edit"
-                              // href="contact-details.html"
+                              onClick={() => handleEditClick(invoice?.id)}
                             >
                               <span className="btn-icon-wrap">
                                 <span className="feather-icon">

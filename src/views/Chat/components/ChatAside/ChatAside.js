@@ -1,9 +1,28 @@
 import React from "react";
 import ChatRooms from "../Rooms/ChatRooms";
-import { FaCog, FaPlus, FaUserCheck } from "react-icons/fa";
+import {
+  FaArchive,
+  FaBook,
+  FaCog,
+  FaPlus,
+  FaStar,
+  FaUserCheck,
+  FaUsers,
+} from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { IoIosMail } from "react-icons/io";
 
-const ChatAside = ({ rooms, authUser, socket, onDataFromChild, messages }) => {
+const ChatAside = ({
+  rooms,
+  authUser,
+  socket,
+  onDataFromChild,
+  messages,
+  deleteChatRecord,
+  updateChat,
+  onFilterDataFromChild,
+  rooms_,
+}) => {
   const { users } = useSelector((state) => state.user);
   function extractCharactersFromArray(str) {
     const firstCharacter = str?.charAt(0);
@@ -12,6 +31,11 @@ const ChatAside = ({ rooms, authUser, socket, onDataFromChild, messages }) => {
       spaceIndex !== -1 ? str.charAt(spaceIndex + 1) : "";
     return { firstCharacter, characterAfterSpace };
   }
+  const handleFilterData = (status) => {
+    const data =
+      rooms_?.length > 0 && rooms_?.filter((room) => room.status === status);
+    onFilterDataFromChild(data);
+  };
   return (
     <div>
       {" "}
@@ -28,33 +52,47 @@ const ChatAside = ({ rooms, authUser, socket, onDataFromChild, messages }) => {
             <h1>Chat</h1>
           </a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="chats.html">
+            <a class="dropdown-item" onClick={() => handleFilterData("all")}>
               <span class="feather-icon dropdown-icon">
-                <i data-feather="message-square"></i>
+                {/* <i data-feather="message-square"></i> */}
+                <IoIosMail />
               </span>
               <span>Chats</span>
             </a>
-            <a class="dropdown-item" href="chats-contact.html">
+            <a
+              class="dropdown-item"
+              onClick={() => handleFilterData("contacts")}
+            >
               <span class="feather-icon dropdown-icon">
-                <i data-feather="book"></i>
+                {/* <i data-feather="book"></i> */}
+                <FaBook />
               </span>
               <span>Contacts</span>
             </a>
-            <a class="dropdown-item" href="chats-group.html">
+            <a class="dropdown-item" onClick={() => handleFilterData("Groups")}>
               <span class="feather-icon dropdown-icon">
-                <i data-feather="users"></i>
+                {/* <i data-feather="users"></i> */}
+                <FaUsers />
               </span>
               <span>Groups</span>
             </a>
-            <a class="dropdown-item" href="/">
+            <a
+              class="dropdown-item"
+              onClick={() => handleFilterData("archived")}
+            >
               <span class="feather-icon dropdown-icon">
-                <i data-feather="archive"></i>
+                {/* <i data-feather="archive"></i> */}
+                <FaArchive />
               </span>
               <span>Archived</span>
             </a>
-            <a class="dropdown-item" href="/">
+            <a
+              class="dropdown-item"
+              onClick={() => handleFilterData("favourite")}
+            >
               <span class="feather-icon dropdown-icon">
-                <i data-feather="star"></i>
+                {/* <i data-feather="star"></i> */}
+                <FaStar />
               </span>
               <span>Favorites</span>
             </a>
@@ -249,6 +287,8 @@ const ChatAside = ({ rooms, authUser, socket, onDataFromChild, messages }) => {
             socket={socket}
             onDataFromChild={onDataFromChild}
             messages={messages}
+            deleteChatRecord={deleteChatRecord}
+            updateChat={updateChat}
           />
         </div>
       </div>

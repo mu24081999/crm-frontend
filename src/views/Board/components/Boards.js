@@ -1,8 +1,21 @@
 import React from "react";
-import { FaCopy, FaEdit, FaGlobe, FaTrash } from "react-icons/fa";
+import {
+  FaCopy,
+  FaEdit,
+  FaGlobe,
+  FaLock,
+  FaPlus,
+  FaRegStar,
+  FaStar,
+  FaTrash,
+} from "react-icons/fa";
 import { CiMenuKebab } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteBoardRec, getBoardDetails } from "../../../redux/services/board";
+import {
+  deleteBoardRec,
+  getBoardDetails,
+  updateBoardRec,
+} from "../../../redux/services/board";
 
 const Boards = ({ boardsData, onDataFromChild }) => {
   const { token } = useSelector((state) => state.auth);
@@ -10,16 +23,25 @@ const Boards = ({ boardsData, onDataFromChild }) => {
   const handleDelete = (id) => {
     dispatch(deleteBoardRec(token, id));
   };
-  const handleEditBoard = (id) => {
+  const handleEditBoard = (id, is_task) => {
     dispatch(getBoardDetails(token, id));
-    onDataFromChild(true);
+    if (is_task) onDataFromChild(true);
   };
+
+  const updateBoard = (board_id, visibility) => {
+    dispatch(
+      updateBoardRec(token, board_id, {
+        visibility: visibility,
+      })
+    );
+  };
+  const FrequentBoards = boardsData?.slice(-3);
   return (
     <div className="tab-pane fade show active" id="tab_boards">
       <h5 className="mb-5">Frequent Boards</h5>
       <div className="row">
-        {boardsData?.length > 0 &&
-          boardsData?.map((board, index) => (
+        {FrequentBoards?.length > 0 &&
+          FrequentBoards?.map((board, index) => (
             <div className="col-lg-6" key={index}>
               <div className="card board-card card-border">
                 <div className="card-body">
@@ -38,7 +60,12 @@ const Boards = ({ boardsData, onDataFromChild }) => {
                       </div>
                     </div>
                     <div className="media-body">
-                      <span>{board.name}</span>
+                      <a
+                        className="link-primary btn"
+                        onClick={() => handleEditBoard(board.id, true)}
+                      >
+                        {board.name}
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -62,32 +89,6 @@ const Boards = ({ boardsData, onDataFromChild }) => {
                             />
                           </div>
                         ))}
-                      {/* <div
-                        className="avatar avatar-rounded"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title=""
-                        data-bs-original-title="Dean"
-                      >
-                        <img
-                          src="dist/img/avatar13.jpg"
-                          alt="user"
-                          className="avatar-img"
-                        />
-                      </div>
-                      <div
-                        className="avatar avatar-rounded"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title=""
-                        data-bs-original-title="Morgan"
-                      >
-                        <img
-                          src="dist/img/avatar2.jpg"
-                          alt="user"
-                          className="avatar-img"
-                        />
-                      </div> */}
                       {board?.team_members?.team?.length > 3 && (
                         <div
                           className="avatar avatar-soft-danger avatar-rounded"
@@ -103,22 +104,40 @@ const Boards = ({ boardsData, onDataFromChild }) => {
                       )}
                     </div>
                   </div>
+
                   <div className="d-flex align-items-center">
                     <p className="p-xs me-2">Updated now</p>
                     <div className="flex-shrink-0">
+                      <span>
+                        {board?.visibility === "stared" ? (
+                          <FaStar
+                            color="gold"
+                            onClick={() => updateBoard(board.id, "public")}
+                          />
+                        ) : (
+                          <FaRegStar
+                            onClick={() => updateBoard(board.id, "stared")}
+                          />
+                        )}
+                      </span>
                       <a
                         className="btn btn-xs btn-icon btn-flush-primary btn-rounded flush-soft-hover"
-                        href="/"
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         title=""
                         data-bs-original-title="Public"
                       >
-                        <span className="icon">
-                          <span className="feather-icon">
-                            {/* <i data-feather="globe"></i> */}
-                            <FaGlobe />
-                          </span>
+                        <span>
+                          {board?.visibility === "public" && (
+                            <FaGlobe
+                              onClick={() => updateBoard(board.id, "public")}
+                            />
+                          )}{" "}
+                          {board?.visibility === "private" && (
+                            <FaLock
+                              onClick={() => updateBoard(board.id, "stared")}
+                            />
+                          )}
                         </span>
                       </a>
                       <a
@@ -140,6 +159,8 @@ const Boards = ({ boardsData, onDataFromChild }) => {
                       >
                         <button
                           className="dropdown-item"
+                          data-bs-toggle="modal"
+                          data-bs-target="#add_new_board"
                           onClick={() => handleEditBoard(board.id)}
                         >
                           <FaEdit />
@@ -149,7 +170,10 @@ const Boards = ({ boardsData, onDataFromChild }) => {
                           <FaCopy />
                           Copy Link
                         </a>
-                        <a className="dropdown-item" href="/">
+                        <a
+                          className="dropdown-item"
+                          onClick={() => handleDelete(board.id)}
+                        >
                           <FaTrash />
                           Delete
                         </a>
@@ -254,10 +278,15 @@ const Boards = ({ boardsData, onDataFromChild }) => {
       </div>
       <div className="d-flex justify-content-between align-items-center mb-5">
         <h5 className="mb-0">All Boards</h5>
-        <button className="btn btn-light btn-icon">
+        <button
+          className="btn btn-light btn-icon"
+          data-bs-toggle="modal"
+          data-bs-target="#add_new_board"
+        >
           <span className="icon">
             <span className="feather-icon">
-              <i data-feather="plus"></i>
+              {/* <i data-feather="plus"></i> */}
+              <FaPlus />
             </span>
           </span>
         </button>
@@ -283,7 +312,12 @@ const Boards = ({ boardsData, onDataFromChild }) => {
                       </div>
                     </div>
                     <div className="media-body">
-                      <span>{board.name}</span>
+                      <a
+                        className="link-primary btn"
+                        onClick={() => handleEditBoard(board.id)}
+                      >
+                        {board.name}
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -307,32 +341,6 @@ const Boards = ({ boardsData, onDataFromChild }) => {
                             />
                           </div>
                         ))}
-                      {/* <div
-                        className="avatar avatar-rounded"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title=""
-                        data-bs-original-title="Dean"
-                      >
-                        <img
-                          src="dist/img/avatar13.jpg"
-                          alt="user"
-                          className="avatar-img"
-                        />
-                      </div>
-                      <div
-                        className="avatar avatar-rounded"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title=""
-                        data-bs-original-title="Morgan"
-                      >
-                        <img
-                          src="dist/img/avatar2.jpg"
-                          alt="user"
-                          className="avatar-img"
-                        />
-                      </div> */}
                       {board?.team_members?.team?.length > 3 && (
                         <div
                           className="avatar avatar-soft-danger avatar-rounded"
@@ -348,22 +356,40 @@ const Boards = ({ boardsData, onDataFromChild }) => {
                       )}
                     </div>
                   </div>
+
                   <div className="d-flex align-items-center">
                     <p className="p-xs me-2">Updated now</p>
                     <div className="flex-shrink-0">
+                      <span>
+                        {board?.visibility === "stared" ? (
+                          <FaStar
+                            color="gold"
+                            onClick={() => updateBoard(board.id, "public")}
+                          />
+                        ) : (
+                          <FaRegStar
+                            onClick={() => updateBoard(board.id, "stared")}
+                          />
+                        )}
+                      </span>
                       <a
                         className="btn btn-xs btn-icon btn-flush-primary btn-rounded flush-soft-hover"
-                        href="/"
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         title=""
                         data-bs-original-title="Public"
                       >
-                        <span className="icon">
-                          <span className="feather-icon">
-                            {/* <i data-feather="globe"></i> */}
-                            <FaGlobe />
-                          </span>
+                        <span>
+                          {board?.visibility === "public" && (
+                            <FaGlobe
+                              onClick={() => updateBoard(board.id, "public")}
+                            />
+                          )}{" "}
+                          {board?.visibility === "private" && (
+                            <FaLock
+                              onClick={() => updateBoard(board.id, "stared")}
+                            />
+                          )}
                         </span>
                       </a>
                       <a
@@ -383,15 +409,23 @@ const Boards = ({ boardsData, onDataFromChild }) => {
                         role="menu"
                         className="dropdown-menu dropdown-menu-end"
                       >
-                        <a className="dropdown-item" href="/">
+                        <button
+                          className="dropdown-item"
+                          data-bs-toggle="modal"
+                          data-bs-target="#add_new_board"
+                          onClick={() => handleEditBoard(board.id)}
+                        >
                           <FaEdit />
                           Edit
-                        </a>
+                        </button>
                         <a className="dropdown-item" href="/">
                           <FaCopy />
                           Copy Link
                         </a>
-                        <a className="dropdown-item" href="/">
+                        <a
+                          className="dropdown-item"
+                          onClick={() => handleDelete(board.id)}
+                        >
                           <FaTrash />
                           Delete
                         </a>

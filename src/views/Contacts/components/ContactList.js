@@ -4,6 +4,7 @@ import {
   deleteContactRec,
   getContactDetais,
   getContactsList,
+  updateContactRec,
 } from "../../../redux/services/contact";
 import Loader from "../../../components/Loader/Loader";
 import {
@@ -11,29 +12,22 @@ import {
   FaArrowDown,
   FaCopy,
   FaEdit,
+  FaRegStar,
   FaStar,
   FaTrash,
 } from "react-icons/fa";
 import moment from "moment";
-import { Link } from "react-router-dom";
 
 const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
   const dispatch = useDispatch();
-  // const [contactsData, setContactData] = useState();
   const { token } = useSelector((state) => state.auth);
-  const { isLoading, contacts } = useSelector((state) => state.contact);
+  const { isLoading } = useSelector((state) => state.contact);
   useEffect(() => {
     if (token) {
       dispatch(getContactsList(token));
     }
   }, [dispatch, token]);
-  // useEffect(() => {
-  //   if (contacts.length > 0) {
-  //     setContactData(contacts);
-  //   }
-  // }, [contacts]);
   const handleDeleteContact = (contact_id) => {
-    console.log("🚀 ~ handleDeleteContact ~ contact_id:", contact_id);
     dispatch(deleteContactRec(token, contact_id));
     onToggleEdit(false);
   };
@@ -41,6 +35,10 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
     onToggleEdit(true);
     dispatch(getContactDetais(token, contact_id));
   };
+  const handleUpdateStatus = (contact_id, status) => {
+    dispatch(updateContactRec(token, contact_id, { status: status }));
+  };
+
   return (
     <div className="contact-list-view">
       {!isEdit && (
@@ -48,7 +46,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
           {isLoading ? (
             <Loader />
           ) : (
-            <table id="datable_1" className="table nowrap w-100 mb-5">
+            <table className="table w-100 mb-5">
               <thead>
                 <tr>
                   <th>
@@ -56,7 +54,6 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                       <input
                         type="checkbox"
                         className="form-check-input check-select-all"
-                        id="customCheck1"
                       />
                       <label
                         className="form-check-label"
@@ -83,7 +80,19 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                           <span className="contact-star marked">
                             <span className="feather-icon">
                               {/* <i data-feather="star"></i> */}
-                              <FaStar />
+                              {contact?.status === "important" ? (
+                                <FaStar
+                                  onClick={() =>
+                                    handleUpdateStatus(contact.id, "active")
+                                  }
+                                />
+                              ) : (
+                                <FaRegStar
+                                  onClick={() =>
+                                    handleUpdateStatus(contact.id, "important")
+                                  }
+                                />
+                              )}
                             </span>
                           </span>
                         </div>
@@ -134,7 +143,10 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                               data-placement="top"
                               title=""
                               data-bs-original-title="Archive"
-                              href="/"
+                              // href="/"
+                              onClick={() =>
+                                handleUpdateStatus(contact.id, "archived")
+                              }
                             >
                               <span className="icon">
                                 <span className="feather-icon">

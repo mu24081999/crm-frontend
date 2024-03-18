@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import InputField from "../../../components/FormFields/InputField";
 import ReactSelectField from "../../../components/FormFields/reactSelectField";
 
@@ -6,9 +6,9 @@ import { useForm } from "react-hook-form";
 import ReactColorInput from "../../../components/FormFields/reactColorInput";
 import FileField from "../../../components/FormFields/fileField";
 import { useDispatch, useSelector } from "react-redux";
-import { storeBoard } from "../../../redux/services/board";
+import { storeBoard, updateBoardRec } from "../../../redux/services/board";
 
-const AddNewTask = ({ teamsData }) => {
+const AddNewTask = ({ teamsData, boardDetails }) => {
   const {
     handleSubmit,
     // watch,
@@ -19,8 +19,23 @@ const AddNewTask = ({ teamsData }) => {
   } = useForm({});
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
+  useEffect(() => {
+    if (boardDetails) {
+      setValue("name", boardDetails?.name);
+      setValue("visibility", {
+        label: boardDetails?.visibility,
+        value: boardDetails?.visibility,
+      });
+      setValue("avatar_text", {
+        label: boardDetails?.avatar_text,
+        value: boardDetails?.avatar_text,
+      });
+      setValue("avatar_color", boardDetails?.avatar_color);
+      setValue("team_members", boardDetails?.team_members?.team);
+    }
+  }, [boardDetails, setValue]);
   const handleAddBoard = (data) => {
-    console.log("🚀 ~ handleAddBoard ~ data:", data);
+    console.log("🚀 ~ handleAddBoard ~ data:", boardDetails);
     const newData = {
       name: data.name,
       image: data.image,
@@ -37,7 +52,14 @@ const AddNewTask = ({ teamsData }) => {
     formData.append("avatar_color", newData.avatar_color);
     formData.append("team_members", JSON.stringify(newData.team_members));
 
-    dispatch(storeBoard(token, formData));
+    if (boardDetails.id) {
+      console.log("update");
+      dispatch(updateBoardRec(token, boardDetails?.id, formData));
+    } else {
+      console.log("store");
+
+      dispatch(storeBoard(token, formData));
+    }
     return reset();
   };
   return (
@@ -228,19 +250,21 @@ const AddNewTask = ({ teamsData }) => {
                       <input type="file" className="dropify-1" />
                     </div>
                   </div> */}
-                  <FileField
-                    control={control}
-                    errors={errors}
-                    multiple={false}
-                    name="image"
-                    type="file"
-                    rules={{
-                      required: {
-                        value: true,
-                        message: "Field required!",
-                      },
-                    }}
-                  />
+                  {!boardDetails && (
+                    <FileField
+                      control={control}
+                      errors={errors}
+                      multiple={false}
+                      name="image"
+                      type="file"
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
+                    />
+                  )}
                 </div>
               </div>
               <div className="modal-footer align-items-center">
@@ -252,7 +276,7 @@ const AddNewTask = ({ teamsData }) => {
                   Cancel
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  Add
+                  Submit
                 </button>
               </div>
             </form>

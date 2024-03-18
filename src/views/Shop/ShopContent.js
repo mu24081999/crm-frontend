@@ -2,15 +2,28 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "./components/SidebarContact";
 import Header from "./components/Header";
 import ContactList from "./components/ContactList";
-import AddContactList from "./components/AddContactList";
-import { useSelector } from "react-redux";
-import ContactDetails from "./components/ContactDetails";
+import SearchNumber from "./components/SearchNumber";
+import { useDispatch, useSelector } from "react-redux";
+import { getAvailableNumbers } from "../../redux/services/calling";
+import { useForm } from "react-hook-form";
 
 const ContactsContent = () => {
+  const {
+    handleSubmit,
+    watch,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm({});
   const [data, setData] = useState([]);
+  const [phoneNumbers, setPhoneNumbers] = useState([]);
+  const [phoneNumbers_, setPhoneNumbers_] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
-  console.log("🚀 ~ ContactsContent ~ isEdit:", isEdit);
+  const [isSearch, setIsSearch] = useState(false);
   const { contacts } = useSelector((state) => state.contact);
+  const { availableNumbers } = useSelector((state) => state.calling);
+  const { token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   useEffect(() => {
     if (contacts.length > 0) {
       const filterData = contacts.filter(
@@ -19,11 +32,23 @@ const ContactsContent = () => {
       setData(filterData);
     }
   }, [contacts]);
+  useEffect(() => {
+    if (availableNumbers.length > 0) {
+      setPhoneNumbers(availableNumbers);
+      setPhoneNumbers_(availableNumbers);
+    }
+  }, [availableNumbers]);
+  useEffect(() => {
+    dispatch(getAvailableNumbers(token));
+  }, [dispatch, token]);
   const handleReceiveData = (receivedData) => {
     setData(receivedData);
   };
   const handleToggleEdit = (value) => {
     setIsEdit(value);
+  };
+  const handleNumbersDataFromChild = (data) => {
+    setIsSearch(data);
   };
   return (
     <div className="hk-pg-wrapper pb-0">
@@ -36,11 +61,25 @@ const ContactsContent = () => {
               contactsData={contacts}
               onToggleEdit={handleToggleEdit}
             />
-            {isEdit && <ContactDetails isEdit={isEdit} />}
-
             {!isEdit && (
               <div className="contactapp-detail-wrap">
                 <Header />
+                <div className="px-5 pt-3">
+                  <button
+                    className="btn btn-primary btn-sm float-end"
+                    onClick={() => setIsSearch(!isSearch)}
+                  >
+                    Search
+                  </button>
+                </div>
+                {isSearch && (
+                  <SearchNumber
+                    numbersData={phoneNumbers_}
+                    onDataFromChild={handleNumbersDataFromChild}
+                    dispatch={dispatch}
+                    token={token}
+                  />
+                )}
                 <div className="contact-body">
                   <div data-simplebar className="nicescroll-bar">
                     <div className="collapse" id="collapseQuick">
@@ -148,7 +187,7 @@ const ContactsContent = () => {
                     </div>
 
                     <ContactList
-                      contactsData={data}
+                      contactsData={phoneNumbers}
                       onToggleEdit={handleToggleEdit}
                       isEdit={isEdit}
                     />
@@ -156,142 +195,6 @@ const ContactsContent = () => {
                 </div>
               </div>
             )}
-
-            {/* <!-- Edit Info --> */}
-            <div
-              id="add_new_contact"
-              className="modal fade add-new-contact"
-              tabIndex="-1"
-              role="dialog"
-              aria-hidden="true"
-            >
-              <div
-                className="modal-dialog modal-dialog-centered modal-lg"
-                role="document"
-              >
-                <div className="modal-content">
-                  <div className="modal-body">
-                    <button
-                      type="button"
-                      className="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <span aria-hidden="true">×</span>
-                    </button>
-                    <h5 className="mb-5">Create New Conatct</h5>
-                    <AddContactList />
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* <!-- /Edit Info --> */}
-
-            {/* <!-- Add Label --> */}
-            <div
-              id="add_new_label"
-              className="modal fade"
-              tabindex="-1"
-              role="dialog"
-              aria-hidden="true"
-            >
-              <div
-                className="modal-dialog modal-dialog-centered modal-sm"
-                role="document"
-              >
-                <div className="modal-content">
-                  <div className="modal-body">
-                    <button
-                      type="button"
-                      className="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <span aria-hidden="true">×</span>
-                    </button>
-                    <h6 className="text-uppercase fw-bold mb-3">Add Label</h6>
-                    <form>
-                      <div className="row gx-3">
-                        <div className="col-sm-12">
-                          <div className="form-group">
-                            <input
-                              className="form-control"
-                              type="text"
-                              placeholder="Label Name"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        className="btn btn-primary float-end"
-                        data-bs-dismiss="modal"
-                      >
-                        Add
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* <!-- Add Label --> */}
-
-            {/* <!-- Add Tag --> */}
-            <div
-              id="add_new_tag"
-              className="modal fade"
-              tabindex="-1"
-              role="dialog"
-              aria-hidden="true"
-            >
-              <div
-                className="modal-dialog modal-dialog-centered modal-sm"
-                role="document"
-              >
-                <div className="modal-content">
-                  <div className="modal-body">
-                    <button
-                      type="button"
-                      className="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <span aria-hidden="true">×</span>
-                    </button>
-                    <h6 className="text-uppercase fw-bold mb-3">Add Tag</h6>
-                    <form>
-                      <div className="row gx-3">
-                        <div className="col-sm-12">
-                          <div className="form-group">
-                            <select
-                              id="input_tags_3"
-                              className="form-control"
-                              multiple="multiple"
-                            >
-                              <option selected="selected">Collaborator</option>
-                              <option selected="selected">Designer</option>
-                              <option selected="selected">
-                                React Developer
-                              </option>
-                              <option selected="selected">Promotion</option>
-                              <option selected="selected">Advertisement</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        className="btn btn-primary float-end"
-                        data-bs-dismiss="modal"
-                      >
-                        Add
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* <!-- Add Tag --> */}
           </div>
         </div>
       </div>

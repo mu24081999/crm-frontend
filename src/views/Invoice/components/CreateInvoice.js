@@ -4,8 +4,10 @@ import { useForm } from "react-hook-form";
 import { FaEdit, FaPencilAlt, FaRegPlusSquare } from "react-icons/fa";
 import InputField from "../../../components/FormFields/InputField";
 import TextAreaField from "../../../components/FormFields/textAreaField";
-import moment from "moment";
-import { storeInvoice } from "../../../redux/services/invoice";
+import {
+  storeInvoice,
+  updateInvoiceRec,
+} from "../../../redux/services/invoice";
 import Checkbox from "../../../components/FormFields/checkboxField";
 import DatePickerFeild from "../../../components/FormFields/datePickerField";
 
@@ -15,6 +17,7 @@ const CreateInvoice = ({
   authUser,
   token,
   dispatch,
+  invoiceDetails,
 }) => {
   const {
     handleSubmit,
@@ -26,6 +29,7 @@ const CreateInvoice = ({
     formState: { errors },
   } = useForm({});
   const [logo, setLogo] = useState(null);
+  console.log("🚀 ~ logo:", logo);
   const [editTitle, setEditTitle] = useState(false);
   const [showShippingForm, setShowShipping] = useState(false);
   const [rowCount, setRowCount] = useState(0); // State to track the number of rows
@@ -34,6 +38,7 @@ const CreateInvoice = ({
   const extra_discount_watcher = watch("extra_discount_percentage");
   const subtotalArray = [];
   const discountArray = [];
+
   for (let index = 0; index < invoiceItemRowCount; index++) {
     const item_qty = watch(`item_qty_${index}`);
     const item_price = watch(`item_price_${index}`);
@@ -55,6 +60,7 @@ const CreateInvoice = ({
   const discount = discountArray?.reduce((accumulator, currentValue) => {
     return accumulator + currentValue;
   }, 0);
+
   useEffect(() => {
     if (subtotal) {
       setValue("subtotal", subtotal);
@@ -83,6 +89,84 @@ const CreateInvoice = ({
     const selectedLogo = e.currentTarget.files[0];
     setLogo(selectedLogo);
   };
+  useEffect(() => {
+    if (invoiceDetails) {
+      setValue("title", invoiceDetails?.title);
+      setValue("labelA", invoiceDetails?.invoice_details?.items[0].label);
+      setValue("labelB", invoiceDetails?.invoice_details?.items[1].label);
+      setValue("labelC", invoiceDetails?.invoice_details?.items[2].label);
+      setValue("valueA", invoiceDetails?.invoice_details?.items[0].value);
+      setValue("valueB", invoiceDetails?.invoice_details?.items[1].value);
+      setValue("valueC", invoiceDetails?.invoice_details?.items[2].value);
+      setRowCount(invoiceDetails?.invoice_details?.items?.length - 3);
+      for (let index = 0; index < rowCount; index++) {
+        setValue(
+          `label${index}`,
+          invoiceDetails?.invoice_details?.items[index + 3]?.label
+        );
+        setValue(
+          `value${index}`,
+          invoiceDetails?.invoice_details?.items[index + 3]?.value
+        );
+      }
+      setShowShipping(true);
+      setValue(
+        "client_business_name",
+        invoiceDetails?.shipping_info?.client_business_name
+      );
+      setValue("address", invoiceDetails?.shipping_info?.address);
+      setValue("city", invoiceDetails?.shipping_info?.city);
+      setValue("postal_code", invoiceDetails?.shipping_info?.postal_code);
+      setValue("state", invoiceDetails?.shipping_info?.state);
+      setValue("country", invoiceDetails?.shipping_info?.country);
+      setValue("GSTIN", invoiceDetails?.shipping_info?.GSTIN);
+      setInvoiceItemRowCount(invoiceDetails?.invoice_items?.items?.length);
+      for (let index = 0; index < invoiceItemRowCount; index++) {
+        setValue(
+          `item_name_${index}`,
+          invoiceDetails?.invoice_items?.items[index]?.name
+        );
+        setValue(
+          `item_qty_${index}`,
+          invoiceDetails?.invoice_items?.items[index]?.qty
+        );
+        setValue(
+          `item_price_${index}`,
+          invoiceDetails?.invoice_items?.items[index]?.price
+        );
+        setValue(
+          `item_discount_${index}`,
+          invoiceDetails?.invoice_items?.items[index]?.discount
+        );
+        setValue(
+          `item_total_${index}`,
+          invoiceDetails?.invoice_items?.items[index]?.total
+        );
+        setValue(
+          `item_description_${index}`,
+          invoiceDetails?.invoice_items?.items[index]?.description
+        );
+      }
+      setValue(
+        "extra_discount_percentage",
+        invoiceDetails?.extra_discount_percentage
+      );
+      setValue("note_to_client", invoiceDetails?.note_to_client);
+      setValue("from_name", invoiceDetails?.from_name);
+      setValue("from_label", invoiceDetails?.from_label);
+      setTermsRowsCount(invoiceDetails?.conditions?.items?.length);
+      for (let index = 0; index < termsRowsCount; index++) {
+        setValue(
+          `conditions_${index}`,
+          invoiceDetails?.conditions?.items[index]?.term
+        );
+      }
+      setValue("personal_memo", invoiceDetails?.personal_memo);
+      if (invoiceDetails?.status === "draft") {
+        setValue("save_to_draft", true);
+      }
+    }
+  }, [invoiceDetails, setValue, rowCount, invoiceItemRowCount, termsRowsCount]);
   const onInvoiceSubmit = (data) => {
     const invoiceItems = [];
     const invoiceDetailsEntries = [
@@ -147,8 +231,16 @@ const CreateInvoice = ({
     const invoiceConditionsStringify = JSON.stringify(invoiceConditionsJson);
     const invoiceItemsStringify = JSON.stringify(invoiceItemsJson);
     const shippingInfoStringify = JSON.stringify(shippingInfoJson);
-    const billedInfoStringify = JSON.stringify(billedInfo);
-    const businessInfoStringify = JSON.stringify(businessInfo);
+    const billedInfoStringify = JSON.stringify(
+      invoiceDetails && !billedInfo?.email
+        ? invoiceDetails?.bill_details
+        : billedInfo
+    );
+    const businessInfoStringify = JSON.stringify(
+      invoiceDetails && !businessInfo?.email
+        ? invoiceDetails?.business_info
+        : businessInfo
+    );
     const formData = new FormData();
     formData.append("user_id", authUser.id);
     formData.append("user_name", authUser.name);
@@ -179,7 +271,11 @@ const CreateInvoice = ({
     data?.save_to_draft
       ? formData.append("activity", "")
       : formData.append("activity", "sent");
-    dispatch(storeInvoice(token, formData));
+    if (invoiceDetails) {
+      dispatch(updateInvoiceRec(token, invoiceDetails?.id, formData));
+    } else {
+      dispatch(storeInvoice(token, formData));
+    }
   };
 
   const addRow = () => {
@@ -298,10 +394,14 @@ const CreateInvoice = ({
                     <div class="frame">
                       <div class="center">
                         <div class="dropzone">
-                          {logo ? (
+                          {logo || invoiceDetails ? (
                             <div>
                               <img
-                                src={URL.createObjectURL(logo)}
+                                src={
+                                  invoiceDetails && logo === null
+                                    ? invoiceDetails?.logo
+                                    : URL.createObjectURL(logo)
+                                }
                                 alt="Preview"
                                 width={100}
                               />
@@ -382,6 +482,14 @@ const CreateInvoice = ({
                           <p>{businessInfo?.address_line_1}</p>
                           <p>{businessInfo?.address_line_2}</p>
                           <p>{businessInfo?.email}</p>
+                        </div>
+                      )}
+                      {invoiceDetails && !businessInfo?.company_name && (
+                        <div className="address-wrap">
+                          <h6>{invoiceDetails?.business_info?.company_name}</h6>
+                          <p>{invoiceDetails?.business_info?.address_line_1}</p>
+                          <p>{invoiceDetails?.business_info?.address_line_2}</p>
+                          <p>{invoiceDetails?.business_info?.email}</p>
                         </div>
                       )}
                       <a
@@ -623,6 +731,14 @@ const CreateInvoice = ({
                         <p>{billedInfo?.address_line_1}</p>
                         <p>{billedInfo?.address_line_2}</p>
                         <p>{billedInfo?.email}</p>
+                      </div>
+                    )}
+                    {invoiceDetails && !billedInfo?.company_name && (
+                      <div className="address-wrap">
+                        <h6>{invoiceDetails?.bill_details?.company_name}</h6>
+                        <p>{invoiceDetails?.bill_details?.address_line_1}</p>
+                        <p>{invoiceDetails?.bill_details?.address_line_2}</p>
+                        <p>{invoiceDetails?.bill_details?.email}</p>
                       </div>
                     )}
                     <a

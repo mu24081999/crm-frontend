@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FaLayerGroup,
   FaLock,
@@ -7,7 +7,37 @@ import {
   FaTrash,
   FaUserCheck,
 } from "react-icons/fa";
-const SideNav = () => {
+import { addBoardHelper, updateBoard } from "../../../redux/slices/board";
+const SideNav = ({ boardsData, onDataFromChild, dispatch }) => {
+  const [activeBar, setActiveBar] = useState("all");
+  const onAllClick = () => {
+    setActiveBar("all");
+    const data = boardsData?.filter((board) => board.visibility !== "deleted");
+    onDataFromChild(data);
+  };
+  const onStaredClick = () => {
+    setActiveBar("stared");
+    const data = boardsData?.filter((board) => board.visibility === "stared");
+    onDataFromChild(data);
+  };
+  const onPublicClick = () => {
+    setActiveBar("public");
+    const data = boardsData?.filter((board) => board.visibility === "public");
+    onDataFromChild(data);
+  };
+  const onPrivateClick = () => {
+    setActiveBar("private");
+    const data = boardsData?.filter((board) => board.visibility === "private");
+    onDataFromChild(data);
+  };
+  const onDeletedClick = () => {
+    setActiveBar("deleted");
+    const data = boardsData?.filter((board) => board.visibility === "deleted");
+    onDataFromChild(data);
+  };
+  const handleAddBoard = () => {
+    dispatch(addBoardHelper({}));
+  };
   return (
     <nav className="taskboardapp-sidebar">
       <div data-simplebar className="nicescroll-bar">
@@ -16,13 +46,14 @@ const SideNav = () => {
             className="btn btn-primary btn-rounded btn-block mb-4"
             data-bs-toggle="modal"
             data-bs-target="#add_new_board"
+            onClick={handleAddBoard}
           >
             Add New Board
           </button>
           <div className="menu-group">
             <ul className="nav nav-light navbar-nav flex-column">
-              <li className="nav-item active">
-                <a className="nav-link" href="/">
+              <li className={`nav-item ${activeBar === "all" ? "active" : ""}`}>
+                <a className="nav-link" onClick={onAllClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="layout"></i> */}
@@ -32,8 +63,10 @@ const SideNav = () => {
                   <span className="nav-link-text">All Boards</span>
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/">
+              <li
+                className={`nav-item ${activeBar === "stared" ? "active" : ""}`}
+              >
+                <a className="nav-link" onClick={onStaredClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="star"></i> */}
@@ -43,8 +76,12 @@ const SideNav = () => {
                   <span className="nav-link-text">Stared Boards</span>
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/">
+              <li
+                className={`nav-item ${
+                  activeBar === "private" ? "active" : ""
+                }`}
+              >
+                <a className="nav-link" onClick={onPrivateClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="lock"></i> */}
@@ -54,8 +91,10 @@ const SideNav = () => {
                   <span className="nav-link-text">Private Boards</span>
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/">
+              <li
+                className={`nav-item ${activeBar === "public" ? "active" : ""}`}
+              >
+                <a className="nav-link" onClick={onPublicClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="user-check"></i> */}
@@ -65,8 +104,12 @@ const SideNav = () => {
                   <span className="nav-link-text">Public Boards</span>
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/">
+              <li
+                className={`nav-item ${
+                  activeBar === "deleted" ? "active" : ""
+                }`}
+              >
+                <a className="nav-link" onClick={onDeletedClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="trash-2"></i> */}

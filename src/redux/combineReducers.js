@@ -11,6 +11,8 @@ import galleryReducer from "./slices/gallery";
 import postReducer from "./slices/post";
 import calenderEventReducer from "./slices/calendar_event";
 import invoiceReducer from "./slices/invoice";
+import callingReducer from "./slices/calling";
+import messageReducer from "./slices/message";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -25,4 +27,6 @@ export const rootReducer = combineReducers({
   post: postReducer,
   calendar_event: calenderEventReducer,
   invoice: invoiceReducer,
+  calling: callingReducer,
+  message: messageReducer,
 });

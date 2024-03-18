@@ -66,7 +66,7 @@ const FileField = React.forwardRef((props, ref) => {
                 disabled={props.isDisabled}
                 placeholder={props.placeholder ? props.placeholder : ""}
                 value={fileName}
-                className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
+                className={` form-control ${
                   props.isDisabled && "bg-gray-50 cursor-not-allowed"
                 }  ${isHighLight && " bg-highLight  "}  `}
                 multiple
@@ -93,7 +93,7 @@ const FileField = React.forwardRef((props, ref) => {
         </div>
       </div>
       {props.rules && err && (
-        <p className=" text-xs text-red-600 h-3 bg-inherit" id="email-error">
+        <p className=" text-xs text-danger h-3 bg-light" id="email-error">
           {props.rules && err && props.rules && err?.message}
         </p>
       )}

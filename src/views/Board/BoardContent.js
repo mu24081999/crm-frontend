@@ -18,11 +18,12 @@ import Kanban from "./Kanban";
 const BoardContent = () => {
   const [toggleType, setToggleType] = useState("board");
   const [boardsData, setBoardsData] = useState([]);
+  const [boardsData_, setBoardsData_] = useState([]);
   const [teamsData, setTeamsData] = useState([]);
   const [tasksData, setTasksData] = useState([]);
   const [isShowTask, setShowTask] = useState(false);
   const { token } = useSelector((state) => state.auth);
-  const { boards } = useSelector((state) => state.board);
+  const { boards, boardDetails } = useSelector((state) => state.board);
   const { teams } = useSelector((state) => state.board_team);
   const { tasks } = useSelector((state) => state.board_task);
 
@@ -36,7 +37,9 @@ const BoardContent = () => {
     dispatch(getTasksList(token));
   }, [token, dispatch]);
   useEffect(() => {
-    setBoardsData(boards);
+    const data = boards?.filter((board) => board.visibility !== "deleted");
+    setBoardsData_(boards);
+    setBoardsData(data);
   }, [boards]);
   useEffect(() => {
     setTeamsData(teams);
@@ -47,6 +50,9 @@ const BoardContent = () => {
   const hnadleShowTask = (value) => {
     setShowTask(value);
   };
+  const handleDataFromSidebar = (data) => {
+    setBoardsData(data);
+  };
   return (
     <div>
       {/* <!-- Main Content --> */}
@@ -54,13 +60,18 @@ const BoardContent = () => {
         {/* <!-- Page Body --> */}
         <div className="hk-pg-body py-0">
           <div className="taskboardapp-wrap">
-            <SideNav />
+            <SideNav
+              onDataFromChild={handleDataFromSidebar}
+              boardsData={boardsData_}
+              dispatch={dispatch}
+              token={token}
+            />
 
             <div className="taskboardapp-content">
               <div className="taskboardapp-detail-wrap">
                 {isShowTask && (
-                  // <TasksContent tasksData={tasksData} token={token} />
-                  <Kanban />
+                  <TasksContent tasksData={tasksData} token={token} />
+                  // <Kanban />
                 )}
                 {!isShowTask && (
                   <>
@@ -86,7 +97,7 @@ const BoardContent = () => {
               </div>
 
               {/* <!-- Add New Task --> */}
-              <AddNewTask teamsData={teamsData} />
+              <AddNewTask teamsData={teamsData} boardDetails={boardDetails} />
               {/* <!-- /Add New Task --> */}
 
               {/* <!-- Add New Member --> */}

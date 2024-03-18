@@ -13,9 +13,9 @@ const Header = () => {
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <h1>Available Contacts</h1>
+            <h1>Available Phone Numbers</h1>
           </a>
-          <div className="dropdown-menu">
+          {/* <div className="dropdown-menu">
             <a className="dropdown-item" href="/">
               <span className="feather-icon dropdown-icon">
                 <i data-feather="users"></i>
@@ -46,9 +46,9 @@ const Header = () => {
               </span>
               <span>Deleted</span>
             </a>
-          </div>
+          </div> */}
         </div>
-        <div className="dropdown ms-3">
+        {/* <div className="dropdown ms-3">
           <button
             className="btn btn-sm btn-outline-secondary flex-shrink-0 dropdown-toggle d-lg-inline-block d-none"
             data-bs-toggle="dropdown"
@@ -69,7 +69,7 @@ const Header = () => {
               Add New Tag
             </a>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="contact-options-wrap">
         <a

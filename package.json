@@ -32,6 +32,7 @@
     "react": "^18.2.0",
     "react-calendar": "^4.8.0",
     "react-copy-to-clipboard": "^5.1.0",
+    "react-country-state-fields": "^1.0.5",
     "react-datepicker": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.0",
@@ -52,6 +53,9 @@
     "serve": "^14.2.1",
     "simple-peer": "^9.11.1",
     "socket.io-client": "^4.7.4",
+    "twilio": "^5.0.1",
+    "twilio-client": "^1.15.1",
+    "uuid": "^9.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

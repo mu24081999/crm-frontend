@@ -23,6 +23,8 @@ import Post from "./views/Posts/Post";
 import Calender from "./views/Calender/Calender";
 import EmailsBulk from "./views/EmailsBulk/Email";
 import Invoice from "./views/Invoice/Invoice";
+import ChatGroup from "./views/ChatGroup/Chat";
+import DirectChat from "./views/ChatPopup/Chat";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +34,14 @@ const router = createBrowserRouter([
   {
     path: "/test",
     element: <Test />,
+  },
+  {
+    path: "/direct-chat",
+    element: <DirectChat />,
+  },
+  {
+    path: "/chat-group",
+    element: <ChatGroup />,
   },
   {
     path: "/bulk-emails",

@@ -221,7 +221,7 @@ const AddContactList = () => {
           </div> */}
           <InputField
             name="phone"
-            placeholder="Your phone number"
+            placeholder="Phone number"
             label="Phone Number"
             control={control}
             rules={{

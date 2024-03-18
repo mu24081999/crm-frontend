@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-
-const ChatRooms = ({ rooms, authUser, socket, onDataFromChild, messages }) => {
+import { CiMenuKebab } from "react-icons/ci";
+const ChatRooms = ({
+  rooms,
+  authUser,
+  socket,
+  onDataFromChild,
+  messages,
+  deleteChatRecord,
+  updateChat,
+}) => {
   const [selectedRoom, setSelectedRoom] = useState("");
   const sendDataToParent = () => {
     // Call the callback function with the data from the child
@@ -8,9 +16,7 @@ const ChatRooms = ({ rooms, authUser, socket, onDataFromChild, messages }) => {
   };
 
   const roomClickHandler = (room) => {
-    console.log("🚀 ~ roomClickHandler ~ room:", room);
     setSelectedRoom(room);
-    console.log("🚀 ~ ChatRooms ~ selectedRoom:", room.name);
     sendDataToParent();
     socket.emit("joinRoom", { roomId: room.name });
   };
@@ -29,6 +35,12 @@ const ChatRooms = ({ rooms, authUser, socket, onDataFromChild, messages }) => {
       return inputDate.toLocaleDateString("en-US", options);
     }
   }
+  const handleDeleteChat = (room_id) => {
+    deleteChatRecord(room_id);
+  };
+  const handleEditChat = (room_id, status) => {
+    updateChat(room_id, { status: status });
+  };
   return (
     <div>
       {" "}
@@ -93,21 +105,36 @@ const ChatRooms = ({ rooms, authUser, socket, onDataFromChild, messages }) => {
                         >
                           <span class="icon">
                             <span class="feather-icon">
-                              <i data-feather="more-horizontal"></i>
+                              {/* <i data-feather="more-horizontal"></i> */}
+                              <CiMenuKebab />
                             </span>
                           </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
-                          <a class="dropdown-item" href="/">
+                          <a
+                            class="dropdown-item"
+                            onClick={() => handleEditChat(room.name, "muted")}
+                          >
                             Mute Chat
                           </a>
-                          <a class="dropdown-item" href="/">
+                          <a
+                            class="dropdown-item"
+                            onClick={() =>
+                              handleEditChat(room.name, "archived")
+                            }
+                          >
                             Archive Chat
                           </a>
-                          <a class="dropdown-item" href="/">
+                          <a
+                            class="dropdown-item"
+                            onClick={() => handleDeleteChat(room.name)}
+                          >
                             Delete Chat
                           </a>
-                          <a class="dropdown-item link-danger" href="/">
+                          <a
+                            class="dropdown-item link-danger"
+                            onClick={() => handleEditChat(room.name, "blocked")}
+                          >
                             Block
                           </a>
                         </div>
@@ -121,519 +148,6 @@ const ChatRooms = ({ rooms, authUser, socket, onDataFromChild, messages }) => {
         ) : (
           <li>No rooms till.</li>
         )}
-        {/* <li class="list-group-item">
-          <div class="media read-chat active-user">
-            <div class="media-head">
-              <div class="avatar avatar-sm avatar-rounded position-relative">
-                <img src="dist/img/avatar8.jpg" alt="user" class="avatar-img" />
-                <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
-              </div>
-            </div>
-            <div class="media-body">
-              <div>
-                <div class="user-name">Huma Therman</div>
-                <div class="user-last-chat">
-                  Typing<span class="one">.</span>
-                  <span class="two">.</span>
-                  <span class="three">.</span>
-                </div>
-              </div>
-              <div>
-                <div class="last-chat-time">10:25 PM</div>
-                <div class="dropdown action-drp">
-                  <a
-                    href="/"
-                    class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                    data-bs-toggle="dropdown"
-                  >
-                    <span class="icon">
-                      <span class="feather-icon">
-                        <i data-feather="more-horizontal"></i>
-                      </span>
-                    </span>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="/">
-                      Mute Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Archive Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Delete Chat
-                    </a>
-                    <a class="dropdown-item link-danger" href="/">
-                      Block
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="media">
-            <div class="media-head">
-              <div class="avatar avatar-sm avatar-rounded">
-                <img
-                  src="dist/img/avatar13.jpg"
-                  alt="user"
-                  class="avatar-img"
-                />
-              </div>
-            </div>
-            <div class="media-body">
-              <div>
-                <div class="user-name">Charlie Chaplin</div>
-                <div class="user-last-chat">
-                  Hello mike, thank you for inviting
-                </div>
-              </div>
-              <div>
-                <div class="last-chat-time">5 min</div>
-                <div class="badge badge-primary badge-sm badge-pill">2</div>
-                <div class="dropdown action-drp">
-                  <a
-                    href="/"
-                    class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                    data-bs-toggle="dropdown"
-                  >
-                    <span class="icon">
-                      <span class="feather-icon">
-                        <i data-feather="more-horizontal"></i>
-                      </span>
-                    </span>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="/">
-                      Mute Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Archive Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Delete Chat
-                    </a>
-                    <a class="dropdown-item link-danger" href="/">
-                      Block
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="media  read-chat">
-            <div class="media-head">
-              <div class="avatar avatar-sm avatar-soft-danger avatar-rounded">
-                <span class="initial-wrap">W</span>
-              </div>
-            </div>
-            <div class="media-body">
-              <div>
-                <div class="user-name">Winston Churchil</div>
-                <div class="user-last-chat">
-                  Show me what reports you have left
-                </div>
-              </div>
-              <div>
-                <div class="last-chat-time">3:15 PM</div>
-                <div class="dropdown action-drp">
-                  <a
-                    href="/"
-                    class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                    data-bs-toggle="dropdown"
-                  >
-                    <span class="icon">
-                      <span class="feather-icon">
-                        <i data-feather="more-horizontal"></i>
-                      </span>
-                    </span>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="/">
-                      Mute Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Archive Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Delete Chat
-                    </a>
-                    <a class="dropdown-item link-danger" href="/">
-                      Block
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="media read-chat">
-            <div class="media-head">
-              <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
-                <img src="dist/img/avatar1.jpg" alt="user" class="avatar-img" />
-                <div class="badge-icon badge-circle badge-icon-xxs text-white position-bottom-end-overflow-1">
-                  <div class="badge-icon-wrap">
-                    <i class="ri-group-fill text-light"></i>
-                  </div>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127 127">
-                    <g
-                      data-name="Ellipse 302"
-                      transform="translate(8 8)"
-                      stroke-width="3"
-                    >
-                      <circle
-                        cx="55.5"
-                        cy="55.5"
-                        r="55.5"
-                        stroke="currentColor"
-                      ></circle>
-                      <circle
-                        cx="55.5"
-                        cy="55.5"
-                        r="59.5"
-                        fill="currentColor"
-                      ></circle>
-                    </g>
-                  </svg>
-                </div>
-              </div>
-            </div>
-            <div class="media-body">
-              <div>
-                <div class="user-name">😐 Office Board</div>
-                <div class="user-last-chat">
-                  Huma: great work <span class="text-primary">@jaquiline</span>{" "}
-                  you have done a great job
-                </div>
-              </div>
-              <div>
-                <div class="last-chat-time">Yesterday</div>
-                <div class="dropdown action-drp">
-                  <a
-                    href="/"
-                    class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                    data-bs-toggle="dropdown"
-                  >
-                    <span class="icon">
-                      <span class="feather-icon">
-                        <i data-feather="more-horizontal"></i>
-                      </span>
-                    </span>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="/">
-                      Mute Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Archive Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Delete Chat
-                    </a>
-                    <a class="dropdown-item link-danger" href="/">
-                      Block
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="media read-chat">
-            <div class="media-head">
-              <div class="avatar avatar-sm avatar-rounded position-relative">
-                <img
-                  src="dist/img/avatar15.jpg"
-                  alt="user"
-                  class="avatar-img"
-                />
-                <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
-              </div>
-            </div>
-            <div class="media-body">
-              <div>
-                <div class="user-name">Boss Baby</div>
-                <div class="user-last-chat">Meeting in the morning</div>
-              </div>
-              <div>
-                <div class="last-chat-time">5:23 AM</div>
-                <div class="dropdown action-drp">
-                  <a
-                    href="/"
-                    class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                    data-bs-toggle="dropdown"
-                  >
-                    <span class="icon">
-                      <span class="feather-icon">
-                        <i data-feather="more-horizontal"></i>
-                      </span>
-                    </span>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="/">
-                      Mute Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Archive Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Delete Chat
-                    </a>
-                    <a class="dropdown-item link-danger" href="/">
-                      Block
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="media read-chat">
-            <div class="media-head">
-              <div class="avatar avatar-sm avatar-primary avatar-rounded">
-                <span class="initial-wrap">H</span>
-              </div>
-            </div>
-            <div class="media-body">
-              <div>
-                <div class="user-name">Hencework</div>
-                <div class="user-last-chat">
-                  give me the last copy of jampack
-                </div>
-              </div>
-              <div>
-                <div class="last-chat-time">24 Jan</div>
-                <div class="dropdown action-drp">
-                  <a
-                    href="/"
-                    class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                    data-bs-toggle="dropdown"
-                  >
-                    <span class="icon">
-                      <span class="feather-icon">
-                        <i data-feather="more-horizontal"></i>
-                      </span>
-                    </span>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="/">
-                      Mute Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Archive Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Delete Chat
-                    </a>
-                    <a class="dropdown-item link-danger" href="/">
-                      Block
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="media">
-            <div class="media-head">
-              <div class="avatar avatar-sm avatar-rounded position-relative">
-                <img src="dist/img/avatar3.jpg" alt="user" class="avatar-img" />
-                <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
-              </div>
-            </div>
-            <div class="media-body">
-              <div>
-                <div class="user-name">Jaquiline Joker</div>
-                <div class="user-last-chat">
-                  This is my test chat msg last one
-                </div>
-              </div>
-              <div>
-                <div class="last-chat-time">4:05 AM</div>
-                <div class="badge badge-primary badge-sm badge-pill">37</div>
-                <div class="dropdown action-drp">
-                  <a
-                    href="/"
-                    class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                    data-bs-toggle="dropdown"
-                  >
-                    <span class="icon">
-                      <span class="feather-icon">
-                        <i data-feather="more-horizontal"></i>
-                      </span>
-                    </span>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="/">
-                      Mute Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Archive Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Delete Chat
-                    </a>
-                    <a class="dropdown-item link-danger" href="/">
-                      Block
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="media read-chat">
-            <div class="media-head">
-              <div class="avatar avatar-sm avatar-rounded position-relative">
-                <img src="dist/img/avatar7.jpg" alt="user" class="avatar-img" />
-                <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
-              </div>
-            </div>
-            <div class="media-body">
-              <div>
-                <div class="user-name">Tom Cruz</div>
-                <div class="user-last-chat text-danger">
-                  <span class="feather-icon fe-x me-1">
-                    <i data-feather="phone-call"></i>
-                  </span>
-                  Missed call
-                </div>
-              </div>
-              <div>
-                <div class="last-chat-time">7:40PM</div>
-                <div class="dropdown action-drp">
-                  <a
-                    href="/"
-                    class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                    data-bs-toggle="dropdown"
-                  >
-                    <span class="icon">
-                      <span class="feather-icon">
-                        <i data-feather="more-horizontal"></i>
-                      </span>
-                    </span>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="/">
-                      Mute Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Archive Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Delete Chat
-                    </a>
-                    <a class="dropdown-item link-danger" href="/">
-                      Block
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="media read-chat">
-            <div class="media-head">
-              <div class="avatar avatar-sm avatar-rounded">
-                <img src="dist/img/avatar9.jpg" alt="user" class="avatar-img" />
-              </div>
-            </div>
-            <div class="media-body">
-              <div>
-                <div class="user-name">Katherine Jones</div>
-                <div class="user-last-chat">
-                  Hi!!! I was wondering if you are free
-                </div>
-              </div>
-              <div>
-                <div class="last-chat-time">Yesterday</div>
-                <div class="dropdown action-drp">
-                  <a
-                    href="/"
-                    class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                    data-bs-toggle="dropdown"
-                  >
-                    <span class="icon">
-                      <span class="feather-icon">
-                        <i data-feather="more-horizontal"></i>
-                      </span>
-                    </span>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="/">
-                      Mute Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Archive Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Delete Chat
-                    </a>
-                    <a class="dropdown-item link-danger" href="/">
-                      Block
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="list-group-item">
-          <div class="media read-chat">
-            <div class="media-head">
-              <div class="avatar avatar-sm avatar-soft-info avatar-rounded">
-                <span class="initial-wrap">D</span>
-              </div>
-            </div>
-            <div class="media-body">
-              <div>
-                <div class="user-name">Danial Craig</div>
-                <div class="user-last-chat">
-                  Boss is looking for you in the office
-                </div>
-              </div>
-              <div>
-                <div class="last-chat-time">3:15PM</div>
-                <div class="dropdown action-drp">
-                  <a
-                    href="/"
-                    class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                    data-bs-toggle="dropdown"
-                  >
-                    <span class="icon">
-                      <span class="feather-icon">
-                        <i data-feather="more-horizontal"></i>
-                      </span>
-                    </span>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="/">
-                      Mute Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Archive Chat
-                    </a>
-                    <a class="dropdown-item" href="/">
-                      Delete Chat
-                    </a>
-                    <a class="dropdown-item link-danger" href="/">
-                      Block
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li> */}
       </ul>
     </div>
   );

@@ -26,7 +26,7 @@ const InvoiceContent = () => {
   useEffect(() => {
     if (invoices?.length > 0) {
       const data = invoices?.filter(
-        (inv) => inv.status !== "blocked" && inv.status !== "archived"
+        (inv) => inv.activity !== "blocked" && inv.activity !== "archived"
       );
       setInvoiceData(data);
       setInvoiceData_(invoices);
@@ -85,6 +85,7 @@ const InvoiceContent = () => {
                   dispatch={dispatch}
                   token={token}
                   authUser={user}
+                  invoiceDetails={invoiceDetails}
                 />
               )}
             </div>

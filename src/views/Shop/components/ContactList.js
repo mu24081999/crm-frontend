@@ -6,16 +6,7 @@ import {
   getContactsList,
 } from "../../../redux/services/contact";
 import Loader from "../../../components/Loader/Loader";
-import {
-  FaArchive,
-  FaArrowDown,
-  FaCopy,
-  FaEdit,
-  FaStar,
-  FaTrash,
-} from "react-icons/fa";
-import moment from "moment";
-import { Link } from "react-router-dom";
+import { FaStar } from "react-icons/fa";
 import { getUsers } from "../../../redux/services/users";
 
 const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
@@ -45,33 +36,30 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
   };
   return (
     <div className="contact-list-view">
+      {/* <div className="bg-primary p-2 rounded mb-5">
+        <h5 className="pt-2 fw-bold" style={{ color: "white" }}>
+          Phone Numbers
+        </h5>
+      </div> */}
       {!isEdit && (
         <>
           {isLoading ? (
             <Loader />
           ) : (
-            <table id="datable_1" className="table nowrap w-100 mb-5">
+            <table
+              data-sticky-header
+              className="table table-striped w-100 mb-5"
+            >
               <thead>
-                <tr>
-                  <th>
-                    <span className="form-check mb-0">
-                      <input
-                        type="checkbox"
-                        className="form-check-input check-select-all"
-                        id="customCheck1"
-                      />
-                      <label
-                        className="form-check-label"
-                        for="customCheck1"
-                      ></label>
-                    </span>
-                  </th>
-                  <th>Prefix</th>
-                  <th>Country Code</th>
+                <tr className="sticky-top border rounded">
                   <th>Number</th>
+                  <th>Type</th>
                   <th>Voice</th>
-                  <th>Chat</th>
-                  <th>Status</th>
+                  <th>SMS</th>
+                  <th>MMS</th>
+                  <th>FAX</th>
+                  <th>Address Requirement</th>
+                  <th>Monthly Fee</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -81,29 +69,51 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                   contactsData?.map((contact) => (
                     <tr>
                       <td>
-                        <div className="d-flex align-items-center">
-                          <span className="contact-star marked">
-                            <span className="feather-icon">
-                              {/* <i data-feather="star"></i> */}
-                              <FaStar />
-                            </span>
-                          </span>
+                        <div className="fw-bold">
+                          {contact?.phoneNumber?.slice(0, 2)}&nbsp;&nbsp;
+                          {contact?.friendlyName}
+                        </div>
+                        <div className="fs-5">
+                          {contact?.locality} ,{contact?.region}{" "}
+                          {contact?.isoCountry}
                         </div>
                       </td>
-                      <td>744</td>
-                      <td>🏴+51</td>
-                      <td className="">5454343</td>
-                      <td>
-                        <input type="radio" checked />
+                      <td>Local</td>
+                      <td className="">
+                        {" "}
+                        <input
+                          className=""
+                          type="radio"
+                          checked={contact?.capabilities?.voice}
+                        />
                       </td>
                       <td>
-                        <input type="radio" disabled />
+                        <input
+                          className=""
+                          type="radio"
+                          checked={contact?.capabilities?.SMS}
+                        />
                       </td>
-                      <td className="text-success">Available</td>
+                      <td>
+                        <input
+                          className=""
+                          type="radio"
+                          checked={contact?.capabilities?.MMS}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          className=""
+                          type="radio"
+                          checked={contact?.capabilities?.fax}
+                        />
+                      </td>
+                      <td>{contact?.addressRequirements}</td>
+                      <td className="fw-bold">7.76 $</td>
                       <td>
                         <div className="d-flex align-items-center">
                           <div className="d-flex">
-                            <button className="btn btn-primary">Get</button>
+                            <button className="btn btn-primary">Buy</button>
                           </div>
                         </div>
                       </td>
