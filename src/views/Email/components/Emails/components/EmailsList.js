@@ -2,6 +2,7 @@ import moment from "moment";
 import React from "react";
 import { FaArchive, FaRegStar, FaStar, FaTrash } from "react-icons/fa";
 import { updateEmailRec } from "../../../../../redux/services/email";
+import _ from "lodash";
 const EmailsList = ({ emailsData, emails, onEmailDetail, dispatch, token }) => {
   const handleEmailClick = (id) => {
     const repliesData = emails.filter((email) => email.parent_id === id);
@@ -17,34 +18,56 @@ const EmailsList = ({ emailsData, emails, onEmailDetail, dispatch, token }) => {
     dispatch(updateEmailRec(token, email_id, { isRead: true, status: status }));
     return {};
   };
+  function extractCharactersFromArray(str) {
+    const firstCharacter = str?.charAt(0);
+    const spaceIndex = str?.indexOf(" ");
+    const characterAfterSpace =
+      spaceIndex !== -1 ? str.charAt(spaceIndex + 1) : "";
+    return { firstCharacter, characterAfterSpace };
+  }
   return (
-    <ul class="email-list list-group list-group-flush">
+    <ul className="email-list list-group list-group-flush">
       {emailsData?.length > 0 &&
         emailsData?.map((email, index) => (
           <li
             onClick={() => handleEmailClick(email.id)}
-            class="list-group-item"
+            className={`list-group-item`}
             key={index}
           >
-            <div class="media">
-              <div class="media-head">
-                <div class="avatar avatar-sm avatar-rounded">
+            <div className="media">
+              <div className="media-head">
+                {/* <div class="avatar avatar-sm avatar-rounded position-relative">
+                  <span
+                    class="initial-wrap bg-primary"
+                    style={{ color: "white" }}
+                  >
+                    {_.capitalize(
+                      extractCharactersFromArray(email?.sender).firstCharacter
+                    ) +
+                      _.capitalize(
+                        extractCharactersFromArray(email?.sender)
+                          .characterAfterSpace
+                      )}
+                  </span>
+                  <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
+                </div> */}
+                <div className="avatar avatar-sm avatar-rounded">
                   <img
                     // src="dist/img/avatar2.jpg"
                     src={email?.sender?.avatar}
                     alt="user"
-                    class="avatar-img"
+                    className="avatar-img"
                   />
                 </div>
-                <span class="badge badge-primary badge-indicator badge-indicator-nobdr"></span>
+                <span className="badge badge-primary badge-indicator badge-indicator-nobdr"></span>
               </div>
-              <div class="media-body">
+              <div className="media-body">
                 <div>
                   <div>
-                    <div class="email-head">{email?.sender?.name}</div>
+                    <div className="email-head">{email?.sender?.name}</div>
                     <div>
-                      <span class="email-star marked">
-                        <span class="feather-icon pt-1">
+                      <span className="email-star marked">
+                        <span className="feather-icon pt-1">
                           {/* <i data-feather="star"></i> */}
                           {email?.status === "important" ? (
                             <FaStar
@@ -78,13 +101,13 @@ const EmailsList = ({ emailsData, emails, onEmailDetail, dispatch, token }) => {
                         </span>
                       </span>
 
-                      <div class="email-time">
+                      <div className="email-time">
                         {moment(email.created_at, "h:mm A").format("h:mm A")}
                       </div>
                     </div>
                   </div>
-                  <div class="email-subject">{email.subject}</div>
-                  <div class="email-text">
+                  <div className="email-subject">{email.subject}</div>
+                  <div className="email-text">
                     <p>{email?.body?.slice(0, 200)}</p>
                   </div>
                 </div>

@@ -51,7 +51,7 @@ const ComposeEmail = () => {
     const formData = new FormData();
 
     // Append other form fields
-    formData.append("subject", "Contact");
+    formData.append("subject", data.subject);
     formData.append("body", data.body);
     formData.append("type", "email");
     formData.append("from", user.email);

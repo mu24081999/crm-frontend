@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "./components/SidebarContact";
 import Header from "./components/Header";
-import ContactList from "./components/ContactList";
+import RecordingList from "./components/RecordingList";
 import SearchNumber from "./components/SearchNumber";
 import { useDispatch, useSelector } from "react-redux";
-import { getAvailableNumbers } from "../../redux/services/calling";
+import {
+  getAvailableNumbers,
+  recordingsList,
+} from "../../redux/services/calling";
 import { useForm } from "react-hook-form";
 
 const ContactsContent = () => {
@@ -21,7 +24,10 @@ const ContactsContent = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const { contacts } = useSelector((state) => state.contact);
-  const { availableNumbers } = useSelector((state) => state.calling);
+  const { availableNumbers, recordings } = useSelector(
+    (state) => state.calling
+  );
+  console.log("🚀 ~ ContactsContent ~ recordings:", recordings);
   const { token, accountSid, accountAuthToken } = useSelector(
     (state) => state.auth
   );
@@ -41,8 +47,9 @@ const ContactsContent = () => {
     }
   }, [availableNumbers]);
   useEffect(() => {
+    // dispatch(getAvailableNumbers(token));
     dispatch(
-      getAvailableNumbers(token, {
+      recordingsList(token, {
         accountSid: accountSid,
         authToken: accountAuthToken,
       })
@@ -63,11 +70,11 @@ const ContactsContent = () => {
       <div className="hk-pg-body py-0">
         <div className="contactapp-wrap">
           <div className="contactapp-content">
-            {/* <Sidebar
+            <Sidebar
               onSendData={handleReceiveData}
               contactsData={contacts}
               onToggleEdit={handleToggleEdit}
-            /> */}
+            />
             {!isEdit && (
               <div className="contactapp-detail-wrap">
                 <Header />
@@ -85,8 +92,6 @@ const ContactsContent = () => {
                     onDataFromChild={handleNumbersDataFromChild}
                     dispatch={dispatch}
                     token={token}
-                    accountSid={accountSid}
-                    authToken={accountAuthToken}
                   />
                 )}
                 <div className="contact-body">
@@ -195,10 +200,11 @@ const ContactsContent = () => {
                       </div>
                     </div>
 
-                    <ContactList
+                    <RecordingList
                       contactsData={phoneNumbers}
                       onToggleEdit={handleToggleEdit}
                       isEdit={isEdit}
+                      recordingsData={recordings}
                     />
                   </div>
                 </div>

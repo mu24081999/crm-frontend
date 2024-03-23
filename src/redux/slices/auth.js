@@ -7,6 +7,8 @@ export const authSlice = createSlice({
     isLoading: false,
     user: {},
     user_id: "",
+    accountSid: "",
+    accountAuthToken: "",
     message: "",
     error: "",
     token: "",
@@ -102,6 +104,10 @@ export const authSlice = createSlice({
       state.message = "";
       state.error = "";
     },
+    setAccount: (state, action) => {
+      state.accountSid = action.payload.accountSid;
+      state.accountAuthToken = action.payload.accountAuthToken;
+    },
   },
 });
 
@@ -117,4 +123,5 @@ export const {
   reloadPage,
   updatedMe,
   verifyOtp,
+  setAccount,
 } = authSlice.actions;

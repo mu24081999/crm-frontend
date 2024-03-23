@@ -25,6 +25,7 @@ import EmailsBulk from "./views/EmailsBulk/Email";
 import Invoice from "./views/Invoice/Invoice";
 import ChatGroup from "./views/ChatGroup/Chat";
 import DirectChat from "./views/ChatPopup/Chat";
+import Recordings from "./views/Recordings/Recording";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: "/test",
     element: <Test />,
+  },
+  {
+    path: "/recordings",
+    element: <Recordings />,
   },
   {
     path: "/direct-chat",

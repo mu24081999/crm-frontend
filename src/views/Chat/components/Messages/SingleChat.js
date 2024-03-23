@@ -62,6 +62,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
     }
   }, [usersArray, authUser, selectedRoom]);
   const [selectedFile, setSelectedFile] = useState(null);
+  console.log("🚀 ~ SingleChat ~ selectedFile:", selectedFile);
 
   const [files, setFiles] = useState([]);
 
@@ -70,40 +71,61 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
   const sendMessage = () => {
     // if (e.key === "Enter") {
 
-    let formData;
+    // let formData;
+    // if (selectedFile) {
+    //   formData = {
+    //     sender:
+    //       selectedRoom && selectedRoom?.user_id_1 === authUser?.id
+    //         ? selectedRoom.user_id_1
+    //         : selectedRoom?.user_id_2,
+    //     recipient:
+    //       selectedRoom && selectedRoom?.user_id_1 === authUser?.id
+    //         ? selectedRoom.user_id_2
+    //         : selectedRoom?.user_id_1,
+    //     room: selectedRoom?.name,
+    //     file_name: selectedFile.name,
+    //     file_data: selectedFile,
+    //     file_size: selectedFile.size,
+    //     file_type: selectedFile.type,
+    //     type: "file",
+    //   };
+    // } else {
+    //   formData = {
+    //     sender:
+    //       selectedRoom && selectedRoom?.user_id_1 === authUser?.id
+    //         ? selectedRoom.user_id_1
+    //         : selectedRoom?.user_id_2,
+    //     recipient:
+    //       selectedRoom && selectedRoom?.user_id_1 === authUser?.id
+    //         ? selectedRoom.user_id_2
+    //         : selectedRoom?.user_id_1,
+    //     room: selectedRoom?.name,
+    //     message: message,
+    //     type: "text",
+    //   };
+    // }
+    const formData_ = new FormData();
+    formData_.append(
+      "sender",
+      selectedRoom && selectedRoom?.user_id_1 === authUser?.id
+        ? selectedRoom.user_id_1
+        : selectedRoom?.user_id_2
+    );
+    formData_.append(
+      "recipient",
+      selectedRoom && selectedRoom?.user_id_1 === authUser?.id
+        ? selectedRoom.user_id_2
+        : selectedRoom?.user_id_1
+    );
+    formData_.append("room", selectedRoom?.name);
+    formData_.append("message", message);
     if (selectedFile) {
-      formData = {
-        sender:
-          selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-            ? selectedRoom.user_id_1
-            : selectedRoom?.user_id_2,
-        recipient:
-          selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-            ? selectedRoom.user_id_2
-            : selectedRoom?.user_id_1,
-        room: selectedRoom?.name,
-        file_name: selectedFile.name,
-        file_data: selectedFile,
-        file_size: selectedFile.size,
-        file_type: selectedFile.type,
-        type: "file",
-      };
+      formData_.append("file", selectedFile);
+      formData_.append("type", "file");
     } else {
-      formData = {
-        sender:
-          selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-            ? selectedRoom.user_id_1
-            : selectedRoom?.user_id_2,
-        recipient:
-          selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-            ? selectedRoom.user_id_2
-            : selectedRoom?.user_id_1,
-        room: selectedRoom?.name,
-        message: message,
-        type: "text",
-      };
+      formData_.append("type", "text");
     }
-    socket.emit("chat_message", formData);
+    socket.emit("chat_message", formData_);
     // socket.emit("chat_message", messageData);
     setMessage("");
     setSelectedFile("");

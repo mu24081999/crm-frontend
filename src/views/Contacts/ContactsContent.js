@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Sidebar from "./components/SidebarContact";
 import Header from "./components/Header";
 import ContactList from "./components/ContactList";
@@ -7,9 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import ContactDetails from "./components/ContactDetails";
 import "./contact.css";
 import ContactCards from "./components/ContactCards";
+import { SocketContext } from "../../Context";
 const ContactsContent = () => {
+  const { handleToggleShowLeadDetail, showLeadDetails } =
+    useContext(SocketContext);
   const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
+  const { token, user } = useSelector((state) => state.auth);
   const { contactDetails } = useSelector((state) => state.contact);
   const [data, setData] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -27,7 +30,7 @@ const ContactsContent = () => {
     setData(receivedData);
   };
   const handleToggleEdit = (value) => {
-    setIsEdit(value);
+    // setIsEdit(value);
   };
   const handleViewDataFromHeader = (value) => {
     setView(value);
@@ -44,11 +47,17 @@ const ContactsContent = () => {
               contactsData={contacts}
               onToggleEdit={handleToggleEdit}
             />
-            {isEdit && (
-              <ContactDetails isEdit={isEdit} contactDetails={contactDetails} />
+            {showLeadDetails && (
+              <ContactDetails
+                isEdit={isEdit}
+                contactDetails={contactDetails}
+                dispatch={dispatch}
+                token={token}
+                authUser={user}
+              />
             )}
 
-            {!isEdit && (
+            {!showLeadDetails && (
               <div className="contactapp-detail-wrap">
                 <Header
                   onDataFromChild={handleViewDataFromHeader}

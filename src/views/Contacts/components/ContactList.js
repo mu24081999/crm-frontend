@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteContactRec,
@@ -17,8 +17,12 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import moment from "moment";
+import { Link } from "react-router-dom";
+import { SocketContext } from "../../../Context";
 
 const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
+  const { handleToggleShowLeadDetail, showLeadDetails } =
+    useContext(SocketContext);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { isLoading } = useSelector((state) => state.contact);
@@ -32,8 +36,9 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
     onToggleEdit(false);
   };
   const handleToggle = (contact_id) => {
-    onToggleEdit(true);
-    dispatch(getContactDetais(token, contact_id));
+    // onToggleEdit(true);
+    // dispatch(getContactDetais(token, contact_id));
+    handleToggleShowLeadDetail(true, contact_id, token);
   };
   const handleUpdateStatus = (contact_id, status) => {
     dispatch(updateContactRec(token, contact_id, { status: status }));
@@ -102,17 +107,28 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                           <div className="media-head me-2">
                             <div className="avatar avatar-xs avatar-rounded">
                               <img
-                                src={contact.avatar}
+                                src={
+                                  contact.avatar ||
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj0HSlpGrcoSJqHfu9TPqo_WhhuWwq8t8zb5lbp5ES8w&s"
+                                }
                                 alt="user"
                                 className="avatar-img"
                               />
                             </div>
                           </div>
                           <div className="media-body">
-                            <span className="d-block text-high-em">
-                              {contact.lastname},{contact.firstname}{" "}
-                              {contact.middlename}
-                            </span>
+                            <a
+                              className="badge badge-primary "
+                              onClick={() => handleToggle(contact.id)}
+                            >
+                              <span
+                                className="d-block text-high-em"
+                                style={{ color: "white" }}
+                              >
+                                {contact.lastname},{contact.firstname}{" "}
+                                {contact.middlename}
+                              </span>
+                            </a>
                           </div>
                         </div>
                       </td>
@@ -183,7 +199,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                               </span>
                             </button>
                           </div>
-                          <div className="dropdown">
+                          {/* <div className="dropdown">
                             <button
                               className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
                               aria-expanded="false"
@@ -191,7 +207,6 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                             >
                               <span className="icon">
                                 <span className="feather-icon">
-                                  {/* <i data-feather="more-vertical"></i> */}
                                   <FaArrowDown />
                                 </span>
                               </span>
@@ -203,7 +218,6 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                                 // href="edit-contact.html"
                               >
                                 <span className="feather-icon dropdown-icon">
-                                  {/* <i data-feather="edit"></i> */}
                                   <FaEdit />
                                 </span>
                                 <span>Edit Contact</span>
@@ -214,14 +228,12 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                                 href="/"
                               >
                                 <span className="feather-icon dropdown-icon">
-                                  {/* <i data-feather="trash-2"></i> */}
                                   <FaTrash />
                                 </span>
                                 <span>Delete</span>
                               </button>
                               <a className="dropdown-item" href="/">
                                 <span className="feather-icon dropdown-icon">
-                                  {/* <i data-feather="copy"></i> */}
                                   <FaCopy />
                                 </span>
                                 <span>Duplicate</span>
@@ -243,7 +255,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                                 Human Resource
                               </a>
                             </div>
-                          </div>
+                          </div> */}
                         </div>
                       </td>
                     </tr>

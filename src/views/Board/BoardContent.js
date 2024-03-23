@@ -14,16 +14,20 @@ import AddNewProjectTask from "./components/AddNewProjectTask";
 import { getTasksList } from "../../redux/services/project-task";
 import EditProjectTask from "./components/EditProjectTask";
 import Kanban from "./Kanban";
+import { getContactsList } from "../../redux/services/contact";
 
 const BoardContent = () => {
   const [toggleType, setToggleType] = useState("board");
   const [boardsData, setBoardsData] = useState([]);
+  const [contactsData, setContactsData] = useState([]);
+  console.log("🚀 ~ BoardContent ~ contactsData:", contactsData);
   const [boardsData_, setBoardsData_] = useState([]);
   const [teamsData, setTeamsData] = useState([]);
   const [tasksData, setTasksData] = useState([]);
   const [isShowTask, setShowTask] = useState(false);
   const { token } = useSelector((state) => state.auth);
   const { boards, boardDetails } = useSelector((state) => state.board);
+  const { contacts } = useSelector((state) => state.contact);
   const { teams } = useSelector((state) => state.board_team);
   const { tasks } = useSelector((state) => state.board_task);
 
@@ -35,6 +39,7 @@ const BoardContent = () => {
     dispatch(getBoardList(token));
     dispatch(getBoardTeamList(token));
     dispatch(getTasksList(token));
+    dispatch(getContactsList(token));
   }, [token, dispatch]);
   useEffect(() => {
     const data = boards?.filter((board) => board.visibility !== "deleted");
@@ -47,6 +52,9 @@ const BoardContent = () => {
   useEffect(() => {
     setTasksData(tasks);
   }, [tasks]);
+  useEffect(() => {
+    setContactsData(contacts);
+  }, [contacts]);
   const hnadleShowTask = (value) => {
     setShowTask(value);
   };
@@ -70,7 +78,11 @@ const BoardContent = () => {
             <div className="taskboardapp-content">
               <div className="taskboardapp-detail-wrap">
                 {isShowTask && (
-                  <TasksContent tasksData={tasksData} token={token} />
+                  <TasksContent
+                    tasksData={tasksData}
+                    contactsData={contactsData}
+                    token={token}
+                  />
                   // <Kanban />
                 )}
                 {!isShowTask && (

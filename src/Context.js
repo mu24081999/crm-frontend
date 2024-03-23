@@ -4,6 +4,7 @@ import Peer from "simple-peer";
 import { useDispatch, useSelector } from "react-redux";
 import { updatedMe } from "./redux/slices/auth";
 import ringTone from "./assets/ringtone.mp3";
+import { getContactDetais } from "./redux/services/contact";
 
 const SocketContext = createContext();
 const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
@@ -16,6 +17,7 @@ const ContextProvider = ({ children }) => {
   const [openCalling, setOpenCalling] = useState(false);
   const [isCalling, setIsCalling] = useState(false);
   const [ringing, setRinging] = useState(false);
+  const [showLeadDetails, setShowLeadDetails] = useState(false);
   const [stream, setStream] = useState();
   const [name, setName] = useState("");
   const [call, setCall] = useState({});
@@ -29,6 +31,12 @@ const ContextProvider = ({ children }) => {
   const sendTextMessage = (data) => {
     console.log("🚀 ~ sendTextMessage ~ data:", data);
     socket.emit("send-message", data);
+  };
+  const handleToggleShowLeadDetail = (value, contact_id, token) => {
+    if (contact_id && token) {
+      dispatch(getContactDetais(token, contact_id));
+    }
+    setShowLeadDetails(value);
   };
 
   //open dialog
@@ -233,6 +241,7 @@ const ContextProvider = ({ children }) => {
         callEnded,
         me,
         messagesArray,
+        showLeadDetails,
         calling,
         readyForCall,
         readyForAudioCall,
@@ -241,6 +250,7 @@ const ContextProvider = ({ children }) => {
         leaveCall,
         answerCall,
         sendTextMessage,
+        handleToggleShowLeadDetail,
       }}
     >
       {children}

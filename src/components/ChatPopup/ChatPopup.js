@@ -1,5 +1,6 @@
 import React from "react";
 import { FaEnvelope } from "react-icons/fa";
+import Dialer from "../../components/PhoneDialer/Dialer";
 
 const ChatPopup = () => {
   return (
@@ -272,28 +273,17 @@ const ChatPopup = () => {
           </div>
         </footer>
       </div>
-      <a
+      <Dialer />
+      {/* <a
         href="/"
         className="btn btn-icon btn-floating btn-primary btn-lg btn-rounded btn-popup-open"
       >
         <span className="icon">
           <span className="feather-icon">
-            {/* <i data-feather="message-circle"></i> */}
             <FaEnvelope />
           </span>
         </span>
-      </a>
-      <a
-        href="/"
-        className="btn btn-icon btn-floating btn-primary btn-lg btn-rounded btn-popup-open"
-      >
-        <span className="icon">
-          <span className="feather-icon">
-            {/* <i data-feather="message-circle"></i> */}
-            <FaEnvelope />
-          </span>
-        </span>
-      </a>
+      </a> */}
       {/* <div className="chat-popover shadow-xl">
         <p>Try Jampack Chat for free and connect with your customers now!</p>
       </div> */}

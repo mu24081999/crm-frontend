@@ -53,23 +53,42 @@ const Dialer = () => {
   const [inputValue, setInputValue] = useState("");
   const [isDial, setIsDial] = useState(true);
   const [showContacts, setShowContacts] = useState(false);
+  const [isDialerOpen, setIsDialerOpen] = useState(false);
+  const [callStatus, setCallStatus] = useState(null);
   const [twilioDevice, setTwilioDevice] = useState(null);
   const [userState, setUserState] = useState("READY");
-  const [connection, setConnection] = useState(null);
+  const [activeCall, setActiveCall] = useState(null);
   const [active, setActive] = useState(true);
   const dispatch = useDispatch();
-  const { token, user } = useSelector((state) => state.auth);
+  const { token, user, accountSid, accountAuthToken } = useSelector(
+    (state) => state.auth
+  );
   const { contacts } = useSelector((state) => state.contact);
   // const { users } = useSelector((state) => state.user);
   const backendURL = process.env.REACT_APP_BACKEND_URL_PRODUCTION;
   useEffect(() => {
     axios
-      .get(backendURL + "/user/calling/get-call-token")
+      .post(
+        backendURL + "/user/calling/get-call-token",
+        {
+          from_phone: user.phone,
+          accountSid: accountSid,
+          identity: user.username,
+          authToken: accountAuthToken,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-access-token": token,
+          },
+        }
+      )
       .then((resp) => {
         const device = new Device();
         device.setup(resp.data.token, {
           logLevel: 1,
           edge: "ashburn",
+          debug: true,
         });
         setTwilioDevice(device);
       })
@@ -81,6 +100,20 @@ const Dialer = () => {
       }
     };
   }, [backendURL]);
+  useEffect(() => {
+    if (twilioDevice) {
+      twilioDevice.on("incoming", (call) => {
+        console.log("incoming call", call);
+        setIsDialerOpen(true);
+        setActiveCall(call);
+        setUserState("ON_CALL");
+        setCallStatus("INCOMING");
+        setIsDial(false);
+        setShowContacts(false);
+        console.log("Call comming");
+      });
+    }
+  }, [twilioDevice]);
 
   useEffect(() => {
     // dispatch(getUsers(token));
@@ -89,16 +122,21 @@ const Dialer = () => {
   const makeCall = () => {
     const params = { To: inputValue };
     const outgoingCall = twilioDevice.connect(params);
-    outgoingCall.on("accept", () => {
+    outgoingCall.on("accept", (call) => {
+      console.log(call, "call accepted");
+      setActiveCall(call);
       setUserState("ON_CALL");
       setIsDial(false);
       setShowContacts(false);
+      setCallStatus("STARTED");
       console.log("Call accepted");
     });
     outgoingCall.on("reject", () => {
-      setUserState("ON_CALL");
+      setUserState("READY");
       setIsDial(true);
       setShowContacts(false);
+      setCallStatus(null);
+
       console.log("Call accepted");
     });
     outgoingCall.on("disconnect", () => {
@@ -106,6 +144,7 @@ const Dialer = () => {
       setIsDial(true);
       setShowContacts(false);
       console.log("Call disconnected");
+      setCallStatus(null);
     });
 
     // dispatch(
@@ -129,6 +168,22 @@ const Dialer = () => {
       setInputValue("");
     }
   };
+  const handleDisconnectCall = () => {
+    if (activeCall) {
+      activeCall.disconnect(); // Disconnect the active call
+      setActiveCall(null); // Reset active call state
+      setIsDial(true);
+      setShowContacts(false);
+      setUserState("READY");
+    }
+  };
+  const handleAcceptCall = () => {
+    if (activeCall) {
+      activeCall.accept(); // Disconnect the active call
+      setCallStatus("STARTED");
+      setUserState("ON_CALL");
+    }
+  };
   function extractCharactersFromArray(str) {
     const firstCharacter = str?.charAt(0);
     const spaceIndex = str?.indexOf(" ");
@@ -139,17 +194,21 @@ const Dialer = () => {
 
   return (
     <div
-      className=" d-flex justify-content-end float-end"
-      style={{
-        bottom: "80px",
-        position: "absolute",
-        width: "100%",
-        paddingRight: "1.6%",
-      }}
+      className=" d-flex justify-content-end btn btn-icon btn-floating btn-primary btn-lg btn-rounded btn-popup-open"
+      // style={{
+      //   bottom: "80px",
+      //   position: "absolute",
+      //   width: "100%",
+      //   paddingRight: "1.6%",
+      // }}
     >
       <Popup
+        open={isDialerOpen}
         trigger={
-          <button className="btn btn-icon btn-floating btn-primary btn-lg btn-rounded shadow-lg">
+          <button
+            className="btn btn-icon btn-floating btn-primary btn-lg btn-rounded shadow-lg"
+            id="dialer_button"
+          >
             {" "}
             {<FaPhone />}
           </button>
@@ -349,20 +408,32 @@ const Dialer = () => {
                 <p>Muhammad Umar</p>
               </div>
             </div>
-            <div className="my-5 text-center">
-              <Timer />
-            </div>
-            <div className="d-flex justify-content-center my-5">
-              <button
-                className="btn btn-danger rounded-circle p-3"
-                onClick={() => {
-                  setIsDial(true);
-                  setShowContacts(false);
-                  setUserState("READY");
-                }}
-              >
-                <FaPhone size={22} />
-              </button>
+            {callStatus === "STARTED" && (
+              <div className="my-5 text-center">
+                <Timer />
+              </div>
+            )}
+            <div className="d-flex justify-content-around ">
+              {/* {callStatus === "INCOMING" && ( */}
+              <div className="d-flex justify-content-center my-5 mx-1">
+                <button
+                  className="btn btn-danger rounded-circle p-3"
+                  onClick={handleDisconnectCall}
+                >
+                  <FaPhone size={22} />
+                </button>
+              </div>
+              {/* )} */}
+              {callStatus === "INCOMING" && (
+                <div className="d-flex justify-content-center my-5 mx-1">
+                  <button
+                    className="btn btn-success rounded-circle p-3"
+                    onClick={handleAcceptCall}
+                  >
+                    <FaPhone size={22} />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}

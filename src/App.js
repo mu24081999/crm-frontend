@@ -11,7 +11,6 @@ const App = () => {
   document.getElementsByClassName("hk-sidebar-togglable");
   return (
     <>
-      <Dialer />
       <ToastContainer />
       <RouterProvider router={router} />;
     </>

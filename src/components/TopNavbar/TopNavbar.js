@@ -1,19 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/services/auth";
 import _ from "lodash";
 import Dialer from "../PhoneDialer/Dialer";
+import { FaPlus } from "react-icons/fa";
+import { getUserSubAccountsList } from "../../redux/services/calling";
+import { setAccount } from "../../redux/slices/auth";
 
-const TopNavbar = () => {
+const TopNavbar = ({ subAccounts }) => {
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
+  const [selectedAccount, setSelectedAccount] = useState(user);
+  // const { subAccounts } = useSelector((state) => state.calling);
   const handleLogOut = () => {
     dispatch(logoutUser(token));
   };
+  useDispatch(() => {
+    dispatch(getUserSubAccountsList(token));
+  }, [token]);
   const username = user?.username;
   const avatarHeading = _.toUpper(username?.slice(0, 2));
   // const avatarHeading = "UM";
-
+  const handleAccountClick = (account) => {
+    console.log(account);
+    setSelectedAccount(account);
+    dispatch(
+      setAccount({
+        accountSid: account?.sid,
+        accountAuthToken: account?.authToken,
+      })
+    );
+  };
   return (
     <nav className="hk-navbar navbar navbar-expand-xl navbar-light fixed-top">
       <div className="container-fluid">
@@ -482,19 +499,24 @@ const TopNavbar = () => {
                     <div className="media">
                       <div className="media-head me-2">
                         <div className="avatar avatar-primary avatar-sm avatar-rounded">
-                          <span className="initial-wrap">{avatarHeading}</span>
+                          <span className="initial-wrap">
+                            {selectedAccount?.username?.slice(0, 1) ||
+                              selectedAccount?.friendlyName?.slice(0, 1)}
+                          </span>
                         </div>
                       </div>
                       <div className="media-body">
                         <div className="dropdown">
                           <a
-                            href="/"
+                            // href="/"
                             className="d-block dropdown-toggle link-dark fw-medium"
                             data-bs-toggle="dropdown"
                             data-dropdown-animation
                             data-bs-auto-close="inside"
+                            onClick={() => handleAccountClick(user)}
                           >
-                            {user.username}
+                            {selectedAccount?.username ||
+                              selectedAccount?.friendlyName}
                           </a>
                           <div className="dropdown-menu dropdown-menu-end">
                             <div className="p-2">
@@ -502,50 +524,52 @@ const TopNavbar = () => {
                                 <div className="media-head me-2">
                                   <div className="avatar avatar-primary avatar-xs avatar-rounded">
                                     <span className="initial-wrap">
-                                      {avatarHeading}
+                                      {selectedAccount?.name?.slice(0, 1)}
                                     </span>
                                   </div>
                                 </div>
                                 <div className="media-body">
                                   <a
-                                    href="/"
+                                    // href="/"
                                     className="d-flex align-items-center link-dark"
                                   >
                                     {user?.username}
                                     <i className="ri-checkbox-circle-fill fs-7 text-primary ms-1"></i>
                                   </a>
 
-                                  <a
-                                    href="/"
+                                  {/* <a
+                                    // href="/"
                                     className="d-block fs-8 link-secondary"
                                   >
                                     <u>Manage your account</u>
-                                  </a>
+                                  </a> */}
                                 </div>
                               </div>
-                              <div className="media align-items-center mb-3">
-                                <div className="media-head me-2">
-                                  <div className="avatar avatar-xs avatar-rounded">
-                                    <img
-                                      src="dist/img/avatar12.jpg"
-                                      alt="user"
-                                      className="avatar-img"
-                                    />
-                                  </div>
-                                </div>
-                                <div className="media-body">
-                                  <a href="/" className="d-block link-dark">
-                                    Jampack Team
-                                  </a>
-                                  <a
-                                    href="/"
-                                    className="d-block fs-8 link-secondary"
+                              {subAccounts?.length > 0 &&
+                                subAccounts?.map((account, index) => (
+                                  <div
+                                    className="media align-items-center mb-3"
+                                    key={index}
+                                    onClick={() => handleAccountClick(account)}
                                   >
-                                    {user?.email}
-                                  </a>
-                                </div>
-                              </div>
-                              <button className="btn btn-block btn-outline-light btn-sm">
+                                    <div className="media-head me-2">
+                                      <div className="avatar avatar-primary avatar-xs avatar-rounded">
+                                        <span className="initial-wrap">
+                                          {_.capitalize(
+                                            account?.friendlyName?.slice(0, 1)
+                                          )}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div className="media-body">
+                                      <a className="d-block link-dark">
+                                        {account?.friendlyName}
+                                      </a>
+                                    </div>
+                                  </div>
+                                ))}
+
+                              {/* <button className="btn btn-block btn-outline-light btn-sm">
                                 <span>
                                   <span className="icon">
                                     <span className="feather-icon">
@@ -554,11 +578,20 @@ const TopNavbar = () => {
                                   </span>
                                   <span>Add Account</span>
                                 </span>
+                              </button> */}
+                              <button
+                                type="button"
+                                class=" btn btn-block btn-outline-light btn-sm "
+                                data-bs-toggle="modal"
+                                data-bs-target="#addAccountModal"
+                              >
+                                <FaPlus />
+                                Add Account
                               </button>
                             </div>
                           </div>
                         </div>
-                        <div className="fs-7">contact@hencework.com</div>
+                        <div className="fs-7">{selectedAccount?.email}</div>
                         <button
                           onClick={handleLogOut}
                           className="d-block fs-8 link-secondary btn btn-light text-dark btn-sm"

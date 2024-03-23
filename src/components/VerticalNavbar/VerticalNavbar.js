@@ -2,7 +2,7 @@ import React from "react";
 import brandSm from "../../assets/brand-sm.svg";
 import brand from "../../assets/Jampack.svg";
 import { Link } from "react-router-dom";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaPhoneAlt, FaRecordVinyl, FaShoppingCart } from "react-icons/fa";
 import { MdMarkEmailRead } from "react-icons/md";
 
 const VerticalNavbar = () => {
@@ -134,11 +134,11 @@ const VerticalNavbar = () => {
                           <span className="nav-link-text">Groups</span>
                         </Link>
                       </li>
-                      <li className="nav-item">
+                      {/* <li className="nav-item">
                         <Link to={"/contacts"} className="nav-link">
                           <span className="nav-link-text">Contacts</span>
                         </Link>
-                      </li>
+                      </li> */}
                     </ul>
                   </li>
                 </ul>
@@ -185,11 +185,11 @@ const VerticalNavbar = () => {
                           <span className="nav-link-text">Direct Message</span>
                         </Link>
                       </li>
-                      <li className="nav-item">
+                      {/* <li className="nav-item">
                         <a className="nav-link" href="chatbot.html">
                           <span className="nav-link-text">Chatbot</span>
                         </a>
-                      </li>
+                      </li> */}
                     </ul>
                   </li>
                 </ul>
@@ -227,10 +227,20 @@ const VerticalNavbar = () => {
                 <Link className="nav-link" to="/shop">
                   <span className="nav-icon-wrap">
                     <span className="svg-icon">
-                      <FaShoppingCart />
+                      <FaPhoneAlt />
                     </span>
                   </span>
-                  <span className="nav-link-text">Shop</span>
+                  <span className="nav-link-text">Phone Numbers</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/recordings">
+                  <span className="nav-icon-wrap">
+                    <span className="svg-icon">
+                      <FaRecordVinyl />
+                    </span>
+                  </span>
+                  <span className="nav-link-text">Call Recordings</span>
                 </Link>
               </li>
 
@@ -239,7 +249,7 @@ const VerticalNavbar = () => {
                   className="nav-link"
                   href="/"
                   data-bs-toggle="collapse"
-                  data-bs-target="#dash_scrumboard"
+                  data-bs-target="#email_section"
                 >
                   <span className="nav-icon-wrap position-relative">
                     <span className="badge badge-sm badge-primary badge-sm badge-pill position-top-end-overflow">
@@ -252,7 +262,7 @@ const VerticalNavbar = () => {
                   <span className="nav-link-text">Email</span>
                 </a>
                 <ul
-                  id="dash_scrumboard"
+                  id="email_section"
                   className="nav flex-column collapse  nav-children"
                 >
                   <li className="nav-item">
@@ -317,7 +327,7 @@ const VerticalNavbar = () => {
                         </Link>
                       </li>
 
-                      <li className="nav-item">
+                      {/* <li className="nav-item">
                         <a className="nav-link" href="kanban-board.html">
                           <span className="nav-link-text">Project Kanban</span>
                         </a>
@@ -326,7 +336,7 @@ const VerticalNavbar = () => {
                         <a className="nav-link" href="pipeline.html">
                           <span className="nav-link-text">Pipeline Kanban</span>
                         </a>
-                      </li>
+                      </li> */}
                     </ul>
                   </li>
                 </ul>
@@ -372,7 +382,7 @@ const VerticalNavbar = () => {
                           <span className="nav-link-text">Contact List</span>
                         </Link>
                       </li>
-                      <li className="nav-item">
+                      {/* <li className="nav-item">
                         <a className="nav-link" href="contact-cards.html">
                           <span className="nav-link-text">Contact Cards</span>
                         </a>
@@ -381,7 +391,7 @@ const VerticalNavbar = () => {
                         <a className="nav-link" href="edit-contact.html">
                           <span className="nav-link-text">Edit Contact</span>
                         </a>
-                      </li>
+                      </li> */}
                     </ul>
                   </li>
                 </ul>
@@ -609,7 +619,7 @@ const VerticalNavbar = () => {
                           <span className="nav-link-text">Invoice List</span>
                         </Link>
                       </li>
-                      <li className="nav-item">
+                      {/* <li className="nav-item">
                         <a className="nav-link" href="invoice-templates.html">
                           <span className="nav-link-text">
                             Invoice Templates
@@ -625,7 +635,7 @@ const VerticalNavbar = () => {
                         <a className="nav-link" href="invoice-preview.html">
                           <span className="nav-link-text">Invoice Preview</span>
                         </a>
-                      </li>
+                      </li> */}
                     </ul>
                   </li>
                 </ul>

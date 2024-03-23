@@ -31,6 +31,27 @@ export const getEmailList = (token) => async (dispatch) => {
     dispatch(invalidRequest(e.message));
   }
 };
+export const getEmailListByEmail = (token, data) => async (dispatch) => {
+  try {
+    dispatch(emailRequestLoading());
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    };
+    await axios
+      .post(`${backendURL}/user/email/get-emails-by-email`, data, config)
+      .then((response) => {
+        if (response?.status !== 200) {
+          return dispatch(invalidRequest(response.data.message));
+        }
+        dispatch(getEmails(response.data.data.emailsData));
+      });
+  } catch (e) {
+    dispatch(invalidRequest(e.message));
+  }
+};
 export const sendEmailRec = (token, data) => async (dispatch) => {
   console.log("🚀 ~ sendEmailRec ~ data:", data);
   try {

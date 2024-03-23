@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import {
   FaArchive,
   FaBars,
@@ -13,58 +13,24 @@ import {
   FaUserClock,
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { SocketContext } from "../../../Context";
 
 const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
   const { contacts } = useSelector((state) => state.contact);
-  const [activeBar, setActiveBar] = useState("all");
-  const { handleToggleShowLeadDetail } = useContext(SocketContext);
 
   const handleDeleteClick = () => {
     const data = contactsData.filter((cntct) => cntct.status === "blocked");
-    setActiveBar("blocked");
+    document.getElementById("deleted_contacts").classList.add("active");
+    document.getElementById("all_contacts").classList.remove("active");
     onSendData(data);
-    handleToggleShowLeadDetail(false);
-
     onToggleEdit(false);
   };
   const handleAllClick = () => {
     const filterData = contacts.filter(
       (contact) => contact.status !== "blocked"
     );
-    setActiveBar("all");
-    // onToggleEdit(false);
-    handleToggleShowLeadDetail(false);
-
-    onSendData(filterData);
-  };
-  const onImportantClick = () => {
-    const filterData = contacts.filter(
-      (contact) => contact.status === "important"
-    );
-    setActiveBar("important");
-    // onToggleEdit(false);
-    handleToggleShowLeadDetail(false);
-
-    onSendData(filterData);
-  };
-  const onArchiveClick = () => {
-    const filterData = contacts.filter(
-      (contact) => contact.status === "archived"
-    );
-    setActiveBar("archived");
-    // onToggleEdit(false);
-    handleToggleShowLeadDetail(false);
-
-    onSendData(filterData);
-  };
-  const onPendingClick = () => {
-    const filterData = contacts.filter(
-      (contact) => contact.status === "pending"
-    );
-    setActiveBar("pending");
-    // onToggleEdit(false);
-    handleToggleShowLeadDetail(false);
+    document.getElementById("all_contacts").classList.add("active");
+    document.getElementById("deleted_contacts").classList.remove("active");
+    onToggleEdit(false);
 
     onSendData(filterData);
   };
@@ -82,10 +48,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
           </button>
           <div className="menu-group p-1">
             <ul className="nav nav-light navbar-nav flex-column">
-              <li
-                id="all_contacts"
-                className={`nav-item ${activeBar === "all" ? "active" : ""}`}
-              >
+              <li id="all_contacts" className="nav-item ">
                 <a onClick={handleAllClick} className="nav-link">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
@@ -96,12 +59,8 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                   <span className="nav-link-text">All Contacts</span>
                 </a>
               </li>
-              <li
-                className={`nav-item ${
-                  activeBar === "important" ? "active" : ""
-                }`}
-              >
-                <a className="nav-link" onClick={onImportantClick}>
+              <li className="nav-item">
+                <a className="nav-link" href="/">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="star"></i> */}
@@ -111,12 +70,8 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                   <span className="nav-link-text">Important</span>
                 </a>
               </li>
-              <li
-                className={`nav-item ${
-                  activeBar === "archived" ? "active" : ""
-                }`}
-              >
-                <a className="nav-link" onClick={onArchiveClick}>
+              <li className="nav-item">
+                <a className="nav-link" href="/">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="archive"></i> */}
@@ -126,12 +81,8 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                   <span className="nav-link-text">Archive</span>
                 </a>
               </li>
-              <li
-                className={`nav-item ${
-                  activeBar === "pending" ? "active" : ""
-                }`}
-              >
-                <a className="nav-link" onClick={onPendingClick}>
+              <li className="nav-item">
+                <a className="nav-link" href="/">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="edit"></i> */}
@@ -141,11 +92,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                   <span className="nav-link-text">Pending</span>
                 </a>
               </li>
-              <li
-                className={`nav-item ${
-                  activeBar === "blocked" ? "active" : ""
-                }`}
-              >
+              <li className="nav-item">
                 <a
                   id="deleted_contacts"
                   onClick={handleDeleteClick}

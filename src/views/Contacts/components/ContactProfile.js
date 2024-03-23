@@ -62,20 +62,7 @@ const ContactProfile = ({ contact }) => {
             <div className="modal-body">
               <form onSubmit={handleSubmit(handleUpdateContact)}>
                 <div className="row gx-3">
-                  {/* <div className="col-sm-6">
-                    <ReactColorInput
-                      name="color"
-                      label="First Name"
-                      control={control}
-                      rules={{
-                        required: {
-                          value: true,
-                          message: "Field required!",
-                        },
-                      }}
-                      errors={errors}
-                    />
-                  </div> */}
+                  <div></div>
                   <div className="col-sm-6">
                     <InputField
                       name="firstname"

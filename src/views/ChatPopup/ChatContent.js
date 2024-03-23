@@ -3,8 +3,6 @@ import Header from "./components/Header";
 import Contacts from "./components/Contacts";
 import Chat from "./components/Chat";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../../redux/services/users";
-import { FaSmile } from "react-icons/fa";
 import SendMessage from "./components/SendMessage";
 import { getContactsList } from "../../redux/services/contact";
 import { SocketContext } from "../../Context";
@@ -12,7 +10,6 @@ import { getMessagesList } from "../../redux/services/message";
 
 const ChatContent = () => {
   const { messagesArray } = useContext(SocketContext);
-
   const [contactsData, setContactsData] = useState([]);
   const [messages, setMessages] = useState([]);
   const [selectedMessages, setSelectedMessages] = useState({});

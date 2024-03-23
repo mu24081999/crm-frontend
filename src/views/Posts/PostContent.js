@@ -13,7 +13,6 @@ const PostContent = () => {
   const [draftPostData, setDraftPostData] = useState([]);
   const [archivedPostData, setArchivedPostData] = useState([]);
   const [filteredPostData, setFilteredPostData] = useState([]);
-  console.log("🚀 ~ PostContent ~ filteredPostData:", filteredPostData);
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
   const { posts, postDetails } = useSelector((state) => state.post);

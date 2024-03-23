@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import TaskHeader from "./components/TaskHeader";
 import TaskHeading from "./components/TaskHeading";
 import { CiMenuKebab } from "react-icons/ci";
@@ -18,23 +18,19 @@ import {
   getTaskDetails,
   updateTaskRec,
 } from "../../redux/services/project-task";
-import { updateContactRec } from "../../redux/services/contact";
 import { Link } from "react-router-dom";
-import { SocketContext } from "../../Context";
 const TasksContent = ({ tasksData, token, contactsData }) => {
-  const { handleToggleShowLeadDetail, showLeadDetails } =
-    useContext(SocketContext);
   const [updateTaskData, setUpdateTaskData] = useState({});
   const dispatch = useDispatch();
   const pendingData =
-    contactsData?.length > 0 &&
-    contactsData?.filter((task) => task.status === "pending");
+    tasksData?.length > 0 &&
+    tasksData?.filter((task) => task.status === "pending");
   const inProgressData =
-    contactsData?.length > 0 &&
-    contactsData?.filter((task) => task.status === "in-progress");
+    tasksData?.length > 0 &&
+    tasksData?.filter((task) => task.status === "in-progress");
   const completedData =
-    contactsData?.length > 0 &&
-    contactsData?.filter((task) => task.status === "completed");
+    tasksData?.length > 0 &&
+    tasksData?.filter((task) => task.status === "completed");
   const handleUpdateTask = (id) => {
     dispatch(getTaskDetails(token, id));
   };
@@ -44,9 +40,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
 
   const handleDrop = (event, status) => {
     event.preventDefault();
-    dispatch(
-      updateContactRec(token, updateTaskData?.task_id, { status: status })
-    );
+    dispatch(updateTaskRec(token, updateTaskData?.task_id, { status: status }));
     setUpdateTaskData({});
   };
   return (
@@ -122,13 +116,9 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                     <div style={{ height: "500px", overflow: "scroll" }}>
                       {contactsData?.length > 0 &&
                         contactsData.map((task, index) => (
-                          <Link
+                          <div
                             className="card card-border card-simple tasklist-card"
                             key={index}
-                            to={"/contacts"}
-                            onClick={() =>
-                              handleToggleShowLeadDetail(true, task.id, token)
-                            }
                           >
                             <div className="card-header card-header-action">
                               <h6 className="fw-bold">
@@ -265,7 +255,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                                 </span>
                               </div>
                             </div>
-                          </Link>
+                          </div>
                         ))}
                     </div>
                   </div>
@@ -336,28 +326,22 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                     <div style={{ height: "500px", overflow: "scroll" }}>
                       {pendingData?.length > 0 &&
                         pendingData.map((task, index) => (
-                          <Link
+                          <div
                             className="card card-border card-simple tasklist-card"
                             key={index}
                             draggable
-                            to={"/contacts"}
-                            onClick={() =>
-                              handleToggleShowLeadDetail(true, task.id, token)
-                            }
                             onDragStart={(event) =>
                               handleDragStart(event, task.id)
                             }
+
                             // onDragStart={(e) => onDragStart(e, task.id)}
                             // onDragEnd={(e) => onDragEnd(e)}
                           >
-                            <div className="card-header card-header-action">
-                              <h6 className="fw-bold">
-                                {task?.firstname +
-                                  " " +
-                                  task?.middlename +
-                                  "" +
-                                  task?.lastname}
-                              </h6>{" "}
+                            <Link
+                              to={"/contacts"}
+                              className="card-header card-header-action"
+                            >
+                              <h6 className="fw-bold">{task.name}</h6>
                               <div className="card-action-wrap">
                                 <a
                                   className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
@@ -397,7 +381,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                                   </a>
                                 </div>
                               </div>
-                            </div>
+                            </Link>
                             <div className="card-body">
                               <div className="avatar-group avatar-group-overlapped">
                                 {task.asign_to?.members?.map(
@@ -419,45 +403,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                                   )
                                 )}
                               </div>
-                              <div>{task?.biography?.slice(0, 150)}...</div>
-                              <div className="d-flex justify-content-end">
-                                {task?.social_links?.map((link, index) => (
-                                  <div key={index}>
-                                    {link?.name === "facebook" && (
-                                      <a
-                                        href={link?.link}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaFacebook size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "linkedin" && (
-                                      <a
-                                        href={link?.linkedin}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaLinkedin size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "gmail" && (
-                                      <a
-                                        href={link?.link}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaGoogle size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "linkedin" && (
-                                      <a
-                                        href={link?.linkedin}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaTwitter size={20} />
-                                      </a>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
+                              <div>{task.description.slice(0, 150)}...</div>
                             </div>
                             <div className="card-footer text-muted justify-content-between">
                               <div>
@@ -482,7 +428,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                                 </span>
                               </div>
                             </div>
-                          </Link>
+                          </div>
                         ))}
                     </div>
                   </div>
@@ -495,7 +441,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                   <div className="card-header card-header-action">
                     <div className="tasklist-handle">
                       <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
-                        <span className="tasklist-name">In Progress</span>
+                        <span className="tasklist-name">In-Progress</span>
                         <span className="badge badge-pill badge-soft-violet ms-2">
                           {inProgressData?.length}
                         </span>
@@ -553,29 +499,16 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                     <div style={{ height: "500px", overflow: "scroll" }}>
                       {inProgressData?.length > 0 &&
                         inProgressData.map((task, index) => (
-                          <Link
+                          <div
                             className="card card-border card-simple tasklist-card"
                             key={index}
                             draggable
                             onDragStart={(event) =>
                               handleDragStart(event, task.id)
                             }
-                            to={"/contacts"}
-                            onClick={() =>
-                              handleToggleShowLeadDetail(true, task.id, token)
-                            }
-
-                            // onDragStart={(e) => onDragStart(e, task.id)}
-                            // onDragEnd={(e) => onDragEnd(e)}
                           >
                             <div className="card-header card-header-action">
-                              <h6 className="fw-bold">
-                                {task?.firstname +
-                                  " " +
-                                  task?.middlename +
-                                  "" +
-                                  task?.lastname}
-                              </h6>{" "}
+                              <h6 className="fw-bold">{task.name}</h6>
                               <div className="card-action-wrap">
                                 <a
                                   className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
@@ -637,45 +570,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                                   )
                                 )}
                               </div>
-                              <div>{task?.biography?.slice(0, 150)}...</div>
-                              <div className="d-flex justify-content-end">
-                                {task?.social_links?.map((link, index) => (
-                                  <div key={index}>
-                                    {link?.name === "facebook" && (
-                                      <a
-                                        href={link?.link}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaFacebook size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "linkedin" && (
-                                      <a
-                                        href={link?.linkedin}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaLinkedin size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "gmail" && (
-                                      <a
-                                        href={link?.link}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaGoogle size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "linkedin" && (
-                                      <a
-                                        href={link?.linkedin}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaTwitter size={20} />
-                                      </a>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
+                              <div>{task.description.slice(0, 150)}...</div>
                             </div>
                             <div className="card-footer text-muted justify-content-between">
                               <div>
@@ -700,7 +595,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                                 </span>
                               </div>
                             </div>
-                          </Link>
+                          </div>
                         ))}
                     </div>
                   </div>
@@ -760,6 +655,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                       <span>
                         <span className="icon">
                           <span className="feather-icon">
+                            {/* <i data-feather="plus"></i> */}
                             <FaPlus />
                           </span>
                         </span>
@@ -770,28 +666,16 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                     <div style={{ height: "500px", overflow: "scroll" }}>
                       {completedData?.length > 0 &&
                         completedData.map((task, index) => (
-                          <Link
+                          <div
                             className="card card-border card-simple tasklist-card"
                             key={index}
                             draggable
                             onDragStart={(event) =>
                               handleDragStart(event, task.id)
                             }
-                            to={"/contacts"}
-                            onClick={() =>
-                              handleToggleShowLeadDetail(true, task.id, token)
-                            }
-                            // onDragStart={(e) => onDragStart(e, task.id)}
-                            // onDragEnd={(e) => onDragEnd(e)}
                           >
                             <div className="card-header card-header-action">
-                              <h6 className="fw-bold">
-                                {task?.firstname +
-                                  " " +
-                                  task?.middlename +
-                                  "" +
-                                  task?.lastname}
-                              </h6>{" "}
+                              <h6 className="fw-bold">{task.name}</h6>
                               <div className="card-action-wrap">
                                 <a
                                   className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
@@ -853,45 +737,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                                   )
                                 )}
                               </div>
-                              <div>{task?.biography?.slice(0, 150)}...</div>
-                              <div className="d-flex justify-content-end">
-                                {task?.social_links?.map((link, index) => (
-                                  <div key={index}>
-                                    {link?.name === "facebook" && (
-                                      <a
-                                        href={link?.link}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaFacebook size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "linkedin" && (
-                                      <a
-                                        href={link?.linkedin}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaLinkedin size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "gmail" && (
-                                      <a
-                                        href={link?.link}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaGoogle size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "linkedin" && (
-                                      <a
-                                        href={link?.linkedin}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaTwitter size={20} />
-                                      </a>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
+                              <div>{task.description.slice(0, 150)}...</div>
                             </div>
                             <div className="card-footer text-muted justify-content-between">
                               <div>
@@ -916,7 +762,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                                 </span>
                               </div>
                             </div>
-                          </Link>
+                          </div>
                         ))}
                     </div>
                   </div>

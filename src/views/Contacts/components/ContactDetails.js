@@ -1,18 +1,63 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ContactProfile from "./ContactProfile";
-import { FaMailBulk, FaPhone, FaVideo } from "react-icons/fa";
-import InputField from "../../../components/FormFields/InputField";
-import { useForm } from "react-hook-form";
+import { FaEdit, FaMailBulk, FaPhone, FaPlus, FaVideo } from "react-icons/fa";
+import Detail_Tabs from "./Detail_Tabs";
+import SMS_Tab from "./SMS_Tab";
+import Email_Tab from "./Email_Tab";
+import Call_Tab from "./Call_Tab";
+import { getMessagesList } from "../../../redux/services/message";
+import { SocketContext } from "../../../Context";
+import { FaMessage } from "react-icons/fa6";
 
-const ContactDetails = ({ contactDetails }) => {
-  const {
-    handleSubmit,
-    // watch,
-    control,
-    // setValue,
-    formState: { errors },
-  } = useForm({});
+const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
+  const { messagesArray } = useContext(SocketContext);
+  const { messages: defaultMessages } = useSelector((state) => state.message);
+  const [selectedMessages, setSelectedMessages] = useState([]);
+  const [active, setActive] = useState("SMS_tab");
+  useEffect(() => {
+    dispatch(getMessagesList(token));
+  }, [token, dispatch]);
+  useEffect(() => {
+    // setMessages(messagesArray);
+    const data = messagesArray?.filter(
+      (message) =>
+        (message?.from_phone === contactDetails?.phone &&
+          message?.to_phone === authUser?.phone) ||
+        (message?.from_phone === authUser?.phone &&
+          message?.to_phone === contactDetails?.phone)
+    );
+    const categorizeMessagesByDate = data?.reduce((result, message) => {
+      const date = message.created_at.slice(0, 10); // Extract date from created_at
+      if (!result[date]) {
+        result[date] = []; // Initialize array for the date if it doesn't exist
+      }
+      result[date].push(message); // Push message to the array for the date
+      return result;
+    }, {});
+    setSelectedMessages(categorizeMessagesByDate);
+  }, [messagesArray, authUser, contactDetails]);
+  useEffect(() => {
+    const data = defaultMessages?.filter(
+      (message) =>
+        (message?.from_phone === contactDetails?.phone &&
+          message?.to_phone === authUser?.phone) ||
+        (message?.from_phone === authUser?.phone &&
+          message?.to_phone === contactDetails?.phone)
+    );
+    const categorizeMessagesByDate = data?.reduce((result, message) => {
+      const date = message.created_at.slice(0, 10); // Extract date from created_at
+      if (!result[date]) {
+        result[date] = []; // Initialize array for the date if it doesn't exist
+      }
+      result[date].push(message); // Push message to the array for the date
+      return result;
+    }, {});
+    setSelectedMessages(categorizeMessagesByDate);
+  }, [defaultMessages, contactDetails, authUser]);
+  const handleActiveBarDataFromChild = (data) => {
+    setActive(data);
+  };
 
   return (
     <>
@@ -25,7 +70,8 @@ const ContactDetails = ({ contactDetails }) => {
                   <a href="contact.html">Contacts</a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
-                  Morgan Freeman
+                  {contactDetails?.firstname} {contactDetails?.middlename}{" "}
+                  {contactDetails?.lastname}
                 </li>
               </ol>
             </nav>
@@ -82,9 +128,12 @@ const ContactDetails = ({ contactDetails }) => {
         </header>
 
         <div className="contact-body contact-detail-body">
-          <div data-simplebar className="nicescroll-bar">
+          <div className="nicescroll-bar">
             <div className="d-flex flex-xxl-nowrap flex-wrap">
-              <div className="contact-info w-xxl-30 w-100">
+              <div
+                className="contact-info w-xxl-30 w-100"
+                style={{ maxHeight: "1000px", overflow: "scroll" }}
+              >
                 <div className="dropdown action-btn">
                   <button
                     aria-expanded="false"
@@ -134,6 +183,7 @@ const ContactDetails = ({ contactDetails }) => {
                     className="rating rating-yellow my-rating-4"
                     data-rating="3"
                   ></div>
+
                   <ul className="hk-list hk-list-sm justify-content-center mt-2">
                     <li>
                       <a
@@ -164,12 +214,13 @@ const ContactDetails = ({ contactDetails }) => {
                     <li>
                       <a
                         className="btn btn-icon btn-soft-danger btn-rounded"
-                        href="/"
+                        data-bs-toggle="tab"
+                        href="#SMS_tab"
                       >
                         <span className="icon">
                           <span className="feather-icon">
                             {/* <i data-feather="video"></i> */}
-                            <FaVideo />
+                            <FaMessage />
                           </span>
                         </span>
                       </a>
@@ -192,7 +243,8 @@ const ContactDetails = ({ contactDetails }) => {
                         data-bs-target="#editInfo"
                       >
                         <span className="feather-icon">
-                          <i data-feather="edit-2"></i>
+                          {/* <i data-feather="edit-2"></i> */}
+                          <FaEdit />
                         </span>
                       </span>
                     </button>
@@ -209,7 +261,10 @@ const ContactDetails = ({ contactDetails }) => {
                       </li>
                       <li>
                         <span>Email</span>
-                        <span>{contactDetails?.email}</span>
+                        <span>
+                          {contactDetails?.email?.slice(0, 20)}
+                          {contactDetails?.email?.length > 20 ? "..." : ""}
+                        </span>
                       </li>
                       <li>
                         <span>Phone</span>
@@ -239,7 +294,8 @@ const ContactDetails = ({ contactDetails }) => {
                         data-bs-target="#moreContact"
                       >
                         <span className="feather-icon">
-                          <i data-feather="edit-2"></i>
+                          {/* <i data-feather="edit-2"></i> */}
+                          <FaEdit />
                         </span>
                       </span>
                     </button>
@@ -286,7 +342,8 @@ const ContactDetails = ({ contactDetails }) => {
                         data-bs-target="#tagsInput"
                       >
                         <span className="feather-icon">
-                          <i data-feather="plus"></i>
+                          {/* <i data-feather="plus"></i> */}
+                          <FaPlus />
                         </span>
                       </span>
                     </button>
@@ -409,115 +466,33 @@ const ContactDetails = ({ contactDetails }) => {
                 </div>
               </div>
               <div className="contact-more-info">
-                <ul className="nav nav-tabs nav-line nav-icon nav-light">
-                  <li className="nav-item">
-                    <a
-                      className="nav-link active"
-                      data-bs-toggle="tab"
-                      href="#tab_summery"
-                    >
-                      <span className="nav-icon-wrap">
-                        <span className="feather-icon">
-                          <i data-feather="zap"></i>
-                        </span>
-                      </span>
-                      <span className="nav-link-text">Summery</span>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" data-bs-toggle="tab" href="/">
-                      <span className="nav-icon-wrap">
-                        <span className="feather-icon">
-                          <i data-feather="activity"></i>
-                        </span>
-                      </span>
-                      <span className="nav-link-text">Activity</span>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" data-bs-toggle="tab" href="/">
-                      <span className="nav-icon-wrap">
-                        <span className="feather-icon">
-                          <i data-feather="edit-3"></i>
-                        </span>
-                      </span>
-                      <span className="nav-link-text">Notes</span>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" data-bs-toggle="tab" href="/">
-                      <span className="nav-icon-wrap">
-                        <span className="feather-icon">
-                          <i data-feather="mail"></i>
-                        </span>
-                      </span>
-                      <span className="nav-link-text">Email</span>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" data-bs-toggle="tab" href="/">
-                      <span className="nav-icon-wrap">
-                        <span className="feather-icon">
-                          <i data-feather="phone"></i>
-                        </span>
-                      </span>
-                      <span className="nav-link-text">Calls</span>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" data-bs-toggle="tab" href="/">
-                      <span className="nav-icon-wrap">
-                        <span className="feather-icon">
-                          <i data-feather="check-square"></i>
-                        </span>
-                      </span>
-                      <span className="nav-link-text">Tasks</span>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" data-bs-toggle="tab" href="/">
-                      <span className="nav-icon-wrap">
-                        <span className="feather-icon">
-                          <i data-feather="clock"></i>
-                        </span>
-                      </span>
-                      <span className="nav-link-text">Schedule</span>
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" data-bs-toggle="tab" href="/">
-                      <span className="nav-icon-wrap">
-                        <span className="feather-icon">
-                          <i data-feather="shield"></i>
-                        </span>
-                      </span>
-                      <span className="nav-link-text">Sales</span>
-                    </a>
-                  </li>
-                </ul>
-                <div className="tab-content mt-7">
-                  <div className="tab-pane fade show active" id="tab_summery">
-                    <form>
-                      <div className="row">
-                        <div className="col-md-12 form-group">
-                          <div className="form-label-group">
-                            <label>Write a Note</label>
-                            <small className="text-muted">1200</small>
-                          </div>
-                          <textarea
-                            className="form-control"
-                            rows="8"
-                            placeholder="Write an internal note"
-                          ></textarea>
-                        </div>
-                      </div>
-                      <button className="btn btn-outline-light mt-2">
-                        Add Note
-                      </button>
-                    </form>
-                  </div>
-                </div>
-                <div className="pipeline-status-wrap mt-7">
+                <Detail_Tabs
+                  contactDetails={contactDetails}
+                  onDataFromChild={handleActiveBarDataFromChild}
+                  activeBar={active}
+                />
+
+                <SMS_Tab
+                  contactDetails={contactDetails}
+                  selectedMessages={selectedMessages}
+                  authUser={authUser}
+                  activeBar={active}
+                />
+                <Email_Tab
+                  contactDetails={contactDetails}
+                  activeBar={active}
+                  dispatch={dispatch}
+                  authUser={authUser}
+                  token={token}
+                />
+                <Call_Tab
+                  contactDetails={contactDetails}
+                  activeBar={active}
+                  authUser={authUser}
+                  dispatch={dispatch}
+                  token={token}
+                />
+                {/* <div className="pipeline-status-wrap mt-7">
                   <div className="title-lg mb-3">Lead Pipeline Status</div>
                   <ul className="pipeline-stutus">
                     <li className="completed">
@@ -645,7 +620,7 @@ const ContactDetails = ({ contactDetails }) => {
                       </div>
                     </li>
                   </ul>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

@@ -90,7 +90,7 @@ const CreateInvoice = ({
     setLogo(selectedLogo);
   };
   useEffect(() => {
-    if (invoiceDetails) {
+    if (invoiceDetails?.title) {
       setValue("title", invoiceDetails?.title);
       setValue("labelA", invoiceDetails?.invoice_details?.items[0].label);
       setValue("labelB", invoiceDetails?.invoice_details?.items[1].label);
@@ -271,7 +271,7 @@ const CreateInvoice = ({
     data?.save_to_draft
       ? formData.append("activity", "")
       : formData.append("activity", "sent");
-    if (invoiceDetails) {
+    if (invoiceDetails?.id) {
       dispatch(updateInvoiceRec(token, invoiceDetails?.id, formData));
     } else {
       dispatch(storeInvoice(token, formData));
@@ -571,7 +571,7 @@ const CreateInvoice = ({
                           />
                         </div>
                       </div>
-                      {[...Array(rowCount)].map((_, index) => (
+                      {[...Array(rowCount)]?.map((_, index) => (
                         <div key={index} className="row">
                           <div className="col-lg-6 form-group">
                             <InputField

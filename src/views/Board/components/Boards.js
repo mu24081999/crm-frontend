@@ -314,7 +314,7 @@ const Boards = ({ boardsData, onDataFromChild }) => {
                     <div className="media-body">
                       <a
                         className="link-primary btn"
-                        onClick={() => handleEditBoard(board.id)}
+                        onClick={() => handleEditBoard(board.id, true)}
                       >
                         {board.name}
                       </a>

@@ -6,6 +6,9 @@ export const callingSlice = createSlice({
     isLoading: false,
     availableNumbers: [],
     claimedNumbers: [],
+    callLogs: [],
+    recordings: [],
+    subAccounts: [],
     availableNumberDetails: {},
     claimedNumberDetails: {},
     call: {},
@@ -38,6 +41,20 @@ export const callingSlice = createSlice({
     makeCall: (state, action) => {
       state.isLoading = false;
       state.call = action.payload;
+      state.message = "success";
+      state.error = "";
+      state.type = "success";
+    },
+    getCallLogs: (state, action) => {
+      state.isLoading = false;
+      state.callLogs = action.payload;
+      state.message = "success";
+      state.error = "";
+      state.type = "success";
+    },
+    getRecordings: (state, action) => {
+      state.isLoading = false;
+      state.recordings = action.payload;
       state.message = "success";
       state.error = "";
       state.type = "success";
@@ -76,6 +93,18 @@ export const callingSlice = createSlice({
       state.error = "";
       state.type = "success";
     },
+    addSubAccount: (state, action) => {
+      state.isLoading = false;
+      state.message = action.payload;
+      state.error = "";
+      state.type = "success";
+    },
+    getUserSubAccounts: (state, action) => {
+      state.isLoading = false;
+      state.subAccounts = action.payload;
+      state.error = "";
+      state.type = "success";
+    },
     updateClaimedNumber: (state, action) => {
       state.isLoading = false;
       state.message = action.payload;
@@ -103,5 +132,9 @@ export const {
   getAllClaimedNumbers,
   getAllAvailabelNumbers,
   searchAvailableNumber,
+  getCallLogs,
   makeCall,
+  getRecordings,
+  addSubAccount,
+  getUserSubAccounts,
 } = callingSlice.actions;
