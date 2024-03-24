@@ -56,6 +56,7 @@ const Dialer = () => {
   const [isDialerOpen, setIsDialerOpen] = useState(false);
   const [callStatus, setCallStatus] = useState(null);
   const [twilioDevice, setTwilioDevice] = useState(null);
+  console.log("🚀 ~ Dialer ~ twilioDevice:", twilioDevice);
   const [userState, setUserState] = useState("READY");
   const [activeCall, setActiveCall] = useState(null);
   const [active, setActive] = useState(true);
