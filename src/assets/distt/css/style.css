@@ -140,9 +140,9 @@ Project:	Jampack
 @import "flaticon.css";
 @import "prism.css";
 @import "../../vendors/bootstrap-icons/font/bootstrap-icons.css";
-/* @import "../../vendors/simplebar/dist/simplebar.min.css"; */
-/* @import "../../vendors/owl.carousel/dist/assets/owl.carousel.min.css"; */
-/* @import "../../vendors/owl.carousel/dist/assets/owl.theme.default.min.css"; */
+@import "../../vendors/simplebar/dist/simplebar.min.css";
+@import "../../vendors/owl.carousel/dist/assets/owl.carousel.min.css";
+@import "../../vendors/owl.carousel/dist/assets/owl.theme.default.min.css";
 /*__________________________________________________________________;
 [Mixin]
 Project:	Jampack
