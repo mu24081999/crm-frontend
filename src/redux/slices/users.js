@@ -5,6 +5,7 @@ export const userSlice = createSlice({
   initialState: {
     isLoading: false,
     users: [],
+    userDetails: {},
     message: "",
     error: "",
     token: "",
@@ -35,9 +36,44 @@ export const userSlice = createSlice({
       state.token = "";
       state.type = "success";
     },
+    addUser: (state, action) => {
+      state.isLoading = false;
+      state.message = action.payload;
+      state.error = "";
+      state.token = "";
+      state.type = "success";
+    },
+    updateUser: (state, action) => {
+      state.isLoading = false;
+      state.message = action.payload;
+      state.error = "";
+      state.token = "";
+      state.type = "success";
+    },
+    readUser: (state, action) => {
+      state.isLoading = false;
+      state.userDetails = action.payload;
+      state.error = "";
+      state.token = "";
+      state.type = "success";
+    },
+    deleteUser: (state, action) => {
+      state.isLoading = false;
+      state.message = action.payload;
+      state.error = "";
+      state.token = "";
+      state.type = "success";
+    },
   },
 });
 
 export default userSlice.reducer;
-export const { userRequestLoading, invalidRequest, getAllUsers } =
-  userSlice.actions;
+export const {
+  userRequestLoading,
+  addUser,
+  invalidRequest,
+  getAllUsers,
+  readUser,
+  deleteUser,
+  updateUser,
+} = userSlice.actions;

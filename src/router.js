@@ -11,7 +11,7 @@ import VerifyPassword from "./views/Auth/VerifyPassword";
 import ResetUserPassword from "./views/Auth/ResetUserPassword";
 import Chat from "./views/Chat/Chat";
 import Contacts from "./views/Contacts/Contacts";
-import Test from "./views/Test/Test";
+import Test from "./views/Test/Test2";
 import ContactDetails from "./views/Contacts/components/ContactDetails";
 import Email from "./views/Email/Email";
 import Board from "./views/Board/Board";
@@ -26,6 +26,7 @@ import Invoice from "./views/Invoice/Invoice";
 import ChatGroup from "./views/ChatGroup/Chat";
 import DirectChat from "./views/ChatPopup/Chat";
 import Recordings from "./views/Recordings/Recording";
+import Users from "./views/Users/Users";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/test",
     element: <Test />,
+  },
+  {
+    path: "/users",
+    element: <Users />,
   },
   {
     path: "/recordings",

@@ -2,7 +2,12 @@ import React from "react";
 import brandSm from "../../assets/brand-sm.svg";
 import brand from "../../assets/Jampack.svg";
 import { Link } from "react-router-dom";
-import { FaPhoneAlt, FaRecordVinyl, FaShoppingCart } from "react-icons/fa";
+import {
+  FaPhoneAlt,
+  FaRecordVinyl,
+  FaShoppingCart,
+  FaUsers,
+} from "react-icons/fa";
 import { MdMarkEmailRead } from "react-icons/md";
 
 const VerticalNavbar = () => {
@@ -193,6 +198,16 @@ const VerticalNavbar = () => {
                     </ul>
                   </li>
                 </ul>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/users">
+                  <span className="nav-icon-wrap">
+                    <span className="svg-icon">
+                      <FaUsers />
+                    </span>
+                  </span>
+                  <span className="nav-link-text">Users</span>
+                </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/calendar">

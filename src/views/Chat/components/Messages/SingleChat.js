@@ -68,74 +68,91 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
 
   const [message, setMessage] = useState();
 
-  const sendMessage = () => {
-    // if (e.key === "Enter") {
+  const sendMessage = (e) => {
+    if (e.key === "Enter") {
+      let formData;
+      let fileData;
+      if (selectedFile) {
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(selectedFile);
 
-    // let formData;
-    // if (selectedFile) {
-    //   formData = {
-    //     sender:
-    //       selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-    //         ? selectedRoom.user_id_1
-    //         : selectedRoom?.user_id_2,
-    //     recipient:
-    //       selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-    //         ? selectedRoom.user_id_2
-    //         : selectedRoom?.user_id_1,
-    //     room: selectedRoom?.name,
-    //     file_name: selectedFile.name,
-    //     file_data: selectedFile,
-    //     file_size: selectedFile.size,
-    //     file_type: selectedFile.type,
-    //     type: "file",
-    //   };
-    // } else {
-    //   formData = {
-    //     sender:
-    //       selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-    //         ? selectedRoom.user_id_1
-    //         : selectedRoom?.user_id_2,
-    //     recipient:
-    //       selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-    //         ? selectedRoom.user_id_2
-    //         : selectedRoom?.user_id_1,
-    //     room: selectedRoom?.name,
-    //     message: message,
-    //     type: "text",
-    //   };
-    // }
-    const formData_ = new FormData();
-    formData_.append(
-      "sender",
-      selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-        ? selectedRoom.user_id_1
-        : selectedRoom?.user_id_2
-    );
-    formData_.append(
-      "recipient",
-      selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-        ? selectedRoom.user_id_2
-        : selectedRoom?.user_id_1
-    );
-    formData_.append("room", selectedRoom?.name);
-    formData_.append("message", message);
-    if (selectedFile) {
-      formData_.append("file", selectedFile);
-      formData_.append("type", "file");
-    } else {
-      formData_.append("type", "text");
+        reader.onload = async (e) => {
+          const buffer = e.target.result;
+          const fileData = {
+            name: selectedFile.name,
+            type: selectedFile.type,
+            size: selectedFile.size,
+            data: buffer,
+          };
+          setSelectedFile(fileData);
+        };
+
+        formData = {
+          sender:
+            selectedRoom && selectedRoom?.user_id_1 === authUser?.id
+              ? selectedRoom.user_id_1
+              : selectedRoom?.user_id_2,
+          recipient:
+            selectedRoom && selectedRoom?.user_id_1 === authUser?.id
+              ? selectedRoom.user_id_2
+              : selectedRoom?.user_id_1,
+          room: selectedRoom?.name,
+          file: selectedFile,
+          file_name: selectedFile.name,
+          file_data: selectedFile,
+          file_size: selectedFile.size,
+          file_type: selectedFile.type,
+          type: "file",
+        };
+      } else {
+        formData = {
+          sender:
+            selectedRoom && selectedRoom?.user_id_1 === authUser?.id
+              ? selectedRoom.user_id_1
+              : selectedRoom?.user_id_2,
+          recipient:
+            selectedRoom && selectedRoom?.user_id_1 === authUser?.id
+              ? selectedRoom.user_id_2
+              : selectedRoom?.user_id_1,
+          room: selectedRoom?.name,
+          message: message,
+          type: "text",
+        };
+      }
+      // const formData_ = new FormData();
+      // formData_.append(
+      //   "sender",
+      //   selectedRoom && selectedRoom?.user_id_1 === authUser?.id
+      //     ? selectedRoom.user_id_1
+      //     : selectedRoom?.user_id_2
+      // );
+      // formData_.append(
+      //   "recipient",
+      //   selectedRoom && selectedRoom?.user_id_1 === authUser?.id
+      //     ? selectedRoom.user_id_2
+      //     : selectedRoom?.user_id_1
+      // );
+      // formData_.append("room", selectedRoom?.name);
+      // formData_.append("message", message);
+      // if (selectedFile) {
+      //   formData_.append("file", selectedFile);
+      //   formData_.append("type", "file");
+      // } else {
+      //   formData_.append("type", "text");
+      // }
+
+      socket.emit("chat_message", formData);
+      // socket.emit("chat_message", messageData);
+      setMessage("");
+      setSelectedFile("");
+      document
+        .getElementById("dummy_avatar")
+        .scrollIntoView({ behavior: "smooth", block: "end" });
+
+      //   const chatBody = document.getElementById("chat_body");
+      //   chatBody.scrollTop = chatBody.scrollHeight;
+      // }
     }
-    socket.emit("chat_message", formData_);
-    // socket.emit("chat_message", messageData);
-    setMessage("");
-    setSelectedFile("");
-    document
-      .getElementById("dummy_avatar")
-      .scrollIntoView({ behavior: "smooth", block: "end" });
-
-    //   const chatBody = document.getElementById("chat_body");
-    //   chatBody.scrollTop = chatBody.scrollHeight;
-    // }
   };
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -274,7 +291,9 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
             class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover d-none d-xl-block"
             href="/"
             data-bs-toggle="modal"
-            data-bs-target="#audio_call"
+            // data-bs-target="#audio_call"
+            data-bs-type="audio"
+            data-bs-target="#video_call"
             onClick={() => {
               calling();
               readyForAudioCall();
@@ -297,6 +316,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
             class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover d-none d-xl-block"
             href="/"
             data-bs-toggle="modal"
+            data-bs-type="video"
             data-bs-target="#video_call"
             onClick={() => {
               calling();
@@ -949,7 +969,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               placeholder="Type your message..."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              onKeyUp={(e) => e.key === "Enter" && sendMessage()}
+              onKeyUp={(e) => e.key === "Enter" && sendMessage(e)}
             />
             <span class="input-suffix">
               <button

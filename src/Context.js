@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updatedMe } from "./redux/slices/auth";
 import ringTone from "./assets/ringtone.mp3";
 import { getContactDetais } from "./redux/services/contact";
+import { getUserDetails } from "./redux/services/users";
 
 const SocketContext = createContext();
 const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
@@ -18,6 +19,7 @@ const ContextProvider = ({ children }) => {
   const [isCalling, setIsCalling] = useState(false);
   const [ringing, setRinging] = useState(false);
   const [showLeadDetails, setShowLeadDetails] = useState(false);
+  const [showUserDetails, setShowUserDetails] = useState(false);
   const [stream, setStream] = useState();
   const [name, setName] = useState("");
   const [call, setCall] = useState({});
@@ -38,11 +40,21 @@ const ContextProvider = ({ children }) => {
     }
     setShowLeadDetails(value);
   };
+  const handleToggleShowUserDetail = (value, user_id, token) => {
+    if (user_id && token) {
+      dispatch(getUserDetails(token, user_id));
+    }
+    setShowUserDetails(value);
+  };
 
   //open dialog
-  function clickElementByDataBsTarget(dataBsTarget) {
+  function clickElementByDataBsTarget(dataBsTarget, type) {
+    // var elements = document.querySelectorAll(
+    //   '[data-bs-target="' + dataBsTarget + '"]'
+    // ); // Get elements with matching data-bs-target value
     var elements = document.querySelectorAll(
-      '[data-bs-target="' + dataBsTarget + '"]'
+      '[data-bs-target="' + dataBsTarget + '"]' &&
+        '[data-bs-type="' + type + '"]'
     ); // Get elements with matching data-bs-target value
     if (elements.length > 0) {
       elements.forEach(function (element) {
@@ -87,7 +99,7 @@ const ContextProvider = ({ children }) => {
   };
   const readyForAudioCall = () => {
     navigator.mediaDevices
-      .getUserMedia({ audio: true })
+      .getUserMedia({ audio: true, video: false })
       .then((currentStream) => {
         // Handle the stream appropriately
         setType("audio");
@@ -130,16 +142,23 @@ const ContextProvider = ({ children }) => {
         setIsCalling(false);
         setCall({});
         setOpenCalling(false);
+        // clickElementByDataBsTarget("modal");
+
         // clickElementByDataBsDismiss("modal");
       });
       socket.on(
         "callUser",
         ({ from, name: callerName, signal, type, userToCall }) => {
+          console.log("🚀 ~ useEffect ~ type:", type);
           setType(type);
-          clickElementByDataBsTarget("#video_call");
+          if (type === "audio") {
+            clickElementByDataBsTarget("#video_call", "audio");
+          } else if (type === "video") {
+            clickElementByDataBsTarget("#video_call", "video");
+          }
           setRinging(true);
-          // ringtone.play();
           // const ringtone = new Audio(ringTone);
+          // ringtone.play();
 
           // ringtone.play();
           // setTimeout(() => {
@@ -150,6 +169,7 @@ const ContextProvider = ({ children }) => {
             isReceivingCall: true,
             from,
             name: callerName,
+            type,
             signal,
             userToCall,
           });
@@ -217,12 +237,12 @@ const ContextProvider = ({ children }) => {
     setOpenCalling(false);
 
     // Clear the user's video stream
-    if (userVideo.current) {
+    if (userVideo.current && userVideo.current.srcObject) {
       userVideo.current.srcObject = null;
     }
 
     // Remove event listeners
-    socket.off("callAccepted");
+    socket.close();
   };
 
   return (
@@ -242,6 +262,7 @@ const ContextProvider = ({ children }) => {
         me,
         messagesArray,
         showLeadDetails,
+        showUserDetails,
         calling,
         readyForCall,
         readyForAudioCall,
@@ -251,6 +272,7 @@ const ContextProvider = ({ children }) => {
         answerCall,
         sendTextMessage,
         handleToggleShowLeadDetail,
+        handleToggleShowUserDetail,
       }}
     >
       {children}

@@ -6,9 +6,15 @@ import { updateContactRec } from "../../../redux/services/contact";
 import TagInput from "../../../components/FormFields/reactTagInputComponent";
 import TextAreaField from "../../../components/FormFields/textAreaField";
 import ReactColorInput from "../../../components/FormFields/reactColorInput";
+import { MdClose } from "react-icons/md";
+import ReactSelectField from "../../../components/FormFields/reactSelectField";
+import _ from "lodash";
+import { updateUserRec } from "../../../redux/services/users";
 
 const ContactProfile = ({ contact }) => {
   const { token } = useSelector((state) => state.auth);
+  const [logo, setLogo] = useState(null);
+
   const dispatch = useDispatch();
   const {
     handleSubmit,
@@ -19,20 +25,40 @@ const ContactProfile = ({ contact }) => {
   } = useForm({});
   useEffect(() => {
     if (contact) {
-      setValue("firstname", contact.firstname);
-      setValue("lastname", contact.lastname);
+      setValue("name", contact.name);
+      setValue("username", contact.username);
       setValue("phone", contact.phone);
       setValue("email", contact.email);
-      setValue("biography", contact.biography);
-      // setValue("contact_id", contact.id);
+      setValue("role", {
+        label: contact.role,
+        value: contact.role,
+      });
+      setValue("status", {
+        label: _.capitalize(contact.status),
+        value: contact.status,
+      });
     }
   }, [contact, setValue]);
-  const handleUpdateContact = (data) => {
-    console.log("🚀 ~ handleUpdateContact ~ data:", data, token, contact.id);
-    dispatch(updateContactRec(token, contact.id, data));
+  const handleUpdateUser = (data) => {
+    const formData = new FormData();
+    formData.append("name", data?.name);
+    formData.append("username", data?.username);
+    formData.append("email", data?.email);
+    formData.append("phoneNumber", data?.phone);
+    formData.append("status", data?.status?.value);
+    formData.append("role", data?.role?.value);
+    console.log("🚀 ~ handleUpdateUser ~ data:", data);
+    if (logo) {
+      formData.append("avatar", logo);
+    }
+    dispatch(updateUserRec(token, formData, contact.id));
   };
   const handleUpdateBio = (data) => {
     dispatch(updateContactRec(token, contact.id, data));
+  };
+  const handleChangeImage = (e) => {
+    setLogo(e.currentTarget.files[0]);
+    console.log("🚀 ~ handleChangeImage ~ e:", e.currentTarget.files[0]);
   };
   return (
     <>
@@ -48,27 +74,70 @@ const ContactProfile = ({ contact }) => {
           role="document"
         >
           <div className="modal-content">
-            <div className="modal-header">
-              <h6 className="modal-title">Profile Information</h6>
+            <div className="modal-header bg-primary">
+              <h6 className="modal-title" style={{ color: "white" }}>
+                Profile Information
+              </h6>
               <button
                 type="button"
-                className="btn-close"
+                className="btn btn-light btn-icon btn-sm"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               >
-                <span aria-hidden="true">×</span>
+                <span aria-hidden="true">
+                  <MdClose></MdClose>
+                </span>
               </button>
             </div>
             <div className="modal-body">
-              <form onSubmit={handleSubmit(handleUpdateContact)}>
+              <form onSubmit={handleSubmit(handleUpdateUser)}>
                 <div className="row gx-3">
-                  <div></div>
-                  <div className="col-sm-6">
+                  {/* <div class="frame mb-5">
+                    <div class="center">
+                      <div class="dropzone">
+                        <div>
+                          <img
+                            src={
+                              contact && logo === null
+                                ? contact?.avatar
+                                : logo && URL.createObjectURL(logo)
+                            }
+                            alt="Preview"
+                            width={100}
+                          />
+                        </div>
+                        <img
+                          src="http://100dayscss.com/codepen/upload.svg"
+                          class={`upload-icon ${
+                            logo || contact?.avatar ? "d-none" : ""
+                          }`}
+                          alt="default"
+                        />
+
+                        <p
+                          className={` fs-6 fw-bolder text-center ${
+                            logo || contact?.avatar ? "d-none" : ""
+                          }`}
+                        >
+                          Upload Logo
+                        </p>
+
+                        <input
+                          type="file"
+                          class="upload-input"
+                          onChange={(e) => {
+                            handleChangeImage(e);
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div> */}
+                  <div className="col-sm-6 col-md-6">
                     <InputField
-                      name="firstname"
-                      placeholder="Enter your First Name"
-                      label=" Name"
-                      defaultValue={contact?.firstname}
+                      name="name"
+                      placeholder="Enter your Full Name"
+                      label="Name"
+                      // defaultValue={contact?.name}
                       control={control}
                       rules={{
                         required: {
@@ -79,11 +148,12 @@ const ContactProfile = ({ contact }) => {
                       errors={errors}
                     />
                   </div>
-                  <div className="col-sm-6">
+                  <div className="col-sm-6 col-md-6">
                     <InputField
-                      name="lastname"
-                      placeholder="Enter your Last Name"
-                      label="Last Name"
+                      name="username"
+                      placeholder="Enter username"
+                      label="Username"
+                      // defaultValue={contact?.username}
                       control={control}
                       rules={{
                         required: {
@@ -126,43 +196,48 @@ const ContactProfile = ({ contact }) => {
                       errors={errors}
                     />
                   </div>
-                </div>
-                {/* <div className="col-sm-6">
-                  <TagInput
-                    name="tags"
-                    placeholder="Enter your phone number"
-                    label="Phone Number"
-                    control={control}
-                    rules={{
-                      required: {
-                        value: true,
-                        message: "Field required!",
-                      },
-                    }}
-                    errors={errors}
-                  />
-                </div> */}
-                <div className="row gx-3">
-                  <div className="col-sm-12">
-                    <label className="form-label">Location</label>
-                    <div className="form-group">
-                      <input
-                        className="form-control"
-                        type="text"
-                        value="Lane 1"
-                        placeholder="Line 1"
-                        name="add1"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <input
-                        className="form-control"
-                        type="text"
-                        value="Newyork"
-                        placeholder="Line 2"
-                        name="add2"
-                      />
-                    </div>
+                  {/* <div className="col-sm-6">
+                    <TagInput
+                      name="tags"
+                      label="Tags"
+                      control={control}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
+                      errors={errors}
+                    />
+                  </div> */}
+                  <div className="col-sm-6 mb-5">
+                    <ReactSelectField
+                      name={`role`}
+                      placeholder="Select"
+                      label="Role"
+                      mb={true}
+                      options={[
+                        { label: "User", value: "USER" },
+                        { label: "Admin", value: "ADMIN" },
+                        { label: "Super Admin", value: "SUPER_ADMIN" },
+                      ]}
+                      control={control}
+                      errors={errors}
+                    />
+                  </div>
+                  <div className="col-sm-6 mb-5">
+                    <ReactSelectField
+                      name={`status`}
+                      placeholder="Select"
+                      label="Status"
+                      mb={true}
+                      options={[
+                        { label: "Active", value: "active" },
+                        { label: "Block", value: "blocked" },
+                      ]}
+                      control={control}
+                      errors={errors}
+                    />
                   </div>
                 </div>
                 <div className="modal-footer align-items-center">
@@ -173,9 +248,11 @@ const ContactProfile = ({ contact }) => {
                   >
                     Discard
                   </button>
-                  <button type="submit" className="btn btn-primary">
-                    Update
-                  </button>
+                  <input
+                    type="submit"
+                    className="btn btn-primary"
+                    value={"Submit"}
+                  />
                 </div>
               </form>
             </div>
@@ -183,7 +260,7 @@ const ContactProfile = ({ contact }) => {
         </div>
       </div>
       {/* <!-- More Info --> */}
-      <div
+      {/* <div
         className="modal fade"
         id="moreContact"
         tabindex="-1"
@@ -211,8 +288,8 @@ const ContactProfile = ({ contact }) => {
                 <div className="row gx-3">
                   <div className="col-sm-6">
                     <InputField
-                      name="firstname"
-                      placeholder="Enter your First Name"
+                      name="name"
+                      placeholder="Enter Name"
                       label="Name"
                       control={control}
                       rules={{
@@ -282,11 +359,11 @@ const ContactProfile = ({ contact }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* <!-- /More Info --> */}
 
       {/* <!-- Add Bio --> */}
-      <div
+      {/* <div
         className="modal fade"
         id="tagsInput"
         tabindex="-1"
@@ -339,11 +416,11 @@ const ContactProfile = ({ contact }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* <!-- /Tags --> */}
 
       {/* <!-- Add Bio --> */}
-      <div
+      {/* <div
         className="modal fade"
         id="addBio"
         tabindex="-1"
@@ -393,7 +470,7 @@ const ContactProfile = ({ contact }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* <!-- /Add Bio --> */}
     </>
   );

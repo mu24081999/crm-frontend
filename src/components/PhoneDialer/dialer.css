@@ -5,6 +5,9 @@
 #popup-2 {
   width: 300px;
 }
+.popup-content {
+  width: auto;
+}
 #dialer_table tr td {
   text-align: center;
   height: 50px;

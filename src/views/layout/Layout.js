@@ -11,6 +11,7 @@ import {
   getUserSubAccountsList,
 } from "../../redux/services/calling";
 import Loader from "../../components/Loader/Loader";
+import { color } from "@chakra-ui/react";
 // import Dialer from "../../components/PhoneDialer/Dialer";
 const Layout = ({ component }) => {
   const { isAuthenticated, token } = useSelector((state) => state.auth);
@@ -69,8 +70,13 @@ const Layout = ({ component }) => {
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <form onSubmit={handleSubmit(addSubAccount)}>
-              <div class="modal-header">
-                <h5 class="modal-title">Add New Account</h5>
+              <div class="modal-header bg-secondary text-light">
+                <h5
+                  class="modal-title fs-6 fw-bold "
+                  style={{ color: "white" }}
+                >
+                  Add New Account
+                </h5>
                 <button
                   type="button"
                   class="btn-close"

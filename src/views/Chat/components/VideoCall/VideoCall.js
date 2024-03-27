@@ -7,10 +7,11 @@ import React, {
 } from "react";
 import { SocketContext } from "../../../../Context";
 
-import { FaPhone } from "react-icons/fa";
+import { FaInfo, FaPhone } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../../../redux/services/users";
 import "./video.css";
+import { FaMaximize, FaMinimize } from "react-icons/fa6";
 const VideoCall = ({ selectedRoom, authUser, socket }) => {
   const {
     isCalling,
@@ -81,9 +82,13 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
           class="modal-dialog modal-dialog-centered modal-xl chatapp-call-window"
           role="document"
         >
-          <div class="modal-content bg-primary-dark-5">
+          <div
+            class={`modal-content ${
+              type === "video" ? "bg-primary-dark-5" : "bg-light"
+            } `}
+          >
             <div class="modal-header header-wth-bg bg-primary-dark-3">
-              <h6 class="modal-title text-muted">Jampack Video Call</h6>
+              <h6 class="modal-title text-muted">Video Call</h6>
               <div class="modal-action">
                 <a
                   href="/"
@@ -91,10 +96,12 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                 >
                   <span class="icon">
                     <span class="feather-icon">
-                      <i data-feather="maximize"></i>
+                      {/* <i data-feather="maximize"></i> */}
+                      <FaMinimize />
                     </span>
                     <span class="feather-icon d-none">
-                      <i data-feather="minimize"></i>
+                      {/* <i data-feather="minimize"></i> */}
+                      <FaMaximize />
                     </span>
                   </span>
                 </a>
@@ -104,7 +111,8 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                 >
                   <span class="icon">
                     <span class="feather-icon">
-                      <i data-feather="help-circle"></i>
+                      {/* <i data-feather="help-circle"></i> */}
+                      <FaInfo />
                     </span>
                   </span>
                 </a>
@@ -113,12 +121,16 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
             <div class="text-center m-auto">
               {!callAccepted ||
                 (type === "audio" && (
-                  <div class="avatar avatar-xxxl avatar-rounded d-20 ">
+                  <div
+                    class="avatar avatar-xxxl avatar-rounded d-20 "
+                    style={{ marginTop: "50%" }}
+                  >
                     <img
                       src={
-                        selectedRoom.user_id_1 === authUser?.id
+                        (selectedRoom.user_id_1 === authUser?.id
                           ? selectedRoom.user_image_2
-                          : selectedRoom.user_image_1
+                          : selectedRoom.user_image_1) ||
+                        "https://static-00.iconduck.com/assets.00/profile-default-icon-1024x1023-4u5mrj2v.png"
                       }
                       alt="user"
                       className="avatar-img m-auto"
@@ -161,6 +173,7 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                   {call.isReceivingCall === true &&
                   // authUser.socket_id === call.from &&
                   ringing &&
+                  call.userToCall === authUser.socket_id &&
                   !callAccepted ? (
                     <li>
                       <button
@@ -213,7 +226,7 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                   </li>
                 </ul>
                 <div class="avatar avatar-lg avatar-rounded chatapp-caller-img ">
-                  {stream && (
+                  {stream && type === "video" && (
                     <video
                       playsInline
                       muted
@@ -228,9 +241,10 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                   {type === "audio" && (
                     <img
                       src={
-                        selectedRoom.user_id_1 === authUser?.id
+                        (selectedRoom.user_id_1 === authUser?.id
                           ? selectedRoom.user_image_1
-                          : selectedRoom.user_image_2
+                          : selectedRoom.user_image_2) ||
+                        "https://static-00.iconduck.com/assets.00/profile-default-icon-1024x1023-4u5mrj2v.png"
                       }
                       alt="user"
                       class="avatar-img"
