@@ -7,17 +7,17 @@ const Header = () => {
         <div className="dropdown">
           <a
             className="contactapp-title dropdown-toggle link-dark"
-            data-bs-toggle="dropdown"
-            href="/"
+            // data-bs-toggle="dropdown"
+            // href="/"
             role="button"
-            aria-haspopup="true"
-            aria-expanded="false"
+            // aria-haspopup="true"
+            // aria-expanded="false"
           >
             <h1>Recordings</h1>
           </a>
         </div>
       </div>
-      <div className="contact-options-wrap">
+      {/* <div className="contact-options-wrap">
         <a
           className="btn btn-icon btn-flush-dark flush-soft-hover dropdown-toggle no-caret active"
           href="/"
@@ -161,7 +161,7 @@ const Header = () => {
           </span>
         </a>
       </div>
-      <div className="hk-sidebar-togglable"></div>
+      <div className="hk-sidebar-togglable"></div> */}
     </header>
   );
 };
