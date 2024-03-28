@@ -50,8 +50,8 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
               data-sticky-header
               className="table table-striped w-100 mb-5"
             >
-              <thead>
-                <tr className="sticky-top border rounded">
+              <thead className="table-primary ">
+                <tr className="sticky-top border p-1 shadow-lg p-3 mb-5 bg-white rounded">
                   <th>Number</th>
                   <th>Type</th>
                   <th>Voice</th>
@@ -67,7 +67,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
               <tbody>
                 {contactsData?.length > 0 &&
                   contactsData?.map((contact) => (
-                    <tr>
+                    <tr className="shadow ">
                       <td>
                         <div className="fw-bold">
                           {contact?.phoneNumber?.slice(0, 2)}&nbsp;&nbsp;

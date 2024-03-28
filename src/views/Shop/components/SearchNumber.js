@@ -49,7 +49,7 @@ const SearchNumber = ({
       <div className="m-5 d-flex justify-content-center">
         <div className=" w-100">
           <div className="row">
-            <div className="col-md-6 col-sm-6">
+            <div className="col-md-2 col-sm-6">
               <ReactCountryField
                 name="country"
                 control={control}
@@ -62,103 +62,104 @@ const SearchNumber = ({
                 }}
               />
             </div>
-          </div>
-          <div className="col-md-6 col-sm-6">
-            <ReactSelectField
-              name="numberType"
-              control={control}
-              errors={errors}
-              mb={false}
-              options={[
-                { label: "local", value: "local" },
-                { label: "tollFree", value: "tollFree" },
-              ]}
-              label="Number Type"
-              rules={{
-                required: {
-                  value: true,
-                  message: "Field required!",
-                },
-              }}
-            />
-          </div>
-          <div className="col-md-6 col-sm-6">
-            <div className="row px-5 gap-3">
-              <div className="col">
-                <Checkbox
-                  control={control}
-                  errors={errors}
-                  name="voice"
-                  label="Voice"
-                />
-              </div>
-              <div className="col">
-                <Checkbox
-                  control={control}
-                  errors={errors}
-                  name="sms"
-                  label="SMS"
-                />
-              </div>
-              <div className="col">
-                <Checkbox
-                  control={control}
-                  errors={errors}
-                  name="mms"
-                  label="MMS"
-                />
-              </div>
-              <div className="col">
-                <Checkbox
-                  control={control}
-                  errors={errors}
-                  name="fax"
-                  label="Fax"
-                />
+            <div className="col-md-4 col-sm-6 pt-2">
+              <ReactSelectField
+                name="numberType"
+                placeholder="Number Type"
+                control={control}
+                errors={errors}
+                mb={false}
+                options={[
+                  { label: "local", value: "local" },
+                  { label: "tollFree", value: "tollFree" },
+                ]}
+                rules={{
+                  required: {
+                    value: true,
+                    message: "Field required!",
+                  },
+                }}
+              />
+            </div>
+            <div className="col-md-4 col-sm-6 pt-2">
+              <ReactSelectField
+                name="search_criteria"
+                placeholder="Criteria"
+                control={control}
+                errors={errors}
+                mb={false}
+                options={[
+                  { label: "Locality", value: "locality" },
+                  { label: "Number", value: "number" },
+                ]}
+              />
+            </div>
+            <div className="col-md-4 col-sm-6">
+              <div className="row px-5 pt-2 gap-2">
+                <div className="col">
+                  <Checkbox
+                    control={control}
+                    errors={errors}
+                    name="voice"
+                    label="Voice"
+                  />
+                </div>
+                <div className="col">
+                  <Checkbox
+                    control={control}
+                    errors={errors}
+                    name="sms"
+                    label="SMS"
+                  />
+                </div>
+                <div className="col">
+                  <Checkbox
+                    control={control}
+                    errors={errors}
+                    name="mms"
+                    label="MMS"
+                  />
+                </div>
+                <div className="col">
+                  <Checkbox
+                    control={control}
+                    errors={errors}
+                    name="fax"
+                    label="Fax"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="col-md-6 col-sm-6">
-            <InputField
-              name="area_code"
-              placeholder="Enter Area Code"
-              control={control}
-              errors={errors}
-              mb={false}
-              label="Area Code"
-            />
-            <ReactSelectField
-              name="search_criteria"
-              control={control}
-              errors={errors}
-              mb={false}
-              options={[
-                { label: "Locality", value: "locality" },
-                { label: "Number", value: "number" },
-              ]}
-              label="Criteria"
-            />
 
-            {criteria === "locality" ? (
+            <div className="col-md-4 col-sm-6">
               <InputField
-                name="locality"
-                placeholder="Enter "
+                name="area_code"
+                placeholder="Area Code"
                 control={control}
                 errors={errors}
                 mb={false}
-                label="Search by phrases"
               />
-            ) : (
-              <InputField
-                name="number"
-                placeholder="Enter "
-                control={control}
-                errors={errors}
-                mb={false}
-                label="Search by digits"
-              />
-            )}
-            <div>
+            </div>
+            <div className="col-md-4 col-sm-6">
+              {criteria === "locality" ? (
+                <InputField
+                  name="locality"
+                  placeholder="Search by Phrase"
+                  control={control}
+                  errors={errors}
+                  mb={false}
+                />
+              ) : (
+                <InputField
+                  name="number"
+                  placeholder="Search by Digits "
+                  control={control}
+                  errors={errors}
+                  mb={false}
+                />
+              )}
+            </div>
+            <div className="col-md-4 col-sm-6 d-flex gap-2">
               <button onClick={() => reset()} className="btn btn-secondary">
                 Reset
               </button>

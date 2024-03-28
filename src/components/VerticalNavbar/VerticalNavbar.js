@@ -289,32 +289,32 @@ const VerticalNavbar = () => {
                 </li>
               )}
 
-              {user?.role === "USER" ||
+              {(user?.role === "USER" ||
                 user?.role === "ADMIN" ||
-                (user?.role === "SUPER_ADMIN" && (
-                  <>
-                    <li className="nav-item">
-                      <Link className="nav-link" to="/agents">
-                        <span className="nav-icon-wrap">
-                          <span className="svg-icon">
-                            <MdSupportAgent />
-                          </span>
+                user?.role === "SUPER_ADMIN") && (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/agents">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <MdSupportAgent />
                         </span>
-                        <span className="nav-link-text">Agents</span>
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link className="nav-link" to="/shop">
-                        <span className="nav-icon-wrap">
-                          <span className="svg-icon">
-                            <FaPhoneAlt />
-                          </span>
+                      </span>
+                      <span className="nav-link-text">Agents</span>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/shop">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <FaPhoneAlt />
                         </span>
-                        <span className="nav-link-text">Phone Numbers</span>
-                      </Link>
-                    </li>
-                  </>
-                ))}
+                      </span>
+                      <span className="nav-link-text">Phone Numbers</span>
+                    </Link>
+                  </li>
+                </>
+              )}
               {(user?.role === "AGENT" ||
                 user?.role === "USER" ||
                 user?.role === "ADMIN" ||
