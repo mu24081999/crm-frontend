@@ -24,7 +24,8 @@ export const storeInvoice = (token, data) => async (dispatch) => {
     await axios
       .post(`${backendURL}/user/invoice/post-invoice`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(addInvoice(response.data.message));
@@ -48,7 +49,8 @@ export const getInvoiceList = (token) => async (dispatch) => {
       .get(`${backendURL}/user/invoice/get-invoices`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getAllInvoices(response.data.data.invoicesData));
@@ -70,7 +72,8 @@ export const getInvoiceDetails = (token, invoice_id) => async (dispatch) => {
       .get(`${backendURL}/user/invoice/invoice-details/${invoice_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(invoiceDetials(response.data.data.invoiceData));
@@ -98,7 +101,8 @@ export const updateInvoiceRec =
         )
         .then((response) => {
           console.log("🚀 ~ .then ~ response:", response);
-          if (response?.status !== 200) {
+          if (response?.data?.statusCode !== 200) {
+            toast.error(response.data.message);
             return dispatch(invalidRequest(response.data.message));
           }
           dispatch(updateInvoice(response.data.message));
@@ -127,7 +131,8 @@ export const updateStatusRec =
         )
         .then((response) => {
           console.log("🚀 ~ .then ~ response:", response);
-          if (response?.status !== 200) {
+          if (response?.data?.statusCode !== 200) {
+            toast.error(response.data.message);
             return dispatch(invalidRequest(response.data.message));
           }
           dispatch(updateInvoice(response.data.message));
@@ -152,7 +157,8 @@ export const deleteInvoiceRec = (token, invoice_id) => async (dispatch) => {
       .delete(`${backendURL}/user/invoice/delete-invoice/${invoice_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(deleteInvoice(response.data.message));

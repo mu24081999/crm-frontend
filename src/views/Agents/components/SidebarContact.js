@@ -85,7 +85,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
             data-bs-toggle="modal"
             data-bs-target="#add_new_contact"
           >
-            Add new Client
+            Add new Agent
           </button>
           <div className="menu-group p-1">
             <ul className="nav nav-light navbar-nav flex-column">
@@ -100,7 +100,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                       <FaUserClock />
                     </span>
                   </span>
-                  <span className="nav-link-text">All Clients</span>
+                  <span className="nav-link-text">All Agents</span>
                 </a>
               </li>
 

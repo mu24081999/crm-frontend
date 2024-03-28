@@ -22,7 +22,8 @@ export const getEmailList = (token) => async (dispatch) => {
     await axios
       .get(`${backendURL}/user/email/get-emails`, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getEmails(response.data.data.emailsData));
@@ -43,7 +44,8 @@ export const getEmailListByEmail = (token, data) => async (dispatch) => {
     await axios
       .post(`${backendURL}/user/email/get-emails-by-email`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getEmails(response.data.data.emailsData));
@@ -66,7 +68,8 @@ export const sendEmailRec = (token, data) => async (dispatch) => {
       .post(`${backendURL}/user/email/send-email`, data, config)
       .then((response) => {
         console.log(response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(sendEmail(response.data.message));
@@ -89,7 +92,8 @@ export const updateEmailRec = (token, emailId, data) => async (dispatch) => {
     await axios
       .put(`${backendURL}/user/email/update-email/${emailId}`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(updateEmail(response.data.message));
@@ -112,7 +116,8 @@ export const deleteEmailRec = (token, email_id) => async (dispatch) => {
     await axios
       .delete(`${backendURL}/user/email/delete-email/${email_id}`, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(updateEmail(response.data.message));

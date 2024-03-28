@@ -1,58 +1,58 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const userSlice = createSlice({
-  name: "user",
+export const agentSlice = createSlice({
+  name: "agent",
   initialState: {
     isLoading: false,
-    users: [],
-    userDetails: {},
+    agents: [],
+    agentDetails: {},
     message: "",
     error: "",
     token: "",
     type: "",
   },
   reducers: {
-    userRequestLoading: (state, action) => {
+    agentRequestLoading: (state, action) => {
       state.isLoading = true;
     },
     invalidRequest: (state, action) => {
       state.isLoading = false;
-      state.users = [];
+      state.agents = [];
       state.message = action.payload;
       state.error = "";
       state.token = "";
       state.type = "InvalidRequestError";
     },
-    getAllUsers: (state, action) => {
+    getAllAgents: (state, action) => {
       state.isLoading = false;
-      state.users = action.payload;
+      state.agents = action.payload;
       state.message = "success";
       state.error = "";
       state.token = "";
       state.type = "success";
     },
-    addUser: (state, action) => {
+    addAgent: (state, action) => {
       state.isLoading = false;
       state.message = action.payload;
       state.error = "";
       state.token = "";
       state.type = "success";
     },
-    updateUser: (state, action) => {
+    updateAgent: (state, action) => {
       state.isLoading = false;
       state.message = action.payload;
       state.error = "";
       state.token = "";
       state.type = "success";
     },
-    readUser: (state, action) => {
+    readAgent: (state, action) => {
       state.isLoading = false;
-      state.userDetails = action.payload;
+      state.agentDetails = action.payload;
       state.error = "";
       state.token = "";
       state.type = "success";
     },
-    deleteUser: (state, action) => {
+    deleteAgent: (state, action) => {
       state.isLoading = false;
       state.message = action.payload;
       state.error = "";
@@ -62,13 +62,13 @@ export const userSlice = createSlice({
   },
 });
 
-export default userSlice.reducer;
+export default agentSlice.reducer;
 export const {
-  userRequestLoading,
-  addUser,
+  agentRequestLoading,
+  addAgent,
   invalidRequest,
-  getAllUsers,
-  readUser,
-  deleteUser,
-  updateUser,
-} = userSlice.actions;
+  getAllAgents,
+  readAgent,
+  deleteAgent,
+  updateAgent,
+} = agentSlice.actions;

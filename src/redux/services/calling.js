@@ -26,7 +26,8 @@ export const getAvailableNumbers = (token, data) => async (dispatch) => {
     await axios
       .post(`${backendURL}/user/calling/available-numbers`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(
@@ -49,7 +50,8 @@ export const CallLogsList = (token, data) => async (dispatch) => {
     await axios
       .post(`${backendURL}/user/calling/call-logs`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getCallLogs(response.data.data.callsData));
@@ -70,7 +72,8 @@ export const recordingsList = (token, data) => async (dispatch) => {
     await axios
       .post(`${backendURL}/user/calling/call-recordings`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getRecordings(response.data.data.recordingsData));
@@ -91,7 +94,8 @@ export const makeUserToCall = (token, data) => async (dispatch) => {
     await axios
       .post(`${backendURL}/user/calling/make-call`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(makeCall(response.data.data.callData));
@@ -112,7 +116,8 @@ export const searchAvailablePhoneNumber = (token, data) => async (dispatch) => {
     await axios
       .post(`${backendURL}/user/calling/search-number`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(
@@ -135,7 +140,8 @@ export const createSubAccount = (token, data) => async (dispatch) => {
     await axios
       .post(`${backendURL}/user/calling/create-sub-account`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(addSubAccount(response.data.data.message));
@@ -157,7 +163,8 @@ export const getUserSubAccountsList = (token) => async (dispatch) => {
       .get(`${backendURL}/user/calling/get-sub-accounts`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getUserSubAccounts(response.data.data.subAccountsData));

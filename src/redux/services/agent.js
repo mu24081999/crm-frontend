@@ -2,19 +2,19 @@
 import axios from "axios";
 import {
   invalidRequest,
-  todoRequestLoading,
-  todoDetails,
-  addTodo,
-  getAllTodos,
-  deleteTodo,
-  updateTodo,
-} from "../slices/todo";
+  getAllAgents,
+  addAgent,
+  agentRequestLoading,
+  readAgent,
+  deleteAgent,
+  updateAgent,
+} from "../slices/agent";
 import { toast } from "react-toastify";
 const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
 
-export const storeTodo = (token, data) => async (dispatch) => {
+export const getAgentsList = (token, user_id) => async (dispatch) => {
   try {
-    dispatch(todoRequestLoading());
+    dispatch(agentRequestLoading());
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -22,23 +22,21 @@ export const storeTodo = (token, data) => async (dispatch) => {
       },
     };
     await axios
-      .post(`${backendURL}/user/todos/post-todo`, data, config)
+      .get(`${backendURL}/user/agents/get-agents/${user_id}`, config)
       .then((response) => {
+        console.log("🚀 ~ .then ~ response:", response);
         if (response?.data?.statusCode !== 200) {
-          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
-        dispatch(addTodo(response.data.message));
-        toast.success(response.data.message);
-        dispatch(getTodosList(token));
+        dispatch(getAllAgents(response.data.data.agentsData));
       });
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }
 };
-export const getTodosList = (token) => async (dispatch) => {
+export const getAgentDetails = (token, agent_id) => async (dispatch) => {
   try {
-    dispatch(todoRequestLoading());
+    dispatch(agentRequestLoading());
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -46,22 +44,22 @@ export const getTodosList = (token) => async (dispatch) => {
       },
     };
     await axios
-      .get(`${backendURL}/user/todos/get-todos`, config)
+      .get(`${backendURL}/user/agents/agent-details/${agent_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         if (response?.data?.statusCode !== 200) {
           toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
-        dispatch(getAllTodos(response.data.data.todosData));
+        dispatch(readAgent(response.data.data.agentData));
       });
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }
 };
-export const getTodoDetails = (token, todo_id) => async (dispatch) => {
+export const deleteAgentRec = (token, agent_id) => async (dispatch) => {
   try {
-    dispatch(todoRequestLoading());
+    dispatch(agentRequestLoading());
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -69,65 +67,72 @@ export const getTodoDetails = (token, todo_id) => async (dispatch) => {
       },
     };
     await axios
-      .get(`${backendURL}/user/todos/todo-details/${todo_id}`, config)
+      .delete(`${backendURL}/user/agents/delete-agent/${agent_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         if (response?.data?.statusCode !== 200) {
           toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
-        dispatch(todoDetails(response.data.data.todoData));
+        dispatch(deleteAgent(response.data.message));
+        dispatch(getAgentsList(token));
       });
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }
 };
+export const addAgentRec = (token, data) => async (dispatch) => {
+  try {
+    dispatch(agentRequestLoading());
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    await axios
+      .post(`${backendURL}/user/agents/add-agent`, data, config)
+      .then((response) => {
+        console.log("🚀 ~ .then ~ response:", response);
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          return dispatch(invalidRequest(response.data.message));
+        }
 
-export const updateTodoRec = (token, todo_id, data) => async (dispatch) => {
-  try {
-    dispatch(todoRequestLoading());
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": token,
-      },
-    };
-    await axios
-      .put(`${backendURL}/user/todos/todo-update/${todo_id}`, data, config)
-      .then((response) => {
-        console.log("🚀 ~ .then ~ response:", response);
-        if (response?.data?.statusCode !== 200) {
-          toast.error(response.data.message);
-          return dispatch(invalidRequest(response.data.message));
-        }
-        dispatch(updateTodo(response.data.message));
-        dispatch(getTodosList(token));
         toast.success(response.data.message);
+        dispatch(addAgent(response.data.message));
+        dispatch(getAgentsList(token));
+        // Cookie.set("token", response.data.data.token);
       });
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }
 };
-export const deleteTodoRec = (token, todo_id) => async (dispatch) => {
+export const updateAgentRec = (token, data, agent_id) => async (dispatch) => {
   try {
-    dispatch(todoRequestLoading());
+    dispatch(agentRequestLoading());
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         "x-access-token": token,
       },
     };
     await axios
-      .delete(`${backendURL}/user/todos/delete-todo/${todo_id}`, config)
+      .put(
+        `${backendURL}/user/agents/update-agent-details/${agent_id}`,
+        data,
+        config
+      )
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         if (response?.data?.statusCode !== 200) {
           toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
-        dispatch(deleteTodo(response.data.message));
-        dispatch(getTodosList(token));
+
         toast.success(response.data.message);
+        dispatch(updateAgent(response.data.message));
+        dispatch(getAgentsList(token));
+        // Cookie.set("token", response.data.data.token);
       });
   } catch (e) {
     dispatch(invalidRequest(e.message));

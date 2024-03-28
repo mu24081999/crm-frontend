@@ -25,7 +25,8 @@ export const addContact = (token, data) => async (dispatch) => {
       .post(`${backendURL}/user/contact/post-contact`, data, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.data?.code === 404) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(postContact(response.data.message));
@@ -49,7 +50,8 @@ export const getContactsList = (token) => async (dispatch) => {
       .get(`${backendURL}/user/contact/get-contacts`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getContacts(response.data.data.contactsData));
@@ -71,7 +73,8 @@ export const getContactDetais = (token, contact_id) => async (dispatch) => {
       .get(`${backendURL}/user/contact/contact-details/${contact_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(contactDetails(response.data.data.contactData));
@@ -100,7 +103,8 @@ export const updateContactRec =
         )
         .then((response) => {
           console.log("🚀 ~ .then ~ response:", response);
-          if (response?.status !== 200) {
+          if (response?.data?.statusCode !== 200) {
+            toast.error(response.data.message);
             return dispatch(invalidRequest(response.data.message));
           }
           dispatch(updateContact(response.data.message));
@@ -124,7 +128,8 @@ export const deleteContactRec = (token, contact_id) => async (dispatch) => {
       .get(`${backendURL}/user/contact/delete-contact/${contact_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(deleteContact(response.data.message));

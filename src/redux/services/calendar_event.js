@@ -23,7 +23,8 @@ export const storeEvent = (token, data) => async (dispatch) => {
     await axios
       .post(`${backendURL}/user/calendar/add-event`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(addEvent(response.data.message));
@@ -47,7 +48,8 @@ export const getEventsList = (token) => async (dispatch) => {
       .get(`${backendURL}/user/calendar/get-events`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getEvents(response.data.data.eventsData));
@@ -69,7 +71,8 @@ export const getEventDetails = (token, event_id) => async (dispatch) => {
       .get(`${backendURL}/user/calendar/event-details/${event_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(readEvent(response.data.data.eventData));
@@ -92,7 +95,8 @@ export const deleteEventRec = (token, event_id) => async (dispatch) => {
       .delete(`${backendURL}/user/calendar/delete-event/${event_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(deleteEvent(response.data.message));

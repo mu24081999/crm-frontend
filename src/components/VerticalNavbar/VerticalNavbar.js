@@ -2,15 +2,12 @@ import React from "react";
 import brandSm from "../../assets/brand-sm.svg";
 import brand from "../../assets/Jampack.svg";
 import { Link } from "react-router-dom";
-import {
-  FaPhoneAlt,
-  FaRecordVinyl,
-  FaShoppingCart,
-  FaUsers,
-} from "react-icons/fa";
-import { MdMarkEmailRead } from "react-icons/md";
+import { FaPhoneAlt, FaRecordVinyl, FaUsers } from "react-icons/fa";
+import { MdMarkEmailRead, MdSupportAgent } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 const VerticalNavbar = () => {
+  const { user } = useSelector((state) => state.auth);
   return (
     <div className="hk-menu">
       {/* <!-- Brand --> */}
@@ -92,624 +89,628 @@ const VerticalNavbar = () => {
               <span>Apps</span>
             </div>
             <ul className="navbar-nav flex-column">
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="/"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#dash_chat"
-                >
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-message-dots"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
-                        <line x1="12" y1="11" x2="12" y2="11.01" />
-                        <line x1="8" y1="11" x2="8" y2="11.01" />
-                        <line x1="16" y1="11" x2="16" y2="11.01" />
-                      </svg>
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Chat</span>
-                </a>
-                <ul
-                  id="dash_chat"
-                  className="nav flex-column collapse  nav-children"
-                >
+              {(user?.role === "ADMIN" || user?.role === "SUPER_ADMIN") && (
+                <>
                   <li className="nav-item">
-                    <ul className="nav flex-column">
+                    <a
+                      className="nav-link"
+                      href="/"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#dash_chat"
+                    >
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-message-dots"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M4 21v-13a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-9l-4 4" />
+                            <line x1="12" y1="11" x2="12" y2="11.01" />
+                            <line x1="8" y1="11" x2="8" y2="11.01" />
+                            <line x1="16" y1="11" x2="16" y2="11.01" />
+                          </svg>
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Chat</span>
+                    </a>
+                    <ul
+                      id="dash_chat"
+                      className="nav flex-column collapse  nav-children"
+                    >
                       <li className="nav-item">
-                        <Link to={"/chats"} className="nav-link">
-                          <span className="nav-link-text">Chats</span>
-                        </Link>
+                        <ul className="nav flex-column">
+                          <li className="nav-item">
+                            <Link to={"/chats"} className="nav-link">
+                              <span className="nav-link-text">Chats</span>
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/chat-group">
+                              <span className="nav-link-text">Groups</span>
+                            </Link>
+                          </li>
+                        </ul>
                       </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/chat-group">
-                          <span className="nav-link-text">Groups</span>
-                        </Link>
-                      </li>
-                      {/* <li className="nav-item">
-                        <Link to={"/contacts"} className="nav-link">
-                          <span className="nav-link-text">Contacts</span>
-                        </Link>
-                      </li> */}
                     </ul>
                   </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="/"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#dash_chatpop"
-                >
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-message-circle-2"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" />
-                        <line x1="12" y1="12" x2="12" y2="12.01" />
-                        <line x1="8" y1="12" x2="8" y2="12.01" />
-                        <line x1="16" y1="12" x2="16" y2="12.01" />
-                      </svg>
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Chat Popup</span>
-                </a>
-                <ul
-                  id="dash_chatpop"
-                  className="nav flex-column collapse  nav-children"
-                >
-                  <li className="nav-item">
-                    <ul className="nav flex-column">
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/direct-chat">
-                          <span className="nav-link-text">Direct Message</span>
-                        </Link>
-                      </li>
-                      {/* <li className="nav-item">
-                        <a className="nav-link" href="chatbot.html">
-                          <span className="nav-link-text">Chatbot</span>
-                        </a>
-                      </li> */}
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/users">
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <FaUsers />
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Users</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/calendar">
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-calendar-time"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-                        <circle cx="18" cy="18" r="4" />
-                        <path d="M15 3v4" />
-                        <path d="M7 3v4" />
-                        <path d="M3 11h16" />
-                        <path d="M18 16.496v1.504l1 1" />
-                      </svg>
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Calendar</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/shop">
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <FaPhoneAlt />
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Phone Numbers</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/recordings">
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <FaRecordVinyl />
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Call Recordings</span>
-                </Link>
-              </li>
 
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="/"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#email_section"
-                >
-                  <span className="nav-icon-wrap position-relative">
-                    <span className="badge badge-sm badge-primary badge-sm badge-pill position-top-end-overflow">
-                      3
-                    </span>
-                    <span className="svg-icon">
-                      <MdMarkEmailRead />
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Email</span>
-                </a>
-                <ul
-                  id="email_section"
-                  className="nav flex-column collapse  nav-children"
-                >
                   <li className="nav-item">
-                    <ul className="nav flex-column">
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/emails">
-                          <span className="nav-link-text">Emails</span>
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/bulk-emails">
-                          <span className="nav-link-text">Bulk Emails</span>
-                        </Link>
-                      </li>
-                    </ul>
+                    <Link className="nav-link" to="/users">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <FaUsers />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Users</span>
+                    </Link>
                   </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="/"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#dash_scrumboard"
-                >
-                  <span className="nav-icon-wrap position-relative">
-                    <span className="badge badge-sm badge-primary badge-sm badge-pill position-top-end-overflow">
-                      3
-                    </span>
-                    <span className="svg-icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-layout-kanban"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <line x1="4" y1="4" x2="10" y2="4" />
-                        <line x1="14" y1="4" x2="20" y2="4" />
-                        <rect x="4" y="8" width="6" height="12" rx="2" />
-                        <rect x="14" y="8" width="6" height="6" rx="2" />
-                      </svg>
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Scrumboard</span>
-                </a>
-                <ul
-                  id="dash_scrumboard"
-                  className="nav flex-column collapse  nav-children"
-                >
-                  <li className="nav-item">
-                    <ul className="nav flex-column">
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/projects-board">
-                          <span className="nav-link-text">All Boards</span>
-                        </Link>
-                      </li>
 
-                      {/* <li className="nav-item">
-                        <a className="nav-link" href="kanban-board.html">
-                          <span className="nav-link-text">Project Kanban</span>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="pipeline.html">
-                          <span className="nav-link-text">Pipeline Kanban</span>
-                        </a>
-                      </li> */}
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <Link
-                  to={"/contacts"}
-                  className="nav-link"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#dash_contact"
-                >
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-notebook"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18" />
-                        <line x1="13" y1="8" x2="15" y2="8" />
-                        <line x1="13" y1="12" x2="15" y2="12" />
-                      </svg>
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Contact</span>
-                </Link>
-                <ul
-                  id="dash_contact"
-                  className="nav flex-column collapse  nav-children"
-                >
                   <li className="nav-item">
-                    <ul className="nav flex-column">
+                    <a
+                      className="nav-link"
+                      href="/"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#dash_scrumboard"
+                    >
+                      <span className="nav-icon-wrap position-relative">
+                        <span className="badge badge-sm badge-primary badge-sm badge-pill position-top-end-overflow">
+                          3
+                        </span>
+                        <span className="svg-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-layout-kanban"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <line x1="4" y1="4" x2="10" y2="4" />
+                            <line x1="14" y1="4" x2="20" y2="4" />
+                            <rect x="4" y="8" width="6" height="12" rx="2" />
+                            <rect x="14" y="8" width="6" height="6" rx="2" />
+                          </svg>
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Scrumboard</span>
+                    </a>
+                    <ul
+                      id="dash_scrumboard"
+                      className="nav flex-column collapse  nav-children"
+                    >
                       <li className="nav-item">
-                        <Link to={"/contacts"} className="nav-link">
-                          <span className="nav-link-text">Contact List</span>
-                        </Link>
+                        <ul className="nav flex-column">
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/projects-board">
+                              <span className="nav-link-text">All Boards</span>
+                            </Link>
+                          </li>
+                        </ul>
                       </li>
-                      {/* <li className="nav-item">
-                        <a className="nav-link" href="contact-cards.html">
-                          <span className="nav-link-text">Contact Cards</span>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="edit-contact.html">
-                          <span className="nav-link-text">Edit Contact</span>
-                        </a>
-                      </li> */}
                     </ul>
                   </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="/"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#dash_file"
-                >
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-file-check"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                        <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-                        <path d="M9 15l2 2l4 -4" />
-                      </svg>
-                    </span>
-                  </span>
-                  <span className="nav-link-text">File Manager</span>
-                </a>
-                <ul
-                  id="dash_file"
-                  className="nav flex-column collapse  nav-children"
-                >
+
                   <li className="nav-item">
-                    <ul className="nav flex-column">
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/file-manager">
-                          <span className="nav-link-text">File Manager</span>
-                        </Link>
-                      </li>
-                    </ul>
+                    <Link className="nav-link" to="/calendar">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-calendar-time"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+                            <circle cx="18" cy="18" r="4" />
+                            <path d="M15 3v4" />
+                            <path d="M7 3v4" />
+                            <path d="M3 11h16" />
+                            <path d="M18 16.496v1.504l1 1" />
+                          </svg>
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Calendar</span>
+                    </Link>
                   </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/gallery">
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-photo"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <line x1="15" y1="8" x2="15.01" y2="8" />
-                        <rect x="4" y="4" width="16" height="16" rx="3" />
-                        <path d="M4 15l4 -4a3 5 0 0 1 3 0l5 5" />
-                        <path d="M14 14l1 -1a3 5 0 0 1 3 0l2 2" />
-                      </svg>
+                </>
+              )}
+              {(user?.role === "ADMIN" ||
+                user?.role === "SUPER_ADMIN" ||
+                user?.role === "USER" ||
+                user?.role === "AGENT") && (
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    href="/"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#dash_chatpop"
+                  >
+                    <span className="nav-icon-wrap">
+                      <span className="svg-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="icon icon-tabler icon-tabler-message-circle-2"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          strokeWidth="2"
+                          stroke="currentColor"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1" />
+                          <line x1="12" y1="12" x2="12" y2="12.01" />
+                          <line x1="8" y1="12" x2="8" y2="12.01" />
+                          <line x1="16" y1="12" x2="16" y2="12.01" />
+                        </svg>
+                      </span>
                     </span>
-                  </span>
-                  <span className="nav-link-text">Gallery</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="/"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#dash_task"
-                >
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-list-details"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M13 5h8" />
-                        <path d="M13 9h5" />
-                        <path d="M13 15h8" />
-                        <path d="M13 19h5" />
-                        <rect x="3" y="4" width="6" height="6" rx="1" />
-                        <rect x="3" y="14" width="6" height="6" rx="1" />
-                      </svg>
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Todo</span>
-                  <span className="badge badge-soft-success ms-2">2</span>
-                </a>
-                <ul
-                  id="dash_task"
-                  className="nav flex-column collapse  nav-children"
-                >
+                    <span className="nav-link-text">Chat Popup</span>
+                  </a>
+                  <ul
+                    id="dash_chatpop"
+                    className="nav flex-column collapse  nav-children"
+                  >
+                    <li className="nav-item">
+                      <ul className="nav flex-column">
+                        <li className="nav-item">
+                          <Link className="nav-link" to="/direct-chat">
+                            <span className="nav-link-text">
+                              Direct Message
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              )}
+
+              {user?.role === "USER" && (
+                <>
                   <li className="nav-item">
-                    <ul className="nav flex-column">
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/todos">
-                          <span className="nav-link-text">Tasklist</span>
-                        </Link>
-                      </li>
-                      {/* <li className="nav-item">
-                        <a className="nav-link" href="gantt.html">
-                          <span className="nav-link-text">Gantt</span>
-                        </a>
-                      </li> */}
-                    </ul>
+                    <Link className="nav-link" to="/agents">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <MdSupportAgent />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Agents</span>
+                    </Link>
                   </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="/"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#dash_blog"
-                >
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-browser"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <rect x="4" y="4" width="16" height="16" rx="1" />
-                        <line x1="4" y1="8" x2="20" y2="8" />
-                        <line x1="8" y1="4" x2="8" y2="8" />
-                      </svg>
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Blog</span>
-                </a>
-                <ul
-                  id="dash_blog"
-                  className="nav flex-column collapse  nav-children"
-                >
                   <li className="nav-item">
-                    <ul className="nav flex-column">
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/posts">
-                          <span className="nav-link-text">Posts</span>
-                        </Link>
-                      </li>
-                      {/* <li className="nav-item">
-                        <a className="nav-link" href="add-new-post.html">
-                          <span className="nav-link-text">Add New Post</span>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="post-detail.html">
-                          <span className="nav-link-text">Post Detail</span>
-                        </a>
-                      </li> */}
-                    </ul>
+                    <Link className="nav-link" to="/shop">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <FaPhoneAlt />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Phone Numbers</span>
+                    </Link>
                   </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="/"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#dash_invoice"
-                >
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-file-digit"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                        <rect x="9" y="12" width="3" height="5" rx="1" />
-                        <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-                        <path d="M15 12v5" />
-                      </svg>
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Invoices</span>
-                </a>
-                <ul
-                  id="dash_invoice"
-                  className="nav flex-column collapse  nav-children"
-                >
+                </>
+              )}
+              {(user?.role === "AGENT" || user?.role === "USER") && (
+                <>
                   <li className="nav-item">
-                    <ul className="nav flex-column">
+                    <Link
+                      to={"/contacts"}
+                      className="nav-link"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#dash_contact"
+                    >
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-notebook"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18" />
+                            <line x1="13" y1="8" x2="15" y2="8" />
+                            <line x1="13" y1="12" x2="15" y2="12" />
+                          </svg>
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Contact</span>
+                    </Link>
+                    <ul
+                      id="dash_contact"
+                      className="nav flex-column collapse  nav-children"
+                    >
                       <li className="nav-item">
-                        <Link className="nav-link" to="/invoices">
-                          <span className="nav-link-text">Invoice List</span>
-                        </Link>
+                        <ul className="nav flex-column">
+                          <li className="nav-item">
+                            <Link to={"/contacts"} className="nav-link">
+                              <span className="nav-link-text">
+                                Contact List
+                              </span>
+                            </Link>
+                          </li>
+                        </ul>
                       </li>
-                      {/* <li className="nav-item">
-                        <a className="nav-link" href="invoice-templates.html">
-                          <span className="nav-link-text">
-                            Invoice Templates
-                          </span>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="create-invoice.html">
-                          <span className="nav-link-text">Create Invoice</span>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="invoice-preview.html">
-                          <span className="nav-link-text">Invoice Preview</span>
-                        </a>
-                      </li> */}
                     </ul>
                   </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="/"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#dash_integ"
-                >
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="icon icon-tabler icon-tabler-code"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <polyline points="7 8 3 12 7 16" />
-                        <polyline points="17 8 21 12 17 16" />
-                        <line x1="14" y1="4" x2="10" y2="20" />
-                      </svg>
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Integrations</span>
-                </a>
-                <ul
-                  id="dash_integ"
-                  className="nav flex-column collapse  nav-children"
-                >
                   <li className="nav-item">
-                    <ul className="nav flex-column">
+                    <Link className="nav-link" to="/recordings">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <FaRecordVinyl />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Call Recordings</span>
+                    </Link>
+                  </li>
+                </>
+              )}
+              {(user?.role === "AGENT" ||
+                user?.role === "USER" ||
+                user?.role === "ADMIN" ||
+                user?.role === "SUPER_ADMIN") && (
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    href="/"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#email_section"
+                  >
+                    <span className="nav-icon-wrap position-relative">
+                      <span className="badge badge-sm badge-primary badge-sm badge-pill position-top-end-overflow">
+                        3
+                      </span>
+                      <span className="svg-icon">
+                        <MdMarkEmailRead />
+                      </span>
+                    </span>
+                    <span className="nav-link-text">Email</span>
+                  </a>
+                  <ul
+                    id="email_section"
+                    className="nav flex-column collapse  nav-children"
+                  >
+                    <li className="nav-item">
+                      <ul className="nav flex-column">
+                        <li className="nav-item">
+                          <Link className="nav-link" to="/emails">
+                            <span className="nav-link-text">Emails</span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link className="nav-link" to="/bulk-emails">
+                            <span className="nav-link-text">Bulk Emails</span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              )}
+
+              {user?.role === "ADMIN" ||
+                (user?.role === "ADMIN" && (
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      href="/"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#dash_file"
+                    >
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-file-check"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                            <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                            <path d="M9 15l2 2l4 -4" />
+                          </svg>
+                        </span>
+                      </span>
+                      <span className="nav-link-text">File Manager</span>
+                    </a>
+                    <ul
+                      id="dash_file"
+                      className="nav flex-column collapse  nav-children"
+                    >
                       <li className="nav-item">
-                        <a className="nav-link" href="all-apps.html">
-                          <span className="nav-link-text">All Apps</span>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="integrations-detail.html">
-                          <span className="nav-link-text">App Detail</span>
-                        </a>
-                      </li>
-                      <li className="nav-item">
-                        <a className="nav-link" href="integrations.html">
-                          <span className="nav-link-text">Integrations</span>
-                        </a>
+                        <ul className="nav flex-column">
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/file-manager">
+                              <span className="nav-link-text">
+                                File Manager
+                              </span>
+                            </Link>
+                          </li>
+                        </ul>
                       </li>
                     </ul>
                   </li>
-                </ul>
-              </li>
+                ))}
+              {user?.role === "ADMIN" ||
+                (user?.role === "ADMIN" && (
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/gallery">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-photo"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <line x1="15" y1="8" x2="15.01" y2="8" />
+                            <rect x="4" y="4" width="16" height="16" rx="3" />
+                            <path d="M4 15l4 -4a3 5 0 0 1 3 0l5 5" />
+                            <path d="M14 14l1 -1a3 5 0 0 1 3 0l2 2" />
+                          </svg>
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Gallery</span>
+                    </Link>
+                  </li>
+                ))}
+              {user?.role === "ADMIN" ||
+                (user?.role === "ADMIN" && (
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      href="/"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#dash_task"
+                    >
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-list-details"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M13 5h8" />
+                            <path d="M13 9h5" />
+                            <path d="M13 15h8" />
+                            <path d="M13 19h5" />
+                            <rect x="3" y="4" width="6" height="6" rx="1" />
+                            <rect x="3" y="14" width="6" height="6" rx="1" />
+                          </svg>
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Todo</span>
+                      <span className="badge badge-soft-success ms-2">2</span>
+                    </a>
+                    <ul
+                      id="dash_task"
+                      className="nav flex-column collapse  nav-children"
+                    >
+                      <li className="nav-item">
+                        <ul className="nav flex-column">
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/todos">
+                              <span className="nav-link-text">Tasklist</span>
+                            </Link>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                ))}
+              {user?.role === "ADMIN" ||
+                (user?.role === "ADMIN" && (
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      href="/"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#dash_blog"
+                    >
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-browser"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <rect x="4" y="4" width="16" height="16" rx="1" />
+                            <line x1="4" y1="8" x2="20" y2="8" />
+                            <line x1="8" y1="4" x2="8" y2="8" />
+                          </svg>
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Blog</span>
+                    </a>
+                    <ul
+                      id="dash_blog"
+                      className="nav flex-column collapse  nav-children"
+                    >
+                      <li className="nav-item">
+                        <ul className="nav flex-column">
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/posts">
+                              <span className="nav-link-text">Posts</span>
+                            </Link>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                ))}
+              {user?.role === "ADMIN" ||
+                (user?.role === "ADMIN" && (
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      href="/"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#dash_invoice"
+                    >
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-file-digit"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                            <rect x="9" y="12" width="3" height="5" rx="1" />
+                            <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                            <path d="M15 12v5" />
+                          </svg>
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Invoices</span>
+                    </a>
+                    <ul
+                      id="dash_invoice"
+                      className="nav flex-column collapse  nav-children"
+                    >
+                      <li className="nav-item">
+                        <ul className="nav flex-column">
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/invoices">
+                              <span className="nav-link-text">
+                                Invoice List
+                              </span>
+                            </Link>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                ))}
+              {user?.role === "ADMIN" ||
+                (user?.role === "ADMIN" && (
+                  <li className="nav-item">
+                    <a
+                      className="nav-link"
+                      href="/"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#dash_integ"
+                    >
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-code"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            strokeWidth="2"
+                            stroke="currentColor"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <polyline points="7 8 3 12 7 16" />
+                            <polyline points="17 8 21 12 17 16" />
+                            <line x1="14" y1="4" x2="10" y2="20" />
+                          </svg>
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Integrations</span>
+                    </a>
+                    <ul
+                      id="dash_integ"
+                      className="nav flex-column collapse  nav-children"
+                    >
+                      <li className="nav-item">
+                        <ul className="nav flex-column">
+                          <li className="nav-item">
+                            <a className="nav-link" href="all-apps.html">
+                              <span className="nav-link-text">All Apps</span>
+                            </a>
+                          </li>
+                          <li className="nav-item">
+                            <a
+                              className="nav-link"
+                              href="integrations-detail.html"
+                            >
+                              <span className="nav-link-text">App Detail</span>
+                            </a>
+                          </li>
+                          <li className="nav-item">
+                            <a className="nav-link" href="integrations.html">
+                              <span className="nav-link-text">
+                                Integrations
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                ))}
             </ul>
           </div>
           <div className="menu-gap"></div>

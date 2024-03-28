@@ -24,7 +24,8 @@ export const storePost = (token, data) => async (dispatch) => {
     await axios
       .post(`${backendURL}/user/post/add-post`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(addPost(response.data.message));
@@ -48,7 +49,8 @@ export const getPostList = (token) => async (dispatch) => {
       .get(`${backendURL}/user/post/get-posts`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getPosts(response.data.data.postsData));
@@ -70,7 +72,8 @@ export const getPostDetails = (token, post_id) => async (dispatch) => {
       .get(`${backendURL}/user/post/post-details/${post_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(readPost(response.data.data.postData));
@@ -93,7 +96,8 @@ export const updatePostRec = (token, post_id, data) => async (dispatch) => {
       .put(`${backendURL}/user/post/post-update/${post_id}`, data, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(updatePost(response.data.message));
@@ -117,7 +121,8 @@ export const deletePostRec = (token, post_id) => async (dispatch) => {
       .delete(`${backendURL}/user/post/delete-post/${post_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(deletePost(response.data.message));

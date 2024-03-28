@@ -24,6 +24,7 @@ const persistConfig = {
     "invoice",
     "calling",
     "message",
+    "agent",
   ],
   whitelist: ["auth"],
 };

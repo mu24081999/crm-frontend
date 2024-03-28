@@ -221,20 +221,6 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                   </div>
                 </div>
               </div>
-              <div className="contact-more-info">
-                <Detail_Tabs
-                  contactDetails={contactDetails}
-                  onDataFromChild={handleActiveBarDataFromChild}
-                  activeBar={active}
-                />
-                <SUB_Accounts_tab
-                  contactDetails={contactDetails}
-                  activeBar={active}
-                  authUser={authUser}
-                  dispatch={dispatch}
-                  token={token}
-                />
-              </div>
             </div>
           </div>
         </div>

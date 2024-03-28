@@ -25,7 +25,8 @@ export const postTask = (token, data) => async (dispatch) => {
       .post(`${backendURL}/user/board/task/post-task`, data, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.data?.code === 404) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(addTask(response.data.message));
@@ -48,7 +49,8 @@ export const getTasksList = (token) => async (dispatch) => {
     await axios
       .get(`${backendURL}/user/board/task/get-tasks`, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getTasks(response.data.data.tasksData));
@@ -70,7 +72,8 @@ export const getTaskDetails = (token, task_id) => async (dispatch) => {
       .get(`${backendURL}/user/board/task//task-details/${task_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(taskDetails(response.data.data.taskData));
@@ -93,7 +96,8 @@ export const updateTaskRec = (token, task_id, data) => async (dispatch) => {
       .put(`${backendURL}/user/board/task/task-update/${task_id}`, data, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(updateTask(response.data.message));
@@ -117,7 +121,8 @@ export const deleteTaskRec = (token, task_id) => async (dispatch) => {
       .delete(`${backendURL}/user/board/task/delete-task/${task_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(deleteTask(response.data.message));

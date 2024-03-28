@@ -24,7 +24,8 @@ export const storeBoard = (token, data) => async (dispatch) => {
     await axios
       .post(`${backendURL}/user/board/post-board`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(addBoard(response.data.message));
@@ -48,7 +49,8 @@ export const getBoardList = (token) => async (dispatch) => {
       .get(`${backendURL}/user/board/get-boards`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getAllBoards(response.data.data.boardsData));
@@ -70,7 +72,8 @@ export const getBoardDetails = (token, board_id) => async (dispatch) => {
       .get(`${backendURL}/user/board/board-details/${board_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(boardDetails(response.data.data.boardData));
@@ -93,7 +96,8 @@ export const updateBoardRec = (token, board_id, data) => async (dispatch) => {
       .put(`${backendURL}/user/board/board-update/${board_id}`, data, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(updateBoard(response.data.message));
@@ -117,7 +121,8 @@ export const deleteBoardRec = (token, board_id) => async (dispatch) => {
       .delete(`${backendURL}/user/board/delete-board/${board_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(deleteBoard(response.data.message));

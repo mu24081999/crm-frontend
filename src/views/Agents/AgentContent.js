@@ -10,8 +10,9 @@ import ContactCards from "./components/ContactCards";
 import { SocketContext } from "../../Context";
 import { getUsers } from "../../redux/services/users";
 import { MdClose } from "react-icons/md";
+import { getAgentsList } from "../../redux/services/agent";
 import _ from "lodash";
-const ContactsContent = () => {
+const AgentContent = () => {
   const { handleToggleShowLeadDetail, showUserDetails } =
     useContext(SocketContext);
   const dispatch = useDispatch();
@@ -23,14 +24,16 @@ const ContactsContent = () => {
   const [view, setView] = useState("list");
   const { contacts } = useSelector((state) => state.contact);
   const { users, userDetails } = useSelector((state) => state.user);
-  console.log("🚀 ~ ContactsContent ~ users:", users);
   useEffect(() => {
     dispatch(getUsers(token));
   }, [token, dispatch]);
   useEffect(() => {
     if (users?.length > 0) {
       const filteredData = users?.filter(
-        (usr) => usr.status === "active" && usr.role === "USER"
+        (usr) =>
+          usr.status === "active" &&
+          usr.role === "AGENT" &&
+          _.toInteger(usr.client_id) === user.id
       );
       setData(filteredData);
       setData_(filteredData);
@@ -40,7 +43,7 @@ const ContactsContent = () => {
     setData(receivedData);
   };
   const handleToggleEdit = (value) => {
-    // setIsEdit(value);
+    setIsEdit(value);
   };
   const handleViewDataFromHeader = (value) => {
     setView(value);
@@ -59,7 +62,7 @@ const ContactsContent = () => {
             />
             {showUserDetails && (
               <ContactDetails
-                isEdit={isEdit}
+                isEdit={showUserDetails}
                 contactDetails={userDetails}
                 dispatch={dispatch}
                 token={token}
@@ -206,4 +209,4 @@ const ContactsContent = () => {
   );
 };
 
-export default ContactsContent;
+export default AgentContent;

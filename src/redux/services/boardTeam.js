@@ -24,7 +24,8 @@ export const storeBoardTeam = (token, data) => async (dispatch) => {
     await axios
       .post(`${backendURL}/user/board/team/post-team`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(addTeam(response.data.message));
@@ -48,7 +49,8 @@ export const getBoardTeamList = (token) => async (dispatch) => {
       .get(`${backendURL}/user/board/team/get-teams`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getAllTeams(response.data.data.teamsData));
@@ -70,7 +72,8 @@ export const getBoardTeamDetails = (token, team_id) => async (dispatch) => {
       .get(`${backendURL}/user/contact/team/team-details/${team_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(teamDetails(response.data.data.teamData));
@@ -98,7 +101,8 @@ export const updateBoardTeamRec =
         )
         .then((response) => {
           console.log("🚀 ~ .then ~ response:", response);
-          if (response?.status !== 200) {
+          if (response?.data?.statusCode !== 200) {
+            toast.error(response.data.message);
             return dispatch(invalidRequest(response.data.message));
           }
           dispatch(updateTeam(response.data.message));
@@ -122,7 +126,8 @@ export const deleteBoardTeamRec = (token, team_id) => async (dispatch) => {
       .delete(`${backendURL}/user/contact/team/delete-team/${team_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(deleteTeam(response.data.message));

@@ -1,25 +1,17 @@
 import React, { useContext } from "react";
 import { CiMenuKebab } from "react-icons/ci";
-import {
-  FaEdit,
-  FaRegStar,
-  FaStar,
-  FaTrash,
-  FaUser,
-  FaUserCheck,
-} from "react-icons/fa";
-import { FaMessage } from "react-icons/fa6";
-import { getContactDetais } from "../../../redux/services/contact";
+import { FaEdit, FaRegStar, FaTrash, FaUserCheck } from "react-icons/fa";
 import { SocketContext } from "../../../Context";
 import moment from "moment";
 import { deleteUserRec } from "../../../redux/services/users";
+import { getAgentDetails } from "../../../redux/services/agent";
 const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
   const { handleToggleShowUserDetail } = useContext(SocketContext);
 
-  const handleToggle = (user_id) => {
+  const handleToggle = (agent_id) => {
     // onToggleEdit(true);
-    // dispatch(getContactDetais(token, contact_id));
-    handleToggleShowUserDetail(true, user_id, token);
+    // dispatch(getAgentDetails(token, agent_id));
+    handleToggleShowUserDetail(true, agent_id, token);
   };
   const handleDeleteContact = (contact_id) => {
     dispatch(deleteUserRec(token, contact_id));

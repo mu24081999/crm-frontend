@@ -25,7 +25,8 @@ export const postTaskBoard = (token, data) => async (dispatch) => {
       .post(`${backendURL}/user/board/task/board/post-task-board`, data, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.data?.code === 404) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(addTaskBoard(response.data.message));
@@ -48,7 +49,8 @@ export const getTaskBoardList = (token) => async (dispatch) => {
     await axios
       .get(`${backendURL}/user/board/task/board/get-task-boards`, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getTaskBoards(response.data.data.contactsData));
@@ -74,7 +76,8 @@ export const getTaskBoardDetails =
         )
         .then((response) => {
           console.log("🚀 ~ .then ~ response:", response);
-          if (response?.status !== 200) {
+          if (response?.data?.statusCode !== 200) {
+            toast.error(response.data.message);
             return dispatch(invalidRequest(response.data.message));
           }
           dispatch(taskBoardDetails(response.data.data.contactData));
@@ -102,7 +105,8 @@ export const updateTaskBoardRec =
         )
         .then((response) => {
           console.log("🚀 ~ .then ~ response:", response);
-          if (response?.status !== 200) {
+          if (response?.data?.statusCode !== 200) {
+            toast.error(response.data.message);
             return dispatch(invalidRequest(response.data.message));
           }
           dispatch(updateTaskBoard(response.data.message));
@@ -130,7 +134,8 @@ export const deleteTaskBoardRec =
         )
         .then((response) => {
           console.log("🚀 ~ .then ~ response:", response);
-          if (response?.status !== 200) {
+          if (response?.data?.statusCode !== 200) {
+            toast.error(response.data.message);
             return dispatch(invalidRequest(response.data.message));
           }
           dispatch(deleteTaskBoard(response.data.message));

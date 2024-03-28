@@ -21,7 +21,8 @@ export const getMessagesList = (token) => async (dispatch) => {
       .get(`${backendURL}/user/calling/user-messages`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getAllMessages(response.data.data.messagesData));

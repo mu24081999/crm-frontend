@@ -56,7 +56,7 @@ const RecordingList = ({
               data-sticky-header
               className="table table-responsive w-100 mb-5"
             >
-              <thead className="table-success">
+              <thead className="table-primary">
                 <tr className="sticky-top border rounded">
                   <th>Date</th>
                   <th>Source</th>

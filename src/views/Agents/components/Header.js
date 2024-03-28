@@ -26,63 +26,9 @@ const Header = ({ onDataFromChild, activeBar }) => {
             // aria-haspopup="true"
             // aria-expanded="false"
           >
-            <h1>Clients</h1>
+            <h1>Agents</h1>
           </a>
-          {/* <div className="dropdown-menu">
-            <a className="dropdown-item" href="/">
-              <span className="feather-icon dropdown-icon">
-                <i data-feather="users"></i>
-              </span>
-              <span>All Users</span>
-            </a>
-            <a className="dropdown-item" href="/">
-              <span className="feather-icon dropdown-icon">
-                <i data-feather="star"></i>
-              </span>
-              <span>Important</span>
-            </a>
-            <a className="dropdown-item" href="/">
-              <span className="feather-icon dropdown-icon">
-                <i data-feather="archive"></i>
-              </span>
-              <span>Archive</span>
-            </a>
-            <a className="dropdown-item" href="/">
-              <span className="feather-icon dropdown-icon">
-                <i data-feather="edit"></i>
-              </span>
-              <span>Pending</span>
-            </a>
-            <a className="dropdown-item" href="/">
-              <span className="feather-icon dropdown-icon">
-                <i data-feather="trash-2"></i>
-              </span>
-              <span>Deleted</span>
-            </a>
-          </div> */}
         </div>
-        {/* <div className="dropdown ms-3">
-          <button
-            className="btn btn-sm btn-outline-secondary flex-shrink-0 dropdown-toggle d-lg-inline-block d-none"
-            data-bs-toggle="dropdown"
-          >
-            Create New
-          </button>
-          <div className="dropdown-menu">
-            <a className="dropdown-item" href="/">
-              Add New Contact
-            </a>
-            <a className="dropdown-item" href="/">
-              Add New Department
-            </a>
-            <a className="dropdown-item" href="/">
-              Add Category
-            </a>
-            <a className="dropdown-item" href="/">
-              Add New Tag
-            </a>
-          </div>
-        </div> */}
       </div>
       <div className="contact-options-wrap">
         <a

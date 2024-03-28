@@ -24,7 +24,8 @@ export const storeFile = (token, data) => async (dispatch) => {
     await axios
       .post(`${backendURL}/user/gallery/post-file`, data, config)
       .then((response) => {
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(addFile(response.data.message));
@@ -48,7 +49,8 @@ export const getFileList = (token) => async (dispatch) => {
       .get(`${backendURL}/user/gallery/get-files`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(getAllFiles(response.data.data.galleryData));
@@ -70,7 +72,8 @@ export const getFileDetails = (token, file_id) => async (dispatch) => {
       .get(`${backendURL}/user/gallery/file-details/${file_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(fileDetails(response.data.data.galleryData));
@@ -96,7 +99,8 @@ export const deleteFileRec =
         )
         .then((response) => {
           console.log("🚀 ~ .then ~ response:", response);
-          if (response?.status !== 200) {
+          if (response?.data?.statusCode !== 200) {
+            toast.error(response.data.message);
             return dispatch(invalidRequest(response.data.message));
           }
           dispatch(deleteFile(response.data.message));

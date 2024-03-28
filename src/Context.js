@@ -248,6 +248,7 @@ const ContextProvider = ({ children }) => {
   return (
     <SocketContext.Provider
       value={{
+        authUser: user,
         call,
         callAccepted,
         openCalling,

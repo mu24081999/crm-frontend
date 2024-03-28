@@ -374,7 +374,12 @@ const EmailDetails = ({ emailDetails, emailsData, emails, onEmailDetail }) => {
                 class="accordion-collapse collapse"
               >
                 <div class="accordion-body">
-                  {emailDetails?.selectedEmail?.body}
+                  {/* {emailDetails?.selectedEmail?.body} */}
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: emailDetails?.selectedEmail?.body,
+                    }}
+                  />
                   {/* <img
                     class="d-block mt-2 mb-3"
                     src="dist/img/signature-1.png"

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faCoffee } from "@fortawesome/free-solid-svg-icons";fds
 import { createBrowserRouter } from "react-router-dom";
+import RoleAuthorization from "./RoleAuthorization";
 
 import SignIn from "./views/Auth/SignIn";
 import Dashboard from "./views/Dashboard/Dashboard";
@@ -27,104 +28,120 @@ import ChatGroup from "./views/ChatGroup/Chat";
 import DirectChat from "./views/ChatPopup/Chat";
 import Recordings from "./views/Recordings/Recording";
 import Users from "./views/Users/Users";
+import Agent from "./views/Agents/Agents";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Dashboard />,
-  },
-  {
-    path: "/test",
-    element: <Test />,
-  },
-  {
-    path: "/users",
-    element: <Users />,
-  },
-  {
-    path: "/recordings",
-    element: <Recordings />,
-  },
-  {
-    path: "/direct-chat",
-    element: <DirectChat />,
-  },
-  {
-    path: "/chat-group",
-    element: <ChatGroup />,
-  },
-  {
-    path: "/bulk-emails",
-    element: <EmailsBulk />,
-  },
-  {
-    path: "/calendar",
-    element: <Calender />,
-  },
-  {
-    path: "/invoices",
-    element: <Invoice />,
-  },
-  {
-    path: "/gallery",
-    element: <Gallery />,
-  },
-  {
-    path: "/file-manager",
-    element: <FileManager />,
-  },
-  {
-    path: "/todos",
-    element: <Todo />,
-  },
-  {
-    path: "/posts",
-    element: <Post />,
-  },
-  {
-    path: "/shop",
-    element: <Shop />,
-  },
-  {
-    path: "/projects-board",
-    element: <Board />,
-  },
-  {
-    path: "sign-in",
-    element: <SignIn />,
-  },
-  {
-    path: "contacts",
-    element: <Contacts />,
-  },
-  {
-    path: "sign-up",
-    element: <SignUp />,
-  },
-  {
-    path: "reset-password",
-    element: <ResetPassword />,
-  },
-  {
-    path: "reset-password-verification/:email",
-    element: <VerifyPassword />,
-  },
-  {
-    path: "edit-contact/:contactId",
-    element: <ContactDetails />,
-  },
-  {
-    path: "reset-password/:email",
-    element: <ResetUserPassword />,
-  },
-  {
-    path: "/chats",
-    element: <Chat />,
-  },
-  {
-    path: "/emails",
-    element: <Email />,
-  },
-]);
+// Define allowed roles for each route
+const roles = {
+  dashboard: ["USER", "ADMIN", "SUPER_ADMIN"],
+  adminPanel: ["admin"],
+  userProfile: ["user", "admin"],
+};
+
+const router = (role) => {
+  return createBrowserRouter([
+    {
+      path: "/",
+      element: RoleAuthorization(roles.dashboard, role)(Dashboard),
+      exact: true,
+      // element: <Dashboard />,
+    },
+    {
+      path: "/test",
+      element: <Test />,
+    },
+    {
+      path: "/agents",
+      element: <Agent />,
+    },
+    {
+      path: "/users",
+      element: <Users />,
+    },
+    {
+      path: "/recordings",
+      element: <Recordings />,
+    },
+    {
+      path: "/direct-chat",
+      element: <DirectChat />,
+    },
+    {
+      path: "/chat-group",
+      element: <ChatGroup />,
+    },
+    {
+      path: "/bulk-emails",
+      element: <EmailsBulk />,
+    },
+    {
+      path: "/calendar",
+      element: <Calender />,
+    },
+    {
+      path: "/invoices",
+      element: <Invoice />,
+    },
+    {
+      path: "/gallery",
+      element: <Gallery />,
+    },
+    {
+      path: "/file-manager",
+      element: <FileManager />,
+    },
+    {
+      path: "/todos",
+      element: <Todo />,
+    },
+    {
+      path: "/posts",
+      element: <Post />,
+    },
+    {
+      path: "/shop",
+      element: <Shop />,
+    },
+    {
+      path: "/projects-board",
+      element: <Board />,
+    },
+    {
+      path: "sign-in",
+      element: <SignIn />,
+    },
+    {
+      path: "contacts",
+      element: <Contacts />,
+    },
+    {
+      path: "sign-up",
+      element: <SignUp />,
+    },
+    {
+      path: "reset-password",
+      element: <ResetPassword />,
+    },
+    {
+      path: "reset-password-verification/:email",
+      element: <VerifyPassword />,
+    },
+    {
+      path: "edit-contact/:contactId",
+      element: <ContactDetails />,
+    },
+    {
+      path: "reset-password/:email",
+      element: <ResetUserPassword />,
+    },
+    {
+      path: "/chats",
+      element: <Chat />,
+    },
+    {
+      path: "/emails",
+      element: <Email />,
+    },
+  ]);
+};
 
 export default router;

@@ -13,10 +13,12 @@ import calenderEventReducer from "./slices/calendar_event";
 import invoiceReducer from "./slices/invoice";
 import callingReducer from "./slices/calling";
 import messageReducer from "./slices/message";
+import agentReducer from "./slices/agent";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
+  agent: agentReducer,
   contact: contactReducer,
   email: emailReducer,
   board: boardReducer,

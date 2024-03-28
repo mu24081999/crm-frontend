@@ -23,7 +23,7 @@ export const getUsers = (token) => async (dispatch) => {
     };
     await axios.get(`${backendURL}/user/get-users`, config).then((response) => {
       console.log("🚀 ~ .then ~ response:", response);
-      if (response?.status !== 200) {
+      if (response?.data?.statusCode !== 200) {
         return dispatch(invalidRequest(response.data.message));
       }
       dispatch(getAllUsers(response.data.data.usersData));
@@ -45,7 +45,8 @@ export const getUserDetails = (token, user_id) => async (dispatch) => {
       .get(`${backendURL}/user/user-details/${user_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(readUser(response.data.data.userData));
@@ -67,7 +68,8 @@ export const deleteUserRec = (token, user_id) => async (dispatch) => {
       .delete(`${backendURL}/user/delete-user/${user_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(deleteUser(response.data.message));
@@ -89,7 +91,8 @@ export const addUserRec = (registerData) => async (dispatch) => {
       .post(`${backendURL}/auth/signup_user`, registerData, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
 
@@ -115,7 +118,8 @@ export const updateUserRec = (token, data, user_id) => async (dispatch) => {
       .put(`${backendURL}/user/update-user-details/${user_id}`, data, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.status !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
 

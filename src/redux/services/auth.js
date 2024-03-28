@@ -28,7 +28,8 @@ export const registerUser = (registerData) => async (dispatch) => {
       .post(`${backendURL}/auth/signup_user`, registerData, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
-        if (response?.data?.code === 404) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
 
@@ -54,6 +55,7 @@ export const loginUser = (username, password) => async (dispatch) => {
       .then((response) => {
         console.log(response.data);
         if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           dispatch(invalidRequest(response.data.message));
           return toast.error(response.data.message);
         }
@@ -81,6 +83,11 @@ export const logoutUser = (token) => async (dispatch) => {
         }
       )
       .then((response) => {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          dispatch(invalidRequest(response.data.message));
+          return toast.error(response.data.message);
+        }
         dispatch(logout(response.data.message));
         return toast.success(response.data.message);
       });
@@ -100,6 +107,11 @@ export const ForgotPassword = (data) => async (dispatch) => {
         },
       })
       .then((response) => {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          dispatch(invalidRequest(response.data.message));
+          return toast.error(response.data.message);
+        }
         dispatch(forgotPassword(response.data.message));
         return toast.success(response.data.message);
       });
@@ -119,6 +131,11 @@ export const verifyOTP = (data) => async (dispatch) => {
         },
       })
       .then((response) => {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          dispatch(invalidRequest(response.data.message));
+          return toast.error(response.data.message);
+        }
         dispatch(verifyOtp(response.data.message));
 
         toast.success(response.data.message);
@@ -140,6 +157,11 @@ export const ResetPassword = (data) => async (dispatch) => {
         },
       })
       .then((response) => {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          dispatch(invalidRequest(response.data.message));
+          return toast.error(response.data.message);
+        }
         // console.log(response);
         dispatch(resetPassword(response.data));
         return toast.success(response.data.data.message);
@@ -163,7 +185,8 @@ export const getMe = (token) => async (dispatch) => {
     await axios
       .post(`${backendURL}/auth/get_me`, {}, config)
       .then((response) => {
-        if (response?.data?.code !== 200) {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
           dispatch(invalidRequest(response.data.data.error));
           return toast.error(response.data.data.error, {
             position: toast.POSITION.TOP_RIGHT,
