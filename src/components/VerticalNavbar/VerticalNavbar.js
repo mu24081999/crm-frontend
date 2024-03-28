@@ -2,7 +2,7 @@ import React from "react";
 import brandSm from "../../assets/brand-sm.svg";
 import brand from "../../assets/Jampack.svg";
 import { Link } from "react-router-dom";
-import { FaPhoneAlt, FaRecordVinyl, FaUsers } from "react-icons/fa";
+import { FaHistory, FaPhoneAlt, FaRecordVinyl, FaUsers } from "react-icons/fa";
 import { MdMarkEmailRead, MdSupportAgent } from "react-icons/md";
 import { useSelector } from "react-redux";
 
@@ -366,10 +366,10 @@ const VerticalNavbar = () => {
                     <Link className="nav-link" to="/recordings">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
-                          <FaRecordVinyl />
+                          <FaHistory />
                         </span>
                       </span>
-                      <span className="nav-link-text">Call Recordings</span>
+                      <span className="nav-link-text">Call History</span>
                     </Link>
                   </li>
                 </>

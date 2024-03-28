@@ -41,9 +41,9 @@ const router = (role) => {
   return createBrowserRouter([
     {
       path: "/",
-      element: RoleAuthorization(roles.dashboard, role)(Dashboard),
+      // element: RoleAuthorization(roles.dashboard, role)(Dashboard),
       exact: true,
-      // element: <Dashboard />,
+      element: <Dashboard />,
     },
     {
       path: "/test",

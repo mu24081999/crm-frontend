@@ -6,7 +6,7 @@ const ChatPopup = () => {
   return (
     <div>
       {/* <!-- Chat Popup --> */}
-      <div className="hk-chatbot-popup">
+      {/* <div className="hk-chatbot-popup">
         <header>
           <div className="chatbot-head-top">
             <a
@@ -272,7 +272,7 @@ const ChatPopup = () => {
             </a>
           </div>
         </footer>
-      </div>
+      </div> */}
       <Dialer />
       {/* <a
         href="/"
