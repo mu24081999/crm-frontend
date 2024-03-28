@@ -289,31 +289,36 @@ const VerticalNavbar = () => {
                 </li>
               )}
 
-              {user?.role === "USER" && (
-                <>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/agents">
-                      <span className="nav-icon-wrap">
-                        <span className="svg-icon">
-                          <MdSupportAgent />
+              {user?.role === "USER" ||
+                user?.role === "ADMIN" ||
+                (user?.role === "SUPER_ADMIN" && (
+                  <>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/agents">
+                        <span className="nav-icon-wrap">
+                          <span className="svg-icon">
+                            <MdSupportAgent />
+                          </span>
                         </span>
-                      </span>
-                      <span className="nav-link-text">Agents</span>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/shop">
-                      <span className="nav-icon-wrap">
-                        <span className="svg-icon">
-                          <FaPhoneAlt />
+                        <span className="nav-link-text">Agents</span>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/shop">
+                        <span className="nav-icon-wrap">
+                          <span className="svg-icon">
+                            <FaPhoneAlt />
+                          </span>
                         </span>
-                      </span>
-                      <span className="nav-link-text">Phone Numbers</span>
-                    </Link>
-                  </li>
-                </>
-              )}
-              {(user?.role === "AGENT" || user?.role === "USER") && (
+                        <span className="nav-link-text">Phone Numbers</span>
+                      </Link>
+                    </li>
+                  </>
+                ))}
+              {(user?.role === "AGENT" ||
+                user?.role === "USER" ||
+                user?.role === "ADMIN" ||
+                user?.role === "SUPER_ADMIN") && (
                 <>
                   <li className="nav-item">
                     <Link
@@ -417,56 +422,53 @@ const VerticalNavbar = () => {
                 </li>
               )}
 
-              {user?.role === "ADMIN" ||
-                (user?.role === "ADMIN" && (
-                  <li className="nav-item">
-                    <a
-                      className="nav-link"
-                      href="/"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#dash_file"
-                    >
-                      <span className="nav-icon-wrap">
-                        <span className="svg-icon">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="icon icon-tabler icon-tabler-file-check"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            strokeWidth="2"
-                            stroke="currentColor"
-                            fill="none"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                            <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-                            <path d="M9 15l2 2l4 -4" />
-                          </svg>
-                        </span>
+              {(user?.role === "ADMIN" || user?.role === "ADMIN") && (
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    href="/"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#dash_file"
+                  >
+                    <span className="nav-icon-wrap">
+                      <span className="svg-icon">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="icon icon-tabler icon-tabler-file-check"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          strokeWidth="2"
+                          stroke="currentColor"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                          <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                          <path d="M9 15l2 2l4 -4" />
+                        </svg>
                       </span>
-                      <span className="nav-link-text">File Manager</span>
-                    </a>
-                    <ul
-                      id="dash_file"
-                      className="nav flex-column collapse  nav-children"
-                    >
-                      <li className="nav-item">
-                        <ul className="nav flex-column">
-                          <li className="nav-item">
-                            <Link className="nav-link" to="/file-manager">
-                              <span className="nav-link-text">
-                                File Manager
-                              </span>
-                            </Link>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-                ))}
+                    </span>
+                    <span className="nav-link-text">File Manager</span>
+                  </a>
+                  <ul
+                    id="dash_file"
+                    className="nav flex-column collapse  nav-children"
+                  >
+                    <li className="nav-item">
+                      <ul className="nav flex-column">
+                        <li className="nav-item">
+                          <Link className="nav-link" to="/file-manager">
+                            <span className="nav-link-text">File Manager</span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              )}
               {user?.role === "ADMIN" ||
                 (user?.role === "ADMIN" && (
                   <li className="nav-item">
