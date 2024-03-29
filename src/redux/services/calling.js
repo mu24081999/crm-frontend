@@ -10,6 +10,7 @@ import {
   getRecordings,
   getUserSubAccounts,
   addSubAccount,
+  getClaimedNumbers,
 } from "../slices/calling";
 import { toast } from "react-toastify";
 const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
@@ -38,6 +39,29 @@ export const getAvailableNumbers = (token, data) => async (dispatch) => {
     dispatch(invalidRequest(e.message));
   }
 };
+export const getAllClaimedNumbers = (token, data) => async (dispatch) => {
+  try {
+    dispatch(callingRequestLoading());
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    };
+    await axios
+      .post(`${backendURL}/user/calling/claimed-numbers`, data, config)
+      .then((response) => {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          return dispatch(invalidRequest(response.data.message));
+        }
+        dispatch(getClaimedNumbers(response.data.data.claimedNumbers));
+      });
+  } catch (e) {
+    dispatch(invalidRequest(e.message));
+  }
+};
+
 export const CallLogsList = (token, data) => async (dispatch) => {
   try {
     dispatch(callingRequestLoading());

@@ -13,11 +13,15 @@ import { useEffect } from "react";
 import { getUsers } from "../../redux/services/users";
 import { useSelector } from "react-redux";
 import { Device } from "twilio-client";
-import { makeUserToCall } from "../../redux/services/calling";
+import {
+  getAllClaimedNumbers,
+  makeUserToCall,
+} from "../../redux/services/calling";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 
 import axios from "axios";
 import { getContactsList } from "../../redux/services/contact";
+import ReactSelectField from "../FormFields/reactSelectField";
 
 //Helpers
 const Timer = () => {
@@ -45,7 +49,7 @@ const Timer = () => {
 const Dialer = () => {
   const {
     // handleSubmit,
-    // watch,
+    watch,
     control,
     // setValue,
     formState: { errors },
@@ -64,15 +68,18 @@ const Dialer = () => {
   const { token, user, accountSid, accountAuthToken } = useSelector(
     (state) => state.auth
   );
+  const { claimedNumbers } = useSelector((state) => state.calling);
   const { contacts } = useSelector((state) => state.contact);
-  // const { users } = useSelector((state) => state.user);
   const backendURL = process.env.REACT_APP_BACKEND_URL_PRODUCTION;
+
+  const selectedNumberWatcher = watch("my_numbers");
+  console.log("🚀 ~ Dialer ~ selectedNumberWatcher:", selectedNumberWatcher);
   useEffect(() => {
     axios
       .post(
         backendURL + "/user/calling/get-call-token",
         {
-          from_phone: user.phone,
+          from_phone: selectedNumberWatcher?.value,
           accountSid: accountSid,
           identity: user.username,
           authToken: accountAuthToken,
@@ -100,7 +107,14 @@ const Dialer = () => {
         twilioDevice.destroy();
       }
     };
-  }, [backendURL]);
+  }, [
+    backendURL,
+    accountSid,
+    accountAuthToken,
+    user,
+    token,
+    selectedNumberWatcher,
+  ]);
   useEffect(() => {
     if (twilioDevice) {
       twilioDevice.on("incoming", (call) => {
@@ -119,7 +133,10 @@ const Dialer = () => {
   useEffect(() => {
     // dispatch(getUsers(token));
     dispatch(getContactsList(token));
-  }, [dispatch, token]);
+    dispatch(
+      getAllClaimedNumbers(token, { accountSid, authToken: accountAuthToken })
+    );
+  }, [dispatch, token, accountAuthToken, accountSid]);
   const makeCall = () => {
     const params = { To: inputValue };
     const outgoingCall = twilioDevice.connect(params);
@@ -340,7 +357,7 @@ const Dialer = () => {
                   >
                     Call
                   </button>
-                  <div className="w-100 d-flex flex-wrap gap-2 mt-4">
+                  {/* <div className="w-100 d-flex flex-wrap gap-2 mt-4">
                     <p className="fs-6 pt-3">Call From</p>
                     <InputField
                       name="subject"
@@ -349,6 +366,24 @@ const Dialer = () => {
                       errors={errors}
                       value={user.phone}
                       isDisabled={true}
+                    />
+                  </div> */}
+                  <div className="w-100">
+                    <ReactSelectField
+                      name="my_numbers"
+                      placeholder="Phone Number"
+                      lable="Call From"
+                      control={control}
+                      errors={errors}
+                      options={
+                        claimedNumbers?.length > 0 &&
+                        claimedNumbers?.map((key, index) => {
+                          return {
+                            label: key?.phoneNumber,
+                            value: key?.phoneNumber,
+                          };
+                        })
+                      }
                     />
                   </div>
                 </td>

@@ -18,7 +18,11 @@ const SignUp = () => {
   const redirectTo = useNavigate();
   const dispatch = useDispatch();
   const handleSingUp = (data) => {
-    dispatch(registerUser(data));
+    const formData = {
+      ...data,
+      role: "USER",
+    };
+    dispatch(registerUser(formData));
   };
 
   useEffect(() => {

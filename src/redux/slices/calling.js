@@ -38,6 +38,13 @@ export const callingSlice = createSlice({
       state.error = "";
       state.type = "success";
     },
+    getClaimedNumbers: (state, action) => {
+      state.isLoading = false;
+      state.claimedNumbers = action.payload;
+      state.message = "success";
+      state.error = "";
+      state.type = "success";
+    },
     makeCall: (state, action) => {
       state.isLoading = false;
       state.call = action.payload;
@@ -137,4 +144,5 @@ export const {
   getRecordings,
   addSubAccount,
   getUserSubAccounts,
+  getClaimedNumbers,
 } = callingSlice.actions;

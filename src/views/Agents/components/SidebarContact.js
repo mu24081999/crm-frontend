@@ -83,7 +83,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
             type="button"
             className="btn btn-primary btn-rounded btn-block mb-4"
             data-bs-toggle="modal"
-            data-bs-target="#add_new_contact"
+            data-bs-target="#add_new_agent"
           >
             Add new Agent
           </button>

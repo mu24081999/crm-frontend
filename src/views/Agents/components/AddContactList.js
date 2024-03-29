@@ -18,7 +18,7 @@ const AddContactList = () => {
     setValue,
     formState: { errors },
   } = useForm({});
-  const { token, isLoading } = useSelector((state) => state.auth);
+  const { token, isLoading, user } = useSelector((state) => state.auth);
   const [logo, setLogo] = useState(null);
   const countryWatcher = watch("country_array");
   const stateWatcher = watch("state_array");
@@ -45,9 +45,14 @@ const AddContactList = () => {
     formData.append("email", data?.email);
     formData.append("password", data?.password);
     formData.append("username", data?.username);
-    formData.append("role", data?.role?.value);
-    formData.append("avatar", logo && logo);
-    console.log("🚀 ~ handleAddContact ~ data:", data, logo);
+    formData.append("parent_id", user?.id);
+    formData.append("role", "AGENT");
+    formData.append("phone", data?.phone);
+    formData.append("accountSid", user?.accountSid);
+    formData.append("authToken", user?.authToken);
+
+    // formData.append("avatar", logo && logo);
+    // console.log("🚀 ~ handleAddContact ~ data:", data, logo);
     // dispatch(addContact(token, formData));
     dispatch(addUserRec(formData));
   };
@@ -61,29 +66,23 @@ const AddContactList = () => {
         <Loader />
       ) : (
         <div class="modal-body">
-          <div class="frame mb-5">
+          {/* <div class="frame mb-5">
             <div class="center">
               <div class="dropzone">
-                {/* {logo || invoiceDetails ? ( */}
                 <div>
                   <img
                     src={
-                      // invoiceDetails && logo === null
-                      //   ? invoiceDetails?.logo
-                      //   :
                       logo && URL.createObjectURL(logo)
                     }
                     alt="Preview"
                     width={100}
                   />
                 </div>
-                {/* ) : ( */}
                 <img
                   src="http://100dayscss.com/codepen/upload.svg"
                   class={`upload-icon ${logo ? "d-none" : ""}`}
                   alt="default"
                 />
-                {/* )} */}
 
                 <p
                   className={` fs-6 fw-bolder text-center ${
@@ -102,9 +101,9 @@ const AddContactList = () => {
                 />
               </div>
             </div>
-          </div>
-          <div className="mb-5">
-            <ReactSelectField
+          </div> */}
+          {/* <div className="mb-5"> */}
+          {/* <ReactSelectField
               name={`role`}
               placeholder="Select"
               label="Role"
@@ -117,44 +116,86 @@ const AddContactList = () => {
               control={control}
               errors={errors}
             />
-          </div>
-          <div>
-            <InputField
-              control={control}
-              errors={errors}
-              name="name"
-              placeholder="Name"
-              label="Name"
-            />
-          </div>
-          <div>
-            <InputField
-              control={control}
-              errors={errors}
-              name="username"
-              placeholder="Username"
-              label="Username"
-            />
-          </div>
-          <div>
-            <InputField
-              control={control}
-              type="email"
-              errors={errors}
-              name="email"
-              placeholder="Email"
-              label="Email"
-            />
-          </div>
-          <div>
-            <InputField
-              type="password"
-              control={control}
-              errors={errors}
-              name="password"
-              placeholder="Password"
-              label="Password"
-            />
+          </div> */}
+          <div className="row">
+            <div className="col-md-6 col-sm-6">
+              <InputField
+                control={control}
+                errors={errors}
+                name="name"
+                placeholder="Name"
+                label="Name"
+                rules={{
+                  required: {
+                    value: true,
+                    message: "Field required!",
+                  },
+                }}
+              />
+            </div>
+            <div className="col-md-6 col-sm-6">
+              <InputField
+                control={control}
+                errors={errors}
+                name="username"
+                placeholder="Username"
+                label="Username"
+                rules={{
+                  required: {
+                    value: true,
+                    message: "Field required!",
+                  },
+                }}
+              />
+            </div>
+            <div className="col-md-6 col-sm-6">
+              <InputField
+                control={control}
+                type="email"
+                errors={errors}
+                name="email"
+                placeholder="Email"
+                label="Email"
+                rules={{
+                  required: {
+                    value: true,
+                    message: "Field required!",
+                  },
+                }}
+              />
+            </div>
+            <div className="col-md-6 col-sm-6">
+              <InputField
+                type="phone"
+                control={control}
+                errors={errors}
+                name="Phone Number"
+                placeholder="Password"
+                label="Phone Number"
+                rules={{
+                  required: {
+                    value: true,
+                    message: "Field required!",
+                  },
+                }}
+              />
+            </div>
+            <div className="col-md-6 col-sm-6">
+              <InputField
+                type="password"
+                control={control}
+                errors={errors}
+                name="password"
+                placeholder="Password"
+                label="Password"
+                rules={{
+                  required: {
+                    value: true,
+                    message: "Field required!",
+                  },
+                }}
+              />
+            </div>
           </div>
         </div>
       )}

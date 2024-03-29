@@ -198,6 +198,35 @@ const ContactsContent = () => {
                 </div>
               </div>
             )}
+            {/* <!-- Edit Info --> */}
+            <div
+              id="add_new_contact"
+              className="modal fade add-new-contact"
+              tabIndex="-1"
+              role="dialog"
+              aria-hidden="true"
+            >
+              <div
+                className="modal-dialog modal-dialog-centered modal-lg"
+                role="document"
+              >
+                <div className="modal-content">
+                  <div className="modal-body">
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">×</span>
+                    </button>
+                    <h5 className="mb-5">Create New Conatct</h5>
+                    <AddContactList />
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <!-- /Edit Info --> */}
           </div>
         </div>
       </div>
