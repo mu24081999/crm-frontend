@@ -107,8 +107,16 @@ export const authSlice = createSlice({
       state.error = "";
     },
     setAccount: (state, action) => {
+      state.user = action.payload;
+      // state.token = action.payload.token;
+      state.user_id = action.payload.id;
       state.accountSid = action.payload.accountSid;
-      state.accountAuthToken = action.payload.accountAuthToken;
+      state.accountAuthToken = action.payload.authToken;
+      state.isAuthenticated = true;
+      state.isLoading = false;
+      state.error = "";
+      state.message = "Login Success";
+      state.type = "Success";
     },
   },
 });

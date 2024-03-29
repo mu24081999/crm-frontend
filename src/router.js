@@ -54,7 +54,7 @@ const router = (role) => {
       element: <Agent />,
     },
     {
-      path: "/users",
+      path: "/clients",
       element: <Users />,
     },
     {

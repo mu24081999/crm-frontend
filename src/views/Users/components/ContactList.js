@@ -69,8 +69,8 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                   </th>
                   <th>Name</th>
                   <th>Email Address</th>
-                  <th>Role</th>
-                  <th>Tags</th>
+                  {/* <th>Role</th> */}
+                  {/* <th>Tags</th> */}
                   <th>Status</th>
                   {/* <th>Socket ID</th> */}
                   <th>Date Created</th>
@@ -137,7 +137,7 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                       </td>
                       <td className="text-truncate">{contact.email}</td>
 
-                      <td className="text-truncate">
+                      {/* <td className="text-truncate">
                         {contact.role || "user"}
                       </td>
                       <td>
@@ -151,7 +151,7 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                               {tag.name}
                             </span>
                           ))}
-                      </td>
+                      </td> */}
                       <td>
                         <span
                           className={`${

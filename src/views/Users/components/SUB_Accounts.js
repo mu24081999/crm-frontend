@@ -16,21 +16,21 @@ const SUB_Accounts_tab = ({
   token,
   dispatch,
 }) => {
-  const { subAccounts, isLoading } = useSelector((state) => state.calling);
-  const [callsData, setCallsData] = useState([]);
+  console.log("🚀 ~ contactDetails:", contactDetails);
+  const { subAccounts } = useSelector((state) => state.calling);
+  const { users, isLoading } = useSelector((state) => state.user);
+  const [subAccountsData, setSubAccountsData] = useState([]);
   useMemo(() => {
     dispatch(getUserSubAccountsList(token));
   }, [token, dispatch]);
-  // useEffect(() => {
-  //   if (callLogs?.length > 0) {
-  //     const data = callLogs?.filter(
-  //       (call) =>
-  //         (call.from === authUser.phone && call.to === contactDetails.phone) ||
-  //         (call.from === contactDetails.phone && call.to === authUser.phone)
-  //     );
-  //     setCallsData(data);
-  //   }
-  // }, [callLogs, authUser, contactDetails]);
+  useEffect(() => {
+    if (users?.length > 0) {
+      const data = users?.filter(
+        (user) => user.parent_id === contactDetails.id
+      );
+      setSubAccountsData(data);
+    }
+  }, [contactDetails, users]);
   return (
     <div
       className="tab-content mt-7"
@@ -82,8 +82,8 @@ const SUB_Accounts_tab = ({
           // </table>
           <div>
             <div className="row gx-3 row-cols-xxl-2 row-cols-xl-2 row-cols-lg-2 row-cols-md-1 row-cols-1 mb-5">
-              {subAccounts?.length > 0 &&
-                subAccounts?.map((contact, index) => (
+              {subAccountsData?.length > 0 &&
+                subAccountsData?.map((contact, index) => (
                   <div key={index}>
                     <div className="card card-border contact-card">
                       <div

@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../redux/services/auth";
+import { loginUser, logoutUser } from "../../redux/services/auth";
 import _ from "lodash";
 import Dialer from "../PhoneDialer/Dialer";
 import { FaPlus } from "react-icons/fa";
 import { getUserSubAccountsList } from "../../redux/services/calling";
 import { setAccount } from "../../redux/slices/auth";
+import { getUsers } from "../../redux/services/users";
 
-const TopNavbar = ({ subAccounts }) => {
+const TopNavbar = ({}) => {
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
+  const { users } = useSelector((state) => state.user);
   const [selectedAccount, setSelectedAccount] = useState(user);
+  const [subAccounts, setSubAccounts] = useState([]);
+  console.log("🚀 ~ TopNavbar ~ subAccounts:", subAccounts);
   // const { subAccounts } = useSelector((state) => state.calling);
   const handleLogOut = () => {
     dispatch(logoutUser(token));
@@ -22,15 +26,19 @@ const TopNavbar = ({ subAccounts }) => {
   const avatarHeading = _.toUpper(username?.slice(0, 2));
   // const avatarHeading = "UM";
   const handleAccountClick = (account) => {
-    console.log(account);
     setSelectedAccount(account);
-    dispatch(
-      setAccount({
-        accountSid: account?.sid,
-        accountAuthToken: account?.authToken,
-      })
-    );
+    // dispatch(loginUser(account?.username, account?.password));
+    dispatch(setAccount(account));
   };
+  useEffect(() => {
+    dispatch(getUsers(token));
+  }, [token, dispatch]);
+  useEffect(() => {
+    if (users?.length > 0) {
+      const data = users?.filter((usr) => usr.parent_id === user.id);
+      setSubAccounts(data);
+    }
+  }, [user, users]);
   return (
     <nav className="hk-navbar navbar navbar-expand-xl navbar-light fixed-top">
       <div className="container-fluid">
@@ -513,14 +521,13 @@ const TopNavbar = ({ subAccounts }) => {
                             data-bs-toggle="dropdown"
                             data-dropdown-animation
                             data-bs-auto-close="inside"
-                            onClick={() => handleAccountClick(user)}
                           >
                             {selectedAccount?.username ||
                               selectedAccount?.friendlyName}
                           </a>
                           <div className="dropdown-menu dropdown-menu-end">
                             <div className="p-2">
-                              <div className="media align-items-center active-user mb-3">
+                              {/* <div className="media align-items-center active-user mb-3">
                                 <div className="media-head me-2">
                                   <div className="avatar avatar-primary avatar-xs avatar-rounded">
                                     <span className="initial-wrap">
@@ -542,33 +549,38 @@ const TopNavbar = ({ subAccounts }) => {
                                     className="d-block fs-8 link-secondary"
                                   >
                                     <u>Manage your account</u>
-                                  </a> */}
+                                  </a> 
                                 </div>
-                              </div>
+                              </div> */}
                               {subAccounts?.length > 0 &&
                                 subAccounts?.map((account, index) => (
-                                  <div
-                                    className="media align-items-center mb-3"
-                                    key={index}
-                                    onClick={() => handleAccountClick(account)}
-                                  >
-                                    <div className="media-head me-2">
-                                      <div className="avatar avatar-primary avatar-xs avatar-rounded">
-                                        <span className="initial-wrap">
-                                          {_.capitalize(
-                                            account?.friendlyName?.slice(0, 1)
-                                          )}
-                                        </span>
+                                  <>
+                                    {account?.id !== user?.id && (
+                                      <div
+                                        className="media align-items-center mb-3"
+                                        key={index}
+                                        onClick={() =>
+                                          handleAccountClick(account)
+                                        }
+                                      >
+                                        <div className="media-head me-2">
+                                          <div className="avatar avatar-primary avatar-xs avatar-rounded">
+                                            <span className="initial-wrap">
+                                              {_.capitalize(
+                                                account?.name?.slice(0, 1)
+                                              )}
+                                            </span>
+                                          </div>
+                                        </div>
+                                        <div className="media-body">
+                                          <a className="d-block link-dark">
+                                            {account?.username}
+                                          </a>
+                                        </div>
                                       </div>
-                                    </div>
-                                    <div className="media-body">
-                                      <a className="d-block link-dark">
-                                        {account?.friendlyName}
-                                      </a>
-                                    </div>
-                                  </div>
+                                    )}
+                                  </>
                                 ))}
-
                               {/* <button className="btn btn-block btn-outline-light btn-sm">
                                 <span>
                                   <span className="icon">

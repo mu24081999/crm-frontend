@@ -12,9 +12,11 @@ import {
 } from "../../redux/services/calling";
 import Loader from "../../components/Loader/Loader";
 import { color } from "@chakra-ui/react";
+import { addUserRec } from "../../redux/services/users";
 // import Dialer from "../../components/PhoneDialer/Dialer";
 const Layout = ({ component }) => {
-  const { isAuthenticated, token } = useSelector((state) => state.auth);
+  const { isAuthenticated, token, accountSid, accountAuthToken, user } =
+    useSelector((state) => state.auth);
   const { isLoading, subAccounts } = useSelector((state) => state.calling);
   const {
     handleSubmit,
@@ -35,7 +37,14 @@ const Layout = ({ component }) => {
   }, [isAuthenticated, redirectTo]);
   const addSubAccount = (data) => {
     console.log(data);
-    dispatch(createSubAccount(token, data));
+    const formData = {
+      ...data,
+      accountSid: accountSid,
+      authToken: accountAuthToken,
+      parent_id: user?.id,
+      role: "USER",
+    };
+    dispatch(addUserRec(formData));
   };
   return (
     <div
@@ -70,12 +79,12 @@ const Layout = ({ component }) => {
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <form onSubmit={handleSubmit(addSubAccount)}>
-              <div class="modal-header bg-secondary text-light">
+              <div class="modal-header bg-primary ">
                 <h5
                   class="modal-title fs-6 fw-bold "
                   style={{ color: "white" }}
                 >
-                  Add New Account
+                  Add New Sub Account
                 </h5>
                 <button
                   type="button"
@@ -89,35 +98,54 @@ const Layout = ({ component }) => {
               {isLoading ? (
                 <Loader />
               ) : (
-                <div class="modal-body">
-                  <div>
-                    <InputField
-                      control={control}
-                      errors={errors}
-                      name="account_name"
-                      placeholder="Account Name"
-                      label="Account Name"
-                    />
-                  </div>
-                  <div>
+                <div class="modal-body row">
+                  <div className="col-md-6 col-sm-6">
                     <InputField
                       control={control}
                       errors={errors}
                       name="name"
                       placeholder="Name"
                       label="Name"
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
                     />
                   </div>
-                  <div>
+                  <div className="col-md-6 col-sm-6">
+                    <InputField
+                      control={control}
+                      errors={errors}
+                      name="phone"
+                      placeholder="Phone Number"
+                      label="Phone Number"
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
+                    />
+                  </div>
+
+                  <div className="col-md-6 col-sm-6">
                     <InputField
                       control={control}
                       errors={errors}
                       name="username"
                       placeholder="Username"
                       label="Username"
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
                     />
                   </div>
-                  <div>
+                  <div className="col-md-6 col-sm-6">
                     <InputField
                       control={control}
                       type="email"
@@ -125,9 +153,15 @@ const Layout = ({ component }) => {
                       name="email"
                       placeholder="Email"
                       label="Email"
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
                     />
                   </div>
-                  <div>
+                  <div className="col-md-6 col-sm-6">
                     <InputField
                       type="password"
                       control={control}
@@ -135,6 +169,12 @@ const Layout = ({ component }) => {
                       name="password"
                       placeholder="Password"
                       label="Password"
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
                     />
                   </div>
                 </div>

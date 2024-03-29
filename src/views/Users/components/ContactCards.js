@@ -13,9 +13,13 @@ import { getContactDetais } from "../../../redux/services/contact";
 import { SocketContext } from "../../../Context";
 import moment from "moment";
 import { deleteUserRec } from "../../../redux/services/users";
+import { setAccount } from "../../../redux/slices/auth";
+
 const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
   const { handleToggleShowUserDetail } = useContext(SocketContext);
-
+  const handleLoginAccount = (account) => {
+    dispatch(setAccount(account));
+  };
   const handleToggle = (user_id) => {
     // onToggleEdit(true);
     // dispatch(getContactDetais(token, contact_id));
@@ -188,6 +192,7 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
                         className="dropdown-item"
                         href="javascript:void(0)"
                         role="menuitem"
+                        onClick={() => handleLoginAccount(contact)}
                       >
                         <span className="me-2">
                           <FaUserCheck />
