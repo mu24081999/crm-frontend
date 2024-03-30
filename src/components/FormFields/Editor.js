@@ -54,27 +54,7 @@ const EditorField = React.forwardRef((props, ref) => {
           render={({ field }) => {
             return (
               <div className="">
-                <label class="form-label-group">{label}</label>
-                {/* <input
-                  {...props}
-                  {...field}
-                  ref={ref}
-                  type={props?.type ? props?.type : ""}
-                  onBlurCapture={() => setFocusState(false)}
-                  onFocus={() => setFocusState(true)}
-                  onChange={(e) => {
-                    field.onChange(e.target.value);
-                    if (props.onChange) {
-                      props.onChange(e, props?.name);
-                    }
-                  }}
-                  min={type === "number" && !props.min ? 0 : props.min}
-                  disabled={props.isDisabled}
-                  placeholder={props.placeholder ? props.placeholder : ""}
-                  value={field.value}
-                  className="form-control"
-                  {...others}
-                /> */}
+                {label && <label class="form-label-group">{label}</label>}
                 <Editor
                   {...props}
                   {...others}
@@ -83,7 +63,6 @@ const EditorField = React.forwardRef((props, ref) => {
                     setFieldType("");
                     field.onChange(editorRef.current.getContent());
                   }}
-                  className="form-control"
                   onInit={(evt, editor) => (editorRef.current = editor)}
                   initialValue={
                     (filedType === "edit" && field.value) ||

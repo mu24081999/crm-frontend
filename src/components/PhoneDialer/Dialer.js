@@ -98,6 +98,7 @@ const Dialer = () => {
           edge: "ashburn",
           debug: true,
         });
+        console.log("device setup: " + device);
         setTwilioDevice(device);
       })
       .catch((err) => console.error(err));
@@ -139,7 +140,7 @@ const Dialer = () => {
   }, [dispatch, token, accountAuthToken, accountSid]);
   const makeCall = () => {
     const params = { To: inputValue };
-    const outgoingCall = twilioDevice.connect(params);
+    const outgoingCall = twilioDevice?.connect(params);
     outgoingCall.on("accept", (call) => {
       console.log(call, "call accepted");
       setActiveCall(call);
