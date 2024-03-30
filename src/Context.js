@@ -9,6 +9,7 @@ import { getUserDetails } from "./redux/services/users";
 
 const SocketContext = createContext();
 const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
+console.log("🚀 ~ socketURL:", socketURL);
 const ContextProvider = ({ children }) => {
   const socket = useMemo(() => io(socketURL), []);
   const { user_id, user } = useSelector((state) => state.auth);
