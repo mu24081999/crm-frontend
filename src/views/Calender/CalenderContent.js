@@ -12,7 +12,6 @@ const CalenderContent = () => {
   const dispatch = useDispatch();
   const [eventsData, setEventsData] = useState([]);
   const [upcomingData, setUpcomingData] = useState([]);
-  console.log("🚀 ~ CalenderContent ~ upcomingData:", upcomingData);
   const [eventDetailRight, setEventDetailRight] = useState("-370px");
   const { token, user } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
@@ -81,10 +80,18 @@ const CalenderContent = () => {
         {/* <!-- Page Body --> */}
         <div className="hk-pg-body py-0">
           <div className="calendarapp-wrap">
-            <SideNav upcomingData={upcomingData} />
+            <SideNav
+              upcomingData={upcomingData}
+              eventsData={eventsData}
+              INITIAL_EVENTS={eventsData}
+              isLoading={isLoading}
+              onDataFromChild={handleEventDetailRight}
+              token={token}
+              dispatch={dispatch}
+            />
             <div className="calendarapp-content">
               {/* <div id="calendar" className="w-100"></div> */}
-              {eventsData.length > 0 && (
+              {eventsData?.length > 0 && (
                 <Calender
                   INITIAL_EVENTS={eventsData}
                   isLoading={isLoading}

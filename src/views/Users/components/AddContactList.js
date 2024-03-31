@@ -45,7 +45,7 @@ const AddContactList = () => {
     formData.append("email", data?.email);
     formData.append("password", data?.password);
     formData.append("username", data?.username);
-    formData.append("role", data?.role?.value);
+    formData.append("role", "USER");
     formData.append("avatar", logo && logo);
     console.log("🚀 ~ handleAddContact ~ data:", data, logo);
     // dispatch(addContact(token, formData));
@@ -61,29 +61,23 @@ const AddContactList = () => {
         <Loader />
       ) : (
         <div class="modal-body">
-          <div class="frame mb-5">
+          {/* <div class="frame mb-5">
             <div class="center">
               <div class="dropzone">
-                {/* {logo || invoiceDetails ? ( */}
                 <div>
                   <img
                     src={
-                      // invoiceDetails && logo === null
-                      //   ? invoiceDetails?.logo
-                      //   :
                       logo && URL.createObjectURL(logo)
                     }
                     alt="Preview"
                     width={100}
                   />
                 </div>
-                {/* ) : ( */}
                 <img
                   src="http://100dayscss.com/codepen/upload.svg"
                   class={`upload-icon ${logo ? "d-none" : ""}`}
                   alt="default"
                 />
-                {/* )} */}
 
                 <p
                   className={` fs-6 fw-bolder text-center ${
@@ -102,59 +96,56 @@ const AddContactList = () => {
                 />
               </div>
             </div>
-          </div>
-          <div className="mb-5">
-            <ReactSelectField
-              name={`role`}
-              placeholder="Select"
-              label="Role"
-              mb={true}
-              options={[
-                { label: "User", value: "USER" },
-                { label: "Admin", value: "ADMIN" },
-                { label: "Super Admin", value: "SUPER_ADMIN" },
-              ]}
-              control={control}
-              errors={errors}
-            />
-          </div>
-          <div>
-            <InputField
-              control={control}
-              errors={errors}
-              name="name"
-              placeholder="Name"
-              label="Name"
-            />
-          </div>
-          <div>
-            <InputField
-              control={control}
-              errors={errors}
-              name="username"
-              placeholder="Username"
-              label="Username"
-            />
-          </div>
-          <div>
-            <InputField
-              control={control}
-              type="email"
-              errors={errors}
-              name="email"
-              placeholder="Email"
-              label="Email"
-            />
-          </div>
-          <div>
-            <InputField
-              type="password"
-              control={control}
-              errors={errors}
-              name="password"
-              placeholder="Password"
-              label="Password"
-            />
+          </div> */}
+          <div className="row">
+            {/* <div className="col-md-6 col-sm-6">
+              <ReactSelectField
+                name={`role`}
+                placeholder="Role"
+                mb={true}
+                options={[
+                  { label: "User", value: "USER" },
+                  { label: "Admin", value: "ADMIN" },
+                  { label: "Super Admin", value: "SUPER_ADMIN" },
+                ]}
+                control={control}
+                errors={errors}
+              />
+            </div> */}
+            <div className="col-md-6 col-sm-6">
+              <InputField
+                control={control}
+                errors={errors}
+                name="name"
+                placeholder="Name"
+              />
+            </div>
+            <div className="col-md-6 col-sm-6">
+              <InputField
+                control={control}
+                errors={errors}
+                name="username"
+                placeholder="Username"
+              />
+            </div>
+            <div className="col-md-6 col-sm-6">
+              <InputField
+                control={control}
+                type="email"
+                errors={errors}
+                name="email"
+                placeholder="Email"
+              />
+            </div>
+            <div className="col-md-6 col-sm-6">
+              <InputField
+                type="password"
+                control={control}
+                errors={errors}
+                name="password"
+                placeholder="Password"
+              />
+            </div>
           </div>
         </div>
       )}

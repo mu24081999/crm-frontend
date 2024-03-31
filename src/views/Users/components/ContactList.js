@@ -55,18 +55,6 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
             <table className="table w-100 mb-5">
               <thead>
                 <tr>
-                  <th>
-                    <span className="form-check mb-0">
-                      <input
-                        type="checkbox"
-                        className="form-check-input check-select-all"
-                      />
-                      <label
-                        className="form-check-label"
-                        for="customCheck1"
-                      ></label>
-                    </span>
-                  </th>
                   <th>Name</th>
                   <th>Email Address</th>
                   {/* <th>Role</th> */}
@@ -82,11 +70,10 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                 {usersData?.length > 0 &&
                   usersData?.map((contact) => (
                     <tr>
-                      <td>
+                      {/* <td>
                         <div className="d-flex align-items-center">
                           <span className="contact-star marked">
                             <span className="feather-icon">
-                              {/* <i data-feather="star"></i> */}
                               {contact?.status === "important" ? (
                                 <FaStar
                                   onClick={
@@ -105,7 +92,7 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                             </span>
                           </span>
                         </div>
-                      </td>
+                      </td> */}
                       <td>
                         <div className="media align-items-center">
                           <div className="media-head me-2">
@@ -120,14 +107,17 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                               />
                             </div>
                           </div>
-                          <div className="media-body">
+                          <div
+                            className="media-body"
+                            style={{ cursor: "pointer" }}
+                          >
                             <a
-                              className="badge badge-primary "
+                              className=" "
                               onClick={() => handleToggle(contact.id)}
                             >
                               <span
-                                className="d-block text-high-em"
-                                style={{ color: "white" }}
+                                className="d-block text-high-em text-primary border-bottom"
+                                style={{ width: "max-content" }}
                               >
                                 {contact.name}
                               </span>

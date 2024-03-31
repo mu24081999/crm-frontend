@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../../../redux/services/users";
 import { IoIosMail } from "react-icons/io";
 import { CiMenuKebab } from "react-icons/ci";
+import { FiPaperclip } from "react-icons/fi";
 
 const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
   const {
@@ -90,10 +91,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
     let formData;
     if (selectedFile) {
       formData = {
-        sender:
-          selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-            ? selectedRoom.user_id_1
-            : selectedRoom?.user_id_2,
+        sender: authUser.id,
         recipient:
           selectedRoom && selectedRoom?.user_id_1 === authUser?.id
             ? selectedRoom.user_id_2
@@ -227,11 +225,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
           </div>
           <div class="media-body">
             <div class="user-name"> {selectedRoom?.name}</div>
-            <div class="user-status">
-              Typing<span class="one">.</span>
-              <span class="two">.</span>
-              <span class="three">.</span>
-            </div>
           </div>
         </div>
         <div class="chat-options-wrap">
@@ -596,8 +589,34 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
         </ul>
       </div>
 
-      <footer class="chat-footer">
-        <button
+      <footer class="chat-footer d-flex gap-2">
+        <div>
+          <button
+            className="btn btn-secondary shadow rounded-circle  float-end"
+            style={{ width: "35px", height: "35px" }}
+            onClick={() =>
+              document
+                .getElementById("dummy_avatar")
+                .scrollIntoView({ behavior: "smooth", block: "end" })
+            }
+          >
+            <FaArrowDown style={{ marginLeft: "-7px", marginBottom: "4px" }} />
+          </button>
+          {/* <span className="badge badge-danger badge-sm rounded-circle w-25 fw-bold">
+            <span style={{ paddingRight: "12px" }}>3</span>
+          </span> */}
+        </div>
+        <div
+          className="btn shadow btn-primary rounded-circle btn-file"
+          style={{ width: "30px", height: "35px" }}
+        >
+          <FiPaperclip
+            size={17}
+            style={{ marginLeft: "-8px", marginBottom: "6px" }}
+          />
+          <input type="file" className="upload" onChange={handleFileChange} />
+        </div>
+        {/* <button
           className="btn btn-primary rounded-circle  float-end"
           style={{ width: "35px" }}
           onClick={() =>
@@ -616,7 +635,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
         >
           <span class="icon">
             <span class="feather-icon">
-              {/* <i data-feather="share"></i> */}
               <FaFileExport />
             </span>
           </span>
@@ -672,7 +690,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               </div>
             </div>
           </a>
-        </div>
+        </div> */}
         <div class="input-group">
           <span class="input-affix-wrapper">
             <input
@@ -698,13 +716,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
             </span>
           </span>
         </div>
-        <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
-          <span class="icon">
-            <span class="feather-icon">
-              <i data-feather="smile"></i>
-            </span>
-          </span>
-        </button>
       </footer>
       <div class="chat-info">
         <div data-simplebar class="nicescroll-bar">
@@ -724,12 +735,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               </span>
               <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
             </div>
-            <div class="cp-name text-truncate mt-2">
-              {" "}
-              {selectedRoom?.user_id_1 === authUser?.id
-                ? selectedRoom?.user_name_2
-                : selectedRoom?.user_name_1}
-            </div>
+            <div class="cp-name text-truncate mt-2">{selectedRoom?.name}</div>
             <p class="text-truncate">No phone calls Always busy</p>
           </div>
 
@@ -763,58 +769,42 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                       href="/gn_info"
                       aria-expanded="true"
                     >
-                      General Info
+                      Group Members
                     </a>
                   </div>
                   <div id="gn_info" class="collapse show">
-                    <div class="card-body">
-                      <ul class="cp-info">
-                        <li>
-                          <a href="/">
-                            <span class="cp-icon-wrap">
-                              <span class="feather-icon">
-                                {/* <i data-feather="briefcase"></i> */}
-                                <FaBriefcase />
-                              </span>
-                            </span>
-                            Co-Founder
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <span class="cp-icon-wrap">
-                              <span class="feather-icon">
-                                {/* <i data-feather="mail"></i> */}
-                                <IoIosMail />
-                              </span>
-                            </span>
-                            <span class="text-primary">{authUser?.email}</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <span class="cp-icon-wrap">
-                              <span class="feather-icon">
-                                {/* <i data-feather="phone"></i> */}
-                                <FaPhone />
-                              </span>
-                            </span>
-                            +91-25-4125-2365
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/">
-                            <span class="cp-icon-wrap">
-                              <span class="feather-icon">
-                                {/* <i data-feather="map-pin"></i> */}
-                                <FaMapPin />
-                              </span>
-                            </span>
-                            Oslo, Canada
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
+                    <ul
+                      className="p-1"
+                      style={{ height: "200px", overflow: "scroll" }}
+                    >
+                      {selectedRoom?.group_members?.members?.length > 0 ? (
+                        selectedRoom?.group_members?.members?.map(
+                          (user, index) => (
+                            <li key={index}>
+                              <div class="media d-flex align-items-center py-1">
+                                <div class="media-head me-3">
+                                  <div class="avatar avatar-sm avatar-rounded">
+                                    <img
+                                      src={
+                                        user.avatar ||
+                                        "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
+                                      }
+                                      alt="user"
+                                      class="avatar-img"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="media-body">
+                                  <div class="user-name">{user.name}</div>
+                                </div>
+                              </div>
+                            </li>
+                          )
+                        )
+                      ) : (
+                        <li>No users found.</li>
+                      )}
+                    </ul>
                   </div>
                 </div>
                 <div class="card">
@@ -883,12 +873,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                   </div>
                   <div id="biography" class="collapse show">
                     <div class="card-body">
-                      <p>
-                        Hello there, Huma Therman is a brilliant co-founder and
-                        a copy writer working for almost a decade for fortune
-                        500 companies. I am well verse with multiple foreign
-                        languages and I love to produce good quality stuff.{" "}
-                      </p>
+                      <p>No information</p>
                     </div>
                   </div>
                 </div>

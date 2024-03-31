@@ -17,7 +17,8 @@ const Header = ({ onDataFromChild, activeBar }) => {
   return (
     <header className="contact-header">
       <div className="d-flex align-items-center">
-        <div className="dropdown">
+        <span className="fs-5 fw-bold">Contacts</span>
+        {/* <div className="dropdown">
           <a
             className="contactapp-title dropdown-toggle link-dark"
             data-bs-toggle="dropdown"
@@ -60,8 +61,8 @@ const Header = ({ onDataFromChild, activeBar }) => {
               <span>Deleted</span>
             </a>
           </div>
-        </div>
-        <div className="dropdown ms-3">
+        </div> */}
+        {/* <div className="dropdown ms-3">
           <button
             className="btn btn-sm btn-outline-secondary flex-shrink-0 dropdown-toggle d-lg-inline-block d-none"
             data-bs-toggle="dropdown"
@@ -82,7 +83,7 @@ const Header = ({ onDataFromChild, activeBar }) => {
               Add New Tag
             </a>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="contact-options-wrap">
         <a
@@ -135,7 +136,7 @@ const Header = ({ onDataFromChild, activeBar }) => {
           </span>
         </a>
         <div className="v-separator d-lg-block d-none"></div>
-        <a
+        {/* <a
           className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret  d-lg-inline-block d-none  ms-sm-0"
           // href="/"
           data-bs-toggle="dropdown"
@@ -148,12 +149,11 @@ const Header = ({ onDataFromChild, activeBar }) => {
             data-bs-original-title="Manage Contact"
           >
             <span className="feather-icon">
-              {/* <i data-feather="settings"></i> */}
               <FaCog />
             </span>
           </span>
-        </a>
-        <div className="dropdown-menu dropdown-menu-end">
+        </a> */}
+        {/* <div className="dropdown-menu dropdown-menu-end">
           <a className="dropdown-item" href="/">
             Manage Contact
           </a>
@@ -184,7 +184,6 @@ const Header = ({ onDataFromChild, activeBar }) => {
             data-bs-original-title="More"
           >
             <span className="feather-icon">
-              {/* <i data-feather="more-vertical"></i> */}
               <CiMenuKebab />
             </span>
           </span>
@@ -192,14 +191,12 @@ const Header = ({ onDataFromChild, activeBar }) => {
         <div className="dropdown-menu dropdown-menu-end">
           <a className="dropdown-item" href="profile.html">
             <span className="feather-icon dropdown-icon">
-              {/* <i data-feather="star"></i> */}
               <FaStar />
             </span>
             <span>Stared Contacts</span>
           </a>
           <a className="dropdown-item" href="/">
             <span className="feather-icon dropdown-icon">
-              {/* <i data-feather="archive"></i> */}
               <FaArchive />
             </span>
             <span>Archive Contacts</span>
@@ -207,19 +204,17 @@ const Header = ({ onDataFromChild, activeBar }) => {
           <div className="dropdown-divider"></div>
           <a className="dropdown-item" href="email.html">
             <span className="feather-icon dropdown-icon">
-              {/* <i data-feather="slash"></i> */}
               <FaUserSlash />
             </span>
             <span>Block Content</span>
           </a>
           <a className="dropdown-item" href="email.html">
             <span className="feather-icon dropdown-icon">
-              {/* <i data-feather="external-link"></i> */}
               <FaExternalLinkAlt />
             </span>
             <span>Feedback</span>
           </a>
-        </div>
+        </div> */}
         <a
           className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-sm-inline-block d-none"
           // href="/"

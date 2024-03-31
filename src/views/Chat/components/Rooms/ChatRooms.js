@@ -16,8 +16,12 @@ const ChatRooms = ({
   };
 
   const roomClickHandler = (room) => {
+    console.log("🚀 ~ roomClickHandler ~ room:", room);
+
     setSelectedRoom(room);
-    sendDataToParent();
+    // sendDataToParent();
+    onDataFromChild(selectedRoom);
+
     socket.emit("joinRoom", { roomId: room.name });
   };
   function formatRelativeDate(date) {
@@ -63,9 +67,10 @@ const ChatRooms = ({
                       <img
                         //   src="dist/img/avatar2.jpg"
                         src={
-                          room.user_id_1 === authUser?.id
+                          (room.user_id_1 === authUser?.id
                             ? room.user_image_2
-                            : room.user_image_1
+                            : room.user_image_1) ||
+                          "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
                         }
                         alt="user"
                         class="avatar-img"

@@ -140,10 +140,13 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
           ))}
         </ul>
 
-        <footer className="chat-footer fixed-bottom rounded p-2 w-75 d-flex justify-content-end ">
+        <footer
+          className="chat-footer fixed-bottom rounded d-flex  "
+          style={{ marginLeft: "50%" }}
+        >
           <div className="d-flex flex-wrap">
             <div className="form-group">
-              <span className="input-affix-wrapper">
+              <span className="input-affix-wrapper" style={{ width: "500px" }}>
                 <input
                   type="text"
                   //   id="input_msg_chat_popup"
@@ -151,16 +154,12 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
                   value={message}
                   onKeyUp={(e) => handleSendMessage(e)}
                   name="send-msg"
-                  className=" form-control shadow-none"
+                  className=" form-control w-100 rounded-pill"
                   placeholder="Type something..."
                 />
-                <span className="input-suffix">
-                  <button
-                    className="btn btn-icon btn-flush-primary btn-rounded btn-send"
-                    //   onClick={sendMessage}
-                  >
+                <span className="input-suffix" style={{ marginRight: "-10px" }}>
+                  <button className="btn btn-icon btn-flush-primary btn-rounded btn-send">
                     <span className="icon">
-                      {/* <span className="feather-icon"></span> */}
                       <FaArrowAltCircleRight />
                     </span>
                   </button>
@@ -168,11 +167,11 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
               </span>
             </div>
             <div
-              className="btn btn-dark rounded-circle btn-file h-75"
-              style={{ width: "40px" }}
+              className="btn btn-primary shadow rounded-circle btn-file h-75"
+              style={{ width: "35px" }}
             >
               {/* Attach files */}
-              <FiPaperclip size={20} style={{ marginLeft: "-5px" }} />
+              <FiPaperclip size={18} style={{ marginLeft: "-8px" }} />
 
               <input type="file" className="upload" />
             </div>

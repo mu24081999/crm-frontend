@@ -42,7 +42,7 @@ const InvitePeople = ({ users, authUser, socket }) => {
         <div class="modal-dialog modal-dialog-centered mw-400p" role="document">
           <div class="modal-content">
             <div class="modal-header header-wth-bg-inv">
-              <h5 class="modal-title">Invite People</h5>
+              <h5 class="modal-title">Invite</h5>
               <button
                 type="button"
                 class="btn-close text-white"
@@ -70,7 +70,10 @@ const InvitePeople = ({ users, authUser, socket }) => {
                             <div class="media-head me-3">
                               <div class="avatar avatar-sm avatar-rounded">
                                 <img
-                                  src={user.avatar}
+                                  src={
+                                    user.avatar ||
+                                    "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
+                                  }
                                   alt="user"
                                   class="avatar-img"
                                 />

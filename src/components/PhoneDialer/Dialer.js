@@ -241,10 +241,11 @@ const Dialer = () => {
                 <td>
                   <div className="w-100 ">
                     <InputField
-                      style={{ height: "70px", fontSize: "25px" }}
+                      style={{ height: "50px", fontSize: "14px" }}
                       name="subject"
                       placeholder="Phone Number"
                       control={control}
+                      onChange={(e) => setInputValue(e.target.value)}
                       errors={errors}
                       value={inputValue}
                     />
@@ -372,8 +373,7 @@ const Dialer = () => {
                   <div className="w-100 mt-4">
                     <ReactSelectField
                       name="my_numbers"
-                      placeholder="Phone Number"
-                      lable="Call From"
+                      placeholder="Call From"
                       control={control}
                       errors={errors}
                       options={

@@ -1267,7 +1267,7 @@ const ContentDetailsContent = () => {
                     >
                       <span aria-hidden="true">×</span>
                     </button>
-                    <h5 className="mb-5">Create New Conatct</h5>
+                    <h5 className="mb-5">Add New Contact</h5>
                     <form>
                       <div className="row gx-3">
                         <div className="col-sm-2 form-group">

@@ -8,12 +8,21 @@ import {
   FaPhone,
   FaVideo,
   FaInfo,
+  FaUserPlus,
+  FaStar,
+  FaArchive,
+  FaSlash,
+  FaExternalLinkAlt,
+  FaChevronUp,
+  FaChevronDown,
 } from "react-icons/fa";
+import { CiMenuKebab } from "react-icons/ci";
 import AWS from "aws-sdk";
 import FilePreview from "../../../../components/FilePreview/FilePreview";
 import { SocketContext } from "../../../../Context";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../../../redux/services/users";
+import { FiPaperclip } from "react-icons/fi";
 
 const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
   const {
@@ -62,7 +71,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
     }
   }, [usersArray, authUser, selectedRoom]);
   const [selectedFile, setSelectedFile] = useState(null);
-  console.log("🚀 ~ SingleChat ~ selectedFile:", selectedFile);
 
   const [files, setFiles] = useState([]);
 
@@ -243,10 +251,10 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
             <div class="avatar avatar-sm avatar-rounded position-relative">
               <img
                 src={
-                  selectedRoom?.user_id_1 === authUser?.id
+                  (selectedRoom?.user_id_1 === authUser?.id
                     ? selectedRoom?.user_image_2
-                    : selectedRoom?.user_image_1 ||
-                      "https://darrenjameseeley.files.wordpress.com/2014/09/expendables3.jpeg"
+                    : selectedRoom?.user_image_1) ||
+                  "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
                 }
                 alt="user"
                 class="avatar-img"
@@ -261,11 +269,11 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                 ? selectedRoom?.user_name_2
                 : selectedRoom?.user_name_1}
             </div>
-            <div class="user-status">
+            {/* <div class="user-status">
               Typing<span class="one">.</span>
               <span class="two">.</span>
               <span class="three">.</span>
-            </div>
+            </div> */}
           </div>
         </div>
         <div class="chat-options-wrap">
@@ -283,7 +291,8 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               data-bs-original-title="Invite people"
             >
               <span class="feather-icon">
-                <i data-feather="user-plus"></i>
+                {/* <i data-feather="user-plus"></i> */}
+                <FaUserPlus />
               </span>
             </span>
           </a>
@@ -332,25 +341,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               data-bs-original-title="Video Call"
             >
               <span class="feather-icon">
-                {/* <i data-feather="video"></i> */}
                 <FaVideo />
-              </span>
-            </span>
-          </a>
-          <a
-            class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover chatapp-info-toggle active"
-            href="/"
-          >
-            <span
-              class="icon"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title=""
-              data-bs-original-title="Info"
-            >
-              <span class="feather-icon">
-                <i data-feather="info"></i>
-                <FaInfo />
               </span>
             </span>
           </a>
@@ -367,7 +358,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               data-bs-original-title="More"
             >
               <span class="feather-icon">
-                <i data-feather="more-vertical"></i>
+                <CiMenuKebab />
               </span>
             </span>
           </a>
@@ -379,7 +370,8 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               data-bs-target="invite_people"
             >
               <span class="feather-icon dropdown-icon">
-                <i data-feather="user-plus"></i>
+                {/* <i data-feather="user-plus"></i> */}
+                <FaUserPlus />
               </span>
               <span>Invite People</span>
             </a>
@@ -408,13 +400,13 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
             <div class="d-xl-none dropdown-divider"></div>
             <a class="dropdown-item" href="/">
               <span class="feather-icon dropdown-icon">
-                <i data-feather="star"></i>
+                <FaStar />
               </span>
               <span>Stared Messages</span>
             </a>
             <a class="dropdown-item" href="/">
               <span class="feather-icon dropdown-icon">
-                <i data-feather="archive"></i>
+                <FaArchive />
               </span>
               <span>Archive Messages</span>
             </a>
@@ -422,12 +414,13 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
             <a class="dropdown-item" href="/">
               <span class="feather-icon dropdown-icon">
                 <i data-feather="slash"></i>
+                <FaSlash />
               </span>
               <span>Block Content</span>
             </a>
             <a class="dropdown-item" href="/">
               <span class="feather-icon dropdown-icon">
-                <i data-feather="external-link"></i>
+                <FaExternalLinkAlt />
               </span>
               <span>Feedback</span>
             </a>
@@ -442,10 +435,12 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
           >
             <span class="icon">
               <span class="feather-icon">
-                <i data-feather="chevron-up"></i>
+                {/* <i data-feather="chevron-up"></i> */}
+                <FaChevronUp />
               </span>
               <span class="feather-icon d-none">
-                <i data-feather="chevron-down"></i>
+                {/* <i data-feather="chevron-down"></i> */}
+                <FaChevronDown />
               </span>
             </span>
           </a>
@@ -882,83 +877,34 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
         </ul>
       </div>
 
-      <footer class="chat-footer">
-        <button
-          className="btn btn-primary rounded-circle  float-end"
-          style={{ width: "35px" }}
-          onClick={() =>
-            document
-              .getElementById("dummy_avatar")
-              .scrollIntoView({ behavior: "smooth", block: "end" })
-          }
-        >
-          <FaArrowDown style={{ marginLeft: "-7px" }} />
-        </button>
-        <button
-          class="btn btn-icon btn-flush-primary btn-rounded flush-soft-hover flex-shrink-0"
-          data-bs-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          <span class="icon">
-            <span class="feather-icon">
-              {/* <i data-feather="share"></i> */}
-              <FaFileExport />
-            </span>
-          </span>
-        </button>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="/">
-            <div class="d-flex align-items-center">
-              <div class="avatar avatar-icon avatar-xs avatar-soft-primary avatar-rounded me-3">
-                <span class="initial-wrap">
-                  <i class="ri-image-line"></i>
-                </span>
-              </div>
-              <div>
-                <span class="h6 mb-0">
-                  <input type="file" onChange={handleFileChange} />
-                </span>
-              </div>
-            </div>
-          </a>
-          <a class="dropdown-item" href="/">
-            <div class="d-flex align-items-center">
-              <div class="avatar avatar-icon avatar-xs avatar-soft-info avatar-rounded me-3">
-                <span class="initial-wrap">
-                  <i class="ri-file-4-line"></i>
-                </span>
-              </div>
-              <div>
-                <span class="h6 mb-0">Documents</span>
-              </div>
-            </div>
-          </a>
-          <a class="dropdown-item" href="/">
-            <div class="d-flex align-items-center">
-              <div class="avatar avatar-icon avatar-xs avatar-soft-success avatar-rounded me-3">
-                <span class="initial-wrap">
-                  <i class="ri-map-pin-line"></i>
-                </span>
-              </div>
-              <div>
-                <span class="h6 mb-0">Location</span>
-              </div>
-            </div>
-          </a>
-          <a class="dropdown-item" href="/">
-            <div class="d-flex align-items-center">
-              <div class="avatar avatar-icon avatar-xs avatar-soft-blue avatar-rounded me-3">
-                <span class="initial-wrap">
-                  <i class="ri-contacts-line"></i>
-                </span>
-              </div>
-              <div>
-                <span class="h6 mb-0">Contact</span>
-              </div>
-            </div>
-          </a>
+      <footer class="chat-footer d-flex gap-2">
+        <div>
+          <button
+            className="btn btn-secondary shadow rounded-circle  float-end"
+            style={{ width: "35px", height: "35px" }}
+            onClick={() =>
+              document
+                .getElementById("dummy_avatar")
+                .scrollIntoView({ behavior: "smooth", block: "end" })
+            }
+          >
+            <FaArrowDown style={{ marginLeft: "-7px", marginBottom: "4px" }} />
+          </button>
+          {/* <span className="badge badge-danger badge-sm rounded-circle w-25 fw-bold">
+            <span style={{ paddingRight: "12px" }}>3</span>
+          </span> */}
         </div>
+        <div
+          className="btn shadow btn-primary rounded-circle btn-file"
+          style={{ width: "30px", height: "35px" }}
+        >
+          <FiPaperclip
+            size={17}
+            style={{ marginLeft: "-8px", marginBottom: "6px" }}
+          />
+          <input type="file" className="upload" onChange={handleFileChange} />
+        </div>
+
         <div class="input-group">
           <span class="input-affix-wrapper">
             <input
@@ -984,13 +930,13 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
             </span>
           </span>
         </div>
-        <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
+        {/* <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
           <span class="icon">
             <span class="feather-icon">
               <i data-feather="smile"></i>
             </span>
           </span>
-        </button>
+        </button> */}
       </footer>
       <div class="chat-info">
         <div data-simplebar class="nicescroll-bar">
@@ -1001,10 +947,10 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
             <div class="avatar avatar-xxl avatar-rounded">
               <img
                 src={
-                  selectedRoom?.user_id_1 === authUser?.id
+                  (selectedRoom?.user_id_1 === authUser?.id
                     ? selectedRoom?.user_image_2
-                    : selectedRoom?.user_image_1 ||
-                      "https://darrenjameseeley.files.wordpress.com/2014/09/expendables3.jpeg"
+                    : selectedRoom?.user_image_1) ||
+                  "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
                 }
                 alt="user"
                 class="avatar-img"
@@ -1021,25 +967,18 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
 
           <ul class="nav nav-justified nav-light nav-tabs nav-segmented-tabs active-theme mt-4">
             <li class="nav-item">
-              <a class="nav-link active" data-bs-toggle="tab" href="/tab_info">
+              <a class="nav-link active" data-bs-toggle="tab" href="#tab_info">
                 <span class="nav-link-text">Info</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="tab" href="/tab_files">
+              <a class="nav-link" data-bs-toggle="tab" href="#tab_files">
                 <span class="nav-link-text">Files</span>
               </a>
             </li>
           </ul>
           <div class="tab-content mt-4">
             <div class="tab-pane fade show active" id="tab_info">
-              <form role="search">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Search in conversation"
-                />
-              </form>
               <div class="collapse-simple mt-3">
                 <div class="card">
                   <div class="card-header">
@@ -1055,47 +994,21 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                   <div id="gn_info" class="collapse show">
                     <div class="card-body">
                       <ul class="cp-info">
-                        <li>
-                          <a href="/">
-                            <span class="cp-icon-wrap">
-                              <span class="feather-icon">
-                                <i data-feather="briefcase"></i>
-                              </span>
-                            </span>
-                            Co-Founder
-                          </a>
+                        <li className="d-flex justify-content-between">
+                          <span className="fw-bold fs-6">Name</span>
+                          <span>{selectedUser?.name}</span>
                         </li>
-                        <li>
-                          <a href="/">
-                            <span class="cp-icon-wrap">
-                              <span class="feather-icon">
-                                <i data-feather="mail"></i>
-                              </span>
-                            </span>
-                            <span class="text-primary">
-                              contact@hencework.com
-                            </span>
-                          </a>
+                        <li className="d-flex justify-content-between">
+                          <span className="fw-bold fs-6">Email</span>
+                          <span>{selectedUser?.email}</span>
                         </li>
-                        <li>
-                          <a href="/">
-                            <span class="cp-icon-wrap">
-                              <span class="feather-icon">
-                                <i data-feather="phone"></i>
-                              </span>
-                            </span>
-                            +91-25-4125-2365
-                          </a>
+                        <li className="d-flex justify-content-between">
+                          <span className="fw-bold fs-6">Phone</span>
+                          <span>{selectedUser?.phone}</span>
                         </li>
-                        <li>
-                          <a href="/">
-                            <span class="cp-icon-wrap">
-                              <span class="feather-icon">
-                                <i data-feather="map-pin"></i>
-                              </span>
-                            </span>
-                            Oslo, Canada
-                          </a>
+                        <li className="d-flex justify-content-between">
+                          <span className="fw-bold fs-6">Username</span>
+                          <span>{selectedUser?.username}</span>
                         </li>
                       </ul>
                     </div>
@@ -1167,12 +1080,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                   </div>
                   <div id="biography" class="collapse show">
                     <div class="card-body">
-                      <p>
-                        Hello there, Huma Therman is a brilliant co-founder and
-                        a copy writer working for almost a decade for fortune
-                        500 companies. I am well verse with multiple foreign
-                        languages and I love to produce good quality stuff.{" "}
-                      </p>
+                      <p>No information</p>
                     </div>
                   </div>
                 </div>

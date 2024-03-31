@@ -42,7 +42,7 @@ export const registerUser = (registerData) => async (dispatch) => {
   }
 };
 
-export const loginUser = (username, password) => async (dispatch) => {
+export const loginUser = (username, password, type) => async (dispatch) => {
   try {
     dispatch(authRequestLoading());
     const config = {
@@ -51,7 +51,11 @@ export const loginUser = (username, password) => async (dispatch) => {
       },
     };
     await axios
-      .post(`${backendURL}/auth/siginin_user`, { username, password }, config)
+      .post(
+        `${backendURL}/auth/siginin_user`,
+        { username, password, type },
+        config
+      )
       .then((response) => {
         console.log(response.data);
         if (response?.data?.statusCode !== 200) {

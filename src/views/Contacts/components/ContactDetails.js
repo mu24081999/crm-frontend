@@ -134,7 +134,7 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                 className="contact-info w-xxl-30 w-100"
                 style={{ maxHeight: "1000px", overflow: "scroll" }}
               >
-                <div className="dropdown action-btn">
+                {/* <div className="dropdown action-btn">
                   <button
                     aria-expanded="false"
                     data-bs-toggle="dropdown"
@@ -158,7 +158,7 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                       Separated link
                     </a>
                   </div>
-                </div>
+                </div> */}
                 <div className="text-center mt-5">
                   <div className="dropify-circle edit-img">
                     {/* <input
@@ -651,7 +651,7 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
               >
                 <span aria-hidden="true">×</span>
               </button>
-              <h5 className="mb-5">Create New Conatct</h5>
+              <h5 className="mb-5">Add New Contact</h5>
               <form>
                 <div className="row gx-3">
                   <div className="col-sm-2 form-group">

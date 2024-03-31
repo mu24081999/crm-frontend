@@ -147,45 +147,49 @@ const ChatAside = ({
             </div>
             <ul class="hk-list">
               {users?.length > 0 &&
-                users.map((user, inded) => (
-                  <li>
-                    <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
-                      <span class="initial-wrap">
-                        {extractCharactersFromArray(user.name).firstCharacter +
-                          extractCharactersFromArray(user.name)
-                            .characterAfterSpace}
-                      </span>
-                      <div class="badge-icon badge-circle badge-icon-xxs text-white position-bottom-end-overflow-1">
-                        <div class="badge-icon-wrap">
-                          <i class="ri-group-fill text-light"></i>
+                users.map(
+                  (user, index) =>
+                    index.length <= 4 && (
+                      <li key={index}>
+                        <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
+                          <span class="initial-wrap">
+                            {extractCharactersFromArray(user.name)
+                              .firstCharacter +
+                              extractCharactersFromArray(user.name)
+                                .characterAfterSpace}
+                          </span>
+                          <div class="badge-icon badge-circle badge-icon-xxs text-white position-bottom-end-overflow-1">
+                            <div class="badge-icon-wrap">
+                              <i class="ri-group-fill text-light"></i>
+                            </div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 127 127"
+                            >
+                              <g
+                                data-name="Ellipse 302"
+                                transform="translate(8 8)"
+                                stroke-width="3"
+                              >
+                                <circle
+                                  cx="55.5"
+                                  cy="55.5"
+                                  r="55.5"
+                                  stroke="currentColor"
+                                ></circle>
+                                <circle
+                                  cx="55.5"
+                                  cy="55.5"
+                                  r="59.5"
+                                  fill="currentColor"
+                                ></circle>
+                              </g>
+                            </svg>
+                          </div>
                         </div>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 127 127"
-                        >
-                          <g
-                            data-name="Ellipse 302"
-                            transform="translate(8 8)"
-                            stroke-width="3"
-                          >
-                            <circle
-                              cx="55.5"
-                              cy="55.5"
-                              r="55.5"
-                              stroke="currentColor"
-                            ></circle>
-                            <circle
-                              cx="55.5"
-                              cy="55.5"
-                              r="59.5"
-                              fill="currentColor"
-                            ></circle>
-                          </g>
-                        </svg>
-                      </div>
-                    </div>
-                  </li>
-                ))}
+                      </li>
+                    )
+                )}
             </ul>
           </div>
           <ChatRooms

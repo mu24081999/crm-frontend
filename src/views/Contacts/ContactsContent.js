@@ -925,7 +925,10 @@ const ContactsContent = () => {
                 role="document"
               >
                 <div className="modal-content">
-                  <div className="modal-body">
+                  <div className="modal-header bg-primary">
+                    <span style={{ color: "white", fontWeight: "bold" }}>
+                      Add New Contact
+                    </span>
                     <button
                       type="button"
                       className="btn-close"
@@ -934,7 +937,8 @@ const ContactsContent = () => {
                     >
                       <span aria-hidden="true">×</span>
                     </button>
-                    <h5 className="mb-5">Create New Conatct</h5>
+                  </div>
+                  <div className="modal-body">
                     <AddContactList />
                   </div>
                 </div>

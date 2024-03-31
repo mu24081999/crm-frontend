@@ -2,8 +2,18 @@ import React from "react";
 import ReactCalendar from "../../../components/ReactCalendar/ReactCalendar";
 import { FaCalendar } from "react-icons/fa";
 import moment from "moment";
+import Calender from "../../../components/Calender/Calender";
 
-const SideNav = ({ upcomingData }) => {
+const SideNav = ({
+  upcomingData,
+  eventsData,
+  isLoading,
+  INITIAL_EVENTS,
+  onDataFromChild,
+  token,
+  dispatch,
+}) => {
+  console.log("🚀 ~ eventsData:", eventsData);
   return (
     <nav className="calendarapp-sidebar">
       <div data-simplebar className="nicescroll-bar">
@@ -17,7 +27,7 @@ const SideNav = ({ upcomingData }) => {
             <FaCalendar className="mx-1" />
             Create
           </button>
-          <ReactCalendar />
+          {/* <ReactCalendar /> */}
           <div className="text-center mt-4">
             <div id="inline_calendar" className="d-inline-block">
               <input

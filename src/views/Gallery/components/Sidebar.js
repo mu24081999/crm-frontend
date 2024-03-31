@@ -26,7 +26,7 @@ const Sidebar = ({ dispatch, token, authUser }) => {
               onChange={handleFileOnChange}
             />
           </div>
-          <div className="menu-group">
+          {/* <div className="menu-group">
             <ul className="nav nav-light navbar-nav flex-column">
               <li className="nav-item active">
                 <a className="nav-link" href="/">
@@ -120,7 +120,7 @@ const Sidebar = ({ dispatch, token, authUser }) => {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* <!--Sidebar Fixnav--> */}

@@ -14,11 +14,15 @@ import { SocketContext } from "../../../Context";
 import moment from "moment";
 import { deleteUserRec } from "../../../redux/services/users";
 import { setAccount } from "../../../redux/slices/auth";
+import { redirect } from "react-router-dom";
+import { loginUser } from "../../../redux/services/auth";
 
 const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
   const { handleToggleShowUserDetail } = useContext(SocketContext);
   const handleLoginAccount = (account) => {
-    dispatch(setAccount(account));
+    dispatch(loginUser(account?.email, account?.password, true));
+    // dispatch(setAccount(account));
+    // redirect("/");
   };
   const handleToggle = (user_id) => {
     // onToggleEdit(true);

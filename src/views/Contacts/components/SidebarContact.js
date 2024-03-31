@@ -126,7 +126,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                   <span className="nav-link-text">Archive</span>
                 </a>
               </li>
-              <li
+              {/* <li
                 className={`nav-item ${
                   activeBar === "pending" ? "active" : ""
                 }`}
@@ -134,13 +134,12 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                 <a className="nav-link" onClick={onPendingClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
-                      {/* <i data-feather="edit"></i> */}
                       <FaEdit />
                     </span>
                   </span>
                   <span className="nav-link-text">Pending</span>
                 </a>
-              </li>
+              </li> */}
               <li
                 className={`nav-item ${
                   activeBar === "blocked" ? "active" : ""
@@ -162,14 +161,13 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
               </li>
             </ul>
           </div>
-          <div className="separator separator-light"></div>
+          {/* <div className="separator separator-light"></div>
           <div className="menu-group">
             <ul className="nav nav-light navbar-nav flex-column">
               <li className="nav-item">
                 <a className="nav-link" href="/">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
-                      {/* <i data-feather="upload"></i> */}
                       <FaUpload />
                     </span>
                   </span>
@@ -180,7 +178,6 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                 <a className="nav-link" href="/">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
-                      {/* <i data-feather="download"></i> */}
                       <FaFileDownload />
                     </span>
                   </span>
@@ -191,7 +188,6 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                 <a className="nav-link" href="/">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
-                      {/* <i data-feather="printer"></i> */}
                       <FaPrint />
                     </span>
                   </span>
@@ -217,7 +213,6 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                 data-bs-original-title="Add Label"
               >
                 <span className="feather-icon">
-                  {/* <i data-feather="plus"></i> */}
                   <FaPlus />
                 </span>
               </span>
@@ -276,7 +271,6 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                 data-bs-original-title="Add Tag"
               >
                 <span className="feather-icon">
-                  {/* <i data-feather="plus"></i> */}
                   <FaPlus />
                 </span>
               </span>
@@ -298,7 +292,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
             <a href="/" className="badge badge-outline badge-light">
               Advertisement
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* <!--Sidebar Fixnav--> */}

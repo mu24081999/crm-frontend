@@ -88,13 +88,13 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                               {contact?.status === "important" ? (
                                 <FaStar
                                   onClick={() =>
-                                    handleUpdateStatus(contact.id, "active")
+                                    handleUpdateStatus(contact?.id, "active")
                                   }
                                 />
                               ) : (
                                 <FaRegStar
                                   onClick={() =>
-                                    handleUpdateStatus(contact.id, "important")
+                                    handleUpdateStatus(contact?.id, "important")
                                   }
                                 />
                               )}
@@ -108,7 +108,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                             <div className="avatar avatar-xs avatar-rounded">
                               <img
                                 src={
-                                  contact.avatar ||
+                                  contact?.avatar ||
                                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj0HSlpGrcoSJqHfu9TPqo_WhhuWwq8t8zb5lbp5ES8w&s"
                                 }
                                 alt="user"
@@ -116,28 +116,35 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                               />
                             </div>
                           </div>
-                          <div className="media-body">
+                          <div
+                            className="media-body"
+                            style={{ cursor: "pointer" }}
+                          >
                             <a
-                              className="badge badge-primary "
-                              onClick={() => handleToggle(contact.id)}
+                              className=" "
+                              onClick={() => handleToggle(contact?.id)}
                             >
                               <span
-                                className="d-block text-high-em"
-                                style={{ color: "white" }}
+                                className="d-block text-high-em text-primary border-bottom"
+                                style={{ width: "max-content" }}
                               >
-                                {contact.lastname},{contact.firstname}{" "}
-                                {contact.middlename}
+                                {contact?.firstname +
+                                  " " +
+                                  contact?.middlename +
+                                  " " +
+                                  contact?.lastname +
+                                  " "}
                               </span>
                             </a>
                           </div>
                         </div>
                       </td>
-                      <td className="text-truncate">{contact.email}</td>
-                      <td>{contact.phone}</td>
+                      <td className="text-truncate">{contact?.email}</td>
+                      <td>{contact?.phone}</td>
                       <td>
-                        {contact.tags &&
-                          contact.tags.length > 0 &&
-                          contact.tags.map((tag, index) => (
+                        {contact?.tags &&
+                          contact?.tags.length > 0 &&
+                          contact?.tags.map((tag, index) => (
                             <span
                               key={index}
                               className="badge badge-soft-danger  my-1  me-2"
@@ -146,9 +153,9 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                             </span>
                           ))}
                       </td>
-                      <td>{contact.designation}</td>
+                      <td>{contact?.designation}</td>
                       <td>
-                        {moment(contact.created_at).format("DD MMM, YYYY")}
+                        {moment(contact?.created_at).format("DD MMM, YYYY")}
                       </td>
                       <td>
                         <div className="d-flex align-items-center">
@@ -161,7 +168,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                               data-bs-original-title="Archive"
                               // href="/"
                               onClick={() =>
-                                handleUpdateStatus(contact.id, "archived")
+                                handleUpdateStatus(contact?.id, "archived")
                               }
                             >
                               <span className="icon">
@@ -177,8 +184,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                               data-placement="top"
                               title=""
                               data-bs-original-title="Edit"
-                              // to={`/edit-contact/${contact.id}`}
-                              onClick={() => handleToggle(contact.id)}
+                              onClick={() => handleToggle(contact?.id)}
                             >
                               <span className="icon">
                                 <span className="feather-icon">
@@ -189,7 +195,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                             </a>
                             <button
                               className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
-                              onClick={() => handleDeleteContact(contact.id)}
+                              onClick={() => handleDeleteContact(contact?.id)}
                             >
                               <span className="icon">
                                 <span className="feather-icon">

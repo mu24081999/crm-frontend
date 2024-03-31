@@ -36,25 +36,32 @@ const ChatAside = ({
       rooms_?.length > 0 && rooms_?.filter((room) => room.status === status);
     onFilterDataFromChild(data);
   };
+  const handleSearchRoom = (e) => {
+    const data =
+      rooms_?.length > 0 &&
+      rooms_?.filter((room) =>
+        // room.user_name_1?.includes(e.target.value) ||
+        room.user_name_2?.includes(e.target.value)
+      );
+    console.log(data);
+  };
   return (
     <div>
       {" "}
       <div class="chatapp-aside">
         <header class="aside-header">
-          <a
+          {/* <a
             class="chatapp-title dropdown-toggle link-dark"
             data-bs-toggle="dropdown"
-            href="/"
             role="button"
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <h1>Chat</h1>
-          </a>
-          <div class="dropdown-menu">
+          </a> */}
+          <h1 className="fs-5 fw-bold">Chat</h1>
+          {/* <div class="dropdown-menu">
             <a class="dropdown-item" onClick={() => handleFilterData("all")}>
               <span class="feather-icon dropdown-icon">
-                {/* <i data-feather="message-square"></i> */}
                 <IoIosMail />
               </span>
               <span>Chats</span>
@@ -64,14 +71,12 @@ const ChatAside = ({
               onClick={() => handleFilterData("contacts")}
             >
               <span class="feather-icon dropdown-icon">
-                {/* <i data-feather="book"></i> */}
                 <FaBook />
               </span>
               <span>Contacts</span>
             </a>
             <a class="dropdown-item" onClick={() => handleFilterData("Groups")}>
               <span class="feather-icon dropdown-icon">
-                {/* <i data-feather="users"></i> */}
                 <FaUsers />
               </span>
               <span>Groups</span>
@@ -81,7 +86,6 @@ const ChatAside = ({
               onClick={() => handleFilterData("archived")}
             >
               <span class="feather-icon dropdown-icon">
-                {/* <i data-feather="archive"></i> */}
                 <FaArchive />
               </span>
               <span>Archived</span>
@@ -91,18 +95,17 @@ const ChatAside = ({
               onClick={() => handleFilterData("favourite")}
             >
               <span class="feather-icon dropdown-icon">
-                {/* <i data-feather="star"></i> */}
                 <FaStar />
               </span>
               <span>Favorites</span>
             </a>
-          </div>
+          </div> */}
           <div class="d-flex">
             <div class="dropdown">
               <a
-                href="/"
+                // href="/"
                 class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                data-bs-toggle="dropdown"
+                // data-bs-toggle="dropdown"
               >
                 <span class="icon">
                   <span class="feather-icon">
@@ -165,58 +168,63 @@ const ChatAside = ({
           </div>
         </header>
         <div data-simplebar class="aside-body">
-          <form class="aside-search" role="search">
+          {/* <form class="aside-search" role="search">
             <input
               type="text"
               class="form-control"
               placeholder="Search Chats"
+              onKeyUp={handleSearchRoom}
             />
-          </form>
+          </form> */}
           <div class="frequent-contact">
             <div class="title-sm text-primary">
               <span>Frequent contact</span>
             </div>
             <ul class="hk-list">
               {users?.length > 0 &&
-                users.map((user, inded) => (
-                  <li>
-                    <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
-                      <span class="initial-wrap">
-                        {extractCharactersFromArray(user.name).firstCharacter +
-                          extractCharactersFromArray(user.name)
-                            .characterAfterSpace}
-                      </span>
-                      <div class="badge-icon badge-circle badge-icon-xxs text-white position-bottom-end-overflow-1">
-                        <div class="badge-icon-wrap">
-                          <i class="ri-group-fill text-light"></i>
+                users.map(
+                  (user, index) =>
+                    index <= 4 && (
+                      <li key={index}>
+                        <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
+                          <span class="initial-wrap">
+                            {extractCharactersFromArray(user.name)
+                              .firstCharacter +
+                              extractCharactersFromArray(user.name)
+                                .characterAfterSpace}
+                          </span>
+                          <div class="badge-icon badge-circle badge-icon-xxs text-white position-bottom-end-overflow-1">
+                            <div class="badge-icon-wrap">
+                              <i class="ri-group-fill text-light"></i>
+                            </div>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 127 127"
+                            >
+                              <g
+                                data-name="Ellipse 302"
+                                transform="translate(8 8)"
+                                stroke-width="3"
+                              >
+                                <circle
+                                  cx="55.5"
+                                  cy="55.5"
+                                  r="55.5"
+                                  stroke="currentColor"
+                                ></circle>
+                                <circle
+                                  cx="55.5"
+                                  cy="55.5"
+                                  r="59.5"
+                                  fill="currentColor"
+                                ></circle>
+                              </g>
+                            </svg>
+                          </div>
                         </div>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 127 127"
-                        >
-                          <g
-                            data-name="Ellipse 302"
-                            transform="translate(8 8)"
-                            stroke-width="3"
-                          >
-                            <circle
-                              cx="55.5"
-                              cy="55.5"
-                              r="55.5"
-                              stroke="currentColor"
-                            ></circle>
-                            <circle
-                              cx="55.5"
-                              cy="55.5"
-                              r="59.5"
-                              fill="currentColor"
-                            ></circle>
-                          </g>
-                        </svg>
-                      </div>
-                    </div>
-                  </li>
-                ))}
+                      </li>
+                    )
+                )}
               {/* <li>
                 <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
                   <img

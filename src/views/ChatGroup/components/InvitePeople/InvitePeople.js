@@ -82,7 +82,10 @@ const InvitePeople = ({ users, authUser, socket }) => {
                             <div class="media-head me-3">
                               <div class="avatar avatar-sm avatar-rounded">
                                 <img
-                                  src={user.avatar}
+                                  src={
+                                    user.avatar ||
+                                    "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
+                                  }
                                   alt="user"
                                   class="avatar-img"
                                 />

@@ -13,6 +13,7 @@ import { sendEmailRec } from "../../../../redux/services/email";
 import ReactTagInputComponent from "../../../../components/FormFields/reactTagInputComponent";
 import Loader from "../../../../components/Loader/Loader";
 import EditorField from "../../../../components/FormFields/Editor";
+import { FiPaperclip } from "react-icons/fi";
 
 const ComposeEmail = () => {
   const {
@@ -113,7 +114,7 @@ const ComposeEmail = () => {
           <Loader />
         ) : (
           <form onSubmit={handleSubmit(handleSendEmail)}>
-            <div className="w-100 mb-1">
+            <div className="w-100">
               <InputField
                 name="subject"
                 placeholder="Subject"
@@ -121,7 +122,7 @@ const ComposeEmail = () => {
                 errors={errors}
               />
             </div>
-            <div className="w-100 mb-1">
+            <div className="w-100">
               {/* <ReactSelectField
             name="to"
             placeholder="Select"
@@ -147,7 +148,7 @@ const ComposeEmail = () => {
                 name="to"
               />
             </div>
-            <div className="w-100 mb-1">
+            <div className="w-100">
               {/* <TextAreaField
                 name="body"
                 placeholder="Text"
@@ -157,7 +158,6 @@ const ComposeEmail = () => {
               <EditorField
                 name="body"
                 placeholder="Body text"
-                label="Body"
                 control={control}
                 rules={{
                   required: {
@@ -168,18 +168,36 @@ const ComposeEmail = () => {
                 errors={errors}
               />
             </div>
+            <div className="mb-2">
+              <div
+                className="btn shadow btn-secondary rounded-circle btn-file"
+                style={{ width: "30px", height: "35px" }}
+              >
+                <FiPaperclip
+                  size={17}
+                  style={{ marginLeft: "-8px", marginBottom: "6px" }}
+                />
+                <input
+                  type="file"
+                  className="upload"
+                  onChange={handleFileChange}
+                />
+              </div>
+              <span className="px-2">Attach files</span>
+            </div>
             <div class="compose-email-footer">
-              <div>
-                <button class="btn btn-primary me-2" type="submit">
+              <div className="w-100">
+                <button class="btn btn-primary float-end" type="submit">
                   Send
                 </button>
-                <input
+                {/* <input
                   type="file"
                   name="file"
                   multiple
                   onChange={handleFileChange}
-                />
-                <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
+                /> */}
+
+                {/* <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
                   <span
                     class="icon"
                     data-bs-toggle="tooltip"
@@ -188,13 +206,12 @@ const ComposeEmail = () => {
                     data-bs-original-title="Add flag"
                   >
                     <span class="feather-icon">
-                      {/* <i data-feather="paperclip"></i> */}
                       <FaClipboard />
                     </span>
                   </span>
-                </button>
+                </button> */}
               </div>
-              <div>
+              {/* <div>
                 <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
                   <span
                     class="icon"
@@ -204,7 +221,6 @@ const ComposeEmail = () => {
                     data-bs-original-title="Save Draft"
                   >
                     <span class="feather-icon">
-                      {/* <i data-feather="edit"></i> */}
                       <FaEdit />
                     </span>
                   </span>
@@ -218,12 +234,11 @@ const ComposeEmail = () => {
                     data-bs-original-title="Delete"
                   >
                     <span class="feather-icon">
-                      {/* <i data-feather="trash-2"></i> */}
                       <FaTrash />
                     </span>
                   </span>
                 </button>
-              </div>
+              </div> */}
             </div>
           </form>
         )}

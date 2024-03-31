@@ -156,27 +156,25 @@ const ComposeEmail = () => {
             onSubmit={handleSubmit(handleSendEmail)}
             style={{ maxHeight: "750px" }}
           >
-            <div className="w-100 mb-1">
+            <div className="w-100">
               <InputField
                 name="subject"
-                label="Subject"
                 placeholder="Subject"
                 control={control}
                 errors={errors}
               />
             </div>
-            <div className="w-100 mb-1">
+            <div className="w-100">
               <TextAreaField
                 name="to"
                 height="150px"
-                label="To"
                 placeholder="Enter list of email address"
                 rows={2}
                 control={control}
                 errors={errors}
               />
             </div>
-            <div className="w-100 mt-5 form-group">
+            <div className="w-100 form-group">
               <label className="form-label">Upload CSV for emails</label>
               <input
                 type="file"
@@ -185,7 +183,7 @@ const ComposeEmail = () => {
                 onChange={handleChangeCsvFile}
               />
             </div>
-            <div className="w-100 mt-5">
+            <div className="w-100">
               {/* <TextAreaField
               name="body"
               placeholder="Text"
@@ -195,7 +193,6 @@ const ComposeEmail = () => {
               <EditorField
                 name="body"
                 placeholder="Body text"
-                label="Body"
                 control={control}
                 rules={{
                   required: {
@@ -217,27 +214,12 @@ const ComposeEmail = () => {
               />
             </div>
             <div class="compose-email-footer">
-              <div>
-                <button class="btn btn-primary me-2" type="submit">
+              <div className="w-100">
+                <button class="btn btn-primary float-end" type="submit">
                   Send
                 </button>
-
-                <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
-                  <span
-                    class="icon"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    title="Add flag"
-                    data-bs-original-title="Add flag"
-                  >
-                    <span class="feather-icon">
-                      {/* <i data-feather="paperclip"></i> */}
-                      <FaClipboard />
-                    </span>
-                  </span>
-                </button>
               </div>
-              <div>
+              {/* <div>
                 <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
                   <span
                     class="icon"
@@ -247,7 +229,6 @@ const ComposeEmail = () => {
                     data-bs-original-title="Save Draft"
                   >
                     <span class="feather-icon">
-                      {/* <i data-feather="edit"></i> */}
                       <FaEdit />
                     </span>
                   </span>
@@ -261,12 +242,11 @@ const ComposeEmail = () => {
                     data-bs-original-title="Delete"
                   >
                     <span class="feather-icon">
-                      {/* <i data-feather="trash-2"></i> */}
                       <FaTrash />
                     </span>
                   </span>
                 </button>
-              </div>
+              </div> */}
             </div>
           </form>
         )}
