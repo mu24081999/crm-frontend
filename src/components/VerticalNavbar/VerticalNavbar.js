@@ -715,7 +715,7 @@ const VerticalNavbar = () => {
             </ul>
           </div>
           <div className="menu-gap"></div>
-          <div className="menu-group">
+          {/* <div className="menu-group">
             <div className="nav-header">
               <span>Pages</span>
             </div>
@@ -1007,7 +1007,7 @@ const VerticalNavbar = () => {
                 Go Nubra-UI
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* <!-- /Main Menu --> */}
