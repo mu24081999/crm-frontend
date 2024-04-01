@@ -1261,7 +1261,7 @@ const ContentDetailsContent = () => {
                   <div className="modal-body">
                     <button
                       type="button"
-                      className="btn-close"
+                      className="btn-close "
                       data-bs-dismiss="modal"
                       aria-label="Close"
                     >
