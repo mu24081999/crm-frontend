@@ -22,17 +22,16 @@ const ChatContent = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     setMessages(messagesArray);
-    const categorizeMessagesByDate = messagesArray?.reduce(
-      (result, message) => {
+    const categorizeMessagesByDate =
+      messagesArray?.length > 0 &&
+      messagesArray?.reduce((result, message) => {
         const date = message.created_at.slice(0, 10); // Extract date from created_at
         if (!result[date]) {
           result[date] = []; // Initialize array for the date if it doesn't exist
         }
         result[date].push(message); // Push message to the array for the date
         return result;
-      },
-      {}
-    );
+      }, {});
     setSelectedMessages(categorizeMessagesByDate);
   }, [messagesArray]);
   useEffect(() => {
@@ -62,15 +61,16 @@ const ChatContent = () => {
     setShowChat(data);
   };
   const handleMessagesDataFromChild = (data) => {
-    console.log("🚀 ~ handleMessagesDataFromChild ~ data:", data);
-    const categorizeMessagesByDate = data?.reduce((result, message) => {
-      const date = message.created_at.slice(0, 10); // Extract date from created_at
-      if (!result[date]) {
-        result[date] = []; // Initialize array for the date if it doesn't exist
-      }
-      result[date].push(message); // Push message to the array for the date
-      return result;
-    }, {});
+    const categorizeMessagesByDate =
+      data?.length > 0 &&
+      data?.reduce((result, message) => {
+        const date = message.created_at.slice(0, 10); // Extract date from created_at
+        if (!result[date]) {
+          result[date] = []; // Initialize array for the date if it doesn't exist
+        }
+        result[date].push(message); // Push message to the array for the date
+        return result;
+      }, {});
     setSelectedMessages(categorizeMessagesByDate);
   };
 

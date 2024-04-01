@@ -146,17 +146,6 @@ const VerticalNavbar = () => {
                   </li>
 
                   <li className="nav-item">
-                    <Link className="nav-link" to="/clients">
-                      <span className="nav-icon-wrap">
-                        <span className="svg-icon">
-                          <FaUsers />
-                        </span>
-                      </span>
-                      <span className="nav-link-text">Clients</span>
-                    </Link>
-                  </li>
-
-                  <li className="nav-item">
                     <a
                       className="nav-link"
                       href="/"
@@ -236,6 +225,18 @@ const VerticalNavbar = () => {
                     </Link>
                   </li>
                 </>
+              )}
+              {(user?.role === "ADMIN" || user?.role === "SUPER_ADMIN") && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/clients">
+                    <span className="nav-icon-wrap">
+                      <span className="svg-icon">
+                        <FaUsers />
+                      </span>
+                    </span>
+                    <span className="nav-link-text">Clients</span>
+                  </Link>
+                </li>
               )}
               {(user?.role === "ADMIN" ||
                 user?.role === "SUPER_ADMIN" ||

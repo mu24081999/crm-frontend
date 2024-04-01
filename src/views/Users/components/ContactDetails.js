@@ -87,7 +87,7 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                 className="contact-info w-xxl-30 w-100"
                 style={{ maxHeight: "1000px", overflow: "scroll" }}
               >
-                <div className="dropdown action-btn">
+                {/* <div className="dropdown action-btn">
                   <button
                     aria-expanded="false"
                     data-bs-toggle="dropdown"
@@ -111,7 +111,7 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                       Separated link
                     </a>
                   </div>
-                </div>
+                </div> */}
                 <div className="text-center mt-5">
                   <div className="dropify-circle edit-img">
                     <img
@@ -189,7 +189,7 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                 <div className="card">
                   <div className="card-header">
                     <a href="/">Tags</a>
-                    <button
+                    {/* <button
                       className="btn btn-xs btn-icon btn-rounded btn-light"
                       data-bs-toggle="tooltip"
                       data-bs-placement="top"
@@ -202,11 +202,10 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                         data-bs-target="#tagsInput"
                       >
                         <span className="feather-icon">
-                          {/* <i data-feather="plus"></i> */}
                           <FaPlus />
                         </span>
                       </span>
-                    </button>
+                    </button> */}
                   </div>
                   <div className="card-body">
                     {contactDetails?.tags?.map((tag, index) => (

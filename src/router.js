@@ -29,6 +29,7 @@ import DirectChat from "./views/ChatPopup/Chat";
 import Recordings from "./views/Recordings/Recording";
 import Users from "./views/Users/Users";
 import Agent from "./views/Agents/Agents";
+import Message from "./views/Message/Mesasge";
 
 // Define allowed roles for each route
 const roles = {
@@ -52,6 +53,10 @@ const router = (role) => {
     {
       path: "/agents",
       element: <Agent />,
+    },
+    {
+      path: "/messages",
+      element: <Message />,
     },
     {
       path: "/clients",
