@@ -38,7 +38,9 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
     readyForAudioCall,
     call,
     callUser,
+    sendTextMessage,
   } = useContext(SocketContext);
+
   const [selectedUser, setSelectedUser] = useState(null);
   const [usersArray, setUsersArray] = useState(null);
   const { users } = useSelector((state) => state.user);
@@ -78,88 +80,25 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
 
   const sendMessage = (e) => {
     if (e.key === "Enter") {
-      let formData;
-      let fileData;
-      if (selectedFile) {
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(selectedFile);
+      const messageData = {
+        from: {
+          phone: authUser.phone,
+          name: authUser.name,
+          avatar: authUser.avatar,
+          socket_id: authUser.socket_id,
+        },
+        to: {
+          phone: selectedRoom.phone,
+          name: selectedRoom.firstname + selectedRoom?.lastname,
+          avatar: selectedRoom.avatar,
+        },
+        // to: "+923174660027",
+        message: message,
+      };
+      console.log(messageData, "message");
+      sendTextMessage(messageData);
 
-        reader.onload = async (e) => {
-          const buffer = e.target.result;
-          const fileData = {
-            name: selectedFile.name,
-            type: selectedFile.type,
-            size: selectedFile.size,
-            data: buffer,
-          };
-          setSelectedFile(fileData);
-        };
-
-        formData = {
-          sender:
-            selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-              ? selectedRoom.user_id_1
-              : selectedRoom?.user_id_2,
-          recipient:
-            selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-              ? selectedRoom.user_id_2
-              : selectedRoom?.user_id_1,
-          room: selectedRoom?.name,
-          file: selectedFile,
-          file_name: selectedFile.name,
-          file_data: selectedFile,
-          file_size: selectedFile.size,
-          file_type: selectedFile.type,
-          type: "file",
-        };
-      } else {
-        formData = {
-          sender:
-            selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-              ? selectedRoom.user_id_1
-              : selectedRoom?.user_id_2,
-          recipient:
-            selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-              ? selectedRoom.user_id_2
-              : selectedRoom?.user_id_1,
-          room: selectedRoom?.name,
-          message: message,
-          type: "text",
-        };
-      }
-      // const formData_ = new FormData();
-      // formData_.append(
-      //   "sender",
-      //   selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-      //     ? selectedRoom.user_id_1
-      //     : selectedRoom?.user_id_2
-      // );
-      // formData_.append(
-      //   "recipient",
-      //   selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-      //     ? selectedRoom.user_id_2
-      //     : selectedRoom?.user_id_1
-      // );
-      // formData_.append("room", selectedRoom?.name);
-      // formData_.append("message", message);
-      // if (selectedFile) {
-      //   formData_.append("file", selectedFile);
-      //   formData_.append("type", "file");
-      // } else {
-      //   formData_.append("type", "text");
-      // }
-
-      socket.emit("chat_message", formData);
-      // socket.emit("chat_message", messageData);
       setMessage("");
-      setSelectedFile("");
-      document
-        .getElementById("dummy_avatar")
-        .scrollIntoView({ behavior: "smooth", block: "end" });
-
-      //   const chatBody = document.getElementById("chat_body");
-      //   chatBody.scrollTop = chatBody.scrollHeight;
-      // }
     }
   };
   const handleFileChange = (event) => {
@@ -231,6 +170,13 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
   function bytesToMegabytes(bytes) {
     return (bytes / (1024 * 1024)).toFixed(2);
   }
+  function extractCharactersFromArray(str) {
+    const firstCharacter = str?.charAt(0);
+    const spaceIndex = str?.indexOf(" ");
+    const characterAfterSpace =
+      spaceIndex !== -1 ? str.charAt(spaceIndex + 1) : "";
+    return { firstCharacter, characterAfterSpace };
+  }
 
   return (
     <div class="chatapp-single-chat">
@@ -248,32 +194,38 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
         </a>
         <div class="media">
           <div class="media-head">
-            <div class="avatar avatar-sm avatar-rounded position-relative">
+            {/* <div class="avatar avatar-sm avatar-rounded position-relative">
               <img
                 src={
-                  (selectedRoom?.user_id_1 === authUser?.id
-                    ? selectedRoom?.user_image_2
-                    : selectedRoom?.user_image_1) ||
+                  selectedRoom?.avatar ||
                   "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
                 }
                 alt="user"
                 class="avatar-img"
               />
               <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
+            </div> */}
+            <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
+              <span class="initial-wrap">
+                {extractCharactersFromArray(
+                  selectedRoom.firstname + " " + selectedRoom.lastname
+                ).firstCharacter +
+                  extractCharactersFromArray(
+                    selectedRoom.firstname + " " + selectedRoom.lastname
+                  ).characterAfterSpace}
+              </span>
             </div>
           </div>
           <div class="media-body">
             <div class="user-name">
               {" "}
-              {selectedRoom?.user_id_1 === authUser?.id
-                ? selectedRoom?.user_name_2
-                : selectedRoom?.user_name_1}
+              {selectedRoom?.firstname +
+                " " +
+                selectedRoom?.middlename +
+                " " +
+                selectedRoom?.lastname}
             </div>
-            {/* <div class="user-status">
-              Typing<span class="one">.</span>
-              <span class="two">.</span>
-              <span class="three">.</span>
-            </div> */}
+            <div class="user-status">{selectedRoom?.phone}</div>
           </div>
         </div>
         <div class="chat-options-wrap">
@@ -958,9 +910,11 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
             </div>
             <div class="cp-name text-truncate mt-2">
               {" "}
-              {selectedRoom?.user_id_1 === authUser?.id
-                ? selectedRoom?.user_name_2
-                : selectedRoom?.user_name_1}
+              {selectedRoom?.firstname +
+                " " +
+                selectedRoom?.middlename +
+                " " +
+                selectedRoom?.lastname}
             </div>
             <p class="text-truncate">No phone calls Always busy</p>
           </div>
@@ -995,20 +949,24 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                     <div class="card-body">
                       <ul class="cp-info">
                         <li className="d-flex justify-content-between">
-                          <span className="fw-bold fs-6">Name</span>
-                          <span>{selectedUser?.name}</span>
+                          <span className="fw-bold fs-6">First Name</span>
+                          <span>{selectedRoom?.firstname}</span>
+                        </li>
+                        <li className="d-flex justify-content-between">
+                          <span className="fw-bold fs-6">Middle Name</span>
+                          <span>{selectedRoom?.middlename}</span>
+                        </li>
+                        <li className="d-flex justify-content-between">
+                          <span className="fw-bold fs-6">Last Name</span>
+                          <span>{selectedRoom?.lastname}</span>
                         </li>
                         <li className="d-flex justify-content-between">
                           <span className="fw-bold fs-6">Email</span>
-                          <span>{selectedUser?.email}</span>
+                          <span>{selectedRoom?.email}</span>
                         </li>
                         <li className="d-flex justify-content-between">
                           <span className="fw-bold fs-6">Phone</span>
-                          <span>{selectedUser?.phone}</span>
-                        </li>
-                        <li className="d-flex justify-content-between">
-                          <span className="fw-bold fs-6">Username</span>
-                          <span>{selectedUser?.username}</span>
+                          <span>{selectedRoom?.phone}</span>
                         </li>
                       </ul>
                     </div>

@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import ChatAside from "./components/ChatAside/ChatAside";
 import SingleChat from "./components/Messages/SingleChat";
 import AudioCall from "./components/AudioCall/AudioCall";
@@ -9,21 +15,48 @@ import { getUsers } from "../../redux/services/users";
 import io from "socket.io-client";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { getContactsList } from "../../redux/services/contact";
+import { getMessagesList } from "../../redux/services/message";
+import { SocketContext } from "../../Context";
 
 const MessageContent = () => {
   const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
   const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
+  const { messagesArray } = useContext(SocketContext);
+  const [selectedMessages, setSelectedMessages] = useState({});
+  console.log("🚀 ~ MessageContent ~ selectedMessages:", selectedMessages);
+
   //Socket connection
   const socket = useMemo(() => io(socketURL), [socketURL]);
   const [selectedRoom, setSelectedRoom] = useState({});
   const [messages, setMessages] = useState([]);
   const [allMessages, setAllMessages] = useState([]);
 
+  const [contactsData, setContactsData] = useState([]);
+  console.log("🚀 ~ MessageContent ~ contactsData:", contactsData);
+
   const { user, token } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
   const [rooms, setRooms] = useState([]);
   const [rooms_, setRooms_] = useState([]);
+  const { contacts } = useSelector((state) => state.contact);
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getContactsList(token));
+    dispatch(getMessagesList(token));
+  }, [token, dispatch]);
+  useEffect(() => {
+    if (contacts?.length > 0) {
+      // const groupedUsers = contacts?.reduce((acc, contact) => {
+      //   const firstChar = contact?.firstname?.charAt(0)?.toUpperCase(); // Get the first character and convert to uppercase
+      //   acc[firstChar] = [...(acc[firstChar] || []), contact]; // Add user to corresponding group
+      //   return acc;
+      // }, {});
+      setContactsData(contacts);
+    }
+  }, [contacts]);
 
   const getRooms = useCallback(async () => {
     try {
@@ -149,20 +182,34 @@ const MessageContent = () => {
       dispatch(getUsers(token));
     }
   }, [token, dispatch, getRooms, getAllChats]);
-  useEffect(() => {
-    // Listen for incoming messages
-    socket.on("message_added", (data) => {
-      // setMessages([...messages, data]);
-      setMessages(data);
-    });
-    socket.on("room_added", (data) => {
-      setRooms(data);
-    });
+  // useEffect(() => {
+  //   // Listen for incoming messages
+  //   socket.on("message_added", (data) => {
+  //     // setMessages([...messages, data]);
+  //     setMessages(data);
+  //   });
+  //   socket.on("room_added", (data) => {
+  //     setRooms(data);
+  //   });
 
-    // return () => {
-    //   socket.disconnect();
-    // };
-  }, [socket]);
+  //   // return () => {
+  //   //   socket.disconnect();
+  //   // };
+  // }, [socket]);
+  useEffect(() => {
+    setMessages(messagesArray);
+    const categorizeMessagesByDate =
+      messagesArray?.length > 0 &&
+      messagesArray?.reduce((result, message) => {
+        const date = message.created_at.slice(0, 10); // Extract date from created_at
+        if (!result[date]) {
+          result[date] = []; // Initialize array for the date if it doesn't exist
+        }
+        result[date].push(message); // Push message to the array for the date
+        return result;
+      }, {});
+    setSelectedMessages(categorizeMessagesByDate);
+  }, [messagesArray]);
   const handleDataFromChild = (data) => {
     setSelectedRoom(data);
   };
@@ -181,7 +228,7 @@ const MessageContent = () => {
             <div class="chatapp-content">
               <ChatAside
                 socket={socket}
-                rooms={rooms}
+                rooms={contactsData}
                 rooms_={rooms_}
                 onFilterDataFromChild={handleFilterDataFromChild}
                 authUser={user}
@@ -194,6 +241,7 @@ const MessageContent = () => {
                 <SingleChat
                   messages={messages}
                   selectedRoom={selectedRoom}
+                  selectedMessages={selectedMessages}
                   authUser={user}
                   socket={socket}
                 />

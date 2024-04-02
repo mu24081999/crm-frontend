@@ -15,14 +15,12 @@ const ChatRooms = ({
     onDataFromChild(selectedRoom);
   };
 
-  const roomClickHandler = (room) => {
-    console.log("🚀 ~ roomClickHandler ~ room:", room);
-
-    setSelectedRoom(room);
+  const roomClickHandler = (contact) => {
+    setSelectedRoom(contact);
     // sendDataToParent();
     onDataFromChild(selectedRoom);
 
-    socket.emit("joinRoom", { roomId: room.name });
+    // socket.emit("joinRoom", { roomId: contact.name });
   };
   function formatRelativeDate(date) {
     const inputDate = new Date(date);
@@ -45,50 +43,65 @@ const ChatRooms = ({
   const handleEditChat = (room_id, status) => {
     updateChat(room_id, { status: status });
   };
+  function extractCharactersFromArray(str) {
+    const firstCharacter = str?.charAt(0);
+    const spaceIndex = str?.indexOf(" ");
+    const characterAfterSpace =
+      spaceIndex !== -1 ? str.charAt(spaceIndex + 1) : "";
+    return { firstCharacter, characterAfterSpace };
+  }
   return (
     <div>
       {" "}
       <ul class="chat-contacts-list list-group list-group-flush">
         {rooms?.length > 0 ? (
-          rooms?.map((room, index) => {
+          rooms?.map((contact, index) => {
             const messageArray = messages?.filter(
-              (msg) => msg.room === room.name
+              (msg) => msg.room === contact.name
             );
             const lastMessage = messageArray[messageArray.length - 1];
             return (
               <li
                 class="list-group-item"
                 key={index}
-                onClick={() => roomClickHandler(room)}
+                onClick={() => roomClickHandler(contact)}
               >
                 <div class="media">
                   <div class="media-head">
-                    <div class="avatar avatar-sm avatar-rounded position-relative">
+                    {/* <div class="avatar avatar-sm avatar-rounded position-relative">
                       <img
                         //   src="dist/img/avatar2.jpg"
                         src={
-                          (room.user_id_1 === authUser?.id
-                            ? room.user_image_2
-                            : room.user_image_1) ||
+                          contact?.avatar ||
                           "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
                         }
                         alt="user"
                         class="avatar-img"
                       />
                       <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
+                    </div> */}
+                    <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
+                      <span class="initial-wrap">
+                        {extractCharactersFromArray(
+                          selectedRoom.firstname + " " + selectedRoom.lastname
+                        ).firstCharacter +
+                          extractCharactersFromArray(
+                            selectedRoom.firstname + " " + selectedRoom.lastname
+                          ).characterAfterSpace}
+                      </span>
                     </div>
                   </div>
                   <div class="media-body">
                     <div>
                       <div class="user-name">
-                        {" "}
-                        {room.user_id_1 === authUser?.id
-                          ? room.user_name_2
-                          : room.user_name_1}{" "}
+                        {contact?.firstname +
+                          contact?.middlename +
+                          contact?.lastname}
                       </div>
                       <div class="user-last-chat">
                         {/* Please send some insights of presentation */}
-                        {lastMessage !== undefined && lastMessage.message}
+                        {/* {lastMessage !== undefined && lastMessage.message} */}
+                        {contact?.phone}
                       </div>
                     </div>
                     <div>
@@ -118,27 +131,31 @@ const ChatRooms = ({
                         <div class="dropdown-menu dropdown-menu-end">
                           <a
                             class="dropdown-item"
-                            onClick={() => handleEditChat(room.name, "muted")}
+                            onClick={() =>
+                              handleEditChat(contact?.firstname, "muted")
+                            }
                           >
                             Mute Chat
                           </a>
                           <a
                             class="dropdown-item"
                             onClick={() =>
-                              handleEditChat(room.name, "archived")
+                              handleEditChat(contact?.firstname, "archived")
                             }
                           >
                             Archive Chat
                           </a>
                           <a
                             class="dropdown-item"
-                            onClick={() => handleDeleteChat(room.name)}
+                            onClick={() => handleDeleteChat(contact?.firstname)}
                           >
                             Delete Chat
                           </a>
                           <a
                             class="dropdown-item link-danger"
-                            onClick={() => handleEditChat(room.name, "blocked")}
+                            onClick={() =>
+                              handleEditChat(contact?.firstname, "blocked")
+                            }
                           >
                             Block
                           </a>
