@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ef05403b.css",
+    "main.js": "/static/js/main.bd404e46.js",
+    "static/js/787.d5fa4d18.chunk.js": "/static/js/787.d5fa4d18.chunk.js",
+    "static/media/ringtone.mp3": "/static/media/ringtone.a1628376b0f8f30de919.mp3",
+    "static/media/Jampack.svg": "/static/media/Jampack.cd645501e27906000e858d48801be37a.svg",
+    "index.html": "/index.html",
+    "static/media/brand-sm.svg": "/static/media/brand-sm.43ce579648a4c89355a815abdd761d65.svg",
+    "main.ef05403b.css.map": "/static/css/main.ef05403b.css.map",
+    "main.bd404e46.js.map": "/static/js/main.bd404e46.js.map",
+    "787.d5fa4d18.chunk.js.map": "/static/js/787.d5fa4d18.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ef05403b.css",
+    "static/js/main.bd404e46.js"
+  ]
+}
