@@ -280,7 +280,8 @@ const VerticalNavbar = () => {
                     <li className="nav-item">
                       <ul className="nav flex-column">
                         <li className="nav-item">
-                          <Link className="nav-link" to="/direct-chat">
+                          {/* <Link className="nav-link" to="/direct-chat"> */}
+                          <Link className="nav-link" to="/messages">
                             <span className="nav-link-text">
                               Direct Message
                             </span>
