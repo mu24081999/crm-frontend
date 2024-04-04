@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import brand from "../../assets/logo-light.png";
 import InputField from "../../components/FormFields/InputField";
 import { ResetPassword } from "../../redux/services/auth";
@@ -15,20 +15,19 @@ const ResetUserPassword = () => {
     formState: { errors },
   } = useForm({});
   const dispatch = useDispatch();
-  const redirectTo = useNavigate();
+  const navigate = useNavigate();
   const { isAuthenticated } = useSelector((state) => state.auth);
-  useEffect(() => {
-    if (isAuthenticated) {
-      redirectTo("/dashboard");
-    }
-  }, [isAuthenticated, redirectTo]);
+
   const submitResetPassword = (data) => {
     const formData = {
       password: data.password,
       confirmPassword: data.password,
       email: email,
     };
-    dispatch(ResetPassword(formData));
+    const is_success = dispatch(ResetPassword(formData));
+    if (is_success) {
+      navigate("/sign-in");
+    }
   };
   return (
     <div>
@@ -49,13 +48,13 @@ const ResetUserPassword = () => {
                       <div class="row">
                         <div class="col-lg-5 col-md-7 col-sm-10 mx-auto">
                           <div class="text-center mb-7">
-                            <a class="navbar-brand me-0" href="index.html">
+                            <Link class="navbar-brand me-0" to="/">
                               <img
                                 class="brand-img d-inline-block"
                                 src={brand}
                                 alt="brand"
                               />
-                            </a>
+                            </Link>
                           </div>
                           <div class="card card-flush">
                             <div class="card-body text-center">
@@ -81,9 +80,9 @@ const ResetUserPassword = () => {
                                 </div>
                               </div> */}
                               <div>
-                                <a href="/" class="fs-7 fw-medium float-end">
+                                {/* <Link to="/reset-password" class="fs-7 fw-medium float-end">
                                   Forgot Username ?
-                                </a>
+                                </Link> */}
                                 <div>
                                   <InputField
                                     name="password"
@@ -121,13 +120,12 @@ const ResetUserPassword = () => {
                                 type="submit"
                                 class="btn btn-primary btn-uppercase btn-block"
                               >
-                                Send Code
+                                Submit
                               </button>
                               <p class="p-xs mt-2 text-center">
-                                Did not receive code?{" "}
-                                <a href="/">
-                                  <u>Send again</u>
-                                </a>
+                                <Link to="/sign-in">
+                                  <u>Back to login!</u>
+                                </Link>
                               </p>
                             </div>
                           </div>

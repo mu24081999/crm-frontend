@@ -96,11 +96,13 @@ export const authSlice = createSlice({
       state.user = action.payload;
       state.token = action.payload.token;
       state.user_id = action.payload.id;
+      state.accountSid = action.payload.accountSid;
+      state.accountAuthToken = action.payload.authToken;
       state.isAuthenticated = true;
       state.isLoading = false;
       state.error = "";
+      state.message = "Login Success";
       state.type = "Success";
-      state.message = "Password Updated Successfully.";
     },
     reloadPage: (state, action) => {
       state.message = "";

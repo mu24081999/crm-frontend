@@ -237,20 +237,18 @@ const Dialer = () => {
         <div style={{ padding: "1%", width: "290px" }}>
           {isDial && (
             <table id="dialer_table">
-              <tr>
-                <td>
-                  <div className="w-100 ">
-                    <InputField
-                      style={{ height: "50px", fontSize: "14px" }}
-                      name="subject"
-                      placeholder="Phone Number"
-                      control={control}
-                      onChange={(e) => setInputValue(e.target.value)}
-                      errors={errors}
-                      value={inputValue}
-                    />
-                  </div>
-                </td>
+              <tr style={{ height: "50px" }}>
+                <div className="w-100 px-2">
+                  <InputField
+                    style={{ height: "50px", fontSize: "18px" }}
+                    name="subject"
+                    placeholder="Phone Number"
+                    control={control}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    errors={errors}
+                    value={inputValue}
+                  />
+                </div>
               </tr>
               <tr class="dialer_num_tr">
                 <td class="dialer_num" onClick={() => dialerClick("dial", 1)}>
@@ -351,7 +349,7 @@ const Dialer = () => {
                   />
                 </td>
               </tr>
-              <tr className="mt-5">
+              <tr className="mt-5 p-0">
                 <td colspan="3">
                   <button
                     className="btn btn-primary rounded-pill btn-lg"
@@ -370,7 +368,7 @@ const Dialer = () => {
                       isDisabled={true}
                     />
                   </div> */}
-                  <div className="w-100 mt-4">
+                  <div className="w-100 mt-2">
                     <ReactSelectField
                       name="my_numbers"
                       placeholder="Call From"

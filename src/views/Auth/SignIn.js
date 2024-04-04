@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import Checkbox from "../../components/FormFields/checkboxField";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/services/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -54,13 +54,13 @@ const SignIn = () => {
                       <div className="row">
                         <div className="col-lg-5 col-md-7 col-sm-10 mx-auto">
                           <div className="text-center mb-7">
-                            <a className="navbar-brand me-0" href="index.html">
+                            <Link className="navbar-brand me-0" to="/">
                               <img
                                 className="brand-img d-inline-block"
                                 src={brand}
                                 alt="brand"
                               />
-                            </a>
+                            </Link>
                           </div>
                           <div className="card card-lg card-border">
                             <div className="card-body">
@@ -96,12 +96,12 @@ const SignIn = () => {
                                 </div>
                                 <div className="">
                                   <div className="float-end">
-                                    <a
-                                      href="/reset-password"
+                                    <Link
+                                      to="/reset-password"
                                       className="fs-7 fw-medium"
                                     >
                                       Forgot Password ?
-                                    </a>
+                                    </Link>
                                   </div>
                                   <InputField
                                     name="password"
@@ -184,10 +184,10 @@ const SignIn = () => {
                               />
 
                               <p className="p-xs mt-2 text-center">
-                                New to Jampack?{" "}
-                                <a href="/sign-up">
+                                New to Desktop-CRM?{" "}
+                                <Link to="/sign-up">
                                   <u>Create new account</u>
-                                </a>
+                                </Link>
                               </p>
                             </div>
                           </div>

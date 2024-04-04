@@ -7,6 +7,7 @@ const ChatRooms = ({
   onDataFromChild,
   messages,
   deleteChatRecord,
+  onMessagesDataFromChild,
   updateChat,
 }) => {
   const [selectedRoom, setSelectedRoom] = useState("");
@@ -19,6 +20,16 @@ const ChatRooms = ({
     setSelectedRoom(contact);
     // sendDataToParent();
     onDataFromChild(selectedRoom);
+    const messagesData =
+      messages?.length > 0 &&
+      messages?.filter(
+        (message) =>
+          (message.from_phone === authUser.phone &&
+            message.to_phone === contact.phone) ||
+          (message.to_phone === authUser.phone &&
+            message.from_phone === contact.phone)
+      );
+    onMessagesDataFromChild(messagesData);
 
     // socket.emit("joinRoom", { roomId: contact.name });
   };

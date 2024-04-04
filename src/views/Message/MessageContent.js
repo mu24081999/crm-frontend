@@ -24,16 +24,18 @@ const MessageContent = () => {
   const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
   const { messagesArray } = useContext(SocketContext);
   const [selectedMessages, setSelectedMessages] = useState({});
-  console.log("🚀 ~ MessageContent ~ selectedMessages:", selectedMessages);
+  const { messages: defaultMessages } = useSelector((state) => state.message);
+
+  console.log("🚀 ~ MessageContent ~ selectedMessages:", messagesArray);
 
   //Socket connection
   const socket = useMemo(() => io(socketURL), [socketURL]);
   const [selectedRoom, setSelectedRoom] = useState({});
   const [messages, setMessages] = useState([]);
+  console.log("🚀 ~ MessageContent ~ messages:", messages);
   const [allMessages, setAllMessages] = useState([]);
 
   const [contactsData, setContactsData] = useState([]);
-  console.log("🚀 ~ MessageContent ~ contactsData:", contactsData);
 
   const { user, token } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
@@ -42,7 +44,9 @@ const MessageContent = () => {
   const { contacts } = useSelector((state) => state.contact);
 
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    setMessages(defaultMessages);
+  }, [defaultMessages]);
   useEffect(() => {
     dispatch(getContactsList(token));
     dispatch(getMessagesList(token));
@@ -122,34 +126,34 @@ const MessageContent = () => {
     },
     [backendURL, token, getRooms]
   );
-  const getChats = useCallback(
-    async (room) => {
-      try {
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": token,
-          },
-        };
-        await axios
-          .get(
-            `${backendURL}/user/chat/chat-history/${room?.user_id_1}/${room?.user_id_2}`,
-            config
-          )
-          .then((response) => {
-            setMessages(response.data?.data.chatData);
-          });
-      } catch (error) {
-        toast.error(error.message);
-      }
-    },
-    [backendURL, token]
-  );
-  useMemo(() => {
-    if (selectedRoom) {
-      getChats(selectedRoom);
-    }
-  }, [getChats, selectedRoom]);
+  // const getChats = useCallback(
+  //   async (room) => {
+  //     try {
+  //       const config = {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           "x-access-token": token,
+  //         },
+  //       };
+  //       await axios
+  //         .get(
+  //           `${backendURL}/user/chat/chat-history/${room?.user_id_1}/${room?.user_id_2}`,
+  //           config
+  //         )
+  //         .then((response) => {
+  //           setMessages(response.data?.data.chatData);
+  //         });
+  //     } catch (error) {
+  //       toast.error(error.message);
+  //     }
+  //   },
+  //   [backendURL, token]
+  // );
+  // useMemo(() => {
+  //   if (selectedRoom) {
+  //     getChats(selectedRoom);
+  //   }
+  // }, [getChats, selectedRoom]);
   const getAllChats = useCallback(
     async (room) => {
       try {
@@ -170,11 +174,11 @@ const MessageContent = () => {
     },
     [backendURL, token]
   );
-  useMemo(() => {
-    if (selectedRoom) {
-      getChats(selectedRoom);
-    }
-  }, [getChats, selectedRoom]);
+  // useMemo(() => {
+  //   if (selectedRoom) {
+  //     getChats(selectedRoom);
+  //   }
+  // }, [getChats, selectedRoom]);
   useEffect(() => {
     if (token) {
       getRooms();
@@ -216,6 +220,19 @@ const MessageContent = () => {
   const handleFilterDataFromChild = (data) => {
     setRooms(data);
   };
+  const handleMessagesDataFromChild = (data) => {
+    const categorizeMessagesByDate =
+      data?.length > 0 &&
+      data?.reduce((result, message) => {
+        const date = message.created_at.slice(0, 10); // Extract date from created_at
+        if (!result[date]) {
+          result[date] = []; // Initialize array for the date if it doesn't exist
+        }
+        result[date].push(message); // Push message to the array for the date
+        return result;
+      }, {});
+    setSelectedMessages(categorizeMessagesByDate);
+  };
   return (
     <div>
       {/* <!-- Wrapper --> */}
@@ -229,11 +246,12 @@ const MessageContent = () => {
               <ChatAside
                 socket={socket}
                 rooms={contactsData}
+                messages={messages}
                 rooms_={rooms_}
                 onFilterDataFromChild={handleFilterDataFromChild}
                 authUser={user}
                 onDataFromChild={handleDataFromChild}
-                messages={allMessages}
+                onMessagesDataFromChild={handleMessagesDataFromChild}
                 deleteChatRecord={deleteChatRecord}
                 updateChat={updateChat}
               />

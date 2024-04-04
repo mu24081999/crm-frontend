@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import Checkbox from "../../components/FormFields/checkboxField";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../redux/services/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const SignUp = () => {
   const {
     handleSubmit,
@@ -202,6 +202,12 @@ const SignUp = () => {
                               >
                                 Create account
                               </button>
+
+                              <p class="p-xs mt-2 text-center">
+                                <Link to="/sign-in">
+                                  <u>Already have an account!</u>
+                                </Link>
+                              </p>
                             </div>
                           </div>
                         </div>

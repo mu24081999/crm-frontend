@@ -1,11 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import brand from "../../assets/logo-light.png";
 import InputField from "../../components/FormFields/InputField";
 import { useDispatch } from "react-redux";
 import { verifyOTP } from "../../redux/services/auth";
 const VerifyPassword = () => {
+  const navigate = useNavigate();
   const {
     handleSubmit,
     // watch,
@@ -16,12 +17,19 @@ const VerifyPassword = () => {
   const dispatch = useDispatch();
   const { email } = useParams();
 
-  const otpVerificationHandler = (data) => {
+  const otpVerificationHandler = async (data) => {
     const formData = {
       email: email,
       otp: data?.otp,
     };
-    return dispatch(verifyOTP(formData));
+    const verificationSuccess = dispatch(verifyOTP(formData));
+    console.log(
+      "🚀 ~ otpVerificationHandler ~ verificationSuccess:",
+      verificationSuccess
+    );
+    if (verificationSuccess) {
+      navigate("/reset-password/" + email); // Navigate on successful verification
+    }
   };
   return (
     <div>
@@ -44,13 +52,13 @@ const VerifyPassword = () => {
                         <div class="row">
                           <div class="col-lg-5 col-md-7 col-sm-10 mx-auto">
                             <div class="text-center mb-7">
-                              <a class="navbar-brand me-0" href="index.html">
+                              <Link class="navbar-brand me-0" href="/">
                                 <img
                                   class="brand-img d-inline-block"
                                   src={brand}
                                   alt="brand"
                                 />
-                              </a>
+                              </Link>
                             </div>
                             <div class="card card-flush">
                               <div class="card-body text-center">
@@ -77,9 +85,9 @@ const VerifyPassword = () => {
                                 </div>
                               </div> */}
                                 <div>
-                                  <a href="/" class="fs-7 fw-medium float-end">
+                                  {/* <a href="/" class="fs-7 fw-medium float-end">
                                     Forgot Username ?
-                                  </a>
+                                  </a> */}
                                   <div>
                                     <InputField
                                       name="otp"
@@ -103,10 +111,9 @@ const VerifyPassword = () => {
                                   Verify
                                 </button>
                                 <p class="p-xs mt-2 text-center">
-                                  Did not receive code?{" "}
-                                  <a href="/">
-                                    <u>Send again</u>
-                                  </a>
+                                  <Link to="/sign-in">
+                                    <u>Back to login!</u>
+                                  </Link>
                                 </p>
                               </div>
                             </div>

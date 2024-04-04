@@ -228,194 +228,24 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
             <div class="user-status">{selectedRoom?.phone}</div>
           </div>
         </div>
-        <div class="chat-options-wrap">
-          <a
-            class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret d-none d-xl-block"
-            href="/"
-            data-bs-toggle="modal"
-            data-bs-target="#invite_people"
-          >
-            <span
-              class="icon"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title=""
-              data-bs-original-title="Invite people"
-            >
-              <span class="feather-icon">
-                {/* <i data-feather="user-plus"></i> */}
-                <FaUserPlus />
-              </span>
-            </span>
-          </a>
-          <a
-            class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover d-none d-xl-block"
-            href="/"
-            data-bs-toggle="modal"
-            // data-bs-target="#audio_call"
-            data-bs-type="audio"
-            data-bs-target="#video_call"
-            onClick={() => {
-              calling();
-              readyForAudioCall();
-            }}
-          >
-            <span
-              class="icon"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title=""
-              data-bs-original-title="Audio call"
-            >
-              <span class="feather-icon">
-                <FaPhone />
-              </span>
-            </span>
-          </a>
-          <a
-            id="triggerCall"
-            class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover d-none d-xl-block"
-            href="/"
-            data-bs-toggle="modal"
-            data-bs-type="video"
-            data-bs-target="#video_call"
-            onClick={() => {
-              calling();
-              readyForCall();
-            }}
-            // onClick={() => callUser(selectedUser?.socket_id, authUser.name)}
-          >
-            <span
-              class="icon"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title=""
-              data-bs-original-title="Video Call"
-            >
-              <span class="feather-icon">
-                <FaVideo />
-              </span>
-            </span>
-          </a>
-          <a
-            class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-            href="/"
-            data-bs-toggle="dropdown"
-          >
-            <span
-              class="icon"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title=""
-              data-bs-original-title="More"
-            >
-              <span class="feather-icon">
-                <CiMenuKebab />
-              </span>
-            </span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-end">
-            <a
-              class="d-xl-none dropdown-item"
-              href="/"
-              data-bs-toggle="modal"
-              data-bs-target="invite_people"
-            >
-              <span class="feather-icon dropdown-icon">
-                {/* <i data-feather="user-plus"></i> */}
-                <FaUserPlus />
-              </span>
-              <span>Invite People</span>
-            </a>
-            <a
-              class="d-xl-none dropdown-item"
-              href="/"
-              data-bs-toggle="modal"
-              data-bs-target="#audio_call"
-            >
-              <span class="feather-icon dropdown-icon">
-                <i data-feather="phone"></i>
-              </span>
-              <span>Audio Call</span>
-            </a>
-            <a
-              class="d-xl-none dropdown-item"
-              href="/"
-              data-bs-toggle="modal"
-              data-bs-target="#video_call"
-            >
-              <span class="feather-icon dropdown-icon">
-                <i data-feather="video"></i>
-              </span>
-              <span>Video Call</span>
-            </a>
-            <div class="d-xl-none dropdown-divider"></div>
-            <a class="dropdown-item" href="/">
-              <span class="feather-icon dropdown-icon">
-                <FaStar />
-              </span>
-              <span>Stared Messages</span>
-            </a>
-            <a class="dropdown-item" href="/">
-              <span class="feather-icon dropdown-icon">
-                <FaArchive />
-              </span>
-              <span>Archive Messages</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/">
-              <span class="feather-icon dropdown-icon">
-                <i data-feather="slash"></i>
-                <FaSlash />
-              </span>
-              <span>Block Content</span>
-            </a>
-            <a class="dropdown-item" href="/">
-              <span class="feather-icon dropdown-icon">
-                <FaExternalLinkAlt />
-              </span>
-              <span>Feedback</span>
-            </a>
-          </div>
-          <a
-            class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-none d-xl-block"
-            href="/"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title=""
-            data-bs-original-title="Collapse"
-          >
-            <span class="icon">
-              <span class="feather-icon">
-                {/* <i data-feather="chevron-up"></i> */}
-                <FaChevronUp />
-              </span>
-              <span class="feather-icon d-none">
-                {/* <i data-feather="chevron-down"></i> */}
-                <FaChevronDown />
-              </span>
-            </span>
-          </a>
-        </div>
       </header>
       <div data-simplebar id="chat_body" class="chat-body">
         <ul id="dummy_avatar" class="list-unstyled chat-single-list">
           {messages?.length > 0 ? (
             messages.map((msg, index) =>
-              _.toInteger(msg?.sender) !== authUser?.id ? (
+              msg?.from_phone === authUser?.phone ? (
                 <li class="media received" key={index}>
-                  <div class="avatar avatar-xs avatar-rounded">
-                    <img
-                      //   src="dist/img/avatar8.jpg"
-                      src={
-                        _.toInteger(msg.recipient) === selectedRoom.user_id_1
-                          ? selectedRoom?.user_image_1
-                          : selectedRoom?.user_image_2
-                      }
-                      alt="user"
-                      class="avatar-img"
-                    />
+                  <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
+                    <span class="initial-wrap">
+                      {extractCharactersFromArray(
+                        selectedRoom.firstname + " " + selectedRoom.lastname
+                      ).firstCharacter +
+                        extractCharactersFromArray(
+                          selectedRoom.firstname + " " + selectedRoom.lastname
+                        ).characterAfterSpace}
+                    </span>
                   </div>
+
                   <div class="media-body">
                     <div class="msg-box">
                       <div>
