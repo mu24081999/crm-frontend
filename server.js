@@ -18,6 +18,6 @@ const sslOptions = {
 console.log("🚀 ~ sslOptions:", path.join(__dirname, "build"));
 
 // Start HTTPS server
-https.createServer(sslOptions, app).listen(7000, () => {
-  console.log("Server running on port 443");
+https.createServer(sslOptions, app).listen(443, () => {
+  console.log("Server running...");
 });
