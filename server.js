@@ -14,6 +14,7 @@ app.use(express.static(path.join(__dirname, "build")));
 const sslOptions = {
   key: fs.readFileSync("desktopcrm.key"),
   cert: fs.readFileSync("desktopcrm.crt"),
+  ca: fs.readFileSync("desktopcrm.ca-bundle"),
 };
 console.log("🚀 ~ sslOptions:", path.join(__dirname, "build"));
 
