@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useController, Controller } from "react-hook-form";
 import _ from "lodash";
+import "./editor.css";
 import { Editor } from "@tinymce/tinymce-react";
 
 const EditorField = React.forwardRef((props, ref) => {
@@ -17,6 +18,7 @@ const EditorField = React.forwardRef((props, ref) => {
       console.log(editorRef.current.getContent());
     }
   };
+
   const {
     title,
     style,
@@ -53,7 +55,7 @@ const EditorField = React.forwardRef((props, ref) => {
           defaultValue={defaultValue !== "" ? defaultValue : ""}
           render={({ field }) => {
             return (
-              <div className="">
+              <div className="" style={{ height: "280px", overflow: "hidden" }}>
                 {label && <label class="form-label-group">{label}</label>}
                 <Editor
                   {...props}
@@ -82,10 +84,9 @@ const EditorField = React.forwardRef((props, ref) => {
                       "alignright alignjustify | bullist numlist outdent indent | " +
                       "removeformat | help",
                     content_style:
-                      "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                      "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }, .tox-statusbar{display:none}",
                   }}
                 />
-                {/* <button onClick={log}>Log editor content</button> */}
               </div>
             );
           }}

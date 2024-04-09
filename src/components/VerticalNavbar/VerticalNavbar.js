@@ -2,9 +2,18 @@ import React from "react";
 import brandSm from "../../assets/brand-sm.svg";
 import brand from "../../assets/Jampack.svg";
 import { Link } from "react-router-dom";
-import { FaHistory, FaPhoneAlt, FaRecordVinyl, FaUsers } from "react-icons/fa";
+import {
+  FaCloud,
+  FaHistory,
+  FaPhoneAlt,
+  FaRegEnvelope,
+  FaUsers,
+} from "react-icons/fa";
 import { MdMarkEmailRead, MdSupportAgent } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { FaHouseUser } from "react-icons/fa6";
+import { CiMenuFries } from "react-icons/ci";
+import { SiTodoist } from "react-icons/si";
 
 const VerticalNavbar = () => {
   const { user } = useSelector((state) => state.auth);
@@ -91,7 +100,8 @@ const VerticalNavbar = () => {
             <ul className="navbar-nav flex-column">
               {(user?.role === "ADMIN" ||
                 user?.role === "SUPER_ADMIN" ||
-                user?.role === "USER") && (
+                user?.role === "USER" ||
+                user?.role === "AGENT") && (
                 <>
                   <li className="nav-item">
                     <a
@@ -146,6 +156,16 @@ const VerticalNavbar = () => {
                   </li>
 
                   <li className="nav-item">
+                    <Link className="nav-link" to="/projects-board">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <CiMenuFries />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Leads Pipeline</span>
+                    </Link>
+                  </li>
+                  {/* <li className="nav-item">
                     <a
                       className="nav-link"
                       href="/"
@@ -193,7 +213,7 @@ const VerticalNavbar = () => {
                         </ul>
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
 
                   <li className="nav-item">
                     <Link className="nav-link" to="/calendar">
@@ -243,6 +263,21 @@ const VerticalNavbar = () => {
                 user?.role === "USER" ||
                 user?.role === "AGENT") && (
                 <li className="nav-item">
+                  <Link className="nav-link" to="/messages">
+                    <span className="nav-icon-wrap">
+                      <span className="svg-icon">
+                        <FaRegEnvelope />
+                      </span>
+                    </span>
+                    <span className="nav-link-text">Message</span>
+                  </Link>
+                </li>
+              )}
+              {/* {(user?.role === "ADMIN" ||
+                user?.role === "SUPER_ADMIN" ||
+                user?.role === "USER" ||
+                user?.role === "AGENT") && (
+                <li className="nav-item">
                   <a
                     className="nav-link"
                     href="/"
@@ -273,6 +308,7 @@ const VerticalNavbar = () => {
                     </span>
                     <span className="nav-link-text">Chat Popup</span>
                   </a>
+
                   <ul
                     id="dash_chatpop"
                     className="nav flex-column collapse  nav-children"
@@ -280,7 +316,6 @@ const VerticalNavbar = () => {
                     <li className="nav-item">
                       <ul className="nav flex-column">
                         <li className="nav-item">
-                          {/* <Link className="nav-link" to="/direct-chat"> */}
                           <Link className="nav-link" to="/messages">
                             <span className="nav-link-text">
                               Direct Message
@@ -291,7 +326,7 @@ const VerticalNavbar = () => {
                     </li>
                   </ul>
                 </li>
-              )}
+              )} */}
 
               {user?.role === "USER" && (
                 <>
@@ -317,12 +352,13 @@ const VerticalNavbar = () => {
                   </li>
                 </>
               )}
+
               {(user?.role === "AGENT" ||
                 user?.role === "USER" ||
                 user?.role === "ADMIN" ||
                 user?.role === "SUPER_ADMIN") && (
                 <>
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <Link
                       to={"/contacts"}
                       className="nav-link"
@@ -368,6 +404,16 @@ const VerticalNavbar = () => {
                         </ul>
                       </li>
                     </ul>
+                  </li> */}
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/contacts">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <FaHouseUser />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Contacts</span>
+                    </Link>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to="/recordings">
@@ -425,50 +471,60 @@ const VerticalNavbar = () => {
               )}
 
               {(user?.role === "ADMIN" || user?.role === "ADMIN") && (
+                // <li className="nav-item">
+                //   <a
+                //     className="nav-link"
+                //     href="/"
+                //     data-bs-toggle="collapse"
+                //     data-bs-target="#dash_file"
+                //   >
+                //     <span className="nav-icon-wrap">
+                //       <span className="svg-icon">
+                //         <svg
+                //           xmlns="http://www.w3.org/2000/svg"
+                //           className="icon icon-tabler icon-tabler-file-check"
+                //           width="24"
+                //           height="24"
+                //           viewBox="0 0 24 24"
+                //           strokeWidth="2"
+                //           stroke="currentColor"
+                //           fill="none"
+                //           strokeLinecap="round"
+                //           strokeLinejoin="round"
+                //         >
+                //           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                //           <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                //           <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                //           <path d="M9 15l2 2l4 -4" />
+                //         </svg>
+                //       </span>
+                //     </span>
+                //     <span className="nav-link-text">File Manager</span>
+                //   </a>
+                //   <ul
+                //     id="dash_file"
+                //     className="nav flex-column collapse  nav-children"
+                //   >
+                //     <li className="nav-item">
+                //       <ul className="nav flex-column">
+                //         <li className="nav-item">
+                //           <Link className="nav-link" to="/file-manager">
+                //             <span className="nav-link-text">File Manager</span>
+                //           </Link>
+                //         </li>
+                //       </ul>
+                //     </li>
+                //   </ul>
+                // </li>
                 <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    href="/"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#dash_file"
-                  >
+                  <Link className="nav-link" to="/file-manager">
                     <span className="nav-icon-wrap">
                       <span className="svg-icon">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="icon icon-tabler icon-tabler-file-check"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          strokeWidth="2"
-                          stroke="currentColor"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                          <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-                          <path d="M9 15l2 2l4 -4" />
-                        </svg>
+                        <FaCloud />
                       </span>
                     </span>
                     <span className="nav-link-text">File Manager</span>
-                  </a>
-                  <ul
-                    id="dash_file"
-                    className="nav flex-column collapse  nav-children"
-                  >
-                    <li className="nav-item">
-                      <ul className="nav flex-column">
-                        <li className="nav-item">
-                          <Link className="nav-link" to="/file-manager">
-                            <span className="nav-link-text">File Manager</span>
-                          </Link>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
+                  </Link>
                 </li>
               )}
               {(user?.role === "USER" ||
@@ -506,7 +562,17 @@ const VerticalNavbar = () => {
                 user?.role === "ADMIN" ||
                 user?.role === "USER") && (
                 <li className="nav-item">
-                  <a
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/todos">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <SiTodoist />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Todos</span>
+                    </Link>
+                  </li>
+                  {/* <a
                     className="nav-link"
                     href="/"
                     data-bs-toggle="collapse"
@@ -552,7 +618,7 @@ const VerticalNavbar = () => {
                         </li>
                       </ul>
                     </li>
-                  </ul>
+                  </ul> */}
                 </li>
               )}
               {(user?.role === "ADMIN" ||

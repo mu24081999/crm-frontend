@@ -78,22 +78,7 @@ const ContactsContent = () => {
             {!isEdit && (
               <div className="contactapp-detail-wrap">
                 <Header />
-                <div className="px-5 pt-3">
-                  <button
-                    className="btn btn-primary btn-sm float-end"
-                    onClick={() => setIsSearch(!isSearch)}
-                  >
-                    Search
-                  </button>
-                </div>
-                {isSearch && (
-                  <SearchNumber
-                    numbersData={phoneNumbers_}
-                    onDataFromChild={handleNumbersDataFromChild}
-                    dispatch={dispatch}
-                    token={token}
-                  />
-                )}
+
                 <div className="contact-body">
                   <div data-simplebar className="nicescroll-bar">
                     <div className="collapse" id="collapseQuick">

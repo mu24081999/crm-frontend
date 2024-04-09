@@ -11,7 +11,8 @@ const Header = () => {
         >
           Add New Task
         </button>
-        <a
+        <div className="fw-bold fs-4">Todos</div>
+        {/* <a
           class="todoapp-title dropdown-toggle link-dark"
           data-bs-toggle="dropdown"
           href="/"
@@ -56,7 +57,7 @@ const Header = () => {
           <a class="dropdown-item" href="/">
             Low Priority
           </a>
-        </div>
+        </div> */}
       </div>
       <div class="todo-options-wrap">
         <form class="d-sm-block d-none" role="search">

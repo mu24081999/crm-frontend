@@ -1,8 +1,16 @@
+import _ from "lodash";
 import React from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { FaPlus } from "react-icons/fa";
 
 const Members = ({ teamsData }) => {
+  function extractCharactersFromArray(str) {
+    const firstCharacter = str?.charAt(0);
+    const spaceIndex = str?.indexOf(" ");
+    const characterAfterSpace =
+      spaceIndex !== -1 ? str.charAt(spaceIndex + 1) : "";
+    return { firstCharacter, characterAfterSpace };
+  }
   return (
     <div className="tab-pane fade show  active" id="tab_team">
       <div className="d-flex justify-content-between align-items-center mb-5">
@@ -43,7 +51,7 @@ const Members = ({ teamsData }) => {
             <div className="col-xl-6 col-md-12" key={index}>
               <div className="card team-card card-border">
                 <div className="card-body">
-                  <div className="card-action-wrap">
+                  {/* <div className="card-action-wrap">
                     <button
                       className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
                       aria-expanded="false"
@@ -51,7 +59,6 @@ const Members = ({ teamsData }) => {
                     >
                       <span className="icon">
                         <span className="feather-icon">
-                          {/* <i data-feather="more-horizontal"></i> */}
                           <CiMenuKebab />
                         </span>
                       </span>
@@ -70,16 +77,32 @@ const Members = ({ teamsData }) => {
                         Mail preferences
                       </a>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="media align-items-center">
                     <div className="media-head">
-                      <div className="avatar avatar-rounded">
+                      <div className="avatar avatar-sm avatar-rounded position-relative">
+                        <span
+                          class="initial-wrap bg-primary"
+                          style={{ color: "white" }}
+                        >
+                          {_.capitalize(
+                            extractCharactersFromArray(team?.name)
+                              .firstCharacter
+                          ) +
+                            _.capitalize(
+                              extractCharactersFromArray(team?.name)
+                                .characterAfterSpace
+                            )}
+                        </span>
+                        <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
+                      </div>
+                      {/* <div className="avatar avatar-rounded">
                         <img
                           src={team.image}
                           alt="user"
                           className="avatar-img"
                         />
-                      </div>
+                      </div> */}
                     </div>
                     <div className="media-body">
                       <div

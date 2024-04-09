@@ -58,7 +58,7 @@ const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
               <li
                 className={`nav-item ${activeBar === "inbox" ? "active" : ""}`}
               >
-                <a className="nav-link" onClick={onInboxClick}>
+                <button className="nav-link btn-block" onClick={onInboxClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="inbox"></i> */}
@@ -67,14 +67,17 @@ const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Inbox</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${
                   activeBar === "important" ? "active" : ""
                 }`}
               >
-                <a className="nav-link" onClick={onImportantClick}>
+                <button
+                  className="nav-link btn-block"
+                  onClick={onImportantClick}
+                >
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="star"></i> */}
@@ -82,12 +85,12 @@ const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Important</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${activeBar === "sent" ? "active" : ""}`}
               >
-                <a className="nav-link" onClick={onSentClick}>
+                <button className="nav-link btn-block" onClick={onSentClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="send"></i> */}
@@ -95,14 +98,14 @@ const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Sent</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${
                   activeBar === "archive" ? "active" : ""
                 }`}
               >
-                <a className="nav-link" onClick={onArchiveClick}>
+                <button className="nav-link btn-block" onClick={onArchiveClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="archive"></i> */}
@@ -110,12 +113,12 @@ const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Archive</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${activeBar === "draft" ? "active" : ""}`}
               >
-                <a className="nav-link" href="/">
+                <button className="nav-link btn-block" href="/">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="edit"></i> */}
@@ -123,12 +126,12 @@ const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Draft</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${activeBar === "trash" ? "active" : ""}`}
               >
-                <a className="nav-link" onClick={onTrashClick}>
+                <button className="nav-link btn-block" onClick={onTrashClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="trash-2"></i> */}
@@ -136,11 +139,11 @@ const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Trash</span>
-                </a>
+                </button>
               </li>
             </ul>
           </div>
-          <div className="separator separator-light"></div>
+          {/* <div className="separator separator-light"></div>
           <div className="d-flex align-items-center justify-content-between mb-2">
             <div className="title-sm text-primary mb-0">Categories</div>
             <a
@@ -157,7 +160,6 @@ const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
                 data-bs-original-title="Add Category"
               >
                 <span className="feather-icon">
-                  {/* <i data-feather="plus"></i> */}
                   <FaPlus />
                 </span>
               </span>
@@ -190,11 +192,11 @@ const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* <!--Sidebar Fixnav--> */}
-      <div className="emailapp-fixednav">
+      {/* <div className="emailapp-fixednav">
         <div className="hk-toolbar">
           <ul className="nav nav-light">
             <li className="nav-item nav-link">
@@ -247,7 +249,7 @@ const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
             </li>
           </ul>
         </div>
-      </div>
+      </div> */}
       {/* <!--/ Sidebar Fixnav--> */}
     </nav>
   );

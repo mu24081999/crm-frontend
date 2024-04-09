@@ -4,12 +4,12 @@ import Peer from "simple-peer";
 import { useDispatch, useSelector } from "react-redux";
 import { updatedMe } from "./redux/slices/auth";
 import ringTone from "./assets/ringtone.mp3";
+import ringingTone from "./assets/ringing.mp3";
 import { getContactDetais } from "./redux/services/contact";
 import { getUserDetails } from "./redux/services/users";
 
 const SocketContext = createContext();
 const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
-console.log("🚀 ~ socketURL:", socketURL);
 const ContextProvider = ({ children }) => {
   const socket = useMemo(() => io(socketURL), []);
   const { user_id, user } = useSelector((state) => state.auth);
@@ -27,6 +27,7 @@ const ContextProvider = ({ children }) => {
   const [messagesArray, setMessagesArray] = useState([]);
   const [me, setMe] = useState("");
   const myVideo = useRef();
+  // const ringingTone = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
   const dispatch = useDispatch();
@@ -150,7 +151,6 @@ const ContextProvider = ({ children }) => {
       socket.on(
         "callUser",
         ({ from, name: callerName, signal, type, userToCall }) => {
-          console.log("🚀 ~ useEffect ~ type:", type);
           setType(type);
           if (type === "audio") {
             clickElementByDataBsTarget("#video_call", "audio");
@@ -201,8 +201,13 @@ const ContextProvider = ({ children }) => {
   };
 
   const callUser = (id, name, type) => {
+    const ringtone = new Audio(ringingTone);
     const peer = new Peer({ initiator: true, trickle: false, stream });
     peer.on("signal", (data) => {
+      ringtone.play();
+      setTimeout(() => {
+        ringtone.pause();
+      }, 5000);
       socket.emit("callUser", {
         userToCall: id,
         signalData: data,
@@ -217,6 +222,7 @@ const ContextProvider = ({ children }) => {
     socket.on("callAccepted", (signal) => {
       setCallAccepted(true);
       peer.signal(signal);
+      ringtone?.pause();
     });
 
     connectionRef.current = peer;

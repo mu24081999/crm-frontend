@@ -45,7 +45,6 @@ const ChatAside = ({
         // room.user_name_1?.includes(e.target.value) ||
         room.user_name_2?.includes(e.target.value)
       );
-    console.log(data);
   };
   return (
     <div>

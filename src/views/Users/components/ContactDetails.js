@@ -115,9 +115,12 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                 <div className="text-center mt-5">
                   <div className="dropify-circle edit-img">
                     <img
-                      src={contactDetails?.avatar}
+                      src={
+                        contactDetails?.avatar ||
+                        "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
+                      }
                       alt={contactDetails?.name}
-                      className="dropify-1"
+                      className="dropify-1 rounded-circle"
                       width={100}
                     />
                   </div>

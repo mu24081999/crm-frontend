@@ -3,11 +3,10 @@ import { useForm } from "react-hook-form";
 import InputField from "../../../components/FormFields/InputField";
 import TextAreaField from "../../../components/FormFields/textAreaField";
 import ReactSelectField from "../../../components/FormFields/reactSelectField";
-import DatePickerField from "../../../components/FormFields/datePickerField";
-import { FaRegArrowAltCircleUp } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import "./file.css";
 import { addContact } from "../../../redux/services/contact";
+import { getBoardList } from "../../../redux/services/board";
 const AddContactList = () => {
   const {
     handleSubmit,
@@ -17,10 +16,14 @@ const AddContactList = () => {
     formState: { errors },
   } = useForm({});
   const { token } = useSelector((state) => state.auth);
+  const { boards } = useSelector((state) => state.board);
   const countryWatcher = watch("country_array");
   const stateWatcher = watch("state_array");
   const cityWatcher = watch("city_array");
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getBoardList(token));
+  }, [dispatch, token]);
   useEffect(() => {
     if (countryWatcher !== undefined) {
       setValue("country", countryWatcher.value);
@@ -143,7 +146,7 @@ const AddContactList = () => {
           </div> */}
           <InputField
             name="firstname"
-            placeholder="Your name"
+            placeholder="First name"
             // label="First Name"
             control={control}
             rules={{
@@ -158,7 +161,7 @@ const AddContactList = () => {
         <div className="col-sm-4">
           <InputField
             name="middlename"
-            placeholder="Your middlename"
+            placeholder="Middlename"
             // label="Middle Name"
             control={control}
             rules={{
@@ -181,7 +184,7 @@ const AddContactList = () => {
           </div> */}
           <InputField
             name="lastname"
-            placeholder="Your lastname"
+            placeholder="Lastname"
             // label="Last Name"
             control={control}
             rules={{
@@ -235,20 +238,37 @@ const AddContactList = () => {
           />
         </div>
       </div>
+
       <div className="row gx-3">
-        <div className="col-sm-4">
-          {/* <div className="form-group">
-            <label className="form-label">City</label>
-            <select className="form-select">
-              <option selected="">--</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-          </div> */}
+        <div className="col-sm-6 col-md-6">
+          <ReactSelectField
+            name="board_id"
+            placeholder="Lead Pipeline"
+            // label="City"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: "Field required!",
+              },
+            }}
+            options={
+              boards?.length > 0
+                ? boards?.map((board, index) => {
+                    return {
+                      label: board?.name,
+                      value: board?.name,
+                    };
+                  })
+                : []
+            }
+            errors={errors}
+          />
+        </div>
+        <div className="col-sm-6 col-md-6">
           <ReactSelectField
             name="city_array"
-            placeholder="Select your city"
+            placeholder="City"
             // label="City"
             control={control}
             rules={{
@@ -266,7 +286,7 @@ const AddContactList = () => {
             errors={errors}
           />
         </div>
-        <div className="col-sm-4">
+        <div className="col-sm-6 col-md-6">
           {/* <div className="form-group">
             <label className="form-label">State</label>
             <select className="form-select">
@@ -278,7 +298,7 @@ const AddContactList = () => {
           </div> */}
           <ReactSelectField
             name="state_array"
-            placeholder="Select your state"
+            placeholder="State"
             // label="State"
             control={control}
             rules={{
@@ -296,7 +316,7 @@ const AddContactList = () => {
             errors={errors}
           />
         </div>
-        <div className="col-sm-4">
+        <div className="col-sm-6 col-md-6">
           {/* <div className="form-group">
             <label className="form-label">Country</label>
             <select className="form-select">
@@ -308,7 +328,7 @@ const AddContactList = () => {
           </div> */}
           <ReactSelectField
             name="country_array"
-            placeholder="Select your country"
+            placeholder="Country"
             // label="Country"
             control={control}
             rules={{
@@ -514,14 +534,14 @@ const AddContactList = () => {
           className="btn btn-secondary"
           data-bs-dismiss="modal"
         >
-          Discard
+          Done
         </button>
         <button
           type="submit"
           className="btn btn-primary"
           // data-bs-dismiss="modal"
         >
-          Create Contact
+          Add
         </button>
       </div>
     </form>

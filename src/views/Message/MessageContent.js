@@ -26,13 +26,10 @@ const MessageContent = () => {
   const [selectedMessages, setSelectedMessages] = useState({});
   const { messages: defaultMessages } = useSelector((state) => state.message);
 
-  console.log("🚀 ~ MessageContent ~ selectedMessages:", messagesArray);
-
   //Socket connection
   const socket = useMemo(() => io(socketURL), [socketURL]);
   const [selectedRoom, setSelectedRoom] = useState({});
   const [messages, setMessages] = useState([]);
-  console.log("🚀 ~ MessageContent ~ messages:", messages);
   const [allMessages, setAllMessages] = useState([]);
 
   const [contactsData, setContactsData] = useState([]);
@@ -202,17 +199,17 @@ const MessageContent = () => {
   // }, [socket]);
   useEffect(() => {
     setMessages(messagesArray);
-    const categorizeMessagesByDate =
-      messagesArray?.length > 0 &&
-      messagesArray?.reduce((result, message) => {
-        const date = message.created_at.slice(0, 10); // Extract date from created_at
-        if (!result[date]) {
-          result[date] = []; // Initialize array for the date if it doesn't exist
-        }
-        result[date].push(message); // Push message to the array for the date
-        return result;
-      }, {});
-    setSelectedMessages(categorizeMessagesByDate);
+    // const categorizeMessagesByDate =
+    //   messagesArray?.length > 0 &&
+    //   messagesArray?.reduce((result, message) => {
+    //     const date = message.created_at.slice(0, 10); // Extract date from created_at
+    //     if (!result[date]) {
+    //       result[date] = []; // Initialize array for the date if it doesn't exist
+    //     }
+    //     result[date].push(message); // Push message to the array for the date
+    //     return result;
+    //   }, {});
+    setSelectedMessages(messagesArray);
   }, [messagesArray]);
   const handleDataFromChild = (data) => {
     setSelectedRoom(data);
@@ -221,17 +218,18 @@ const MessageContent = () => {
     setRooms(data);
   };
   const handleMessagesDataFromChild = (data) => {
-    const categorizeMessagesByDate =
-      data?.length > 0 &&
-      data?.reduce((result, message) => {
-        const date = message.created_at.slice(0, 10); // Extract date from created_at
-        if (!result[date]) {
-          result[date] = []; // Initialize array for the date if it doesn't exist
-        }
-        result[date].push(message); // Push message to the array for the date
-        return result;
-      }, {});
-    setSelectedMessages(categorizeMessagesByDate);
+    // const categorizeMessagesByDate =
+    //   data?.length > 0 &&
+    //   data?.reduce((result, message) => {
+    //     const date = message.created_at.slice(0, 10); // Extract date from created_at
+    //     if (!result[date]) {
+    //       result[date] = []; // Initialize array for the date if it doesn't exist
+    //     }
+    //     result[date].push(message); // Push message to the array for the date
+    //     return result;
+    //   }, {});
+
+    setSelectedMessages(data);
   };
   return (
     <div>
@@ -264,7 +262,7 @@ const MessageContent = () => {
                   socket={socket}
                 />
               )}
-              <AudioCall
+              {/* <AudioCall
                 socket={socket}
                 authUser={user}
                 selectedRoom={selectedRoom}
@@ -274,7 +272,7 @@ const MessageContent = () => {
                 authUser={user}
                 selectedRoom={selectedRoom}
               />
-              <InvitePeople users={users} authUser={user} socket={socket} />
+              <InvitePeople users={users} authUser={user} socket={socket} /> */}
             </div>
           </div>
         </div>

@@ -19,6 +19,7 @@ const ReactTagInputComponent = React.forwardRef((props, ref) => {
     ellipses,
     value,
     placeHolder,
+    mb,
     ...others
   } = props;
   const { field, fieldState, formState } = useController(props);
@@ -31,7 +32,7 @@ const ReactTagInputComponent = React.forwardRef((props, ref) => {
     field.onChange(value);
   };
   return (
-    <div className="mb-5">
+    <div className={`${mb ? "" : "mb-5"}`}>
       <Controller
         name={props?.name}
         rules={props?.rules}

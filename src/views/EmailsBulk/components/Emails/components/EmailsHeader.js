@@ -90,14 +90,13 @@ const EmailsHeader = ({ onDataFromChild, emailsData, authUser }) => {
             </span>
           </span>
         </a>
-        <a
+        {/* <a
           class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
           // href="/"
           data-bs-toggle="dropdown"
         >
           <span class="icon">
             <span class="feather-icon">
-              {/* <i data-feather="settings"></i> */}
               <FaCog />
             </span>
           </span>
@@ -105,14 +104,12 @@ const EmailsHeader = ({ onDataFromChild, emailsData, authUser }) => {
         <div class="dropdown-menu dropdown-menu-end">
           <a class="dropdown-item" href="/">
             <span class="feather-icon dropdown-icon">
-              {/* <i data-feather="mail"></i> */}
               <FaCommentSlash />
             </span>
             <span>Show unread messages</span>
           </a>
           <a class="dropdown-item" href="/">
             <span class="feather-icon dropdown-icon">
-              {/* <i data-feather="star"></i> */}
 
               <FaStar />
             </span>
@@ -120,21 +117,18 @@ const EmailsHeader = ({ onDataFromChild, emailsData, authUser }) => {
           </a>
           <a class="dropdown-item" href="/">
             <span class="feather-icon dropdown-icon">
-              {/* <i data-feather="calendar"></i> */}
               <FaCalendar />
             </span>
             <span>Sort by Date</span>
           </a>
           <a class="dropdown-item" href="/">
             <span class="feather-icon dropdown-icon">
-              {/* <i data-feather="layout"></i> */}
               <FaSort />
             </span>
             <span>Sort by Category</span>
           </a>
           <a class="dropdown-item" href="/">
             <span class="feather-icon dropdown-icon">
-              {/* <i data-feather="check"></i> */}
               <FaCheckSquare />
             </span>
             <span>Mark all as read</span>
@@ -149,7 +143,7 @@ const EmailsHeader = ({ onDataFromChild, emailsData, authUser }) => {
           <a class="dropdown-item" href="/">
             Report a problem{" "}
           </a>
-        </div>
+        </div> */}
         <a
           href="/"
           class="btn btn-icon btn-rounded show-compose-popup btn-primary"

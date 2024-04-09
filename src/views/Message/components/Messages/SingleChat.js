@@ -1,22 +1,7 @@
 import _ from "lodash";
 import moment from "moment";
 import React, { useContext, useEffect, useState } from "react";
-import {
-  FaArrowAltCircleRight,
-  FaArrowDown,
-  FaFileExport,
-  FaPhone,
-  FaVideo,
-  FaInfo,
-  FaUserPlus,
-  FaStar,
-  FaArchive,
-  FaSlash,
-  FaExternalLinkAlt,
-  FaChevronUp,
-  FaChevronDown,
-} from "react-icons/fa";
-import { CiMenuKebab } from "react-icons/ci";
+import { FaArrowAltCircleRight, FaArrowDown } from "react-icons/fa";
 import AWS from "aws-sdk";
 import FilePreview from "../../../../components/FilePreview/FilePreview";
 import { SocketContext } from "../../../../Context";
@@ -24,22 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../../../redux/services/users";
 import { FiPaperclip } from "react-icons/fi";
 
-const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
-  const {
-    me,
-    // leaveCall,
-    calling,
-    // myVideo,
-    // name,
-    // setName,
-    // callEnded,
-    // leaveCall,
-    readyForCall,
-    readyForAudioCall,
-    call,
-    callUser,
-    sendTextMessage,
-  } = useContext(SocketContext);
+const SingleChat = ({
+  messages,
+  selectedRoom,
+  authUser,
+  socket,
+  selectedMessages,
+}) => {
+  const { me, call, callUser, sendTextMessage } = useContext(SocketContext);
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [usersArray, setUsersArray] = useState(null);
@@ -95,7 +72,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
         // to: "+923174660027",
         message: message,
       };
-      console.log(messageData, "message");
       sendTextMessage(messageData);
 
       setMessage("");
@@ -231,9 +207,9 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
       </header>
       <div data-simplebar id="chat_body" class="chat-body">
         <ul id="dummy_avatar" class="list-unstyled chat-single-list">
-          {messages?.length > 0 ? (
-            messages.map((msg, index) =>
-              msg?.from_phone === authUser?.phone ? (
+          {selectedMessages?.length > 0 ? (
+            selectedMessages.map((msg, index) =>
+              msg?.from_phone !== authUser?.phone ? (
                 <li class="media received" key={index}>
                   <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
                     <span class="initial-wrap">

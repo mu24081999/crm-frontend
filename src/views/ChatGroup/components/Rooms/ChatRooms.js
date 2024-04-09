@@ -23,8 +23,7 @@ const ChatRooms = ({
     return { firstCharacter, characterAfterSpace };
   }
   const roomClickHandler = (room) => {
-    setSelectedRoom(room);
-    sendDataToParent();
+    onDataFromChild(room);
     socket.emit("joinRoom", { roomId: room.room_id });
   };
   function formatRelativeDate(date) {

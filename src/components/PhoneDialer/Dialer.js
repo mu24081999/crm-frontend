@@ -60,7 +60,6 @@ const Dialer = () => {
   const [isDialerOpen, setIsDialerOpen] = useState(false);
   const [callStatus, setCallStatus] = useState(null);
   const [twilioDevice, setTwilioDevice] = useState(null);
-  console.log("🚀 ~ Dialer ~ twilioDevice:", twilioDevice);
   const [userState, setUserState] = useState("READY");
   const [activeCall, setActiveCall] = useState(null);
   const [active, setActive] = useState(true);
@@ -73,7 +72,6 @@ const Dialer = () => {
   const backendURL = process.env.REACT_APP_BACKEND_URL_PRODUCTION;
 
   const selectedNumberWatcher = watch("my_numbers");
-  console.log("🚀 ~ Dialer ~ selectedNumberWatcher:", selectedNumberWatcher);
   useEffect(() => {
     axios
       .post(
@@ -119,7 +117,6 @@ const Dialer = () => {
   useEffect(() => {
     if (twilioDevice) {
       twilioDevice.on("incoming", (call) => {
-        console.log("incoming call", call);
         setIsDialerOpen(true);
         setActiveCall(call);
         setUserState("ON_CALL");
@@ -465,7 +462,7 @@ const Dialer = () => {
                     alt="new"
                     width={150}
                   />
-                  <p>Muhammad Umar</p>
+                  <p>{activeCall?.parameters?.From}</p>
                 </div>
               </div>
               {callStatus === "STARTED" && (

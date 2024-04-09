@@ -56,67 +56,20 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
         <TaskHeader />
         <div className="taskboard-body">
           <div>
-            <TaskHeading />
+            {/* <TaskHeading /> */}
             {/* <Kanban /> */}
             <div id="kb_scroll" className="tasklist-scroll position-relative">
               <div id="tasklist_wrap" className="tasklist-wrap">
                 <div className="card card-simple card-border tasklist">
-                  <div className="card-header card-header-action">
-                    <div className="tasklist-handle">
-                      <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
-                        <span className="tasklist-name">All Modules</span>
-                        <span className="badge badge-pill badge-soft-violet ms-2">
-                          {tasksData?.length}
-                        </span>
-                      </h6>
-                      <div className="card-action-wrap">
-                        <a
-                          className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                          href="/"
-                          data-bs-toggle="dropdown"
-                        >
-                          <span className="icon">
-                            <span className="feather-icon">
-                              {/* <i data-feather="more-horizontal"></i> */}
-                              <CiMenuKebab />
-                            </span>
-                          </span>
-                        </a>
-                        <div
-                          role="menu"
-                          className="dropdown-menu dropdown-menu-end"
-                        >
-                          <a
-                            className="dropdown-item edit-tasklist"
-                            href="/"
-                            data-bs-toggle="modal"
-                            data-bs-target="#edit_task_list"
-                          >
-                            Edit
-                          </a>
-                          <a className="dropdown-item delete-tasklist" href="/">
-                            Delete
-                          </a>
-                          <a className="dropdown-item clear-tasklist" href="/">
-                            Clear All
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      className="btn btn-white btn-block btn-add-newtask"
-                      data-bs-toggle="modal"
-                      data-bs-target="#add_new_card"
-                    >
-                      <span>
-                        <span className="icon">
-                          <span className="feather-icon">
-                            {/* <i data-feather="plus"></i> */}
-                            <FaPlus />
-                          </span>
-                        </span>
+                  <div className="card-header  bg-primary  d-flex">
+                    <h6 className="text-uppercase fw-bold mb-0 d-flex justify-content-between w-100">
+                      <span className="" style={{ color: "white" }}>
+                        All Modules
                       </span>
-                    </button>
+                      <span className="badge badge-pill badge-soft-violet">
+                        {contactsData?.length}
+                      </span>
+                    </h6>
                   </div>
                   <div data-simplebar className="card-body">
                     <div style={{ height: "500px", overflow: "scroll" }}>
@@ -275,62 +228,15 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                   onDrop={(event) => handleDrop(event, "pending")}
                   onDragOver={(event) => event.preventDefault()}
                 >
-                  <div className="card-header card-header-action">
-                    <div className="tasklist-handle">
-                      <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
-                        <span className="tasklist-name">Pending</span>
-                        <span className="badge badge-pill badge-soft-violet ms-2">
-                          {pendingData?.length}
-                        </span>
-                      </h6>
-                      <div className="card-action-wrap">
-                        <a
-                          className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                          href="/"
-                          data-bs-toggle="dropdown"
-                        >
-                          <span className="icon">
-                            <span className="feather-icon">
-                              {/* <i data-feather="more-horizontal"></i> */}
-                              <CiMenuKebab />
-                            </span>
-                          </span>
-                        </a>
-                        <div
-                          role="menu"
-                          className="dropdown-menu dropdown-menu-end"
-                        >
-                          <a
-                            className="dropdown-item edit-tasklist"
-                            href="/"
-                            data-bs-toggle="modal"
-                            data-bs-target="#edit_task_list"
-                          >
-                            Edit
-                          </a>
-                          <a className="dropdown-item delete-tasklist" href="/">
-                            Delete
-                          </a>
-                          <a className="dropdown-item clear-tasklist" href="/">
-                            Clear All
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      className="btn btn-white btn-block btn-add-newtask"
-                      data-bs-toggle="modal"
-                      data-bs-target="#add_new_card"
-                    >
-                      <span>
-                        <span className="icon">
-                          <span className="feather-icon">
-                            {/* <i data-feather="plus"></i> */}
-                            <FaPlus />
-                          </span>
-                        </span>
+                  <div className="card-header  bg-primary  d-flex">
+                    <h6 className="text-uppercase fw-bold mb-0 d-flex justify-content-between w-100">
+                      <span className="" style={{ color: "white" }}>
+                        Pending
                       </span>
-                    </button>
+                      <span className="badge badge-pill badge-soft-violet">
+                        {pendingData?.length}
+                      </span>
+                    </h6>
                   </div>
                   <div data-simplebar className="card-body">
                     <div style={{ height: "500px", overflow: "scroll" }}>
@@ -492,62 +398,15 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                   onDrop={(event) => handleDrop(event, "in-progress")}
                   onDragOver={(event) => event.preventDefault()}
                 >
-                  <div className="card-header card-header-action">
-                    <div className="tasklist-handle">
-                      <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
-                        <span className="tasklist-name">In Progress</span>
-                        <span className="badge badge-pill badge-soft-violet ms-2">
-                          {inProgressData?.length}
-                        </span>
-                      </h6>
-                      <div className="card-action-wrap">
-                        <a
-                          className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                          href="/"
-                          data-bs-toggle="dropdown"
-                        >
-                          <span className="icon">
-                            <span className="feather-icon">
-                              {/* <i data-feather="more-horizontal"></i> */}
-                              <CiMenuKebab />
-                            </span>
-                          </span>
-                        </a>
-                        <div
-                          role="menu"
-                          className="dropdown-menu dropdown-menu-end"
-                        >
-                          <a
-                            className="dropdown-item edit-tasklist"
-                            href="/"
-                            data-bs-toggle="modal"
-                            data-bs-target="#edit_task_list"
-                          >
-                            Edit
-                          </a>
-                          <a className="dropdown-item delete-tasklist" href="/">
-                            Delete
-                          </a>
-                          <a className="dropdown-item clear-tasklist" href="/">
-                            Clear All
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      className="btn btn-white btn-block btn-add-newtask"
-                      data-bs-toggle="modal"
-                      data-bs-target="#add_new_card"
-                    >
-                      <span>
-                        <span className="icon">
-                          <span className="feather-icon">
-                            {/* <i data-feather="plus"></i> */}
-                            <FaPlus />
-                          </span>
-                        </span>
+                  <div className="card-header  bg-primary  d-flex">
+                    <h6 className="text-uppercase fw-bold mb-0 d-flex justify-content-between w-100">
+                      <span className="" style={{ color: "white" }}>
+                        In Progress{" "}
                       </span>
-                    </button>
+                      <span className="badge badge-pill badge-soft-violet">
+                        {inProgressData?.length}
+                      </span>
+                    </h6>
                   </div>
                   <div data-simplebar className="card-body">
                     <div style={{ height: "500px", overflow: "scroll" }}>
@@ -710,61 +569,15 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                   onDrop={(event) => handleDrop(event, "completed")}
                   onDragOver={(event) => event.preventDefault()}
                 >
-                  <div className="card-header card-header-action">
-                    <div className="tasklist-handle">
-                      <h6 className="text-uppercase fw-bold  d-flex align-items-center mb-0">
-                        <span className="tasklist-name">Completed</span>
-                        <span className="badge badge-pill badge-soft-violet ms-2">
-                          {completedData?.length}
-                        </span>
-                      </h6>
-                      <div className="card-action-wrap">
-                        <a
-                          className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                          href="/"
-                          data-bs-toggle="dropdown"
-                        >
-                          <span className="icon">
-                            <span className="feather-icon">
-                              {/* <i data-feather="more-horizontal"></i> */}
-                              <CiMenuKebab />
-                            </span>
-                          </span>
-                        </a>
-                        <div
-                          role="menu"
-                          className="dropdown-menu dropdown-menu-end"
-                        >
-                          <a
-                            className="dropdown-item edit-tasklist"
-                            href="/"
-                            data-bs-toggle="modal"
-                            data-bs-target="#edit_task_list"
-                          >
-                            Edit
-                          </a>
-                          <a className="dropdown-item delete-tasklist" href="/">
-                            Delete
-                          </a>
-                          <a className="dropdown-item clear-tasklist" href="/">
-                            Clear All
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      className="btn btn-white btn-block btn-add-newtask"
-                      data-bs-toggle="modal"
-                      data-bs-target="#add_new_card"
-                    >
-                      <span>
-                        <span className="icon">
-                          <span className="feather-icon">
-                            <FaPlus />
-                          </span>
-                        </span>
+                  <div className="card-header  bg-primary  d-flex">
+                    <h6 className="text-uppercase fw-bold mb-0 d-flex justify-content-between w-100">
+                      <span className="" style={{ color: "white" }}>
+                        Completed
                       </span>
-                    </button>
+                      <span className="badge badge-pill badge-soft-violet">
+                        {completedData?.length}
+                      </span>
+                    </h6>
                   </div>
                   <div data-simplebar className="card-body">
                     <div style={{ height: "500px", overflow: "scroll" }}>

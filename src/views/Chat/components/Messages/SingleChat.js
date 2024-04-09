@@ -166,34 +166,34 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
     setSelectedFile(event.target.files[0]);
   };
 
-  useEffect(() => {
-    document
-      .getElementById("dummy_avatar")
-      .scrollIntoView({ behavior: "smooth", block: "end" });
-    // Configure AWS
-    AWS.config.update({
-      accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
-      secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
-      region: process.env.REACT_APP_AWS_REGION,
-    });
+  // useEffect(() => {
+  //   document
+  //     .getElementById("dummy_avatar")
+  //     .scrollIntoView({ behavior: "smooth", block: "end" });
+  //   // Configure AWS
+  //   AWS.config.update({
+  //     accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+  //     secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+  //     region: process.env.REACT_APP_AWS_REGION,
+  //   });
 
-    // Create S3 service object
-    const s3 = new AWS.S3();
+  //   // Create S3 service object
+  //   const s3 = new AWS.S3();
 
-    const fetchObjects = async () => {
-      const params = {
-        Bucket: "jampackcrm",
-      };
-      try {
-        const data = await s3.listObjectsV2(params).promise();
-        setFiles(data.Contents);
-      } catch (error) {
-        console.error("Error fetching objects:", error);
-      }
-    };
+  //   const fetchObjects = async () => {
+  //     const params = {
+  //       Bucket: "jampackcrm",
+  //     };
+  //     try {
+  //       const data = await s3.listObjectsV2(params).promise();
+  //       setFiles(data.Contents);
+  //     } catch (error) {
+  //       console.error("Error fetching objects:", error);
+  //     }
+  //   };
 
-    fetchObjects();
-  }, []);
+  //   fetchObjects();
+  // }, []);
   const downloadFile = async (bucketName, objectKey) => {
     const s3 = new AWS.S3();
     const params = {
@@ -345,7 +345,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               </span>
             </span>
           </a>
-          <a
+          {/* <a
             class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
             href="/"
             data-bs-toggle="dropdown"
@@ -361,7 +361,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                 <CiMenuKebab />
               </span>
             </span>
-          </a>
+          </a> */}
           <div class="dropdown-menu dropdown-menu-end">
             <a
               class="d-xl-none dropdown-item"

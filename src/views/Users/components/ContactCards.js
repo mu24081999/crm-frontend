@@ -155,10 +155,10 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
           </div>
         </div>
       </div>
-      <div className="row gx-3 row-cols-xxl-3 row-cols-xl-3 row-cols-lg-3 row-cols-md-2 row-cols-1 mb-5">
+      <div className="row w-100 overflow-hidden" style={{ maxWidth: "1200px" }}>
         {contactsData?.length > 0 &&
           contactsData?.map((contact, index) => (
-            <div key={index}>
+            <div key={index} className="col-md-4 col-sm-6">
               <div className="card card-border contact-card">
                 <div
                   className="card-header bg-primary"

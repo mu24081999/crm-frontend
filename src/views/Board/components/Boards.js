@@ -16,15 +16,18 @@ import {
   getBoardDetails,
   updateBoardRec,
 } from "../../../redux/services/board";
+import { getContactsListByBoard } from "../../../redux/services/contact";
 
 const Boards = ({ boardsData, onDataFromChild }) => {
-  const { token } = useSelector((state) => state.auth);
+  const { token, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const handleDelete = (id) => {
     dispatch(deleteBoardRec(token, id));
   };
   const handleEditBoard = (id, is_task) => {
-    dispatch(getBoardDetails(token, id));
+    dispatch(getContactsListByBoard(token, id));
+
+    dispatch(getBoardDetails(token, id, user.id));
     if (is_task) onDataFromChild(true);
   };
 
@@ -166,10 +169,7 @@ const Boards = ({ boardsData, onDataFromChild }) => {
                           <FaEdit />
                           Edit
                         </button>
-                        <a className="dropdown-item" href="/">
-                          <FaCopy />
-                          Copy Link
-                        </a>
+
                         <a
                           className="dropdown-item"
                           onClick={() => handleDelete(board.id)}

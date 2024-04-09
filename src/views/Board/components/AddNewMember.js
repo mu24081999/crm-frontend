@@ -21,7 +21,7 @@ const AddNewMember = () => {
     const formdata = new FormData();
     formdata.append("name", data.name);
     formdata.append("email", data.email);
-    formdata.append("image", data.image);
+    // formdata.append("image", data.image);
     dispatch(storeBoardTeam(token, formdata));
     return reset();
   };
@@ -35,28 +35,29 @@ const AddNewMember = () => {
     >
       <div className="modal-dialog modal-dialog-centered" role="document">
         <div className="modal-content">
-          <div className="modal-body">
+          <div className="modal-header bg-primary">
+            <h5 className="modal-title" style={{ color: "white" }}>
+              Add New Member
+            </h5>
             <button
               type="button"
-              className="btn-close"
+              className="btn-close btn-light"
               data-bs-dismiss="modal"
               aria-label="Close"
             >
               <span aria-hidden="true">×</span>
             </button>
-            <h5 className="mb-4">Add New Member</h5>
+          </div>
+          <div className="modal-body">
             <form onSubmit={handleSubmit(handleAddMember)}>
               <div className="row gx-3">
                 <div className="col-sm-12">
-                  {/* <div className="form-group">
-                    <label className="form-label">Name</label>
-                    <input className="form-control" type="text" />
-                  </div> */}
                   <InputField
                     name="name"
-                    placeholder="Enter your name"
-                    label="Name"
+                    placeholder="Member name"
+                    // label="Name"
                     control={control}
+                    // mb={true}
                     rules={{
                       required: {
                         value: true,
@@ -67,14 +68,10 @@ const AddNewMember = () => {
                   />
                 </div>
                 <div className="col-sm-12">
-                  {/* <div className="form-group">
-                    <label className="form-label">Email Id</label>
-                    <input className="form-control" type="text" />
-                  </div> */}
                   <InputField
                     name="email"
-                    placeholder="Enter your email address"
-                    label="Email"
+                    placeholder="Member email address"
+                    // label="Email"
                     control={control}
                     rules={{
                       required: {
@@ -86,18 +83,7 @@ const AddNewMember = () => {
                   />
                 </div>
                 {/* <div className="col-sm-12">
-                  <div className="form-group">
-                    <div className="dropify-square">
-                      <input type="file" className="dropify-1" />
-                    </div>
-                  </div>
-                </div> */}
-                <div className="col-sm-12">
-                  {/* <div className="form-group">
-                    <div className="dropify-square">
-                      <input type="file" className="dropify-1" />
-                    </div>
-                  </div> */}
+
                   <FileField
                     control={control}
                     errors={errors}
@@ -111,15 +97,15 @@ const AddNewMember = () => {
                       },
                     }}
                   />
-                </div>
+                </div> */}
               </div>
-              <div className="modal-footer align-items-center">
+              <div className="modal-footer ">
                 <button
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"
                 >
-                  Cancel
+                  Done
                 </button>
                 <button type="submit" className="btn btn-primary">
                   Add

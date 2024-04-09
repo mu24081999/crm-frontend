@@ -10,14 +10,14 @@ const TaskHeader = () => {
           <a className="taskboardapp-title link-dark" href="/">
             <h1>
               {boardDetails.name}
-              <span className="task-star marked">
+              {/* <span className="task-star marked">
                 <span className="feather-icon">
                   <i data-feather="star"></i>
                 </span>
-              </span>
+              </span> */}
             </h1>
           </a>
-          <div className="ms-3">
+          {/* <div className="ms-3">
             <div className="input-group">
               <span className="input-affix-wrapper">
                 <span className="input-prefix">
@@ -31,10 +31,10 @@ const TaskHeader = () => {
                 </select>
               </span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
-      <select className="form-select d-xxl-none flex-1 mx-3">
+      {/* <select className="form-select d-xxl-none flex-1 mx-3">
         <option selected="" value="1">
           Task Board
         </option>
@@ -171,7 +171,7 @@ const TaskHeader = () => {
           </a>
         </div>
       </div>
-      <div className="hk-sidebar-togglable"></div>
+      <div className="hk-sidebar-togglable"></div> */}
     </header>
   );
 };

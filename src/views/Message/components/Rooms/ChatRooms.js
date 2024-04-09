@@ -19,7 +19,7 @@ const ChatRooms = ({
   const roomClickHandler = (contact) => {
     setSelectedRoom(contact);
     // sendDataToParent();
-    onDataFromChild(selectedRoom);
+    onDataFromChild(contact);
     const messagesData =
       messages?.length > 0 &&
       messages?.filter(
@@ -123,10 +123,10 @@ const ChatRooms = ({
                             )
                           : "..."}
                       </div>
-                      <div class="badge badge-primary badge-sm badge-pill">
+                      {/* <div class="badge badge-primary badge-sm badge-pill">
                         15
-                      </div>
-                      <div class="dropdown action-drp">
+                      </div> */}
+                      {/* <div class="dropdown action-drp">
                         <a
                           href="/"
                           class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
@@ -134,7 +134,6 @@ const ChatRooms = ({
                         >
                           <span class="icon">
                             <span class="feather-icon">
-                              {/* <i data-feather="more-horizontal"></i> */}
                               <CiMenuKebab />
                             </span>
                           </span>
@@ -171,7 +170,7 @@ const ChatRooms = ({
                             Block
                           </a>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

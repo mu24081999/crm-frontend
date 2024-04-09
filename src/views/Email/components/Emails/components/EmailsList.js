@@ -30,8 +30,10 @@ const EmailsList = ({ emailsData, emails, onEmailDetail, dispatch, token }) => {
       {emailsData?.length > 0 &&
         emailsData?.map((email, index) => (
           <li
-            onClick={() => handleEmailClick(email.id)}
-            className={`list-group-item`}
+            onClick={() => {
+              handleEmailClick(email.id);
+            }}
+            className={`list-group-item `}
             key={index}
           >
             <div className="media">
@@ -51,15 +53,26 @@ const EmailsList = ({ emailsData, emails, onEmailDetail, dispatch, token }) => {
                   </span>
                   <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
                 </div> */}
-                <div className="avatar avatar-sm avatar-rounded">
+                <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
+                  <span class="initial-wrap">
+                    {extractCharactersFromArray(email?.sender?.name)
+                      .firstCharacter +
+                      extractCharactersFromArray(email?.sender?.name)
+                        .characterAfterSpace}
+                  </span>
+                </div>
+                {/* <div className="avatar avatar-sm avatar-rounded">
                   <img
                     // src="dist/img/avatar2.jpg"
-                    src={email?.sender?.avatar}
+                    src={
+                      email?.sender?.avatar ||
+                      "https://png.pngtree.com/png-clipart/20210129/ourmid/pngtree-blue-default-avatar-png-image_2813123.jpg"
+                    }
                     alt="user"
                     className="avatar-img"
                   />
-                </div>
-                <span className="badge badge-primary badge-indicator badge-indicator-nobdr"></span>
+                </div> */}
+                {/* <span className="badge badge-primary badge-indicator badge-indicator-nobdr"></span> */}
               </div>
               <div className="media-body">
                 <div>
@@ -108,7 +121,10 @@ const EmailsList = ({ emailsData, emails, onEmailDetail, dispatch, token }) => {
                   </div>
                   <div className="email-subject">{email.subject}</div>
                   <div className="email-text">
-                    <p>{email?.body?.slice(0, 200)}</p>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: email?.body }}
+                    ></div>
+                    <p></p>
                   </div>
                 </div>
               </div>

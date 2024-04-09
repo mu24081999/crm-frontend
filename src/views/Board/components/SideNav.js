@@ -8,29 +8,43 @@ import {
   FaUserCheck,
 } from "react-icons/fa";
 import { addBoardHelper, updateBoard } from "../../../redux/slices/board";
-const SideNav = ({ boardsData, onDataFromChild, dispatch }) => {
+const SideNav = ({
+  boardsData,
+  onDataFromChild,
+  dispatch,
+  onToggleDataFromChild,
+}) => {
   const [activeBar, setActiveBar] = useState("all");
   const onAllClick = () => {
     setActiveBar("all");
+    onToggleDataFromChild(false);
     const data = boardsData?.filter((board) => board.visibility !== "deleted");
     onDataFromChild(data);
   };
   const onStaredClick = () => {
+    onToggleDataFromChild(false);
+
     setActiveBar("stared");
     const data = boardsData?.filter((board) => board.visibility === "stared");
     onDataFromChild(data);
   };
   const onPublicClick = () => {
+    onToggleDataFromChild(false);
+
     setActiveBar("public");
     const data = boardsData?.filter((board) => board.visibility === "public");
     onDataFromChild(data);
   };
   const onPrivateClick = () => {
+    onToggleDataFromChild(false);
+
     setActiveBar("private");
     const data = boardsData?.filter((board) => board.visibility === "private");
     onDataFromChild(data);
   };
   const onDeletedClick = () => {
+    onToggleDataFromChild(false);
+
     setActiveBar("deleted");
     const data = boardsData?.filter((board) => board.visibility === "deleted");
     onDataFromChild(data);
@@ -53,7 +67,7 @@ const SideNav = ({ boardsData, onDataFromChild, dispatch }) => {
           <div className="menu-group">
             <ul className="nav nav-light navbar-nav flex-column">
               <li className={`nav-item ${activeBar === "all" ? "active" : ""}`}>
-                <a className="nav-link" onClick={onAllClick}>
+                <button className="nav-link btn-block" onClick={onAllClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="layout"></i> */}
@@ -61,12 +75,12 @@ const SideNav = ({ boardsData, onDataFromChild, dispatch }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">All Boards</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${activeBar === "stared" ? "active" : ""}`}
               >
-                <a className="nav-link" onClick={onStaredClick}>
+                <button className="nav-link btn-block" onClick={onStaredClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="star"></i> */}
@@ -74,14 +88,14 @@ const SideNav = ({ boardsData, onDataFromChild, dispatch }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Stared Boards</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${
                   activeBar === "private" ? "active" : ""
                 }`}
               >
-                <a className="nav-link" onClick={onPrivateClick}>
+                <button className="nav-link btn-block" onClick={onPrivateClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="lock"></i> */}
@@ -89,12 +103,12 @@ const SideNav = ({ boardsData, onDataFromChild, dispatch }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Private Boards</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${activeBar === "public" ? "active" : ""}`}
               >
-                <a className="nav-link" onClick={onPublicClick}>
+                <button className="nav-link btn-block" onClick={onPublicClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="user-check"></i> */}
@@ -102,14 +116,14 @@ const SideNav = ({ boardsData, onDataFromChild, dispatch }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Public Boards</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${
                   activeBar === "deleted" ? "active" : ""
                 }`}
               >
-                <a className="nav-link" onClick={onDeletedClick}>
+                <button className="nav-link btn-block" onClick={onDeletedClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="trash-2"></i> */}
@@ -117,12 +131,12 @@ const SideNav = ({ boardsData, onDataFromChild, dispatch }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Deleted</span>
-                </a>
+                </button>
               </li>
             </ul>
           </div>
           <div className="separator separator-light"></div>
-          <div className="d-flex align-items-center justify-content-between mb-2">
+          {/* <div className="d-flex align-items-center justify-content-between mb-2">
             <div className="title-sm text-primary mb-0">Favourite Boards</div>
             <a
               href="/"
@@ -138,7 +152,6 @@ const SideNav = ({ boardsData, onDataFromChild, dispatch }) => {
                 data-bs-original-title="Add Board"
               >
                 <span className="feather-icon">
-                  {/* <i data-feather="plus"></i> */}
                   <FaPlus />
                 </span>
               </span>
@@ -225,7 +238,7 @@ const SideNav = ({ boardsData, onDataFromChild, dispatch }) => {
               Last 3 days left for your trial to end. Renew now to stay
               connected.
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* <!--Sidebar Fixnav--> */}

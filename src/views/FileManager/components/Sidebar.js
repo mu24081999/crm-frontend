@@ -1,5 +1,6 @@
 import React from "react";
 import { storeFile } from "../../../redux/services/gallery";
+import { FaFileAlt, FaGoogleDrive } from "react-icons/fa";
 
 const Sidebar = ({ dispatch, token, authUser }) => {
   const handleFileOnChange = (file) => {
@@ -26,68 +27,68 @@ const Sidebar = ({ dispatch, token, authUser }) => {
               onChange={handleFileOnChange}
             />
           </div>
-
+          {/* 
           <div className="menu-group">
             <ul className="nav nav-light navbar-nav flex-column">
               <li className="nav-item active">
-                <a className="nav-link" href="/">
+                <button className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
-                      <i data-feather="hard-drive"></i>
+                      <FaGoogleDrive />
                     </span>
                   </span>
                   <span className="nav-link-text">My Space</span>
-                </a>
+                </button>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <button className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
-                      <i data-feather="file"></i>
+                      <FaFileAlt />
                     </span>
                   </span>
                   <span className="nav-link-text">All Files</span>
-                </a>
+                </button>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <button className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       <i data-feather="folder"></i>
                     </span>
                   </span>
                   <span className="nav-link-text">Folders</span>
-                </a>
+                </button>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <button className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       <i data-feather="upload"></i>
                     </span>
                   </span>
                   <span className="nav-link-text">Shared</span>
-                </a>
+                </button>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <button className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       <i data-feather="star"></i>
                     </span>
                   </span>
                   <span className="nav-link-text">Starred</span>
-                </a>
+                </button>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <button className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       <i data-feather="trash-2"></i>
                     </span>
                   </span>
                   <span className="nav-link-text">Trash</span>
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -95,47 +96,47 @@ const Sidebar = ({ dispatch, token, authUser }) => {
           <div className="menu-group">
             <ul className="nav nav-light navbar-nav flex-column">
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <button className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       <i data-feather="image"></i>
                     </span>
                   </span>
                   <span className="nav-link-text">Images</span>
-                </a>
+                </button>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <button className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       <i data-feather="video"></i>
                     </span>
                   </span>
                   <span className="nav-link-text">Videos</span>
-                </a>
+                </button>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <button className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       <i data-feather="play"></i>
                     </span>
                   </span>
                   <span className="nav-link-text">Audio</span>
-                </a>
+                </button>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <button className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       <i data-feather="file-text"></i>
                     </span>
                   </span>
                   <span className="nav-link-text">Documents</span>
-                </a>
+                </button>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="fmapp-storage">
@@ -156,7 +157,7 @@ const Sidebar = ({ dispatch, token, authUser }) => {
             ></div>
           </div>
         </div>
-        <a href="/" className="fs-7">
+        <a className="fs-7">
           <u>Buy Storage</u>
         </a>
       </div>
@@ -171,7 +172,6 @@ const Sidebar = ({ dispatch, token, authUser }) => {
                 data-bs-placement="top"
                 title=""
                 data-bs-original-title="Settings"
-                href="/"
               >
                 <span className="icon">
                   <span className="feather-icon">
@@ -182,7 +182,6 @@ const Sidebar = ({ dispatch, token, authUser }) => {
             </li>
             <li className="nav-item nav-link">
               <a
-                href="/"
                 className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
@@ -198,7 +197,6 @@ const Sidebar = ({ dispatch, token, authUser }) => {
             </li>
             <li className="nav-item nav-link">
               <a
-                href="/"
                 className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover"
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"

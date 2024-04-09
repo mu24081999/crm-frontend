@@ -7,6 +7,7 @@ import TodosList from "./components/TodosList";
 import { useDispatch } from "react-redux";
 import { getTodosList } from "../../redux/services/todo";
 import TaskInfo from "./components/TaskInfo";
+import { getUsers } from "../../redux/services/users";
 
 const TodoContent = () => {
   const [usersData, setUsersData] = useState([]);
@@ -21,7 +22,7 @@ const TodoContent = () => {
     setUsersData(users);
   }, [users]);
   useEffect(() => {
-    const todosByDate = todos.reduce((acc, todo) => {
+    const todosByDate = todos?.reduce((acc, todo) => {
       const date = todo.created_at.split("T")[0]; // Assuming created_at is in ISO 8601 format
       acc[date] = acc[date] || [];
       acc[date].push(todo);
@@ -32,6 +33,7 @@ const TodoContent = () => {
   }, [todos]);
   useEffect(() => {
     dispatch(getTodosList(token));
+    dispatch(getUsers(token));
   }, [dispatch, token]);
   const onDataFromChild = (value) => {
     setShowTaskInfo(value);

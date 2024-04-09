@@ -110,7 +110,7 @@ const ComposeEmail = () => {
   };
   return (
     <div class="compose-email-popup">
-      <div class="d-flex flex-column h-100">
+      <div class="d-flex flex-column">
         <header class="d-flex align-items-center justify-content-between">
           <h6 class="text-white mb-0">Compose Email</h6>
           <div class="d-flex">
@@ -154,13 +154,18 @@ const ComposeEmail = () => {
         ) : (
           <form
             onSubmit={handleSubmit(handleSendEmail)}
-            style={{ maxHeight: "750px" }}
+            style={{
+              maxHeight: "600px",
+              overflow: "scroll",
+              scrollBehavior: "smooth",
+            }}
           >
             <div className="w-100">
               <InputField
                 name="subject"
                 placeholder="Subject"
                 control={control}
+                mb={true}
                 errors={errors}
               />
             </div>
@@ -213,7 +218,7 @@ const ComposeEmail = () => {
                 onChange={handleFileChange}
               />
             </div>
-            <div class="compose-email-footer">
+            <div class="compose-email-footer ">
               <div className="w-100">
                 <button class="btn btn-primary float-end" type="submit">
                   Send

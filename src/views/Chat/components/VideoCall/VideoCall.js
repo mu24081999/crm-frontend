@@ -29,7 +29,6 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
     readyForCall,
     type,
   } = useContext(SocketContext);
-  console.log("🚀 ~ VideoCall ~ type:", type);
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [usersArray, setUsersArray] = useState(null);
@@ -88,7 +87,9 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
             } `}
           >
             <div class="modal-header header-wth-bg bg-primary-dark-3">
-              <h6 class="modal-title text-muted">Video Call</h6>
+              <h6 class="modal-title" style={{ color: "white" }}>
+                {type === "video" ? "Video" : "Audio"} Call
+              </h6>
               <div class="modal-action">
                 <a
                   href="/"
@@ -102,17 +103,6 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                     <span class="feather-icon d-none">
                       {/* <i data-feather="minimize"></i> */}
                       <FaMaximize />
-                    </span>
-                  </span>
-                </a>
-                <a
-                  href="/"
-                  class="btn btn-xs btn-icon btn-rounded btn-link link-secondary"
-                >
-                  <span class="icon">
-                    <span class="feather-icon">
-                      {/* <i data-feather="help-circle"></i> */}
-                      <FaInfo />
                     </span>
                   </span>
                 </a>
@@ -152,7 +142,7 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
             <div class="modal-footer position-absolute bottom-0 w-100">
               <div className="d-flex justify-content-center w-100">
                 <ul class="chatapp-call-action hk-list">
-                  <li>
+                  {/* <li>
                     <button class="btn btn-icon btn-lg btn-rounded btn-dark">
                       <span class="icon">
                         <span class="feather-icon">
@@ -169,7 +159,7 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                         </span>
                       </span>
                     </button>
-                  </li>
+                  </li> */}
                   {call.isReceivingCall === true &&
                   // authUser.socket_id === call.from &&
                   ringing &&
@@ -206,7 +196,7 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                     </li>
                   )}
 
-                  <li>
+                  {/* <li>
                     <button class="btn btn-icon btn-lg btn-rounded btn-dark">
                       <span class="icon">
                         <span class="feather-icon">
@@ -223,10 +213,10 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                         </span>
                       </span>
                     </button>
-                  </li>
+                  </li> */}
                 </ul>
                 <div class="avatar avatar-lg avatar-rounded chatapp-caller-img ">
-                  {stream && type === "video" && (
+                  {myVideo && type === "video" && (
                     <video
                       playsInline
                       muted
@@ -247,20 +237,24 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                         "https://static-00.iconduck.com/assets.00/profile-default-icon-1024x1023-4u5mrj2v.png"
                       }
                       alt="user"
-                      class="avatar-img"
+                      className="avatar-img"
                     />
                   )}
                 </div>
               </div>
               <div className="text-center">
-                <h3 class="text-white mt-3">
+                <h3
+                  className={`mt-3`}
+                  style={{ color: type === "audio" ? "black" : "white" }}
+                >
                   {selectedRoom.user_id_1 === authUser?.id
                     ? selectedRoom.user_name_2
                     : selectedRoom.user_name_1}
                 </h3>
                 {!callAccepted && (
-                  <p class="text-white">
-                    Video Calling<span class="one">.</span>
+                  <p style={{ color: type === "audio" ? "black" : "white" }}>
+                    {type === "audio" ? "Audio" : "Video"} Calling
+                    <span class="one">.</span>
                     <span class="two">.</span>
                     <span class="three">.</span>
                   </p>

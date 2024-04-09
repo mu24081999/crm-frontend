@@ -24,50 +24,11 @@ const ChatAside = ({
       {" "}
       <div class="chatapp-aside">
         <header class="aside-header">
-          <a
-            class="chatapp-title dropdown-toggle link-dark"
-            data-bs-toggle="dropdown"
-            href="/"
-            role="button"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <h1>Chat</h1>
-          </a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="chats.html">
-              <span class="feather-icon dropdown-icon">
-                <i data-feather="message-square"></i>
-              </span>
-              <span>Chats</span>
-            </a>
-            <a class="dropdown-item" href="chats-contact.html">
-              <span class="feather-icon dropdown-icon">
-                <i data-feather="book"></i>
-              </span>
-              <span>Contacts</span>
-            </a>
-            <a class="dropdown-item" href="chats-group.html">
-              <span class="feather-icon dropdown-icon">
-                <i data-feather="users"></i>
-              </span>
-              <span>Groups</span>
-            </a>
-            <a class="dropdown-item" href="/">
-              <span class="feather-icon dropdown-icon">
-                <i data-feather="archive"></i>
-              </span>
-              <span>Archived</span>
-            </a>
-            <a class="dropdown-item" href="/">
-              <span class="feather-icon dropdown-icon">
-                <i data-feather="star"></i>
-              </span>
-              <span>Favorites</span>
-            </a>
+          <div>
+            <p className="fw-bold fs-4">Groups</p>
           </div>
           <div class="d-flex">
-            <div class="dropdown">
+            {/* <div class="dropdown">
               <a
                 href="/"
                 class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
@@ -75,7 +36,6 @@ const ChatAside = ({
               >
                 <span class="icon">
                   <span class="feather-icon">
-                    {/* <i data-feather="settings"></i> */}
                     <FaCog />
                   </span>
                 </span>
@@ -83,14 +43,12 @@ const ChatAside = ({
               <div class="dropdown-menu dropdown-menu-end">
                 <a class="dropdown-item" href="/">
                   <span class="feather-icon dropdown-icon">
-                    {/* <i data-feather="user-check"></i> */}
                     <FaUserCheck />
                   </span>
                   <span>Active Contacts</span>
                 </a>
                 <a class="dropdown-item" href="/">
                   <span class="feather-icon dropdown-icon">
-                    {/* <i data-feather="message-square"></i> */}
                   </span>
                   <span>Chat Requests</span>
                 </a>
@@ -117,7 +75,7 @@ const ChatAside = ({
                   Report a problem{" "}
                 </a>
               </div>
-            </div>
+            </div> */}
             <a
               href="/"
               class="btn btn-icon btn-rounded btn-primary"

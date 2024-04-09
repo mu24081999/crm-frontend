@@ -59,7 +59,7 @@ const FileManagerListView = ({
     <div className="fm-body">
       <div data-simplebar className="nicescroll-bar">
         <div className="file-list-view">
-          <ul className="nav nav-tabs nav-line nav-icon nav-light">
+          {/* <ul className="nav nav-tabs nav-line nav-icon nav-light">
             <li className="nav-item">
               <a
                 className="nav-link active"
@@ -74,7 +74,7 @@ const FileManagerListView = ({
                 <span className="nav-link-text">Shared with me</span>
               </a>
             </li>
-          </ul>
+          </ul> */}
           <div className="tab-content">
             <div className="tab-pane fade show active" id="cloud_doc">
               <div className="table-responsive">
@@ -98,7 +98,7 @@ const FileManagerListView = ({
                       {/* <th>Sharing</th> */}
                       <th>Modified</th>
                       <th>Size</th>
-                      <th>Action</th>
+                      {/* <th>Action</th> */}
                     </tr>
                   </thead>
                   <tbody>
@@ -181,7 +181,7 @@ const FileManagerListView = ({
                             {moment(file?.created_at).format("DD, MMM, YYYY")}
                           </td>
                           <td>{bytesToMegabytes(file?.size)} MB</td>
-                          <td className="text-right">
+                          {/* <td className="text-right">
                             <a
                               className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
                               href="/"
@@ -192,7 +192,6 @@ const FileManagerListView = ({
                             >
                               <span className="icon">
                                 <span className="feather-icon">
-                                  {/* <i data-feather="more-horizontal"></i> */}
                                   <CiMenuKebab />
                                 </span>
                               </span>
@@ -200,35 +199,30 @@ const FileManagerListView = ({
                             <div className="dropdown-menu">
                               <a className="dropdown-item" href="/">
                                 <span className="feather-icon dropdown-icon">
-                                  {/* <i data-feather="eye"></i> */}
                                   <FaEye />
                                 </span>
                                 <span>Preview</span>
                               </a>
                               <a className="dropdown-item" href="/">
                                 <span className="feather-icon dropdown-icon">
-                                  {/* <i data-feather="copy"></i> */}
                                   <FaCopy />
                                 </span>
                                 <span>Duplicate</span>
                               </a>
                               <a className="dropdown-item" href="/">
                                 <span className="feather-icon dropdown-icon">
-                                  {/* <i data-feather="skip-forward"></i> */}
                                   <FaForward />
                                 </span>
                                 <span>Move</span>
                               </a>
                               <a className="dropdown-item" href="/">
                                 <span className="feather-icon dropdown-icon">
-                                  {/* <i data-feather="user-plus"></i> */}
                                   <FaUserPlus />
                                 </span>
                                 <span>Invite</span>
                               </a>
                               <a className="dropdown-item" href="/">
                                 <span className="feather-icon dropdown-icon">
-                                  {/* <i data-feather="link-2"></i> */}
                                   <FaShare />
                                 </span>
                                 <span>Share Link</span>
@@ -236,7 +230,6 @@ const FileManagerListView = ({
                               <div className="dropdown-divider"></div>
                               <a className="dropdown-item" href="/">
                                 <span className="feather-icon dropdown-icon">
-                                  {/* <i data-feather="info"></i> */}
                                   <FaInfo />
                                 </span>
                                 <span>View Details</span>
@@ -248,20 +241,18 @@ const FileManagerListView = ({
                                 // }
                               >
                                 <span className="feather-icon dropdown-icon">
-                                  {/* <i data-feather="download"></i> */}
                                   <FaDownload />
                                 </span>
                                 <span>Download</span>
                               </button>
                               <a className="dropdown-item" href="/">
                                 <span className="feather-icon dropdown-icon">
-                                  {/* <i data-feather="trash-2"></i> */}
                                   <FaTrash />
                                 </span>
                                 <span>Delete</span>
                               </a>
                             </div>
-                          </td>
+                          </td> */}
                         </tr>
                       ))}
                     {/* <tr>

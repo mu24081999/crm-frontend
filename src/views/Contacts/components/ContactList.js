@@ -108,8 +108,8 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                             <div className="avatar avatar-xs avatar-rounded">
                               <img
                                 src={
-                                  contact?.avatar ||
-                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj0HSlpGrcoSJqHfu9TPqo_WhhuWwq8t8zb5lbp5ES8w&s"
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj0HSlpGrcoSJqHfu9TPqo_WhhuWwq8t8zb5lbp5ES8w&s" ||
+                                  contact?.avatar
                                 }
                                 alt="user"
                                 className="avatar-img"

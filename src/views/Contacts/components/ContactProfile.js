@@ -48,11 +48,13 @@ const ContactProfile = ({ contact }) => {
           role="document"
         >
           <div className="modal-content">
-            <div className="modal-header">
-              <h6 className="modal-title">Profile Information</h6>
+            <div className="modal-header bg-primary">
+              <h6 className="modal-title" style={{ color: "white" }}>
+                Profile Information
+              </h6>
               <button
                 type="button"
-                className="btn-close"
+                className="btn-close btn-light"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               >
@@ -142,39 +144,16 @@ const ContactProfile = ({ contact }) => {
                     errors={errors}
                   />
                 </div> */}
-                <div className="row gx-3">
-                  <div className="col-sm-12">
-                    <label className="form-label">Location</label>
-                    <div className="form-group">
-                      <input
-                        className="form-control"
-                        type="text"
-                        value="Lane 1"
-                        placeholder="Line 1"
-                        name="add1"
-                      />
-                    </div>
-                    <div className="form-group">
-                      <input
-                        className="form-control"
-                        type="text"
-                        value="Newyork"
-                        placeholder="Line 2"
-                        name="add2"
-                      />
-                    </div>
-                  </div>
-                </div>
                 <div className="modal-footer align-items-center">
                   <button
                     data-bs-dismiss="modal"
                     type="button"
                     className="btn btn-secondary"
                   >
-                    Discard
+                    Done
                   </button>
                   <button type="submit" className="btn btn-primary">
-                    Update
+                    Submit
                   </button>
                 </div>
               </form>

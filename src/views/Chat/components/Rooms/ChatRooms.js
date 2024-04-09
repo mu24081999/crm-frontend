@@ -9,18 +9,10 @@ const ChatRooms = ({
   deleteChatRecord,
   updateChat,
 }) => {
-  const [selectedRoom, setSelectedRoom] = useState("");
-  const sendDataToParent = () => {
-    // Call the callback function with the data from the child
-    onDataFromChild(selectedRoom);
-  };
-
   const roomClickHandler = (room) => {
     console.log("🚀 ~ roomClickHandler ~ room:", room);
-
-    setSelectedRoom(room);
     // sendDataToParent();
-    onDataFromChild(selectedRoom);
+    onDataFromChild(room);
 
     socket.emit("joinRoom", { roomId: room.name });
   };
@@ -99,9 +91,9 @@ const ChatRooms = ({
                             )
                           : "..."}
                       </div>
-                      <div class="badge badge-primary badge-sm badge-pill">
+                      {/* <div class="badge badge-primary badge-sm badge-pill">
                         15
-                      </div>
+                      </div> */}
                       <div class="dropdown action-drp">
                         <a
                           href="/"

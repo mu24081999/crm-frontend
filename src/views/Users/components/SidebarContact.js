@@ -93,7 +93,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                 id="all_contacts"
                 className={`nav-item ${activeBar === "all" ? "active" : ""}`}
               >
-                <a onClick={handleAllClick} className="nav-link">
+                <button onClick={handleAllClick} className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="inbox"></i> */}
@@ -101,16 +101,16 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">All Clients</span>
-                </a>
+                </button>
               </li>
 
               <li
                 className={`nav-item ${activeBar === "active" ? "active" : ""}`}
               >
-                <a
+                <button
                   id="deleted_contacts"
                   onClick={handleActiveClick}
-                  className="nav-link"
+                  className="nav-link btn-block"
                 >
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
@@ -119,17 +119,17 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Active</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${
                   activeBar === "blocked" ? "active" : ""
                 }`}
               >
-                <a
+                <button
                   id="deleted_contacts"
                   onClick={handleDeleteClick}
-                  className="nav-link"
+                  className="nav-link btn-block"
                 >
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
@@ -138,7 +138,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Blocked</span>
-                </a>
+                </button>
               </li>
             </ul>
           </div>

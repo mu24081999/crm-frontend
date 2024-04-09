@@ -80,7 +80,10 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
                   {message?.from_phone !== authUser.phone ? (
                     <li className="media received  rounded-3 w-25 ">
                       <div className="avatar avatar-sm avatar-primary position-relative avatar-rounded">
-                        <span className="initial-wrap">
+                        <span
+                          className="initial-wrap"
+                          style={{ width: "48px" }}
+                        >
                           {extractCharactersFromArray(
                             contactDetails?.firstname +
                               " " +
@@ -93,11 +96,17 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
                             ).characterAfterSpace}
                         </span>
                       </div>
-                      <div className="alert alert-primary mx-1">
-                        <div className="msg-box">
+                      <div className="alert alert-primary mx-1  border border-primary">
+                        <div
+                          className="msg-box"
+                          style={{ width: "max-content" }}
+                        >
                           <div>
                             <p>{message?.message}</p>
-                            <span className="chat-time">
+                            <span
+                              className="chat-time float-end"
+                              style={{ fontSize: "12px" }}
+                            >
                               {moment(message?.created_at).format("HH:mm a")}
                             </span>
                           </div>
@@ -107,11 +116,17 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
                   ) : (
                     <li className="media received w-100 d-flex justify-content-end">
                       <div className="rounded-3 d-flex">
-                        <div className="alert alert-success mx-1">
-                          <div className="msg-box">
+                        <div className="alert alert-secondary mx-1 border border-primary">
+                          <div
+                            className="msg-box"
+                            style={{ width: "max-content" }}
+                          >
                             <div>
                               <p>{message?.message}</p>
-                              <span className="chat-time">
+                              <span
+                                className="chat-time float-end"
+                                style={{ fontSize: "12px" }}
+                              >
                                 {moment(message?.created_at).format("HH:mm a")}
                               </span>
                             </div>
@@ -167,11 +182,14 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
               </span>
             </div>
             <div
-              className="btn btn-primary shadow rounded-circle btn-file h-75"
-              style={{ width: "35px" }}
+              className="btn btn-primary shadow rounded-circle btn-file m-1"
+              style={{ width: "35px", height: "35px" }}
             >
               {/* Attach files */}
-              <FiPaperclip size={18} style={{ marginLeft: "-8px" }} />
+              <FiPaperclip
+                size={18}
+                style={{ marginLeft: "-8px", marginTop: "-4px" }}
+              />
 
               <input type="file" className="upload" />
             </div>

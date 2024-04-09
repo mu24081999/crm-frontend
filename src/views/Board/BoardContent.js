@@ -20,7 +20,6 @@ const BoardContent = () => {
   const [toggleType, setToggleType] = useState("board");
   const [boardsData, setBoardsData] = useState([]);
   const [contactsData, setContactsData] = useState([]);
-  console.log("🚀 ~ BoardContent ~ contactsData:", contactsData);
   const [boardsData_, setBoardsData_] = useState([]);
   const [teamsData, setTeamsData] = useState([]);
   const [tasksData, setTasksData] = useState([]);
@@ -40,6 +39,7 @@ const BoardContent = () => {
     dispatch(getBoardTeamList(token));
     dispatch(getTasksList(token));
     dispatch(getContactsList(token));
+    // dispatch(getContactsListByBoard(token, boardDetails?.id));
   }, [token, dispatch]);
   useEffect(() => {
     const data = boards?.filter((board) => board.visibility !== "deleted");
@@ -61,6 +61,9 @@ const BoardContent = () => {
   const handleDataFromSidebar = (data) => {
     setBoardsData(data);
   };
+  const handleToggleDataFromSidebar = (data) => {
+    setShowTask(data);
+  };
   return (
     <div>
       {/* <!-- Main Content --> */}
@@ -72,6 +75,7 @@ const BoardContent = () => {
               onDataFromChild={handleDataFromSidebar}
               boardsData={boardsData_}
               dispatch={dispatch}
+              onToggleDataFromChild={handleToggleDataFromSidebar}
               token={token}
             />
 
@@ -115,234 +119,6 @@ const BoardContent = () => {
               {/* <!-- Add New Member --> */}
               <AddNewMember />
               {/* <!-- /Add New Member -->  */}
-
-              {/* <!-- Add Fav Board --> */}
-              <div
-                className="modal fade"
-                id="add_fav_board"
-                tabindex="-1"
-                role="dialog"
-              >
-                <div
-                  className="modal-dialog modal-dialog-centered mw-400p"
-                  role="document"
-                >
-                  <div className="modal-content">
-                    <div className="modal-header header-wth-bg-inv">
-                      <h5 className="modal-title">Add Board</h5>
-                      <button
-                        type="button"
-                        className="btn-close text-white"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <span aria-hidden="true">×</span>
-                      </button>
-                    </div>
-                    <div className="modal-body p-0">
-                      <div>
-                        <div data-simplebar className="nicescroll-bar h-350p">
-                          <ul className="p-3 pb-0">
-                            <li className="d-flex align-items-center justify-content-between mb-3">
-                              <div className="media d-flex align-items-center">
-                                <div className="media-head me-2">
-                                  <div className="avatar avatar-xs avatar-primary avatar-rounded">
-                                    <span className="initial-wrap">J</span>
-                                  </div>
-                                </div>
-                                <div className="media-body">
-                                  <div className="name">Jampack</div>
-                                </div>
-                              </div>
-                              <div className="form-check">
-                                <input
-                                  type="checkbox"
-                                  className="form-check-input"
-                                  id="customCheck2"
-                                  checked
-                                />
-                              </div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between mb-3">
-                              <div className="media d-flex align-items-center">
-                                <div className="media-head me-2">
-                                  <div className="avatar avatar-xs avatar-danger avatar-rounded">
-                                    <span className="initial-wrap">H</span>
-                                  </div>
-                                </div>
-                                <div className="media-body">
-                                  <div className="name">Hencework</div>
-                                </div>
-                              </div>
-                              <div className="form-check">
-                                <input
-                                  type="checkbox"
-                                  className="form-check-input"
-                                  id="customCheck3"
-                                  checked
-                                />
-                              </div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between mb-3">
-                              <div className="media d-flex align-items-center">
-                                <div className="media-head me-2">
-                                  <div className="avatar avatar-xs avatar-info avatar-rounded">
-                                    <span className="initial-wrap">G</span>
-                                  </div>
-                                </div>
-                                <div className="media-body">
-                                  <div className="name">Griffin</div>
-                                </div>
-                              </div>
-                              <div className="form-check">
-                                <input
-                                  type="checkbox"
-                                  className="form-check-input"
-                                  id="customCheck4"
-                                />
-                              </div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between mb-3">
-                              <div className="media d-flex align-items-center">
-                                <div className="media-head me-2">
-                                  <div className="avatar avatar-xs avatar-warning avatar-rounded">
-                                    <span className="initial-wrap">R</span>
-                                  </div>
-                                </div>
-                                <div className="media-body">
-                                  <div className="name">React - Jampack</div>
-                                </div>
-                              </div>
-                              <div className="form-check">
-                                <input
-                                  type="checkbox"
-                                  className="form-check-input"
-                                  id="customCheck5"
-                                  checked
-                                />
-                              </div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between mb-3">
-                              <div className="media d-flex align-items-center">
-                                <div className="media-head me-2">
-                                  <div className="avatar avatar-xs avatar-primary avatar-rounded">
-                                    <span className="initial-wrap">P</span>
-                                  </div>
-                                </div>
-                                <div className="media-body">
-                                  <div className="name">Pangong</div>
-                                </div>
-                              </div>
-                              <div className="form-check">
-                                <input
-                                  type="checkbox"
-                                  className="form-check-input"
-                                  id="customCheck6"
-                                  checked
-                                />
-                              </div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between mb-3">
-                              <div className="media d-flex align-items-center">
-                                <div className="media-head me-2">
-                                  <div className="avatar avatar-xs avatar-success avatar-rounded">
-                                    <span className="initial-wrap">A</span>
-                                  </div>
-                                </div>
-                                <div className="media-body">
-                                  <div className="name">Angular - Jampack</div>
-                                </div>
-                              </div>
-                              <div className="form-check">
-                                <input
-                                  type="checkbox"
-                                  className="form-check-input"
-                                  id="customCheck7"
-                                  checked
-                                />
-                              </div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between mb-3">
-                              <div className="media d-flex align-items-center">
-                                <div className="media-head me-2">
-                                  <div className="avatar avatar-xs avatar-warning avatar-rounded">
-                                    <span className="initial-wrap">R</span>
-                                  </div>
-                                </div>
-                                <div className="media-body">
-                                  <div className="name">React - Jampack</div>
-                                </div>
-                              </div>
-                              <div className="form-check">
-                                <input
-                                  type="checkbox"
-                                  className="form-check-input"
-                                  id="customCheck8"
-                                />
-                              </div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between mb-3">
-                              <div className="media d-flex align-items-center">
-                                <div className="media-head me-2">
-                                  <div className="avatar avatar-xs avatar-primary avatar-rounded">
-                                    <span className="initial-wrap">P</span>
-                                  </div>
-                                </div>
-                                <div className="media-body">
-                                  <div className="name">Pangong</div>
-                                </div>
-                              </div>
-                              <div className="form-check">
-                                <input
-                                  type="checkbox"
-                                  className="form-check-input"
-                                  id="customCheck9"
-                                />
-                              </div>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-between mb-3">
-                              <div className="media d-flex align-items-center">
-                                <div className="media-head me-2">
-                                  <div className="avatar avatar-xs avatar-success avatar-rounded">
-                                    <span className="initial-wrap">A</span>
-                                  </div>
-                                </div>
-                                <div className="media-body">
-                                  <div className="name">Angular - Jampack</div>
-                                </div>
-                              </div>
-                              <div className="form-check">
-                                <input
-                                  type="checkbox"
-                                  className="form-check-input"
-                                  id="customCheck10"
-                                />
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="modal-footer justify-content-center">
-                      <button
-                        type="button"
-                        className="btn flex-fill btn-light flex-1"
-                        data-bs-dismiss="modal"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="button"
-                        className="btn flex-fill btn-primary flex-1"
-                        data-bs-dismiss="modal"
-                      >
-                        Add Board
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* <!-- /Add Fav Board --> */}
               {/* <!-- Add New Card --> */}
               <AddNewProjectTask teamsData={teamsData} token={token} />
               <EditProjectTask teamsData={teamsData} token={token} />

@@ -22,7 +22,7 @@ const Header = ({ onDataFromChild, view }) => {
         >
           <h1>My Space</h1>
         </a>
-        <div className="dropdown-menu">
+        {/* <div className="dropdown-menu">
           <a className="dropdown-item" href="/">
             <span className="feather-icon dropdown-icon">
               <i data-feather="file"></i>
@@ -41,7 +41,7 @@ const Header = ({ onDataFromChild, view }) => {
             </span>
             <span>Cloud Document</span>
           </a>
-        </div>
+        </div> */}
         <form className="mx-3 flex-grow-1 mw-400p" role="search">
           <input
             type="text"
@@ -50,7 +50,7 @@ const Header = ({ onDataFromChild, view }) => {
           />
         </form>
       </div>
-      <div className="fm-options-wrap">
+      {/* <div className="fm-options-wrap">
         <a
           className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover disabled d-xl-inline-block d-none"
           href="/"
@@ -82,7 +82,6 @@ const Header = ({ onDataFromChild, view }) => {
         >
           <span className="icon">
             <span className="feather-icon">
-              {/* <i data-feather="folder-plus"></i> */}
               <FaFolderPlus />
             </span>
           </span>
@@ -97,7 +96,6 @@ const Header = ({ onDataFromChild, view }) => {
         >
           <span className="icon">
             <span className="feather-icon">
-              {/* <i data-feather="upload-cloud"></i> */}
               <FaCloud />
             </span>
           </span>
@@ -110,7 +108,6 @@ const Header = ({ onDataFromChild, view }) => {
         >
           <span className="icon">
             <span className="feather-icon">
-              {/* <i data-feather="grid"></i> */}
               <CiMenuBurger />
             </span>
           </span>
@@ -121,7 +118,6 @@ const Header = ({ onDataFromChild, view }) => {
             onClick={() => onDataFromChild("List")}
           >
             <span className="feather-icon dropdown-icon">
-              {/* <i data-feather="list"></i> */}
               <FaList />
             </span>
             <span>List View</span>
@@ -131,7 +127,6 @@ const Header = ({ onDataFromChild, view }) => {
             onClick={() => onDataFromChild("Grid")}
           >
             <span className="feather-icon dropdown-icon">
-              {/* <i data-feather="grid"></i> */}
               <CiMenuFries />
             </span>
             <span>Grid View</span>
@@ -147,16 +142,14 @@ const Header = ({ onDataFromChild, view }) => {
         >
           <span className="icon">
             <span className="feather-icon">
-              {/* <i data-feather="chevron-up"></i> */}
               <FaChevronUp />
             </span>
             <span className="feather-icon d-none">
-              {/* <i data-feather="chevron-down"></i> */}
               <FaChevronDown />
             </span>
           </span>
         </a>
-      </div>
+      </div> */}
       <div className="hk-sidebar-togglable"></div>
     </header>
   );

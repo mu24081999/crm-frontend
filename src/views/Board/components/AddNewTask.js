@@ -72,31 +72,27 @@ const AddNewTask = ({ teamsData, boardDetails }) => {
     >
       <div className="modal-dialog modal-dialog-centered" role="document">
         <div className="modal-content">
-          <div className="modal-body">
+          <div className="modal-header bg-primary">
+            <h5 className="modal-title" style={{ color: "white" }}>
+              Add New Board
+            </h5>
             <button
               type="button"
-              className="btn-close"
+              className="btn-close btn-light"
               data-bs-dismiss="modal"
               aria-label="Close"
             >
               <span aria-hidden="true">×</span>
             </button>
-            <h5>Add New Board</h5>
-            <p className="mb-4">
-              You are granted limited license only for purposes of viewing the
-              material contained on this Website.
-            </p>
+          </div>
+          <div className="modal-body">
             <form onSubmit={handleSubmit(handleAddBoard)}>
               <div className="row gx-3">
                 <div className="col-sm-12">
-                  {/* <div className="form-group">
-                    <label className="form-label">Name</label>
-                    <input className="form-control task-name" type="text" />
-                  </div> */}
                   <InputField
                     name="name"
-                    placeholder="Enter task name"
-                    label="Name"
+                    placeholder="Name"
+                    // label="Name"
                     control={control}
                     rules={{
                       required: {
@@ -107,55 +103,49 @@ const AddNewTask = ({ teamsData, boardDetails }) => {
                     errors={errors}
                   />
                 </div>
-                <div className="col-sm-6">
-                  <ReactColorInput
-                    name="avatar_color"
-                    label="Avatar Color"
-                    control={control}
-                    rules={{
-                      required: {
-                        value: true,
-                        message: "Field required!",
-                      },
-                    }}
-                    errors={errors}
-                  />
-                </div>
-                <div className="col-sm-12">
-                  {/* <div className="form-group">
-                    <label className="form-label">Visibility</label>
-                    <select className="form-control form-select">
-                      <option selected="">Public</option>
-                      <option value="1">Private</option>
-                    </select>
-                    <small className="form-text text-muted">
-                      Public setting will be seen by everybody with login
-                      details.
-                    </small>
-                  </div> */}
-                  <ReactSelectField
-                    name="visibility"
-                    placeholder="Visibility"
-                    label="Visibility"
-                    control={control}
-                    options={[
-                      { label: "Public", value: "public" },
-                      { label: "Private", value: "private" },
-                    ]}
-                    rules={{
-                      required: {
-                        value: true,
-                        message: "Field required!",
-                      },
-                    }}
-                    errors={errors}
-                  />
+
+                <div className="row">
+                  <div className="col-sm-6 pt-3">
+                    <ReactColorInput
+                      name="avatar_color"
+                      placeholder="Avatar Color"
+                      // label="Avatar Color"
+                      mb={true}
+                      control={control}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
+                      errors={errors}
+                    />
+                  </div>
+                  <div className="col-sm-6">
+                    <ReactSelectField
+                      name="visibility"
+                      placeholder="Visibility"
+                      // label="Visibility"
+                      control={control}
+                      options={[
+                        { label: "Public", value: "public" },
+                        { label: "Private", value: "private" },
+                      ]}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
+                      errors={errors}
+                    />
+                  </div>
                 </div>
                 <div className="col-sm-12">
                   <ReactSelectField
                     name="team_members"
                     placeholder="Team Members"
-                    label="Team Members"
+                    // label="Team Members"
                     isMulti={true}
                     control={control}
                     options={
@@ -180,16 +170,9 @@ const AddNewTask = ({ teamsData, boardDetails }) => {
                 </div>
               </div>
               <div className="col-sm-12">
-                {/* <div className="form-group">
-                    <label className="form-label">Avatar</label>
-                    <select className="form-control form-select">
-                      <option selected="">Choose Avatar-Text</option>
-                      <option value="1">A</option>
-                    </select>
-                  </div> */}
                 <ReactSelectField
                   name="avatar_text"
-                  label="Avatar Text"
+                  placeholder="Avatar Text"
                   control={control}
                   options={[
                     { label: "A", value: "A" },
@@ -230,26 +213,7 @@ const AddNewTask = ({ teamsData, boardDetails }) => {
                 />
               </div>
               <div className="col-sm-12">
-                {/* <div className="form-group">
-                    <label className="form-label">Avatar Color</label>
-                    <div className="input-group color-picker">
-                      <div className="input-group-text colorpicker-input-addon">
-                        <input type="color" />
-                      </div>
-                      <input
-                        type="text"
-                        className="form-control colorpicker-value"
-                        value="#009B84"
-                      />
-                    </div>
-                  </div> */}
-
                 <div className="col-sm-12">
-                  {/* <div className="form-group">
-                    <div className="dropify-square">
-                      <input type="file" className="dropify-1" />
-                    </div>
-                  </div> */}
                   {!boardDetails && (
                     <FileField
                       control={control}
@@ -267,13 +231,14 @@ const AddNewTask = ({ teamsData, boardDetails }) => {
                   )}
                 </div>
               </div>
-              <div className="modal-footer align-items-center">
+
+              <div className="modal-footer">
                 <button
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"
                 >
-                  Cancel
+                  Done
                 </button>
                 <button type="submit" className="btn btn-primary">
                   Submit

@@ -167,7 +167,10 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                           data-default-file="dist/img/avatar2.jpg"
                         /> */}
                     <img
-                      src={contactDetails?.avatar}
+                      src={
+                        contactDetails?.avatar ||
+                        "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
+                      }
                       alt={contactDetails?.firstname}
                       className="dropify-1"
                       width={100}
@@ -177,13 +180,13 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                     {/* Mendaline Shane */}
                     {contactDetails?.firstname} {contactDetails?.lastname}
                   </div>
-                  <p>No phone calls Always busy</p>
+                  {/* <p>No phone calls Always busy</p> */}
 
                   <div
                     className="rating rating-yellow my-rating-4"
                     data-rating="3"
                   ></div>
-
+                  {/* 
                   <ul className="hk-list hk-list-sm justify-content-center mt-2">
                     <li>
                       <a
@@ -192,7 +195,6 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                       >
                         <span className="icon">
                           <span className="feather-icon">
-                            {/* <i data-feather="mail"></i> */}
                             <FaMailBulk />
                           </span>
                         </span>
@@ -205,7 +207,6 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                       >
                         <span className="icon">
                           <span className="feather-icon">
-                            {/* <i data-feather="phone"></i> */}
                             <FaPhone />
                           </span>
                         </span>
@@ -219,13 +220,38 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                       >
                         <span className="icon">
                           <span className="feather-icon">
-                            {/* <i data-feather="video"></i> */}
                             <FaMessage />
                           </span>
                         </span>
                       </a>
                     </li>
-                  </ul>
+                  </ul> */}
+                </div>
+                <div className="separator-full"></div>
+                <div className="card">
+                  <div className="card-header">
+                    <a href="/">Biography</a>
+                    <button
+                      className="btn btn-xs btn-icon btn-rounded btn-light"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title=""
+                      data-bs-original-title="Edit"
+                    >
+                      <span
+                        className="icon"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addBio"
+                      >
+                        <span className="feather-icon">
+                          <FaEdit />
+                        </span>
+                      </span>
+                    </button>
+                  </div>
+                  <div className="card-body">
+                    <p>{contactDetails?.biography}.</p>
+                  </div>
                 </div>
                 <div className="card">
                   <div className="card-header">
@@ -268,11 +294,7 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                       </li>
                       <li>
                         <span>Phone</span>
-                        <span>+{contactDetails?.phone}</span>
-                      </li>
-                      <li>
-                        <span>Location</span>
-                        <span>Newyork</span>
+                        <span>{contactDetails?.phone}</span>
                       </li>
                     </ul>
                   </div>
@@ -281,7 +303,7 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                 <div className="card">
                   <div className="card-header">
                     <a href="/">More Info</a>
-                    <button
+                    {/* <button
                       className="btn btn-xs btn-icon btn-rounded btn-light"
                       data-bs-toggle="tooltip"
                       data-bs-placement="top"
@@ -294,11 +316,10 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                         data-bs-target="#moreContact"
                       >
                         <span className="feather-icon">
-                          {/* <i data-feather="edit-2"></i> */}
                           <FaEdit />
                         </span>
                       </span>
-                    </button>
+                    </button> */}
                   </div>
                   <div className="card-body">
                     <ul className="cp-info">
@@ -310,21 +331,10 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                         <span>Company</span>
                         <span>{contactDetails?.company_name}</span>
                       </li>
-                      <li>
-                        <span>Language</span>
-                        <span>morgan@flights.com</span>
-                      </li>
-                      <li>
-                        <span>Birthday</span>
-                        <span>-</span>
-                      </li>
-                      <li>
-                        <span>Location</span>
-                        <span>Newyork</span>
-                      </li>
                     </ul>
                   </div>
                 </div>
+
                 <div className="separator-full"></div>
                 <div className="card">
                   <div className="card-header">
@@ -354,10 +364,6 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                         {tag.name}
                       </span>
                     ))}
-
-                    <span className="badge badge-soft-danger">
-                      React Developer
-                    </span>
                   </div>
                 </div>
                 <div className="separator-full"></div>
@@ -398,32 +404,7 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                     </ul>
                   </div>
                 </div>
-                <div className="separator-full"></div>
-                <div className="card">
-                  <div className="card-header">
-                    <a href="/">Biography</a>
-                    <button
-                      className="btn btn-xs btn-icon btn-rounded btn-light"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      title=""
-                      data-bs-original-title="Edit"
-                    >
-                      <span
-                        className="icon"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addBio"
-                      >
-                        <span className="feather-icon">
-                          <i data-feather="edit-2"></i>
-                        </span>
-                      </span>
-                    </button>
-                  </div>
-                  <div className="card-body">
-                    <p>{contactDetails?.biography}.</p>
-                  </div>
-                </div>
+
                 <div className="separator-full"></div>
                 <div className="card">
                   <div className="card-header">

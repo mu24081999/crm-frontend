@@ -127,34 +127,34 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
     setSelectedFile(event.target.files[0]);
   };
 
-  useEffect(() => {
-    document
-      .getElementById("dummy_avatar")
-      .scrollIntoView({ behavior: "smooth", block: "end" });
-    // Configure AWS
-    AWS.config.update({
-      accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
-      secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
-      region: process.env.REACT_APP_AWS_REGION,
-    });
+  // useEffect(() => {
+  //   document
+  //     .getElementById("dummy_avatar")
+  //     .scrollIntoView({ behavior: "smooth", block: "end" });
+  //   // Configure AWS
+  //   AWS.config.update({
+  //     accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+  //     secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+  //     region: process.env.REACT_APP_AWS_REGION,
+  //   });
 
-    // Create S3 service object
-    const s3 = new AWS.S3();
+  //   // Create S3 service object
+  //   const s3 = new AWS.S3();
 
-    const fetchObjects = async () => {
-      const params = {
-        Bucket: "jampackcrm",
-      };
-      try {
-        const data = await s3.listObjectsV2(params).promise();
-        setFiles(data.Contents);
-      } catch (error) {
-        console.error("Error fetching objects:", error);
-      }
-    };
+  //   const fetchObjects = async () => {
+  //     const params = {
+  //       Bucket: "jampackcrm",
+  //     };
+  //     try {
+  //       const data = await s3.listObjectsV2(params).promise();
+  //       setFiles(data.Contents);
+  //     } catch (error) {
+  //       console.error("Error fetching objects:", error);
+  //     }
+  //   };
 
-    fetchObjects();
-  }, []);
+  //   fetchObjects();
+  // }, []);
   const downloadFile = async (bucketName, objectKey) => {
     const s3 = new AWS.S3();
     const params = {
@@ -227,7 +227,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
             <div class="user-name"> {selectedRoom?.name}</div>
           </div>
         </div>
-        <div class="chat-options-wrap">
+        {/* <div class="chat-options-wrap">
           <a
             class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret d-none d-xl-block"
             href="/"
@@ -242,7 +242,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               data-bs-original-title="Invite people"
             >
               <span class="feather-icon">
-                {/* <i data-feather="user-plus"></i> */}
                 <FaUserPlus />
               </span>
             </span>
@@ -289,7 +288,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               data-bs-original-title="Video Call"
             >
               <span class="feather-icon">
-                {/* <i data-feather="video"></i> */}
                 <FaVideo />
               </span>
             </span>
@@ -306,7 +304,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               data-bs-original-title="Info"
             >
               <span class="feather-icon">
-                {/* <i data-feather="info"></i> */}
                 <FaInfo />
               </span>
             </span>
@@ -324,7 +321,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               data-bs-original-title="More"
             >
               <span class="feather-icon">
-                {/* <i data-feather="more-vertical"></i> */}
                 <CiMenuKebab />
               </span>
             </span>
@@ -337,7 +333,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               data-bs-target="invite_people"
             >
               <span class="feather-icon dropdown-icon">
-                {/* <i data-feather="user-plus"></i> */}
                 <FaUserPlus />
               </span>
               <span>Invite People</span>
@@ -349,7 +344,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               data-bs-target="#audio_call"
             >
               <span class="feather-icon dropdown-icon">
-                {/* <i data-feather="phone"></i> */}
                 <FaPhone />
               </span>
               <span>Audio Call</span>
@@ -361,7 +355,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               data-bs-target="#video_call"
             >
               <span class="feather-icon dropdown-icon">
-                {/* <i data-feather="video"></i> */}
                 <FaVideo />
               </span>
               <span>Video Call</span>
@@ -369,14 +362,12 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
             <div class="d-xl-none dropdown-divider"></div>
             <a class="dropdown-item" href="/">
               <span class="feather-icon dropdown-icon">
-                {/* <i data-feather="star"></i> */}
                 <FaStore />
               </span>
               <span>Stared Messages</span>
             </a>
             <a class="dropdown-item" href="/">
               <span class="feather-icon dropdown-icon">
-                {/* <i data-feather="archive"></i> */}
                 <FaArchive />
               </span>
               <span>Archive Messages</span>
@@ -384,14 +375,12 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/">
               <span class="feather-icon dropdown-icon">
-                {/* <i data-feather="slash"></i> */}
                 <FaUserSlash />
               </span>
               <span>Block Content</span>
             </a>
             <a class="dropdown-item" href="/">
               <span class="feather-icon dropdown-icon">
-                {/* <i data-feather="external-link"></i> */}
                 <FaExternalLinkAlt />
               </span>
               <span>Feedback</span>
@@ -407,7 +396,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
           >
             <span class="icon">
               <span class="feather-icon">
-                {/* <i data-feather="chevron-up"></i> */}
                 <FaChevronLeft />
               </span>
               <span class="feather-icon d-none">
@@ -415,7 +403,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               </span>
             </span>
           </a>
-        </div>
+        </div> */}
       </header>
       <div data-simplebar id="chat_body" class="chat-body">
         <ul id="dummy_avatar" class="list-unstyled chat-single-list">

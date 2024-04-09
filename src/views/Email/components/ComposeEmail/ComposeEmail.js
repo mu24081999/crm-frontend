@@ -117,6 +117,7 @@ const ComposeEmail = () => {
             <div className="w-100">
               <InputField
                 name="subject"
+                mb={true}
                 placeholder="Subject"
                 control={control}
                 errors={errors}

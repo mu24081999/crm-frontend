@@ -86,7 +86,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                 id="all_contacts"
                 className={`nav-item ${activeBar === "all" ? "active" : ""}`}
               >
-                <a onClick={handleAllClick} className="nav-link">
+                <button onClick={handleAllClick} className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="inbox"></i> */}
@@ -94,14 +94,17 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">All Contacts</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${
                   activeBar === "important" ? "active" : ""
                 }`}
               >
-                <a className="nav-link" onClick={onImportantClick}>
+                <button
+                  className="nav-link btn-block"
+                  onClick={onImportantClick}
+                >
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="star"></i> */}
@@ -109,14 +112,14 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Important</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${
                   activeBar === "archived" ? "active" : ""
                 }`}
               >
-                <a className="nav-link" onClick={onArchiveClick}>
+                <button className="nav-link btn-block" onClick={onArchiveClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="archive"></i> */}
@@ -124,7 +127,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Archive</span>
-                </a>
+                </button>
               </li>
               {/* <li
                 className={`nav-item ${
@@ -145,10 +148,10 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                   activeBar === "blocked" ? "active" : ""
                 }`}
               >
-                <a
+                <button
                   id="deleted_contacts"
                   onClick={handleDeleteClick}
-                  className="nav-link"
+                  className="nav-link btn-block"
                 >
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
@@ -157,7 +160,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                     </span>
                   </span>
                   <span className="nav-link-text">Deleted</span>
-                </a>
+                </button>
               </li>
             </ul>
           </div>

@@ -106,16 +106,26 @@ const EmailDetails = ({ emailDetails, emailsData, emails, onEmailDetail }) => {
     dispatch(updateEmailRec(token, email_id, { isRead: true, status: status }));
     return {};
   };
+  function extractCharactersFromArray(str) {
+    const firstCharacter = str?.charAt(0);
+    const spaceIndex = str?.indexOf(" ");
+    const characterAfterSpace =
+      spaceIndex !== -1 ? str.charAt(spaceIndex + 1) : "";
+    return { firstCharacter, characterAfterSpace };
+  }
   return (
     <div class="email-body">
       <div data-simplebar class="nicescroll-bar">
-        <div class="single-email-subject">
-          <div>
-            <h4 class="fw-light">{emailDetails.subject}</h4>
-            <span class="badge badge-orange badge-sm badge-pill flex-shrink-0 ms-3">
-              updates
-            </span>
-          </div>
+        <h4
+          class="fw-bold bg-primary w-100 rounded px-5 py-2 shadow position-sticky"
+          style={{ color: "white" }}
+        >
+          {emailDetails.subject}
+        </h4>
+        {/* <div class="single-email-subject">
+          <span class="badge badge-orange badge-sm badge-pill flex-shrink-0 ms-3">
+            updates
+          </span>
           <div class="email-options-wrap">
             <a
               class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
@@ -160,7 +170,7 @@ const EmailDetails = ({ emailDetails, emailsData, emails, onEmailDetail }) => {
               </span>
             </a>
           </div>
-        </div>
+        </div> */}
         <div
           id="accordionSimpleExample"
           class="accordion accordion-simple single-email-thread"
@@ -178,13 +188,26 @@ const EmailDetails = ({ emailDetails, emailsData, emails, onEmailDetail }) => {
                     ></div>
                     <div class="media">
                       <div class="media-head">
-                        <div class="avatar d-8">
+                        {/* <div class="avatar d-8">
                           <img
                             // src="dist/img/avatar2.jpg"
-                            src={emailDetails?.selectedEmail?.sender?.avatar}
+                            src={
+                              emailDetails?.selectedEmail?.sender?.avatar ||
+                              "https://png.pngtree.com/png-clipart/20210129/ourmid/pngtree-blue-default-avatar-png-image_2813123.jpg"
+                            }
                             alt="user"
                             class="avatar-img rounded-circle"
                           />
+                        </div> */}
+                        <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
+                          <span class="initial-wrap">
+                            {extractCharactersFromArray(
+                              emailDetails?.selectedEmail?.sender?.name
+                            ).firstCharacter +
+                              extractCharactersFromArray(
+                                emailDetails?.selectedEmail?.sender?.name
+                              ).characterAfterSpace}
+                          </span>
                         </div>
                       </div>
                       <div class="media-body">

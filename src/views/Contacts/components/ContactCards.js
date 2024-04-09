@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CiMenuKebab } from "react-icons/ci";
-import { FaRegStar, FaStar, FaUserCheck } from "react-icons/fa";
+import {
+  FaEdit,
+  FaRegStar,
+  FaStar,
+  FaTrash,
+  FaUserCheck,
+} from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
 import { getContactDetais } from "../../../redux/services/contact";
+import moment from "moment";
+import { SocketContext } from "../../../Context";
+
 const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
+  const { handleToggleShowLeadDetail } = useContext(SocketContext);
   const handleToggle = (contact_id) => {
-    onToggleEdit(true);
-    dispatch(getContactDetais(token, contact_id));
+    // onToggleEdit(true);
+    // dispatch(getContactDetais(token, contact_id));
+    handleToggleShowLeadDetail(true, contact_id, token);
   };
   return (
     <div className="contact-card-view">
@@ -127,12 +138,29 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
           </div>
         </div>
       </div>
-      <div className="row gx-3 row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 mb-5">
+      <div className="row">
         {contactsData?.length > 0 &&
           contactsData?.map((contact, index) => (
-            <div className="col" key={index}>
+            <div key={index} className="col-md-4 col-sm-6">
               <div className="card card-border contact-card">
-                <div className="card-body text-center">
+                <div
+                  className="card-header bg-primary"
+                  style={{ color: "white" }}
+                >
+                  {contact?.firstname +
+                    " " +
+                    contact?.middlename +
+                    " " +
+                    contact?.lastname}
+                  <span
+                    className={`badge badge-sm rounded fw-bold ${
+                      contact?.status === "active"
+                        ? "badge-success"
+                        : "badge-danger"
+                    }`}
+                  >
+                    {contact?.status}
+                  </span>
                   <div className="card-action-wrap">
                     <a
                       className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
@@ -143,7 +171,7 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
                       <span className="btn-icon-wrap">
                         <span className="feather-icon">
                           {/* <i data-feather="more-vertical"></i> */}
-                          <CiMenuKebab />
+                          <CiMenuKebab color="white" />
                         </span>
                       </span>
                     </a>
@@ -155,31 +183,34 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
                         className="dropdown-item"
                         href="javascript:void(0)"
                         role="menuitem"
+                        onClick={() => handleToggle(contact.id)}
                       >
-                        <i className="icon wb-reply" aria-hidden="true"></i>
-                        Reply
+                        <span className="me-2">
+                          <FaEdit />
+                        </span>
+                        View Detial
                       </a>
                       <a
                         className="dropdown-item"
                         href="javascript:void(0)"
                         role="menuitem"
+                        // onClick={() => handleDeleteContact(contact.id)}
                       >
-                        <i className="icon wb-share" aria-hidden="true"></i>
-                        Forward
-                      </a>
-                      <a
-                        className="dropdown-item"
-                        href="javascript:void(0)"
-                        role="menuitem"
-                      >
-                        <i className="icon wb-trash" aria-hidden="true"></i>
-                        Delete
+                        <span className="me-2">
+                          <FaTrash />
+                        </span>
+                        Block User
                       </a>
                     </div>
                   </div>
+                </div>
+                <div className="card-body text-center">
                   <div className="avatar avatar-xl avatar-rounded">
                     <img
-                      src={contact?.avatar}
+                      src={
+                        contact?.avatar ||
+                        "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
+                      }
                       alt="user"
                       className="avatar-img"
                     />
@@ -191,1201 +222,51 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
                         <FaRegStar />
                       </span>
                     </span>
-                    {contact?.firstname} {contact?.lastname}
                   </div>
-                  <div className="user-email">{contact?.email}</div>
-                  <div className="user-contact">{contact?.phone}</div>
-                  <div className="user-desg">
-                    <span className="badge badge-primary badge-indicator badge-indicator-lg me-2"></span>{" "}
-                    Design
+                  <div className="d-flex justify-content-between py-1">
+                    <div className="fw-bold fs-6">Name</div>
+                    <div>
+                      {contact?.firstname +
+                        " " +
+                        contact?.middlename +
+                        " " +
+                        contact?.lastname}
+                    </div>
                   </div>
-                </div>
-                <div className="card-footer text-muted position-relative">
-                  <a href="#" className="d-flex align-items-center">
-                    <span className="feather-icon me-2">
-                      {/* <i data-feather="inbox"></i> */}
-                      <FaMessage />
-                    </span>
-                    <span className="fs-7 lh-1">Message</span>
-                  </a>
-                  <div className="v-separator-full m-0"></div>
-                  <a
-                    className="d-flex align-items-center"
-                    // data-bs-toggle="modal"
-                    // data-bs-target="#contact_detail"
-                    onClick={() => handleToggle(contact.id)}
-                  >
-                    <span className="feather-icon me-2">
-                      {/* <i data-feather="user-check"></i> */}
-                      <FaUserCheck />
-                    </span>
-                    <span className="fs-7 lh-1">Profile</span>
-                  </a>
+                  <div className="d-flex justify-content-between py-1">
+                    <div className="fw-bold fs-6">Email</div>
+                    <div>{contact?.email}</div>
+                  </div>
+                  <div className="d-flex justify-content-between py-1">
+                    <div className="fw-bold fs-6">Phone</div>
+                    <div>{contact?.phone}</div>
+                  </div>
+                  <div className="d-flex justify-content-between py-1">
+                    <div className="fw-bold fs-6">Company Name</div>
+                    <div>Desktop</div>
+                  </div>
+                  <div className="d-flex justify-content-between py-1">
+                    <div className="fw-bold fs-6">Date Joined</div>
+                    <div>
+                      {moment(contact?.created_at).format("DD, MMM YYYY")}
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-between py-1">
+                    <div className="fw-bold fs-6">Tags</div>
+                    <div className="w-75 gap-1 d-flex flex-wrap justify-content-end">
+                      {contact?.tags?.length > 0 &&
+                        contact?.tags?.map((tag, index) => (
+                          <span className="badge badge-primary ">
+                            {" "}
+                            {tag.name}
+                          </span>
+                        ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           ))}
-
-        {/* <div className="col">
-          <div className="card card-border contact-card">
-            <div className="card-body text-center">
-              <div className="card-action-wrap">
-                <a
-                  className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                  href="#"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                >
-                  <span className="btn-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="more-vertical"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="dropdown-menu  dropdown-menu-end" role="menu">
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-reply" aria-hidden="true"></i>Reply
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-share" aria-hidden="true"></i>Forward
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-trash" aria-hidden="true"></i>Delete
-                  </a>
-                </div>
-              </div>
-              <div className="avatar avatar-xl avatar-rounded">
-                <img
-                  src="dist/img/avatar9.jpg"
-                  alt="user"
-                  className="avatar-img"
-                />
-              </div>
-              <div className="user-name">
-                <span className="contact-star">
-                  <span className="feather-icon">
-                    <i data-feather="star"></i>
-                  </span>
-                </span>
-                Huma Therman
-              </div>
-              <div className="user-email">huma@clariesup.au</div>
-              <div className="user-contact">+234 48 2365</div>
-              <div className="user-desg">
-                <span className="badge badge-primary badge-indicator badge-indicator-lg me-2"></span>{" "}
-                Developer
-              </div>
-            </div>
-            <div className="card-footer text-muted position-relative">
-              <a href="#" className="d-flex align-items-center">
-                <span className="feather-icon me-2">
-                  <i data-feather="inbox"></i>
-                </span>
-                <span className="fs-7 lh-1">Message</span>
-              </a>
-              <div className="v-separator-full m-0"></div>
-              <a
-                href="#"
-                className="d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#contact_detail"
-              >
-                <span className="feather-icon me-2">
-                  <i data-feather="user-check"></i>
-                </span>
-                <span className="fs-7 lh-1">Profile</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card card-border contact-card">
-            <div className="card-body text-center">
-              <div className="card-action-wrap">
-                <a
-                  className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                  href="#"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                >
-                  <span className="btn-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="more-vertical"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="dropdown-menu  dropdown-menu-end" role="menu">
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-reply" aria-hidden="true"></i>Reply
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-share" aria-hidden="true"></i>Forward
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-trash" aria-hidden="true"></i>Delete
-                  </a>
-                </div>
-              </div>
-              <div className="avatar avatar-xl avatar-soft-primary avatar-rounded">
-                <span className="initial-wrap">C</span>
-              </div>
-              <div className="user-name">
-                <span className="contact-star marked">
-                  <span className="feather-icon">
-                    <i data-feather="star"></i>
-                  </span>
-                </span>
-                Charlie Chaplin
-              </div>
-              <div className="user-email">charlie@leernoca.monster</div>
-              <div className="user-contact">+741 56 1916</div>
-              <div className="user-desg">
-                <span className="badge badge-danger badge-indicator badge-indicator-lg me-2"></span>{" "}
-                Inventory
-              </div>
-            </div>
-            <div className="card-footer text-muted position-relative">
-              <a href="#" className="d-flex align-items-center">
-                <span className="feather-icon me-2">
-                  <i data-feather="inbox"></i>
-                </span>
-                <span className="fs-7 lh-1">Message</span>
-              </a>
-              <div className="v-separator-full m-0"></div>
-              <a
-                href="#"
-                className="d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#contact_detail"
-              >
-                <span className="feather-icon me-2">
-                  <i data-feather="user-check"></i>
-                </span>
-                <span className="fs-7 lh-1">Profile</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card card-border contact-card">
-            <div className="card-body text-center">
-              <div className="card-action-wrap">
-                <a
-                  className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                  href="#"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                >
-                  <span className="btn-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="more-vertical"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="dropdown-menu  dropdown-menu-end" role="menu">
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-reply" aria-hidden="true"></i>Reply
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-share" aria-hidden="true"></i>Forward
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-trash" aria-hidden="true"></i>Delete
-                  </a>
-                </div>
-              </div>
-              <div className="avatar avatar-xl avatar-rounded">
-                <img
-                  src="dist/img/avatar10.jpg"
-                  alt="user"
-                  className="avatar-img"
-                />
-              </div>
-              <div className="user-name">
-                <span className="contact-star">
-                  <span className="feather-icon">
-                    <i data-feather="star"></i>
-                  </span>
-                </span>
-                Winston Churchil
-              </div>
-              <div className="user-email">winston@worthniza.ga</div>
-              <div className="user-contact">+145 52 5463</div>
-              <div className="user-desg">
-                <span className="badge badge-danger badge-indicator badge-indicator-lg me-2"></span>{" "}
-                Human Resource
-              </div>
-            </div>
-            <div className="card-footer text-muted position-relative">
-              <a href="#" className="d-flex align-items-center">
-                <span className="feather-icon me-2">
-                  <i data-feather="inbox"></i>
-                </span>
-                <span className="fs-7 lh-1">Message</span>
-              </a>
-              <div className="v-separator-full m-0"></div>
-              <a
-                href="#"
-                className="d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#contact_detail"
-              >
-                <span className="feather-icon me-2">
-                  <i data-feather="user-check"></i>
-                </span>
-                <span className="fs-7 lh-1">Profile</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card card-border contact-card">
-            <div className="card-body text-center">
-              <div className="card-action-wrap">
-                <a
-                  className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                  href="#"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                >
-                  <span className="btn-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="more-vertical"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="dropdown-menu  dropdown-menu-end" role="menu">
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-reply" aria-hidden="true"></i>Reply
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-share" aria-hidden="true"></i>Forward
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-trash" aria-hidden="true"></i>Delete
-                  </a>
-                </div>
-              </div>
-              <div className="avatar avatar-xl avatar-rounded">
-                <img
-                  src="dist/img/avatar3.jpg"
-                  alt="user"
-                  className="avatar-img"
-                />
-              </div>
-              <div className="user-name">
-                <span className="contact-star marked">
-                  <span className="feather-icon">
-                    <i data-feather="star"></i>
-                  </span>
-                </span>
-                Jaquiline Joker
-              </div>
-              <div className="user-email">contact@hencework.com</div>
-              <div className="user-contact">+91-34-2636-1916</div>
-              <div className="user-desg">
-                <span className="badge badge-primary badge-indicator badge-indicator-lg me-2"></span>{" "}
-                Design
-              </div>
-            </div>
-            <div className="card-footer text-muted position-relative">
-              <a href="#" className="d-flex align-items-center">
-                <span className="feather-icon me-2">
-                  <i data-feather="inbox"></i>
-                </span>
-                <span className="fs-7 lh-1">Message</span>
-              </a>
-              <div className="v-separator-full m-0"></div>
-              <a
-                href="#"
-                className="d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#contact_detail"
-              >
-                <span className="feather-icon me-2">
-                  <i data-feather="user-check"></i>
-                </span>
-                <span className="fs-7 lh-1">Profile</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card card-border contact-card">
-            <div className="card-body text-center">
-              <div className="card-action-wrap">
-                <a
-                  className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                  href="#"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                >
-                  <span className="btn-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="more-vertical"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="dropdown-menu  dropdown-menu-end" role="menu">
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-reply" aria-hidden="true"></i>Reply
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-share" aria-hidden="true"></i>Forward
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-trash" aria-hidden="true"></i>Delete
-                  </a>
-                </div>
-              </div>
-              <div className="avatar avatar-xl avatar-rounded">
-                <img
-                  src="dist/img/avatar7.jpg"
-                  alt="user"
-                  className="avatar-img"
-                />
-              </div>
-              <div className="user-name">
-                <span className="contact-star">
-                  <span className="feather-icon">
-                    <i data-feather="star"></i>
-                  </span>
-                </span>
-                Tom Cruz
-              </div>
-              <div className="user-email">tomcz@jampack.com</div>
-              <div className="user-contact">+456 52 4862</div>
-              <div className="user-desg">
-                <span className="badge badge-primary badge-indicator badge-indicator-lg me-2"></span>{" "}
-                Developer
-              </div>
-            </div>
-            <div className="card-footer text-muted position-relative">
-              <a href="#" className="d-flex align-items-center">
-                <span className="feather-icon me-2">
-                  <i data-feather="inbox"></i>
-                </span>
-                <span className="fs-7 lh-1">Message</span>
-              </a>
-              <div className="v-separator-full m-0"></div>
-              <a
-                href="#"
-                className="d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#contact_detail"
-              >
-                <span className="feather-icon me-2">
-                  <i data-feather="user-check"></i>
-                </span>
-                <span className="fs-7 lh-1">Profile</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card card-border contact-card">
-            <div className="card-body text-center">
-              <div className="card-action-wrap">
-                <a
-                  className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                  href="#"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                >
-                  <span className="btn-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="more-vertical"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="dropdown-menu  dropdown-menu-end" role="menu">
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-reply" aria-hidden="true"></i>Reply
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-share" aria-hidden="true"></i>Forward
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-trash" aria-hidden="true"></i>Delete
-                  </a>
-                </div>
-              </div>
-              <div className="avatar avatar-xl avatar-soft-danger avatar-rounded">
-                <span className="initial-wrap">D</span>
-              </div>
-              <div className="user-name">
-                <span className="contact-star marked">
-                  <span className="feather-icon">
-                    <i data-feather="star"></i>
-                  </span>
-                </span>
-                Daniel Craig
-              </div>
-              <div className="user-email">danialc@jampack.com</div>
-              <div className="user-contact">+145 52 1916</div>
-              <div className="user-desg">
-                <span className="badge badge-success badge-indicator badge-indicator-lg me-2"></span>{" "}
-                Design
-              </div>
-            </div>
-            <div className="card-footer text-muted position-relative">
-              <a href="#" className="d-flex align-items-center">
-                <span className="feather-icon me-2">
-                  <i data-feather="inbox"></i>
-                </span>
-                <span className="fs-7 lh-1">Message</span>
-              </a>
-              <div className="v-separator-full m-0"></div>
-              <a
-                href="#"
-                className="d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#contact_detail"
-              >
-                <span className="feather-icon me-2">
-                  <i data-feather="user-check"></i>
-                </span>
-                <span className="fs-7 lh-1">Profile</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card card-border contact-card">
-            <div className="card-body text-center">
-              <div className="card-action-wrap">
-                <a
-                  className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                  href="#"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                >
-                  <span className="btn-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="more-vertical"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="dropdown-menu  dropdown-menu-end" role="menu">
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-reply" aria-hidden="true"></i>Reply
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-share" aria-hidden="true"></i>Forward
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-trash" aria-hidden="true"></i>Delete
-                  </a>
-                </div>
-              </div>
-              <div className="avatar avatar-xl avatar-rounded">
-                <img
-                  src="dist/img/avatar8.jpg"
-                  alt="user"
-                  className="avatar-img"
-                />
-              </div>
-              <div className="user-name">
-                <span className="contact-star marked">
-                  <span className="feather-icon">
-                    <i data-feather="star"></i>
-                  </span>
-                </span>
-                Katharine Jones
-              </div>
-              <div className="user-email">joneskath@jampack.com</div>
-              <div className="user-contact">+741 56 1916</div>
-              <div className="user-desg">
-                <span className="badge badge-danger badge-indicator badge-indicator-lg me-2"></span>{" "}
-                Inventory
-              </div>
-            </div>
-            <div className="card-footer text-muted position-relative">
-              <a href="#" className="d-flex align-items-center">
-                <span className="feather-icon me-2">
-                  <i data-feather="inbox"></i>
-                </span>
-                <span className="fs-7 lh-1">Message</span>
-              </a>
-              <div className="v-separator-full m-0"></div>
-              <a
-                href="#"
-                className="d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#contact_detail"
-              >
-                <span className="feather-icon me-2">
-                  <i data-feather="user-check"></i>
-                </span>
-                <span className="fs-7 lh-1">Profile</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card card-border contact-card">
-            <div className="card-body text-center">
-              <div className="card-action-wrap">
-                <a
-                  className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                  href="#"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                >
-                  <span className="btn-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="more-vertical"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="dropdown-menu  dropdown-menu-end" role="menu">
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-reply" aria-hidden="true"></i>Reply
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-share" aria-hidden="true"></i>Forward
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-trash" aria-hidden="true"></i>Delete
-                  </a>
-                </div>
-              </div>
-              <div className="avatar avatar-xl avatar-primary avatar-rounded">
-                <span className="initial-wrap">H</span>
-              </div>
-              <div className="user-name">
-                <span className="contact-star">
-                  <span className="feather-icon">
-                    <i data-feather="star"></i>
-                  </span>
-                </span>
-                Hencework
-              </div>
-              <div className="user-email">contact@hencework.com</div>
-              <div className="user-contact">+145 52 5478</div>
-              <div className="user-desg">
-                <span className="badge badge-primary badge-indicator badge-indicator-lg me-2"></span>{" "}
-                Design
-              </div>
-            </div>
-            <div className="card-footer text-muted position-relative">
-              <a href="#" className="d-flex align-items-center">
-                <span className="feather-icon me-2">
-                  <i data-feather="inbox"></i>
-                </span>
-                <span className="fs-7 lh-1">Message</span>
-              </a>
-              <div className="v-separator-full m-0"></div>
-              <a
-                href="#"
-                className="d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#contact_detail"
-              >
-                <span className="feather-icon me-2">
-                  <i data-feather="user-check"></i>
-                </span>
-                <span className="fs-7 lh-1">Profile</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card card-border contact-card">
-            <div className="card-body text-center">
-              <div className="card-action-wrap">
-                <a
-                  className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                  href="#"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                >
-                  <span className="btn-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="more-vertical"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="dropdown-menu  dropdown-menu-end" role="menu">
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-reply" aria-hidden="true"></i>Reply
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-share" aria-hidden="true"></i>Forward
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-trash" aria-hidden="true"></i>Delete
-                  </a>
-                </div>
-              </div>
-              <div className="avatar avatar-xl avatar-rounded">
-                <img
-                  src="dist/img/avatar13.jpg"
-                  alt="user"
-                  className="avatar-img"
-                />
-              </div>
-              <div className="user-name">
-                <span className="contact-star">
-                  <span className="feather-icon">
-                    <i data-feather="star"></i>
-                  </span>
-                </span>
-                Daniel Raynolds
-              </div>
-              <div className="user-email">danialraynolds@hencework.com</div>
-              <div className="user-contact">+145 36 1916</div>
-              <div className="user-desg">
-                <span className="badge badge-primary badge-indicator badge-indicator-lg me-2"></span>{" "}
-                Design
-              </div>
-            </div>
-            <div className="card-footer text-muted position-relative">
-              <a href="#" className="d-flex align-items-center">
-                <span className="feather-icon me-2">
-                  <i data-feather="inbox"></i>
-                </span>
-                <span className="fs-7 lh-1">Message</span>
-              </a>
-              <div className="v-separator-full m-0"></div>
-              <a
-                href="#"
-                className="d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#contact_detail"
-              >
-                <span className="feather-icon me-2">
-                  <i data-feather="user-check"></i>
-                </span>
-                <span className="fs-7 lh-1">Profile</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card card-border contact-card">
-            <div className="card-body text-center">
-              <div className="card-action-wrap">
-                <a
-                  className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                  href="#"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                >
-                  <span className="btn-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="more-vertical"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="dropdown-menu  dropdown-menu-end" role="menu">
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-reply" aria-hidden="true"></i>Reply
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-share" aria-hidden="true"></i>Forward
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-trash" aria-hidden="true"></i>Delete
-                  </a>
-                </div>
-              </div>
-              <div className="avatar avatar-xl avatar-light avatar-rounded">
-                <span className="initial-wrap">J</span>
-              </div>
-              <div className="user-name">
-                <span className="contact-star">
-                  <span className="feather-icon">
-                    <i data-feather="star"></i>
-                  </span>
-                </span>
-                John Brother
-              </div>
-              <div className="user-email">john@cryodrakan.info</div>
-              <div className="user-contact">+456 52 1916</div>
-              <div className="user-desg">
-                <span className="badge badge-danger badge-indicator badge-indicator-lg me-2"></span>{" "}
-                Human Resource
-              </div>
-            </div>
-            <div className="card-footer text-muted position-relative">
-              <a href="#" className="d-flex align-items-center">
-                <span className="feather-icon me-2">
-                  <i data-feather="inbox"></i>
-                </span>
-                <span className="fs-7 lh-1">Message</span>
-              </a>
-              <div className="v-separator-full m-0"></div>
-              <a
-                href="#"
-                className="d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#contact_detail"
-              >
-                <span className="feather-icon me-2">
-                  <i data-feather="user-check"></i>
-                </span>
-                <span className="fs-7 lh-1">Profile</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card card-border contact-card">
-            <div className="card-body text-center">
-              <div className="card-action-wrap">
-                <a
-                  className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                  href="#"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                >
-                  <span className="btn-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="more-vertical"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="dropdown-menu  dropdown-menu-end" role="menu">
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-reply" aria-hidden="true"></i>Reply
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-share" aria-hidden="true"></i>Forward
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-trash" aria-hidden="true"></i>Delete
-                  </a>
-                </div>
-              </div>
-              <div className="avatar avatar-xl avatar-rounded">
-                <img
-                  src="dist/img/avatar15.jpg"
-                  alt="user"
-                  className="avatar-img"
-                />
-              </div>
-              <div className="user-name">
-                <span className="contact-star marked">
-                  <span className="feather-icon">
-                    <i data-feather="star"></i>
-                  </span>
-                </span>
-                Dean Shaw
-              </div>
-              <div className="user-email">dean-shaw@pown.me</div>
-              <div className="user-contact">+234 48 1916</div>
-              <div className="user-desg">
-                <span className="badge badge-primary badge-indicator badge-indicator-lg me-2"></span>{" "}
-                Design
-              </div>
-            </div>
-            <div className="card-footer text-muted position-relative">
-              <a href="#" className="d-flex align-items-center">
-                <span className="feather-icon me-2">
-                  <i data-feather="inbox"></i>
-                </span>
-                <span className="fs-7 lh-1">Message</span>
-              </a>
-              <div className="v-separator-full m-0"></div>
-              <a
-                href="#"
-                className="d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#contact_detail"
-              >
-                <span className="feather-icon me-2">
-                  <i data-feather="user-check"></i>
-                </span>
-                <span className="fs-7 lh-1">Profile</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card card-border contact-card">
-            <div className="card-body text-center">
-              <div className="card-action-wrap">
-                <a
-                  className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                  href="#"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                >
-                  <span className="btn-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="more-vertical"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="dropdown-menu  dropdown-menu-end" role="menu">
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-reply" aria-hidden="true"></i>Reply
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-share" aria-hidden="true"></i>Forward
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-trash" aria-hidden="true"></i>Delete
-                  </a>
-                </div>
-              </div>
-              <div className="avatar avatar-xl avatar-rounded">
-                <img
-                  src="dist/img/avatar11.jpg"
-                  alt="user"
-                  className="avatar-img"
-                />
-              </div>
-              <div className="user-name">
-                <span className="contact-star marked">
-                  <span className="feather-icon">
-                    <i data-feather="star"></i>
-                  </span>
-                </span>
-                Cavin Spancy
-              </div>
-              <div className="user-email">cavins11@budgequot.press</div>
-              <div className="user-contact">+234 48 1916</div>
-              <div className="user-desg">
-                <span className="badge badge-primary badge-indicator badge-indicator-lg me-2"></span>{" "}
-                Design
-              </div>
-            </div>
-            <div className="card-footer text-muted position-relative">
-              <a href="#" className="d-flex align-items-center">
-                <span className="feather-icon me-2">
-                  <i data-feather="inbox"></i>
-                </span>
-                <span className="fs-7 lh-1">Message</span>
-              </a>
-              <div className="v-separator-full m-0"></div>
-              <a
-                href="#"
-                className="d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#contact_detail"
-              >
-                <span className="feather-icon me-2">
-                  <i data-feather="user-check"></i>
-                </span>
-                <span className="fs-7 lh-1">Profile</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card card-border contact-card">
-            <div className="card-body text-center">
-              <div className="card-action-wrap">
-                <a
-                  className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                  href="#"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                >
-                  <span className="btn-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="more-vertical"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="dropdown-menu  dropdown-menu-end" role="menu">
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-reply" aria-hidden="true"></i>Reply
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-share" aria-hidden="true"></i>Forward
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-trash" aria-hidden="true"></i>Delete
-                  </a>
-                </div>
-              </div>
-              <div className="avatar avatar-xl avatar-rounded">
-                <img
-                  src="dist/img/avatar14.jpg"
-                  alt="user"
-                  className="avatar-img"
-                />
-              </div>
-              <div className="user-name">
-                <span className="contact-star">
-                  <span className="feather-icon">
-                    <i data-feather="star"></i>
-                  </span>
-                </span>
-                Justin Bieber
-              </div>
-              <div className="user-email">justin@tulberga.ga</div>
-              <div className="user-contact">+745 56 1916</div>
-              <div className="user-desg">
-                <span className="badge badge-danger badge-indicator badge-indicator-lg me-2"></span>{" "}
-                Inventory
-              </div>
-            </div>
-            <div className="card-footer text-muted position-relative">
-              <a href="#" className="d-flex align-items-center">
-                <span className="feather-icon me-2">
-                  <i data-feather="inbox"></i>
-                </span>
-                <span className="fs-7 lh-1">Message</span>
-              </a>
-              <div className="v-separator-full m-0"></div>
-              <a
-                href="#"
-                className="d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#contact_detail"
-              >
-                <span className="feather-icon me-2">
-                  <i data-feather="user-check"></i>
-                </span>
-                <span className="fs-7 lh-1">Profile</span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card card-border contact-card">
-            <div className="card-body text-center">
-              <div className="card-action-wrap">
-                <a
-                  className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                  href="#"
-                  aria-expanded="false"
-                  data-bs-toggle="dropdown"
-                >
-                  <span className="btn-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="more-vertical"></i>
-                    </span>
-                  </span>
-                </a>
-                <div className="dropdown-menu  dropdown-menu-end" role="menu">
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-reply" aria-hidden="true"></i>Reply
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-share" aria-hidden="true"></i>Forward
-                  </a>
-                  <a
-                    className="dropdown-item"
-                    href="javascript:void(0)"
-                    role="menuitem"
-                  >
-                    <i className="icon wb-trash" aria-hidden="true"></i>Delete
-                  </a>
-                </div>
-              </div>
-              <div className="avatar avatar-xl avatar-rounded">
-                <img
-                  src="dist/img/avatar5.jpg"
-                  alt="user"
-                  className="avatar-img"
-                />
-              </div>
-              <div className="user-name">
-                <span className="contact-star">
-                  <span className="feather-icon">
-                    <i data-feather="star"></i>
-                  </span>
-                </span>
-                Auston Kutcher
-              </div>
-              <div className="user-email">auston@cutcher.com</div>
-              <div className="user-contact">+145 52 1916</div>
-              <div className="user-desg">
-                <span className="badge badge-warning badge-indicator badge-indicator-lg me-2"></span>{" "}
-                Human Resource
-              </div>
-            </div>
-            <div className="card-footer text-muted position-relative">
-              <a href="#" className="d-flex align-items-center">
-                <span className="feather-icon me-2">
-                  <i data-feather="inbox"></i>
-                </span>
-                <span className="fs-7 lh-1">Message</span>
-              </a>
-              <div className="v-separator-full m-0"></div>
-              <a
-                href="#"
-                className="d-flex align-items-center"
-                data-bs-toggle="modal"
-                data-bs-target="#contact_detail"
-              >
-                <span className="feather-icon me-2">
-                  <i data-feather="user-check"></i>
-                </span>
-                <span className="fs-7 lh-1">Profile</span>
-              </a>
-            </div>
-          </div>
-        </div> */}
       </div>
 
       <div className="row">

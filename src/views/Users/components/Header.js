@@ -135,7 +135,7 @@ const Header = ({ onDataFromChild, activeBar }) => {
           </span>
         </a>
         <div className="v-separator d-lg-block d-none"></div>
-        <a
+        {/* <a
           className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret  d-lg-inline-block d-none  ms-sm-0"
           // href="/"
           data-bs-toggle="dropdown"
@@ -148,7 +148,6 @@ const Header = ({ onDataFromChild, activeBar }) => {
             data-bs-original-title="Manage Contact"
           >
             <span className="feather-icon">
-              {/* <i data-feather="settings"></i> */}
               <FaCog />
             </span>
           </span>
@@ -184,7 +183,6 @@ const Header = ({ onDataFromChild, activeBar }) => {
             data-bs-original-title="More"
           >
             <span className="feather-icon">
-              {/* <i data-feather="more-vertical"></i> */}
               <CiMenuKebab />
             </span>
           </span>
@@ -192,14 +190,12 @@ const Header = ({ onDataFromChild, activeBar }) => {
         <div className="dropdown-menu dropdown-menu-end">
           <a className="dropdown-item" href="profile.html">
             <span className="feather-icon dropdown-icon">
-              {/* <i data-feather="star"></i> */}
               <FaStar />
             </span>
             <span>Stared Contacts</span>
           </a>
           <a className="dropdown-item" href="/">
             <span className="feather-icon dropdown-icon">
-              {/* <i data-feather="archive"></i> */}
               <FaArchive />
             </span>
             <span>Archive Contacts</span>
@@ -207,14 +203,12 @@ const Header = ({ onDataFromChild, activeBar }) => {
           <div className="dropdown-divider"></div>
           <a className="dropdown-item" href="email.html">
             <span className="feather-icon dropdown-icon">
-              {/* <i data-feather="slash"></i> */}
               <FaUserSlash />
             </span>
             <span>Block Content</span>
           </a>
           <a className="dropdown-item" href="email.html">
             <span className="feather-icon dropdown-icon">
-              {/* <i data-feather="external-link"></i> */}
               <FaExternalLinkAlt />
             </span>
             <span>Feedback</span>
@@ -230,15 +224,13 @@ const Header = ({ onDataFromChild, activeBar }) => {
         >
           <span className="icon">
             <span className="feather-icon">
-              {/* <i data-feather="chevron-up"></i> */}
               <FaChevronUp />
             </span>
             <span className="feather-icon d-none">
-              {/* <i data-feather="chevron-down"></i> */}
               <FaChevronDown />
             </span>
           </span>
-        </a>
+        </a> */}
       </div>
       <div className="hk-sidebar-togglable"></div>
     </header>

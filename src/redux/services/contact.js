@@ -37,6 +37,32 @@ export const addContact = (token, data) => async (dispatch) => {
     dispatch(invalidRequest(e.message));
   }
 };
+export const getContactsListByBoard = (token, board_id) => async (dispatch) => {
+  try {
+    dispatch(contactRequestLoading());
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    };
+    await axios
+      .get(
+        `${backendURL}/user/contact/get-contacts-by-board/${board_id}`,
+        config
+      )
+      .then((response) => {
+        console.log("🚀 ~ .then ~ response:", response);
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          return dispatch(invalidRequest(response.data.message));
+        }
+        dispatch(getContacts(response.data.data.contactsData));
+      });
+  } catch (e) {
+    dispatch(invalidRequest(e.message));
+  }
+};
 export const getContactsList = (token) => async (dispatch) => {
   try {
     dispatch(contactRequestLoading());
