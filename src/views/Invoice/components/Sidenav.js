@@ -87,7 +87,7 @@ const Sidenav = ({
           <div className="menu-group">
             <ul className="nav nav-light navbar-nav flex-column">
               <li className={`nav-item ${activeBar === "all" ? "active" : ""}`}>
-                <a className="nav-link" onClick={handleAllClick}>
+                <button className="nav-link btn-block" onClick={handleAllClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="users"></i> */}
@@ -95,12 +95,12 @@ const Sidenav = ({
                     </span>
                   </span>
                   <span className="nav-link-text">All Invoices</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${activeBar === "sent" ? "active" : ""}`}
               >
-                <a className="nav-link" onClick={onSentClick}>
+                <button className="nav-link btn-block" onClick={onSentClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="star"></i> */}
@@ -108,14 +108,14 @@ const Sidenav = ({
                     </span>
                   </span>
                   <span className="nav-link-text">Sent</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${
                   activeBar === "archived" ? "active" : ""
                 }`}
               >
-                <a className="nav-link" onClick={onArchiveClick}>
+                <button className="nav-link btn-block" onClick={onArchiveClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="archive"></i> */}
@@ -123,12 +123,12 @@ const Sidenav = ({
                     </span>
                   </span>
                   <span className="nav-link-text">Archived</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${activeBar === "draft" ? "active" : ""}`}
               >
-                <a className="nav-link" onClick={onPendingClick}>
+                <button className="nav-link btn-block" onClick={onPendingClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="edit"></i> */}
@@ -136,14 +136,14 @@ const Sidenav = ({
                     </span>
                   </span>
                   <span className="nav-link-text">Pending</span>
-                </a>
+                </button>
               </li>
               <li
                 className={`nav-item ${
                   activeBar === "deleted" ? "active" : ""
                 }`}
               >
-                <a className="nav-link" onClick={onDeleteClick}>
+                <button className="nav-link btn-block" onClick={onDeleteClick}>
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="trash-2"></i> */}
@@ -151,12 +151,12 @@ const Sidenav = ({
                     </span>
                   </span>
                   <span className="nav-link-text">Deleted</span>
-                </a>
+                </button>
               </li>
             </ul>
           </div>
           <div className="menu-gap"></div>
-          <div className="nav-header">
+          {/* <div className="nav-header">
             <span>Manage</span>
           </div>
           <div className="menu-group">
@@ -240,7 +240,7 @@ const Sidenav = ({
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* <!--Sidebar Fixnav--> */}

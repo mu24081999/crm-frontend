@@ -85,6 +85,7 @@ const BoardContent = () => {
                   <TasksContent
                     tasksData={tasksData}
                     contactsData={contactsData}
+                    boardDetails={boardDetails}
                     token={token}
                   />
                   // <Kanban />

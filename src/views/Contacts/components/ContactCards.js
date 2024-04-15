@@ -20,7 +20,7 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
     handleToggleShowLeadDetail(true, contact_id, token);
   };
   return (
-    <div className="contact-card-view">
+    <div className="contact-card-view overflow-scroll h-100">
       <div className="row">
         <div className="col-7 mb-3">
           <div className="contact-toolbar-left">

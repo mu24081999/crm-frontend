@@ -155,7 +155,10 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
           </div>
         </div>
       </div>
-      <div className="row w-100 overflow-hidden" style={{ maxWidth: "1200px" }}>
+      <div
+        className="row w-100 overflow-scroll h-100"
+        style={{ maxWidth: "1200px" }}
+      >
         {contactsData?.length > 0 &&
           contactsData?.map((contact, index) => (
             <div key={index} className="col-md-4 col-sm-6">

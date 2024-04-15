@@ -8,6 +8,7 @@ import { getPostList } from "../../redux/services/post";
 
 const PostContent = () => {
   const [toggle, setToggle] = useState("List");
+  const [activeBar, setActiveBar] = useState("All");
   const [postData, setPostData] = useState([]);
   const [deletedPostsData, setDeletedPostsData] = useState([]);
   const [draftPostData, setDraftPostData] = useState([]);
@@ -40,6 +41,9 @@ const PostContent = () => {
   const handlePostDataFromChild = (data) => {
     setFilteredPostData(data);
   };
+  const handleBarDataFromChild = (data) => {
+    setActiveBar(data);
+  };
 
   return (
     <div className="hk-pg-wrapper pb-0">
@@ -48,6 +52,8 @@ const PostContent = () => {
           <Sidebar
             onDataFromChild={handleDataFromChild}
             dispatch={dispatch}
+            onBarDataFromChild={handleBarDataFromChild}
+            activeBar={activeBar}
             deletedPostsData={deletedPostsData}
             onDeletedDataFromChild={handlePostDataFromChild}
             archivedPostData={archivedPostData}

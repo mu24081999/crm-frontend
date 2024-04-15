@@ -10,6 +10,8 @@ const Sidebar = ({
   postData,
   archivedPostData,
   draftPostData,
+  onBarDataFromChild,
+  activeBar,
 }) => {
   return (
     <nav className="blogapp-sidebar">
@@ -26,11 +28,12 @@ const Sidebar = ({
           </button>
           <div className="menu-group">
             <ul className="nav nav-light navbar-nav flex-column">
-              <li className="nav-item active">
-                <a
-                  className="nav-link"
+              <li className={`nav-item ${activeBar === "All" ? "active" : ""}`}>
+                <button
+                  className="nav-link btn-block "
                   onClick={() => {
                     onDataFromChild("List");
+                    onBarDataFromChild("All");
                     onDeletedDataFromChild(postData);
                   }}
                 >
@@ -41,14 +44,18 @@ const Sidebar = ({
                     </span>
                   </span>
                   <span className="nav-link-text">Posts</span>
-                </a>
+                </button>
               </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
+              <li
+                className={`nav-item ${
+                  activeBar === "Published" ? "active" : ""
+                }`}
+              >
+                <button
+                  className="nav-link btn-block"
                   onClick={() => {
                     onDataFromChild("List");
-
+                    onBarDataFromChild("Published");
                     onDeletedDataFromChild(postData);
                   }}
                 >
@@ -59,13 +66,19 @@ const Sidebar = ({
                     </span>
                   </span>
                   <span className="nav-link-text">Published</span>
-                </a>
+                </button>
               </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
+              <li
+                className={`nav-item ${
+                  activeBar === "Archived" ? "active" : ""
+                }`}
+              >
+                <button
+                  className="nav-link btn-block"
                   onClick={() => {
                     onDeletedDataFromChild(archivedPostData);
+                    onBarDataFromChild("Archived");
+
                     onDataFromChild("List");
                   }}
                 >
@@ -76,13 +89,16 @@ const Sidebar = ({
                     </span>
                   </span>
                   <span className="nav-link-text">Archived</span>
-                </a>
+                </button>
               </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
+              <li
+                className={`nav-item ${activeBar === "Draft" ? "active" : ""}`}
+              >
+                <button
+                  className="nav-link btn-block"
                   onClick={() => {
                     onDeletedDataFromChild(draftPostData);
+                    onBarDataFromChild("Draft");
                     onDataFromChild("List");
                   }}
                 >
@@ -93,13 +109,18 @@ const Sidebar = ({
                     </span>
                   </span>
                   <span className="nav-link-text">Draft</span>
-                </a>
+                </button>
               </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
+              <li
+                className={`nav-item ${
+                  activeBar === "Deleted" ? "active" : ""
+                }`}
+              >
+                <button
+                  className="nav-link btn-block"
                   onClick={() => {
                     onDeletedDataFromChild(deletedPostsData);
+                    onBarDataFromChild("Deleted");
                     onDataFromChild("List");
                   }}
                 >
@@ -110,12 +131,12 @@ const Sidebar = ({
                     </span>
                   </span>
                   <span className="nav-link-text">Deleted</span>
-                </a>
+                </button>
               </li>
             </ul>
           </div>
           <div className="menu-gap"></div>
-          <div className="nav-header">
+          {/* <div className="nav-header">
             <span>Manage</span>
           </div>
           <div className="menu-group">
@@ -152,8 +173,8 @@ const Sidebar = ({
                 </a>
               </li>
             </ul>
-          </div>
-          <div className="separator separator-light"></div>
+          </div> */}
+          {/* <div className="separator separator-light"></div>
           <div className="d-flex align-items-center justify-content-between mb-2">
             <div className="title-sm text-primary mb-0">Categories</div>
             <a
@@ -251,7 +272,7 @@ const Sidebar = ({
                 Advertisement
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* <!--Sidebar Fixnav--> */}

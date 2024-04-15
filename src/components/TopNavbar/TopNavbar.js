@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser, logoutUser } from "../../redux/services/auth";
 import _ from "lodash";
 import Dialer from "../PhoneDialer/Dialer";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaUserAstronaut } from "react-icons/fa";
 import { getUserSubAccountsList } from "../../redux/services/calling";
 import { setAccount } from "../../redux/slices/auth";
 import { getUsers } from "../../redux/services/users";
@@ -13,6 +13,7 @@ const TopNavbar = ({}) => {
   const { token, user } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
   const [selectedAccount, setSelectedAccount] = useState(user);
+  const [parentAccount, setParentAccount] = useState(user);
   const [subAccounts, setSubAccounts] = useState([]);
   console.log("🚀 ~ TopNavbar ~ subAccounts:", subAccounts);
   // const { subAccounts } = useSelector((state) => state.calling);
@@ -61,7 +62,7 @@ const TopNavbar = ({}) => {
               data-bs-auto-close="outside"
             >
               <a
-                href="/"
+                href=""
                 className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover  d-xl-none"
               >
                 <span className="icon">
@@ -124,19 +125,19 @@ const TopNavbar = ({}) => {
               <div data-simplebar className="dropdown-body p-2">
                 <h6 className="dropdown-header">Recent Search</h6>
                 <div className="dropdown-item bg-transparent">
-                  <a href="/" className="badge badge-pill badge-soft-secondary">
+                  <a href="" className="badge badge-pill badge-soft-secondary">
                     Grunt
                   </a>
-                  <a href="/" className="badge badge-pill badge-soft-secondary">
+                  <a href="" className="badge badge-pill badge-soft-secondary">
                     Node JS
                   </a>
-                  <a href="/" className="badge badge-pill badge-soft-secondary">
+                  <a href="" className="badge badge-pill badge-soft-secondary">
                     SCSS
                   </a>
                 </div>
                 <div className="dropdown-divider"></div>
                 <h6 className="dropdown-header">Help</h6>
-                <a href="/" className="dropdown-item">
+                <a href="" className="dropdown-item">
                   <div className="media align-items-center">
                     <div className="media-head me-2">
                       <div className="avatar avatar-icon avatar-xs avatar-soft-light avatar-rounded">
@@ -168,7 +169,7 @@ const TopNavbar = ({}) => {
                     <div className="media-body">How to setup theme?</div>
                   </div>
                 </a>
-                <a href="/" className="dropdown-item">
+                <a href="" className="dropdown-item">
                   <div className="media align-items-center">
                     <div className="media-head me-2">
                       <div className="avatar avatar-icon avatar-xs avatar-soft-light avatar-rounded">
@@ -202,7 +203,7 @@ const TopNavbar = ({}) => {
                 </a>
                 <div className="dropdown-divider"></div>
                 <h6 className="dropdown-header">Users</h6>
-                <a href="/" className="dropdown-item">
+                <a href="" className="dropdown-item">
                   <div className="media align-items-center">
                     <div className="media-head me-2">
                       <div className="avatar avatar-xs avatar-rounded">
@@ -216,7 +217,7 @@ const TopNavbar = ({}) => {
                     <div className="media-body">Sarah Jone</div>
                   </div>
                 </a>
-                <a href="/" className="dropdown-item">
+                <a href="" className="dropdown-item">
                   <div className="media align-items-center">
                     <div className="media-head me-2">
                       <div className="avatar avatar-xs avatar-soft-primary avatar-rounded">
@@ -226,7 +227,7 @@ const TopNavbar = ({}) => {
                     <div className="media-body">Joe Jackson</div>
                   </div>
                 </a>
-                <a href="/" className="dropdown-item">
+                <a href="" className="dropdown-item">
                   <div className="media align-items-center">
                     <div className="media-head me-2">
                       <div className="avatar avatar-xs avatar-rounded">
@@ -242,7 +243,7 @@ const TopNavbar = ({}) => {
                 </a>
               </div>
               <div className="dropdown-footer d-xl-flex d-none">
-                <a href="/">
+                <a href="">
                   <u>Search all</u>
                 </a>
               </div>
@@ -278,7 +279,7 @@ const TopNavbar = ({}) => {
             <li className="nav-item">
               <div className="dropdown dropdown-notifications">
                 <a
-                  href="/"
+                  href=""
                   className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover dropdown-toggle no-caret"
                   data-bs-toggle="dropdown"
                   data-dropdown-animation
@@ -300,7 +301,7 @@ const TopNavbar = ({}) => {
                   <h6 className="dropdown-header px-4 fs-6">
                     Notifications
                     <a
-                      href="/"
+                      href=""
                       className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
                     >
                       <span className="icon">
@@ -311,7 +312,7 @@ const TopNavbar = ({}) => {
                     </a>
                   </h6>
                   <div data-simplebar className="dropdown-body  p-2">
-                    <a href="/" className="dropdown-item">
+                    <a href="" className="dropdown-item">
                       <div className="media">
                         <div className="media-head">
                           <div className="avatar avatar-rounded avatar-sm">
@@ -340,7 +341,7 @@ const TopNavbar = ({}) => {
                         </div>
                       </div>
                     </a>
-                    <a href="/" className="dropdown-item">
+                    <a href="" className="dropdown-item">
                       <div className="media">
                         <div className="media-head">
                           <div className="avatar  avatar-icon avatar-sm avatar-success avatar-rounded">
@@ -365,7 +366,7 @@ const TopNavbar = ({}) => {
                         </div>
                       </div>
                     </a>
-                    <a href="/" className="dropdown-item">
+                    <a href="" className="dropdown-item">
                       <div className="media">
                         <div className="media-head">
                           <div className="avatar  avatar-icon avatar-sm avatar-pink avatar-rounded">
@@ -391,7 +392,7 @@ const TopNavbar = ({}) => {
                         </div>
                       </div>
                     </a>
-                    <a href="/" className="dropdown-item">
+                    <a href="" className="dropdown-item">
                       <div className="media">
                         <div className="media-head">
                           <div className="avatar avatar-sm avatar-rounded">
@@ -417,7 +418,7 @@ const TopNavbar = ({}) => {
                         </div>
                       </div>
                     </a>
-                    <a href="/" className="dropdown-item">
+                    <a href="" className="dropdown-item">
                       <div className="media">
                         <div className="media-head">
                           <div className="avatar avatar-sm avatar-rounded">
@@ -445,7 +446,7 @@ const TopNavbar = ({}) => {
                         </div>
                       </div>
                     </a>
-                    <a href="/" className="dropdown-item">
+                    <a href="" className="dropdown-item">
                       <div className="media">
                         <div className="media-head">
                           <div className="avatar  avatar-icon avatar-sm avatar-danger avatar-rounded">
@@ -475,7 +476,7 @@ const TopNavbar = ({}) => {
                     </a>
                   </div>
                   <div className="dropdown-footer">
-                    <a href="/">
+                    <a href="">
                       <u>View all notifications</u>
                     </a>
                   </div>
@@ -486,7 +487,7 @@ const TopNavbar = ({}) => {
               <div className="dropdown ps-2">
                 <a
                   className=" dropdown-toggle no-caret"
-                  href="/"
+                  href=""
                   role="button"
                   data-bs-display="static"
                   data-bs-toggle="dropdown"
@@ -516,7 +517,7 @@ const TopNavbar = ({}) => {
                       <div className="media-body">
                         <div className="dropdown">
                           <a
-                            // href="/"
+                            // href=""
                             className="d-block dropdown-toggle link-dark fw-medium"
                             data-bs-toggle="dropdown"
                             data-dropdown-animation
@@ -537,7 +538,7 @@ const TopNavbar = ({}) => {
                                 </div>
                                 <div className="media-body">
                                   <a
-                                    // href="/"
+                                    // href=""
                                     className="d-flex align-items-center link-dark"
                                   >
                                     {user?.username}
@@ -545,13 +546,75 @@ const TopNavbar = ({}) => {
                                   </a>
 
                                   {/* <a
-                                    // href="/"
+                                    // href=""
                                     className="d-block fs-8 link-secondary"
                                   >
                                     <u>Manage your account</u>
                                   </a> 
                                 </div>
                               </div> */}
+                              <p>
+                                <span
+                                  className="text-primary bg-light"
+                                  style={{ fontSize: "12px" }}
+                                >
+                                  Parent
+                                </span>
+                              </p>
+                              <p
+                                class="dropdown-divider"
+                                style={{
+                                  padding: "0px",
+                                  marginTop: "-10px",
+                                  marginBottom: "20px",
+                                }}
+                              ></p>
+                              <div
+                                className="media align-items-center mb-3"
+                                onClick={() =>
+                                  handleAccountClick(parentAccount)
+                                }
+                              >
+                                <div className="media-head me-2">
+                                  <div className="avatar avatar-primary avatar-xs avatar-rounded">
+                                    <span className="initial-wrap">
+                                      {/* {_.capitalize(
+                                        selectedAccount?.name?.slice(0, 1)
+                                      )}{" "} */}
+                                      <FaUserAstronaut />
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="media-body">
+                                  <button
+                                    className={`btn-block ${
+                                      parentAccount?.email ===
+                                      selectedAccount?.email
+                                        ? "btn-primary"
+                                        : "btn-light"
+                                    } btn btn-sm `}
+                                  >
+                                    {parentAccount?.name?.split(" ")[0]}
+                                  </button>
+                                </div>
+                              </div>
+                              <p>
+                                <span
+                                  className="text-primary bg-light"
+                                  style={{ fontSize: "12px" }}
+                                >
+                                  Sub-Accounts
+                                </span>
+                              </p>
+                              <p
+                                class="dropdown-divider"
+                                style={{
+                                  padding: "0px",
+                                  marginTop: "-10px",
+                                  marginBottom: "20px",
+                                }}
+                              ></p>
+
                               {subAccounts?.length > 0 &&
                                 subAccounts?.map((account, index) => (
                                   <>
@@ -564,7 +627,7 @@ const TopNavbar = ({}) => {
                                         }
                                       >
                                         <div className="media-head me-2">
-                                          <div className="avatar avatar-primary avatar-xs avatar-rounded">
+                                          <div className="avatar avatar-secondary avatar-xs avatar-rounded">
                                             <span className="initial-wrap">
                                               {_.capitalize(
                                                 account?.name?.slice(0, 1)
@@ -573,9 +636,16 @@ const TopNavbar = ({}) => {
                                           </div>
                                         </div>
                                         <div className="media-body">
-                                          <a className="d-block link-dark">
-                                            {account?.username}
-                                          </a>
+                                          <button
+                                            className={`btn-block ${
+                                              selectedAccount?.email ===
+                                              account?.email
+                                                ? "btn-primary"
+                                                : "btn-light"
+                                            } btn btn-sm `}
+                                          >
+                                            {account?.name?.split(" ")[0]}
+                                          </button>
                                         </div>
                                       </div>
                                     )}
@@ -591,15 +661,17 @@ const TopNavbar = ({}) => {
                                   <span>Add Account</span>
                                 </span>
                               </button> */}
-                              <button
-                                type="button"
-                                class=" btn btn-block btn-outline-light btn-sm "
-                                data-bs-toggle="modal"
-                                data-bs-target="#addAccountModal"
-                              >
-                                <FaPlus />
-                                Add Account
-                              </button>
+                              {!user?.parent_id && (
+                                <button
+                                  type="button"
+                                  class=" btn btn-block btn-outline-light btn-sm "
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#addAccountModal"
+                                >
+                                  <FaPlus />
+                                  Add Account
+                                </button>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -614,47 +686,41 @@ const TopNavbar = ({}) => {
                     </div>
                   </div>
                   <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="profile.html">
-                    Profile
-                  </a>
-                  <a className="dropdown-item" href="/">
+                  <a className="dropdown-item">Profile</a>
+                  <a className="dropdown-item">
                     <span className="me-2">Offers</span>
                     <span className="badge badge-sm badge-soft-pink">2</span>
                   </a>
                   <div className="dropdown-divider"></div>
                   <h6 className="dropdown-header">Manage Account</h6>
-                  <a className="dropdown-item d-flex" href="/">
+                  <a className="dropdown-item d-flex">
                     <span className="dropdown-icon pt-1 feather-icon">
                       <i data-feather="credit-card"></i>
                     </span>
                     <span>Payment methods</span>
                   </a>
-                  <a className="dropdown-item d-flex" href="/">
+                  <a className="dropdown-item d-flex">
                     <span className="dropdown-icon pt-1 feather-icon">
                       <i data-feather="check-square"></i>
                     </span>
                     <span>Subscriptions</span>
                   </a>
-                  <a className="dropdown-item d-flex" href="/">
+                  <a className="dropdown-item d-flex">
                     <span className="dropdown-icon pt-1 feather-icon">
                       <i data-feather="settings"></i>
                     </span>
                     <span>Settings</span>
                   </a>
                   <div className="dropdown-divider"></div>
-                  <a className="dropdown-item flex" href="/">
+                  <a className="dropdown-item flex">
                     <span className="dropdown-icon pt-1 feather-icon">
                       <i data-feather="tag"></i>
                     </span>
                     <span>Raise a ticket</span>
                   </a>
                   <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="/">
-                    Terms & Conditions
-                  </a>
-                  <a className="dropdown-item" href="/">
-                    Help & Support
-                  </a>
+                  <a className="dropdown-item">Terms & Conditions</a>
+                  <a className="dropdown-item">Help & Support</a>
                 </div>
               </div>
             </li>

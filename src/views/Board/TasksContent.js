@@ -21,20 +21,29 @@ import {
 import { updateContactRec } from "../../redux/services/contact";
 import { Link } from "react-router-dom";
 import { SocketContext } from "../../Context";
-const TasksContent = ({ tasksData, token, contactsData }) => {
-  const { handleToggleShowLeadDetail, showLeadDetails } =
-    useContext(SocketContext);
+const TasksContent = ({ tasksData, token, contactsData, boardDetails }) => {
+  const { handleToggleShowLeadDetail } = useContext(SocketContext);
   const [updateTaskData, setUpdateTaskData] = useState({});
   const dispatch = useDispatch();
   const pendingData =
     contactsData?.length > 0 &&
-    contactsData?.filter((task) => task.status === "pending");
+    contactsData?.filter(
+      (task) =>
+        task.board_status === "pending" && task.board_id === boardDetails?.id
+    );
   const inProgressData =
     contactsData?.length > 0 &&
-    contactsData?.filter((task) => task.status === "in-progress");
+    contactsData?.filter(
+      (task) =>
+        task.board_status === "in-progress" &&
+        task.board_id === boardDetails?.id
+    );
   const completedData =
     contactsData?.length > 0 &&
-    contactsData?.filter((task) => task.status === "completed");
+    contactsData?.filter(
+      (task) =>
+        task.board_status === "completed" && task.board_id === boardDetails?.id
+    );
   const handleUpdateTask = (id) => {
     dispatch(getTaskDetails(token, id));
   };
@@ -45,7 +54,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
   const handleDrop = (event, status) => {
     event.preventDefault();
     dispatch(
-      updateContactRec(token, updateTaskData?.task_id, { status: status })
+      updateContactRec(token, updateTaskData?.task_id, { board_status: status })
     );
     setUpdateTaskData({});
   };
@@ -60,7 +69,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
             {/* <Kanban /> */}
             <div id="kb_scroll" className="tasklist-scroll position-relative">
               <div id="tasklist_wrap" className="tasklist-wrap">
-                <div className="card card-simple card-border tasklist">
+                {/* <div className="card card-simple card-border tasklist">
                   <div className="card-header  bg-primary  d-flex">
                     <h6 className="text-uppercase fw-bold mb-0 d-flex justify-content-between w-100">
                       <span className="" style={{ color: "white" }}>
@@ -99,7 +108,6 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                                 >
                                   <span className="icon">
                                     <span className="feather-icon">
-                                      {/* <i data-feather="more-vertical"></i> */}
                                       <CiMenuKebab />
                                     </span>
                                   </span>
@@ -112,7 +120,6 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                                     onClick={() => handleUpdateTask(task?.id)}
                                   >
                                     <span className="feather-icon dropdown-icon">
-                                      {/* <i data-feather="edit-2"></i> */}
                                       <FaEdit />
                                     </span>
                                     <span>Edit</span>
@@ -123,7 +130,6 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                                     href="/"
                                   >
                                     <span className="feather-icon dropdown-icon">
-                                      {/* <i data-feather="trash-2"></i> */}
                                       <FaTrash />
                                     </span>
                                     <span>Delete</span>
@@ -174,7 +180,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                                   </div>
                                 ))}
                               </div>
-                              {/* <div className="avatar-group avatar-group-overlapped">
+                               <div className="avatar-group avatar-group-overlapped">
                                 {task.asign_to?.members?.map(
                                   (member, index) => (
                                     <div
@@ -193,7 +199,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                                     </div>
                                   )
                                 )}
-                              </div> */}
+                              </div> 
                             </div>
                             <div className="card-footer text-muted justify-content-between">
                               <div>
@@ -222,7 +228,7 @@ const TasksContent = ({ tasksData, token, contactsData }) => {
                         ))}
                     </div>
                   </div>
-                </div>
+                </div> */}
                 <div
                   className="card card-simple card-border tasklist"
                   onDrop={(event) => handleDrop(event, "pending")}

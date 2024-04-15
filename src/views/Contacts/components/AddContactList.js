@@ -41,6 +41,7 @@ const AddContactList = () => {
   }, [cityWatcher, setValue]);
   const handleAddContact = (data) => {
     const formData = {
+      board_id: data.board_id.value,
       firstname: data.firstname,
       middlename: data.middlename,
       lastname: data.lastname,
@@ -257,7 +258,7 @@ const AddContactList = () => {
                 ? boards?.map((board, index) => {
                     return {
                       label: board?.name,
-                      value: board?.name,
+                      value: board?.id,
                     };
                   })
                 : []

@@ -569,7 +569,7 @@ const VerticalNavbar = () => {
                           <SiTodoist />
                         </span>
                       </span>
-                      <span className="nav-link-text">Todos</span>
+                      <span className="nav-link-text">Todo</span>
                     </Link>
                   </li>
                   {/* <a
