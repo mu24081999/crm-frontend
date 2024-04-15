@@ -8,8 +8,10 @@ const app = express();
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, "build")));
 
-// Your other routes or middleware can go here
-
+// Handle all other requests
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 // Load SSL certificate and key
 const sslOptions = {
   key: fs.readFileSync("desktopcrm.key"),
