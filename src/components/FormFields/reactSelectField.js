@@ -115,7 +115,7 @@ const ReactSelectField = React.forwardRef((props, ref) => {
               options={props?.optionData}
               placeholder={props?.placeHolder ? props?.placeHolder : ""}
               menuPlacement={menuPlacement || "auto"}
-              className={`form-select ${capitalize && "capitalize"}`}
+              className={`form-control p-0 m-0 ${capitalize && "capitalize"}`}
               isClearable={true}
               defaultOptions
               onChange={(val, action) => {
@@ -124,7 +124,7 @@ const ReactSelectField = React.forwardRef((props, ref) => {
                   props.onChange(val, action);
                 }
               }}
-              value={field.value}
+              value={field?.value}
               menuIsOpen={props.menuIsOpen || undefined}
               onFocus={(e) => {
                 setFocusState(true);

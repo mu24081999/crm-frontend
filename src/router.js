@@ -30,6 +30,8 @@ import Recordings from "./views/Recordings/Recording";
 import Users from "./views/Users/Users";
 import Agent from "./views/Agents/Agents";
 import Message from "./views/Message/Mesasge";
+import Account from "./views/Account/Account";
+import Profile from "./views/Profile/Profile";
 
 // Define allowed roles for each route
 const roles = {
@@ -145,6 +147,14 @@ const router = (role) => {
     {
       path: "/emails",
       element: <Email />,
+    },
+    {
+      path: "/account-settings",
+      element: <Account />,
+    },
+    {
+      path: "/profile-settings",
+      element: <Profile />,
     },
   ]);
 };

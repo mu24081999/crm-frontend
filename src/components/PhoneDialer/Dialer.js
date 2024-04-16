@@ -372,13 +372,14 @@ const Dialer = () => {
                       control={control}
                       errors={errors}
                       options={
-                        claimedNumbers?.length > 0 &&
-                        claimedNumbers?.map((key, index) => {
-                          return {
-                            label: key?.phoneNumber,
-                            value: key?.phoneNumber,
-                          };
-                        })
+                        claimedNumbers?.length > 0
+                          ? claimedNumbers?.map((key, index) => {
+                              return {
+                                label: key?.phoneNumber,
+                                value: key?.phoneNumber,
+                              };
+                            })
+                          : []
                       }
                     />
                   </div>

@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useContext,
+} from "react";
 import ChatAside from "./components/ChatAside/ChatAside";
 import SingleChat from "./components/Messages/SingleChat";
 import AudioCall from "./components/AudioCall/AudioCall";
@@ -16,7 +22,6 @@ const ChatContent = () => {
   //Socket connection
   const socket = useMemo(() => io(socketURL), [socketURL]);
   const [selectedRoom, setSelectedRoom] = useState({});
-  console.log("🚀 ~ ChatContent ~ selectedRoom:", selectedRoom);
   const [messages, setMessages] = useState([]);
   const [allMessages, setAllMessages] = useState([]);
 

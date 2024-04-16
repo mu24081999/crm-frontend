@@ -7,6 +7,7 @@ import {
   FaHistory,
   FaPhoneAlt,
   FaRegEnvelope,
+  FaUserCog,
   FaUsers,
 } from "react-icons/fa";
 import { MdMarkEmailRead, MdSupportAgent } from "react-icons/md";
@@ -558,7 +559,21 @@ const VerticalNavbar = () => {
                   </Link>
                 </li>
               )}
-              {(user?.role === "SUPER_ADMIN" ||
+              {(user?.role === "USER" ||
+                user?.role === "SUPER_ADMIN" ||
+                user?.role === "ADMIN") && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/todos">
+                    <span className="nav-icon-wrap">
+                      <span className="svg-icon">
+                        <SiTodoist />
+                      </span>
+                    </span>
+                    <span className="nav-link-text">Todo</span>
+                  </Link>
+                </li>
+              )}
+              {/* {(user?.role === "SUPER_ADMIN" ||
                 user?.role === "ADMIN" ||
                 user?.role === "USER") && (
                 <li className="nav-item">
@@ -572,55 +587,8 @@ const VerticalNavbar = () => {
                       <span className="nav-link-text">Todo</span>
                     </Link>
                   </li>
-                  {/* <a
-                    className="nav-link"
-                    href="/"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#dash_task"
-                  >
-                    <span className="nav-icon-wrap">
-                      <span className="svg-icon">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="icon icon-tabler icon-tabler-list-details"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          strokeWidth="2"
-                          stroke="currentColor"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                          <path d="M13 5h8" />
-                          <path d="M13 9h5" />
-                          <path d="M13 15h8" />
-                          <path d="M13 19h5" />
-                          <rect x="3" y="4" width="6" height="6" rx="1" />
-                          <rect x="3" y="14" width="6" height="6" rx="1" />
-                        </svg>
-                      </span>
-                    </span>
-                    <span className="nav-link-text">Todo</span>
-                    <span className="badge badge-soft-success ms-2">2</span>
-                  </a>
-                  <ul
-                    id="dash_task"
-                    className="nav flex-column collapse  nav-children"
-                  >
-                    <li className="nav-item">
-                      <ul className="nav flex-column">
-                        <li className="nav-item">
-                          <Link className="nav-link" to="/todos">
-                            <span className="nav-link-text">Tasklist</span>
-                          </Link>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul> */}
                 </li>
-              )}
+              )} */}
               {(user?.role === "ADMIN" ||
                 user?.role === "SUPER_ADMIN" ||
                 user?.role === "USER") && (
@@ -780,9 +748,42 @@ const VerticalNavbar = () => {
                   </ul>
                 </li>
               )}
+              {(user?.role === "USER" ||
+                user?.role === "SUPER_ADMIN" ||
+                user?.role === "ADMIN") && (
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    href="/"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#dash_profile"
+                  >
+                    <span className="nav-icon-wrap">
+                      <span className="svg-icon">
+                        <FaUserCog />
+                      </span>
+                    </span>
+                    <span className="nav-link-text">Profile</span>
+                  </a>
+                  <ul
+                    id="dash_profile"
+                    className="nav flex-column collapse  nav-children"
+                  >
+                    <li className="nav-item">
+                      <ul className="nav flex-column">
+                        <li className="nav-item">
+                          <Link className="nav-link" to="/profile-settings">
+                            <span className="nav-link-text">Edit Profile</span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              )}
             </ul>
           </div>
-          <div className="menu-gap"></div>
+
           {/* <div className="menu-group">
             <div className="nav-header">
               <span>Pages</span>

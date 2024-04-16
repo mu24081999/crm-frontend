@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import VerticalNavbar from "../../components/VerticalNavbar/VerticalNavbar";
 import ChatPopup from "../../components/ChatPopup/ChatPopup";

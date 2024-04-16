@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser, logoutUser } from "../../redux/services/auth";
 import _ from "lodash";
 import Dialer from "../PhoneDialer/Dialer";
-import { FaPlus, FaUserAstronaut } from "react-icons/fa";
+import { FaBell, FaInbox, FaPlus, FaUserAstronaut } from "react-icons/fa";
 import { getUserSubAccountsList } from "../../redux/services/calling";
 import { setAccount } from "../../redux/slices/auth";
 import { getUsers } from "../../redux/services/users";
@@ -15,8 +15,14 @@ const TopNavbar = ({}) => {
   const [selectedAccount, setSelectedAccount] = useState(user);
   const [parentAccount, setParentAccount] = useState(user);
   const [subAccounts, setSubAccounts] = useState([]);
-  console.log("🚀 ~ TopNavbar ~ subAccounts:", subAccounts);
-  // const { subAccounts } = useSelector((state) => state.calling);
+  useEffect(() => {
+    if (selectedAccount?.parent_id) {
+      const parent = users?.filter(
+        (user) => user.id === selectedAccount?.parent_id
+      )[0];
+      setParentAccount(parent);
+    }
+  }, [selectedAccount, users]);
   const handleLogOut = () => {
     dispatch(logoutUser(token));
   };
@@ -25,7 +31,6 @@ const TopNavbar = ({}) => {
   }, [token]);
   const username = user?.username;
   const avatarHeading = _.toUpper(username?.slice(0, 2));
-  // const avatarHeading = "UM";
   const handleAccountClick = (account) => {
     setSelectedAccount(account);
     // dispatch(loginUser(account?.username, account?.password));
@@ -258,13 +263,13 @@ const TopNavbar = ({}) => {
           <ul className="navbar-nav flex-row">
             <li className="nav-item">
               <a
-                href="email.html"
+                href="#"
                 className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover"
               >
                 <span className="icon">
                   <span className=" position-relative">
                     <span className="feather-icon">
-                      <i data-feather="inbox"></i>
+                      <FaInbox />
                     </span>
                     <span className="badge badge-sm badge-soft-primary badge-sm badge-pill position-top-end-overflow-1">
                       4
@@ -279,7 +284,7 @@ const TopNavbar = ({}) => {
             <li className="nav-item">
               <div className="dropdown dropdown-notifications">
                 <a
-                  href=""
+                  href="#"
                   className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover dropdown-toggle no-caret"
                   data-bs-toggle="dropdown"
                   data-dropdown-animation
@@ -290,7 +295,7 @@ const TopNavbar = ({}) => {
                   <span className="icon">
                     <span className="position-relative">
                       <span className="feather-icon">
-                        <i data-feather="bell"></i>
+                        <FaBell />
                       </span>
                       <span className="badge badge-success badge-indicator position-top-end-overflow-1"></span>
                     </span>
@@ -495,12 +500,11 @@ const TopNavbar = ({}) => {
                   data-bs-auto-close="outside"
                   aria-expanded="false"
                 >
-                  <div className="avatar avatar-rounded avatar-xs">
-                    <img
-                      src="https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png"
-                      alt="user"
-                      className="avatar-img"
-                    />
+                  <div className="avatar avatar-primary avatar-xs avatar-rounded">
+                    <span className="initial-wrap">
+                      {_.toUpper(selectedAccount?.username?.slice(0, 1)) ||
+                        _.toUpper(selectedAccount?.friendlyName?.slice(0, 1))}
+                    </span>
                   </div>
                 </a>
                 <div className="dropdown-menu dropdown-menu-end">
@@ -509,8 +513,12 @@ const TopNavbar = ({}) => {
                       <div className="media-head me-2">
                         <div className="avatar avatar-primary avatar-sm avatar-rounded">
                           <span className="initial-wrap">
-                            {selectedAccount?.username?.slice(0, 1) ||
-                              selectedAccount?.friendlyName?.slice(0, 1)}
+                            {_.toUpper(
+                              selectedAccount?.username?.slice(0, 1)
+                            ) ||
+                              _.toUpper(
+                                selectedAccount?.friendlyName?.slice(0, 1)
+                              )}
                           </span>
                         </div>
                       </div>
@@ -661,7 +669,7 @@ const TopNavbar = ({}) => {
                                   <span>Add Account</span>
                                 </span>
                               </button> */}
-                              {!user?.parent_id && (
+                              {!user?.parent_id && subAccounts?.length <= 3 && (
                                 <button
                                   type="button"
                                   class=" btn btn-block btn-outline-light btn-sm "

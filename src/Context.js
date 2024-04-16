@@ -33,7 +33,6 @@ const ContextProvider = ({ children }) => {
   const dispatch = useDispatch();
 
   const sendTextMessage = (data) => {
-    console.log("🚀 ~ sendTextMessage ~ data:", data);
     socket.emit("send-message", data);
   };
   const handleToggleShowLeadDetail = (value, contact_id, token) => {
@@ -242,6 +241,8 @@ const ContextProvider = ({ children }) => {
     setCallAccepted(false);
     setIsCalling(false);
     setOpenCalling(false);
+    setStream(null);
+    setType(null);
 
     // Clear the user's video stream
     if (userVideo.current && userVideo.current.srcObject) {
@@ -249,7 +250,7 @@ const ContextProvider = ({ children }) => {
     }
 
     // Remove event listeners
-    socket.close();
+    // socket.close();
   };
 
   return (
