@@ -11,6 +11,8 @@ import { getUserDetails } from "./redux/services/users";
 const SocketContext = createContext();
 const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
 const ContextProvider = ({ children }) => {
+  const ringtone = new Audio(ringingTone);
+
   const socket = useMemo(() => io(socketURL), []);
   const { user_id, user } = useSelector((state) => state.auth);
   const [callAccepted, setCallAccepted] = useState(false);
@@ -27,7 +29,6 @@ const ContextProvider = ({ children }) => {
   const [messagesArray, setMessagesArray] = useState([]);
   const [me, setMe] = useState("");
   const myVideo = useRef();
-  // const ringingTone = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
   const dispatch = useDispatch();
@@ -89,9 +90,7 @@ const ContextProvider = ({ children }) => {
         // Handle the stream appropriately
         setType("video");
         setStream(currentStream);
-        if (myVideo.current) {
-          myVideo.current.srcObject = currentStream;
-        }
+        myVideo.current.srcObject = currentStream;
       })
       .catch((error) => {
         // Handle errors, e.g., permission denied
@@ -105,9 +104,7 @@ const ContextProvider = ({ children }) => {
         // Handle the stream appropriately
         setType("audio");
         setStream(currentStream);
-        if (myVideo.current) {
-          myVideo.current.srcObject = currentStream;
-        }
+        myVideo.current.srcObject = currentStream;
       })
       .catch((error) => {
         // Handle errors, e.g., permission denied
@@ -143,13 +140,10 @@ const ContextProvider = ({ children }) => {
         setIsCalling(false);
         setCall({});
         setOpenCalling(false);
-        // clickElementByDataBsTarget("modal");
-
-        // clickElementByDataBsDismiss("modal");
       });
       socket.on(
         "callUser",
-        ({ from, name: callerName, signal, type, userToCall }) => {
+        ({ from, name: callerName, signal, type, userToCall, to }) => {
           setType(type);
           if (type === "audio") {
             clickElementByDataBsTarget("#video_call", "audio");
@@ -157,13 +151,11 @@ const ContextProvider = ({ children }) => {
             clickElementByDataBsTarget("#video_call", "video");
           }
           setRinging(true);
-          // const ringtone = new Audio(ringTone);
-          // ringtone.play();
 
           // ringtone.play();
           // setTimeout(() => {
           //   ringtone.pause();
-          // }, 3000);
+          // }, 5000);
           setIsCalling(true);
           setCall({
             isReceivingCall: true,
@@ -172,6 +164,7 @@ const ContextProvider = ({ children }) => {
             type,
             signal,
             userToCall,
+            to,
           });
         }
       );
@@ -186,33 +179,28 @@ const ContextProvider = ({ children }) => {
   const answerCall = () => {
     setCallAccepted(true);
     setRinging(false);
-
     const peer = new Peer({ initiator: false, trickle: false, stream });
     peer.on("signal", (data) => {
       socket.emit("answerCall", { signal: data, to: call.from });
     });
     peer.on("stream", (currentStream) => {
-      if (userVideo.current) userVideo.current.srcObject = currentStream;
+      console.log("🚀 ~ peer.on ~ currentStream:", currentStream);
+      userVideo.current.srcObject = currentStream;
     });
     peer.signal(call.signal);
-    if (connectionRef.current) connectionRef.current = peer;
-    console.log(connectionRef.current);
+    connectionRef.current = peer;
   };
 
-  const callUser = (id, name, type) => {
-    const ringtone = new Audio(ringingTone);
+  const callUser = (id, name, type, to_name) => {
     const peer = new Peer({ initiator: true, trickle: false, stream });
     peer.on("signal", (data) => {
-      ringtone.play();
-      setTimeout(() => {
-        ringtone.pause();
-      }, 5000);
       socket.emit("callUser", {
         userToCall: id,
         signalData: data,
         from: me,
         name: name,
         type: type,
+        to: to_name,
       });
     });
     peer.on("stream", (currentStream) => {
@@ -221,7 +209,6 @@ const ContextProvider = ({ children }) => {
     socket.on("callAccepted", (signal) => {
       setCallAccepted(true);
       peer.signal(signal);
-      ringtone?.pause();
     });
 
     connectionRef.current = peer;
@@ -235,19 +222,30 @@ const ContextProvider = ({ children }) => {
     if (connectionRef.current) {
       connectionRef.current.destroy();
     }
-
+    // Clear the user's video stream
+    if (userVideo.current) {
+      userVideo.current.srcObject = null;
+    }
+    // clear my video stream
+    if (myVideo.current) {
+      myVideo.current.srcObject = null;
+    }
     // Reset call state
     setCallEnded(true);
     setCallAccepted(false);
     setIsCalling(false);
     setOpenCalling(false);
-    setStream(null);
     setType(null);
-
-    // Clear the user's video stream
-    if (userVideo.current && userVideo.current.srcObject) {
-      userVideo.current.srcObject = null;
+    // Stop the current media stream, if there is one
+    if (stream) {
+      // Stop each track in the stream
+      stream.getTracks().forEach((track) => {
+        track.enabled = false;
+        console.log("🚀 ~ stream.getTracks ~ track:", track);
+      });
+      setStream(null);
     }
+    window.location.reload();
 
     // Remove event listeners
     // socket.close();

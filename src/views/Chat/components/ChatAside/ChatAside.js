@@ -176,7 +176,7 @@ const ChatAside = ({
               onKeyUp={handleSearchRoom}
             />
           </form> */}
-          <div class="frequent-contact">
+          {/* <div class="frequent-contact">
             <div class="title-sm text-primary">
               <span>Frequent contact</span>
             </div>
@@ -286,9 +286,9 @@ const ChatAside = ({
                     class="avatar-img"
                   />
                 </div>
-              </li> */}
+              </li> 
             </ul>
-          </div>
+          </div> */}
           <ChatRooms
             rooms={rooms}
             authUser={authUser}

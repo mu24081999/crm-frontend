@@ -29,8 +29,10 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
     readyForCall,
     type,
   } = useContext(SocketContext);
+  console.log("🚀 ~ VideoCall ~ call:", call);
 
   const [selectedUser, setSelectedUser] = useState(null);
+  console.log("🚀 ~ VideoCall ~ selectedUser:", selectedUser);
   const [usersArray, setUsersArray] = useState(null);
   const { users } = useSelector((state) => state.user);
   const { token } = useSelector((state) => state.auth);
@@ -40,7 +42,12 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
   // }, [readyForCall]);
   const callToUser = useCallback(() => {
     if (!isCalling && !call.isRecieving && openCalling) {
-      callUser(selectedUser?.socket_id, authUser.name, type);
+      callUser(
+        selectedUser?.socket_id,
+        authUser.name,
+        type,
+        selectedUser?.name
+      );
     }
   }, [callUser, selectedUser, authUser, isCalling, call, openCalling, type]);
   useMemo(() => {
@@ -108,7 +115,7 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                 </a>
               </div>
             </div>
-            <div class="text-center m-auto">
+            {/* <div class="text-center m-auto">
               {!callAccepted ||
                 (type === "audio" && (
                   <div
@@ -127,9 +134,9 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                     />
                   </div>
                 ))}
-            </div>
+            </div> */}
             {/* user's video */}
-            {callAccepted && !callEnded && (
+            {callAccepted && !callEnded && type === "video" && (
               <video
                 playsInline
                 ref={userVideo}
@@ -216,17 +223,17 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                   </li> */}
                 </ul>
                 <div class="avatar avatar-lg avatar-rounded chatapp-caller-img ">
-                  {myVideo && type === "video" && (
-                    <video
-                      playsInline
-                      muted
-                      ref={myVideo}
-                      autoPlay
-                      width="140"
-                      height="150"
-                      // controls="true"
-                    />
-                  )}
+                  {/* {myVideo && type === "video" && ( */}
+                  <video
+                    playsInline
+                    muted
+                    ref={myVideo}
+                    autoPlay
+                    width="140"
+                    height="150"
+                    // controls="true"
+                  />
+                  {/* )} */}
 
                   {type === "audio" && (
                     <img
@@ -247,9 +254,10 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                   className={`mt-3`}
                   style={{ color: type === "audio" ? "black" : "white" }}
                 >
-                  {selectedRoom.user_id_1 === authUser?.id
+                  {/* {selectedRoom.user_id_1 === authUser?.id
                     ? selectedRoom.user_name_2
-                    : selectedRoom.user_name_1}
+                    : selectedRoom.user_name_1} */}
+                  {selectedUser?.name || call?.name}
                 </h3>
                 {!callAccepted && (
                   <p style={{ color: type === "audio" ? "black" : "white" }}>

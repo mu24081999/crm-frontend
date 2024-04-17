@@ -24,6 +24,7 @@ const ChatContent = () => {
   const [selectedRoom, setSelectedRoom] = useState({});
   const [messages, setMessages] = useState([]);
   const [allMessages, setAllMessages] = useState([]);
+  const [defaultUsers, setDefaultUsers] = useState([]);
 
   const { user, token } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
@@ -168,12 +169,21 @@ const ChatContent = () => {
     //   socket.disconnect();
     // };
   }, [socket]);
+  useEffect(() => {
+    if (users?.length > 0) {
+      const data = users?.filter(
+        (usr) => usr.parent_id === user.id || usr.client_id === user.id
+      );
+      setDefaultUsers(data);
+    }
+  }, [users, user]);
   const handleDataFromChild = (data) => {
     setSelectedRoom(data);
   };
   const handleFilterDataFromChild = (data) => {
     setRooms(data);
   };
+
   return (
     <div>
       {/* <!-- Wrapper --> */}
@@ -213,7 +223,11 @@ const ChatContent = () => {
                 authUser={user}
                 selectedRoom={selectedRoom}
               />
-              <InvitePeople users={users} authUser={user} socket={socket} />
+              <InvitePeople
+                users={defaultUsers}
+                authUser={user}
+                socket={socket}
+              />
             </div>
           </div>
         </div>

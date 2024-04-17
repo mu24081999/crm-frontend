@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ChatAside from "./components/ChatAside/ChatAside";
 import SingleChat from "./components/Messages/SingleChat";
 import AudioCall from "./components/AudioCall/AudioCall";
@@ -15,28 +9,16 @@ import { getUsers } from "../../redux/services/users";
 import io from "socket.io-client";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { SocketContext } from "../../Context";
 
 const ChatContent = () => {
   const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
   const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
-  const {
-    // me,
-    // leaveCall,
-    // stream,
-    // myVideo,
-    // name,
-    // setName,
-    isCalling,
-    // leaveCall,
-    readyForCall,
-    // callUser,
-  } = useContext(SocketContext);
+
   //Socket connection
   const socket = useMemo(() => io(socketURL), [socketURL]);
   const [selectedRoom, setSelectedRoom] = useState({});
   const [messages, setMessages] = useState([]);
-  console.log("🚀 ~ ChatContent ~ messages:", messages);
+  const [defaultUsers, setDefaultUsers] = useState([]);
   const [allMessages, setAllMessages] = useState([]);
 
   const { user, token } = useSelector((state) => state.auth);
@@ -153,6 +135,14 @@ const ChatContent = () => {
     //   socket.disconnect();
     // };
   }, [socket, getRooms]);
+  useEffect(() => {
+    if (users?.length > 0) {
+      const data = users?.filter(
+        (usr) => usr.parent_id === user.id || usr.client_id === user.id
+      );
+      setDefaultUsers(data);
+    }
+  }, [users, user]);
   const handleDataFromChild = (data) => {
     setSelectedRoom(data);
   };
@@ -192,7 +182,11 @@ const ChatContent = () => {
                 authUser={user}
                 selectedRoom={selectedRoom}
               />
-              <InvitePeople users={users} authUser={user} socket={socket} />
+              <InvitePeople
+                users={defaultUsers}
+                authUser={user}
+                socket={socket}
+              />
             </div>
           </div>
         </div>
