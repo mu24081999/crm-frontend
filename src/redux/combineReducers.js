@@ -14,6 +14,8 @@ import invoiceReducer from "./slices/invoice";
 import callingReducer from "./slices/calling";
 import messageReducer from "./slices/message";
 import agentReducer from "./slices/agent";
+import paymentReducer from "./slices/payment";
+import cardReducer from "./slices/card";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -31,4 +33,6 @@ export const rootReducer = combineReducers({
   invoice: invoiceReducer,
   calling: callingReducer,
   message: messageReducer,
+  payment: paymentReducer,
+  card: cardReducer,
 });

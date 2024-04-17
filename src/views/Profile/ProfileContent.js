@@ -3,6 +3,7 @@ import Sidebar from "./components/Sidebar";
 import EditAccountSetting from "./components/EditAccountSetting";
 import AccountSetting from "./components/AccountSetting";
 import UpdatePassword from "./components/UpdatePassword";
+import CardInformation from "./components/CardInformation";
 
 const ProfileContent = () => {
   return (
@@ -27,96 +28,7 @@ const ProfileContent = () => {
                 <div className="tab-content">
                   <EditAccountSetting />
                   <AccountSetting />
-                  <div className="tab-pane fade" id="tab_block_3">
-                    <div className="title-lg fs-4 mb-4">
-                      <span>Privacy Settings</span>
-                    </div>
-                    <form>
-                      <div className="row gx-3">
-                        <div className="col-sm-12">
-                          <div className="form-check form-check-lg">
-                            <input
-                              type="checkbox"
-                              className="form-check-input"
-                              id="customChecks1"
-                            />
-                            <label
-                              className="form-check-label mt-0"
-                              for="customChecks1"
-                            >
-                              let others find me by email address
-                            </label>
-                            <small className="form-text text-muted d-block">
-                              People who have your email address will be able to
-                              connect you by Jampack
-                            </small>
-                          </div>
-                          <div className="separator"></div>
-                          <div className="form-check form-check-lg">
-                            <input
-                              type="checkbox"
-                              className="form-check-input"
-                              id="customChecks2"
-                            />
-                            <label
-                              className="form-check-label mt-0"
-                              for="customChecks2"
-                            >
-                              Keep my phone number private
-                            </label>
-                            <small className="form-text text-muted d-block">
-                              No one can find you by your phone number. Your
-                              phone number will not be shared with your contact
-                              anymore.
-                            </small>
-                          </div>
-                          <div className="separator"></div>
-                          <div className="form-check form-check-lg">
-                            <input
-                              type="checkbox"
-                              className="form-check-input"
-                              id="customChecks3"
-                            />
-                            <label
-                              className="form-check-label mt-0"
-                              for="customChecks3"
-                            >
-                              All Keep my location sharing on
-                            </label>
-                            <small className="form-text text-muted d-block">
-                              Jmapack webapp shares your location wherever you
-                              go
-                            </small>
-                          </div>
-                          <div className="separator"></div>
-                          <div className="form-check form-check-lg">
-                            <input
-                              type="checkbox"
-                              className="form-check-input"
-                              id="customChecks4"
-                            />
-                            <label
-                              className="form-check-label mt-0"
-                              for="customChecks4"
-                            >
-                              Share data through select partnerships
-                            </label>
-                            <small className="form-text text-muted d-block">
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit. Pellentesque condimentum mauris volutpat
-                              enim ornare iaculis. Curabitur euismod rutrum
-                              lorem id lobortis. Cras ut ex dui. Nulla sed
-                              blandit tortor. In quam diam, efficitur sit amet
-                              pulvinar eget, consequat placerat arcu.
-                            </small>
-                          </div>
-                        </div>
-                      </div>
-                      <button type="button" className="btn btn-primary mt-5">
-                        Save Changes
-                      </button>
-                    </form>
-                  </div>
+                  <CardInformation />
                   <UpdatePassword />
                 </div>
               </div>

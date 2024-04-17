@@ -22,11 +22,11 @@ const Sidebar = () => {
               <span className="nav-link-text">Account Settings</span>
             </a>
           </li>
-          {/* <li className="nav-item">
-            <a data-bs-toggle="tab" href="#tab_block_3" className="nav-link">
-              <span className="nav-link-text">Privacy Settings</span>
+          <li className="nav-item">
+            <a data-bs-toggle="tab" href="#tab_cards" className="nav-link">
+              <span className="nav-link-text">Card Information</span>
             </a>
-          </li> */}
+          </li>
           <li className="nav-item">
             <a data-bs-toggle="tab" href="#tab_block_4" className="nav-link">
               <span className="nav-link-text">Login & Security</span>
