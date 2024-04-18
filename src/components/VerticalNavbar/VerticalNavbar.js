@@ -15,6 +15,9 @@ import { useSelector } from "react-redux";
 import { FaHouseUser } from "react-icons/fa6";
 import { CiMenuFries } from "react-icons/ci";
 import { SiTodoist } from "react-icons/si";
+import logo from "./../../assets/logo.jpeg";
+import { MdOutlineSubscriptions } from "react-icons/md";
+import { TbCirclesRelation } from "react-icons/tb";
 
 const VerticalNavbar = () => {
   const { user } = useSelector((state) => state.auth);
@@ -24,8 +27,17 @@ const VerticalNavbar = () => {
       <div className="menu-header">
         <span>
           <a className="navbar-brand flex" href="index.html">
-            <img className="brand-img img-fluid" src={brandSm} alt="brand" />
-            <img className="brand-img img-fluid" src={brand} alt="brand" />
+            {/* <img className="brand-img img-fluid" src={brandSm} alt="brand" /> */}
+            <TbCirclesRelation size={35} color="#007d88" />
+
+            {/* <SiCivicrm size={30} color="#007d88" /> */}
+
+            <img
+              className="brand-img img-fluid"
+              src={logo}
+              width={150}
+              alt="brand"
+            />
           </a>
           <button className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle">
             <span className="icon">
@@ -248,16 +260,28 @@ const VerticalNavbar = () => {
                 </>
               )}
               {(user?.role === "ADMIN" || user?.role === "SUPER_ADMIN") && (
-                <li className="nav-item">
-                  <Link className="nav-link" to="/clients">
-                    <span className="nav-icon-wrap">
-                      <span className="svg-icon">
-                        <FaUsers />
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/subscriptions">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <MdOutlineSubscriptions />
+                        </span>
                       </span>
-                    </span>
-                    <span className="nav-link-text">Clients</span>
-                  </Link>
-                </li>
+                      <span className="nav-link-text">Subscription</span>
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/clients">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <FaUsers />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Clients</span>
+                    </Link>
+                  </li>
+                </>
               )}
               {(user?.role === "ADMIN" ||
                 user?.role === "SUPER_ADMIN" ||

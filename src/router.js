@@ -33,6 +33,7 @@ import Message from "./views/Message/Mesasge";
 import Account from "./views/Account/Account";
 import Profile from "./views/Profile/Profile";
 import Payment from "./views/Payment/Payment";
+import Subscription from "./views/Subscription/Subscription";
 
 // Define allowed roles for each route
 const roles = {
@@ -152,6 +153,10 @@ const router = (role) => {
     {
       path: "/account-settings",
       element: <Account />,
+    },
+    {
+      path: "/subscriptions",
+      element: <Subscription />,
     },
     {
       path: "/profile-settings",

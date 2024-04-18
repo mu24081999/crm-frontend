@@ -7,6 +7,8 @@ import Checkbox from "../../components/FormFields/checkboxField";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/services/auth";
 import { Link, useNavigate } from "react-router-dom";
+import { TbCirclesRelation } from "react-icons/tb";
+import logo from "./../../assets/logo.jpeg";
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -53,7 +55,7 @@ const SignIn = () => {
                     >
                       <div className="row">
                         <div className="col-lg-5 col-md-7 col-sm-10 mx-auto">
-                          <div className="text-center mb-7">
+                          {/* <div className="text-center mb-7">
                             <Link className="navbar-brand me-0" to="/">
                               <img
                                 className="brand-img d-inline-block"
@@ -61,6 +63,18 @@ const SignIn = () => {
                                 alt="brand"
                               />
                             </Link>
+                          </div> */}
+                          <div className="menu-header text-center">
+                            <span>
+                              <a className="navbar-brand flex" href="#">
+                                <img
+                                  className="brand-img img-fluid"
+                                  src={logo}
+                                  width={300}
+                                  alt="brand"
+                                />
+                              </a>
+                            </span>
                           </div>
                           <div className="card card-lg card-border">
                             <div className="card-body">

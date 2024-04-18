@@ -5,6 +5,8 @@ import brand from "../../assets/logo-light.png";
 import InputField from "../../components/FormFields/InputField";
 import { useDispatch } from "react-redux";
 import { verifyOTP } from "../../redux/services/auth";
+import logo from "./../../assets/logo.jpeg";
+
 const VerifyPassword = () => {
   const navigate = useNavigate();
   const {
@@ -51,7 +53,7 @@ const VerifyPassword = () => {
                       >
                         <div class="row">
                           <div class="col-lg-5 col-md-7 col-sm-10 mx-auto">
-                            <div class="text-center mb-7">
+                            {/* <div class="text-center mb-7">
                               <Link class="navbar-brand me-0" href="/">
                                 <img
                                   class="brand-img d-inline-block"
@@ -59,7 +61,20 @@ const VerifyPassword = () => {
                                   alt="brand"
                                 />
                               </Link>
+                            </div> */}
+                            <div className="menu-header text-center">
+                              <span>
+                                <a className="navbar-brand flex" href="#">
+                                  <img
+                                    className="brand-img img-fluid"
+                                    src={logo}
+                                    width={300}
+                                    alt="brand"
+                                  />
+                                </a>
+                              </span>
                             </div>
+
                             <div class="card card-flush">
                               <div class="card-body text-center">
                                 <h4>Reset your Password</h4>

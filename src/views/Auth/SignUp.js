@@ -6,6 +6,8 @@ import Checkbox from "../../components/FormFields/checkboxField";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../redux/services/auth";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "./../../assets/logo.jpeg";
+
 const SignUp = () => {
   const {
     handleSubmit,
@@ -49,27 +51,30 @@ const SignUp = () => {
                     <form class="w-100" onSubmit={handleSubmit(handleSingUp)}>
                       <div class="row">
                         <div class="col-xxl-5 col-xl-7 col-lg-8 col-sm-10 mx-auto">
-                          <div class="text-center mb-7">
-                            <a class="navbar-brand me-0" href="index.html">
-                              <img
-                                class="brand-img d-inline-block"
-                                src={brand}
-                                alt="brand"
-                              />
-                            </a>
+                          <div className="menu-header text-center">
+                            <span>
+                              <a className="navbar-brand flex" href="#">
+                                <img
+                                  className="brand-img img-fluid"
+                                  src={logo}
+                                  width={300}
+                                  alt="brand"
+                                />
+                              </a>
+                            </span>
                           </div>
                           <div class="card card-border">
                             <div class="card-body">
                               <h4 class="text-center mb-0">
-                                Sign Up to Jampack
+                                Sign Up to Desktopcrm
                               </h4>
                               <p class="p-xs mt-2 mb-4 text-center">
                                 Already a member ?{" "}
-                                <a href="/">
+                                <Link to="/sign-in">
                                   <u>Sign In</u>
-                                </a>
+                                </Link>
                               </p>
-                              <button class="btn btn-outline-dark btn-rounded btn-block mb-3">
+                              {/* <button class="btn btn-outline-dark btn-rounded btn-block mb-3">
                                 <span>
                                   <span class="icon">
                                     <i class="fab fa-google"></i>
@@ -87,7 +92,7 @@ const SignUp = () => {
                               </button>
                               <div class="title-sm title-wth-divider divider-center my-4">
                                 <span>Or</span>
-                              </div>
+                              </div> */}
                               <div class="row gx-3">
                                 <div className="col-lg-6">
                                   <InputField
@@ -172,13 +177,7 @@ const SignUp = () => {
                                   </div>
                                 </div> */}
                               </div>
-                              <div class="form-check form-check-sm mb-3 d-flex">
-                                {/* <input
-                                  type="checkbox"
-                                  class="form-check-input"
-                                  id="logged_in"
-                                  checked
-                                /> */}
+                              {/* <div class="form-check form-check-sm mb-3 d-flex">
                                 <Checkbox
                                   name=""
                                   control={control}
@@ -195,7 +194,7 @@ const SignUp = () => {
                                   you inform about latest updates through our
                                   default <a href="/">notification settings</a>
                                 </label>
-                              </div>
+                              </div> */}
                               <button
                                 type="submit"
                                 class="btn btn-primary btn-rounded btn-uppercase btn-block"
@@ -203,11 +202,11 @@ const SignUp = () => {
                                 Create account
                               </button>
 
-                              <p class="p-xs mt-2 text-center">
+                              {/* <p class="p-xs mt-2 text-center">
                                 <Link to="/sign-in">
                                   <u>Already have an account!</u>
                                 </Link>
-                              </p>
+                              </p> */}
                             </div>
                           </div>
                         </div>

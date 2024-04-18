@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { ForgotPassword } from "../../redux/services/auth";
 import { Link, useNavigate, redirect, useHref } from "react-router-dom";
+import logo from "./../../assets/logo.jpeg";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const ResetPassword = () => {
                     >
                       <div class="row">
                         <div class="col-lg-5 col-md-7 col-sm-10 mx-auto">
-                          <div class="text-center mb-7">
+                          {/* <div class="text-center mb-7">
                             <Link class="navbar-brand me-0" to="/">
                               <img
                                 class="brand-img d-inline-block"
@@ -49,6 +50,18 @@ const ResetPassword = () => {
                                 alt="brand"
                               />
                             </Link>
+                          </div> */}
+                          <div className="menu-header text-center">
+                            <span>
+                              <a className="navbar-brand flex" href="#">
+                                <img
+                                  className="brand-img img-fluid"
+                                  src={logo}
+                                  width={300}
+                                  alt="brand"
+                                />
+                              </a>
+                            </span>
                           </div>
                           <div class="card card-flush">
                             <div class="card-body text-center">
