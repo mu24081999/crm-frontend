@@ -37,13 +37,13 @@ const UpdatePassword = () => {
             <div className="form-group">
               <InputField
                 name="password"
-                placeholder="Password"
-                label="Password"
+                placeholder="New Password"
+                label="New Password"
                 control={control}
                 errors={errors}
               />
               <button type="submit" className="btn btn-primary mt-3">
-                Changes password
+                Update password
               </button>
             </div>
           </div>

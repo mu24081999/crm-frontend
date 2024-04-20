@@ -712,7 +712,7 @@ const VerticalNavbar = () => {
                   </ul>
                 </li>
               )}
-              {(user?.role === "USER" || user?.role === "SUPER_ADMIN") && (
+              {/* {(user?.role === "USER" || user?.role === "SUPER_ADMIN") && (
                 <li className="nav-item">
                   <a
                     className="nav-link"
@@ -771,7 +771,7 @@ const VerticalNavbar = () => {
                     </li>
                   </ul>
                 </li>
-              )}
+              )} */}
               {(user?.role === "USER" ||
                 user?.role === "SUPER_ADMIN" ||
                 user?.role === "ADMIN") && (

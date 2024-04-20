@@ -199,17 +199,16 @@ const MessageContent = () => {
   // }, [socket]);
   useEffect(() => {
     setMessages(messagesArray);
-    // const categorizeMessagesByDate =
-    //   messagesArray?.length > 0 &&
-    //   messagesArray?.reduce((result, message) => {
-    //     const date = message.created_at.slice(0, 10); // Extract date from created_at
-    //     if (!result[date]) {
-    //       result[date] = []; // Initialize array for the date if it doesn't exist
-    //     }
-    //     result[date].push(message); // Push message to the array for the date
-    //     return result;
-    //   }, {});
-    setSelectedMessages(messagesArray);
+    const messagesData =
+      messagesArray?.length > 0 &&
+      messagesArray?.filter(
+        (message) =>
+          (message.from_phone === user.phone &&
+            message.to_phone === selectedRoom.phone) ||
+          (message.to_phone === user.phone &&
+            message.from_phone === selectedRoom.phone)
+      );
+    setSelectedMessages(messagesData);
   }, [messagesArray]);
   const handleDataFromChild = (data) => {
     setSelectedRoom(data);

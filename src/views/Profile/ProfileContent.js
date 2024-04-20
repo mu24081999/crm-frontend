@@ -4,6 +4,7 @@ import EditAccountSetting from "./components/EditAccountSetting";
 import AccountSetting from "./components/AccountSetting";
 import UpdatePassword from "./components/UpdatePassword";
 import CardInformation from "./components/CardInformation";
+import EmailConfig from "./components/EmailConfig";
 
 const ProfileContent = () => {
   return (
@@ -28,8 +29,9 @@ const ProfileContent = () => {
                 <div className="tab-content">
                   <EditAccountSetting />
                   <AccountSetting />
-                  <CardInformation />
                   <UpdatePassword />
+                  <EmailConfig />
+                  <CardInformation />
                 </div>
               </div>
             </div>

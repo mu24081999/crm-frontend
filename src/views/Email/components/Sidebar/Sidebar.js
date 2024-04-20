@@ -10,10 +10,11 @@ import {
 } from "react-icons/fa";
 
 const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
+  console.log("🚀 ~ Sidebar ~ initialData:", initialData);
   const [activeBar, setActiveBar] = useState("inbox");
   const onSentClick = () => {
     const data = initialData?.filter(
-      (email) => email.sender.id === authUser.id
+      (email) => email?.sender?.id === authUser.id
     );
     onDataFromChild(data);
     setActiveBar("sent");

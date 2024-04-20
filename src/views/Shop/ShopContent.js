@@ -25,6 +25,7 @@ const ContactsContent = () => {
   const { token, accountSid, accountAuthToken } = useSelector(
     (state) => state.auth
   );
+
   const dispatch = useDispatch();
   useEffect(() => {
     if (contacts.length > 0) {

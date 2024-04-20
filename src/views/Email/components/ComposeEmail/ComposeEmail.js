@@ -14,6 +14,7 @@ import ReactTagInputComponent from "../../../../components/FormFields/reactTagIn
 import Loader from "../../../../components/Loader/Loader";
 import EditorField from "../../../../components/FormFields/Editor";
 import { FiPaperclip } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 const ComposeEmail = () => {
   const {
@@ -49,21 +50,26 @@ const ComposeEmail = () => {
     //   type: "email",
     //   files: data.files,
     // };
-    const formData = new FormData();
+    if (user?.google_app_passwords) {
+      const formData = new FormData();
 
-    // Append other form fields
-    formData.append("subject", data.subject);
-    formData.append("body", data.body);
-    formData.append("type", "email");
-    formData.append("from", user.email);
-    data?.to?.forEach((element) => {
-      formData.append("to", element);
-    });
-    data.files &&
-      data.files.forEach((element) => {
-        formData.append("files", element);
+      // Append other form fields
+      formData.append("subject", data.subject);
+      formData.append("body", data.body);
+      formData.append("type", "email");
+      formData.append("from", user.email);
+      formData.append("google_app_password", user?.google_app_password);
+      data?.to?.forEach((element) => {
+        formData.append("to", element);
       });
-    dispatch(sendEmailRec(token, formData));
+      data.files &&
+        data.files.forEach((element) => {
+          formData.append("files", element);
+        });
+      dispatch(sendEmailRec(token, formData));
+    } else {
+      toast.error("You are not allowed to send email!");
+    }
   };
   return (
     <div class="compose-email-popup">

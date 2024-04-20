@@ -32,21 +32,15 @@ const Sidebar = () => {
               <span className="nav-link-text">Login & Security</span>
             </a>
           </li>
-          {/* <li className="nav-item">
-            <a href="#" className="nav-link">
-              <span className="nav-link-text">Notifications</span>
+          <li className="nav-item">
+            <a
+              data-bs-toggle="tab"
+              href="#tab_email_config"
+              className="nav-link"
+            >
+              <span className="nav-link-text">Email Configuration</span>
             </a>
           </li>
-          <li className="nav-item">
-            <a data-scroll="" href="#" className="nav-link">
-              <span className="nav-link-text">Connections</span>
-            </a>
-          </li>
-          <li className="nav-item">
-            <a data-scroll="" href="#" className="nav-link">
-              <span className="nav-link-text">Billing Info</span>
-            </a>
-          </li> */}
         </ul>
       </div>
     </div>

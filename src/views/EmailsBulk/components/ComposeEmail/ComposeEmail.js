@@ -11,6 +11,7 @@ import { getUsers } from "../../../../redux/services/users";
 import { sendEmailRec } from "../../../../redux/services/email";
 import EditorField from "../../../../components/FormFields/Editor";
 import Loader from "../../../../components/Loader/Loader";
+import { toast } from "react-toastify";
 
 const ComposeEmail = () => {
   const {
@@ -41,31 +42,36 @@ const ComposeEmail = () => {
     setValue("files", e.currentTarget.files);
   };
   const handleSendEmail = (data) => {
-    const formData = new FormData();
+    if (user?.google_app_password) {
+      const formData = new FormData();
 
-    // Append other form fields
-    formData.append("subject", data.subject);
-    formData.append("body", data.body);
-    formData.append("type", "email");
-    formData.append("from", user.email);
-    if (emails.length > 0) {
-      emails?.forEach((element) => {
-        formData.append("to", element);
-      });
+      // Append other form fields
+      formData.append("subject", data.subject);
+      formData.append("body", data.body);
+      formData.append("type", "email");
+      formData.append("from", user?.email);
+      formData.append("google_app_password", user?.google_app_password);
+      if (emails.length > 0) {
+        emails?.forEach((element) => {
+          formData.append("to", element);
+        });
+      } else {
+        const textEmails = data?.to?.split("\n");
+        console.log("🚀 ~ handleSendEmail ~ textEmails:", textEmails);
+        textEmails?.forEach((element) => {
+          formData.append("to", element);
+        });
+      }
+      data?.files &&
+        data?.files.forEach((element) => {
+          formData.append("files", element);
+        });
+
+      dispatch(sendEmailRec(token, formData));
+      reset();
     } else {
-      const textEmails = data?.to?.split("\n");
-      console.log("🚀 ~ handleSendEmail ~ textEmails:", textEmails);
-      textEmails?.forEach((element) => {
-        formData.append("to", element);
-      });
+      toast.error("You are not allowed to send email!");
     }
-    data?.files &&
-      data?.files.forEach((element) => {
-        formData.append("files", element);
-      });
-
-    dispatch(sendEmailRec(token, formData));
-    reset();
   };
   // Function to extract email addresses from CSV contents
   // Function to extract all columns and their data from CSV contents

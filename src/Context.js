@@ -122,11 +122,9 @@ const ContextProvider = ({ children }) => {
       //     }
       //   });
       socket.on("message_sent", (messages) => {
-        console.log("🚀 ~ socket.on ~ messages:", messages);
         setMessagesArray(messages);
       });
       socket.on("message_recieved", (messages) => {
-        console.log("🚀 ~ socket.on ~ messages:", messages);
         setMessagesArray(messages);
       });
       socket.emit("user_connected", user_id);

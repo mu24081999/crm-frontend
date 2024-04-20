@@ -34,7 +34,7 @@ const CardInformation = () => {
         <div className="title-lg fs-4 mb-4">
           <span>Card Information</span>
         </div>
-        <div>
+        <div className="row gap-5">
           {cards?.length > 0 &&
             cards?.map((card, index) => (
               <div className="card rounded shadow-lg col-md-3 col-sm-6 my-5">

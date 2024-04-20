@@ -23,6 +23,8 @@ export const authSlice = createSlice({
       state.error = "";
       state.token = "";
       state.isAuthenticated = false;
+      state.accountAuthToken = "";
+      state.accountSid = "";
       state.type = "";
       state.user_id = "";
       state.user = {};
@@ -36,6 +38,8 @@ export const authSlice = createSlice({
       state.user_id = "";
       state.token = "";
       state.isAuthenticated = false;
+      state.accountAuthToken = "";
+      state.accountSid = "";
     },
     login: (state, action) => {
       state.user = action.payload;
@@ -60,6 +64,8 @@ export const authSlice = createSlice({
       state.error = "";
       state.message = action.payload;
       state.isAuthenticated = false;
+      state.accountAuthToken = "";
+      state.accountSid = "";
       state.type = "Success";
     },
     register: (state, action) => {
@@ -71,6 +77,8 @@ export const authSlice = createSlice({
       state.error = "";
       state.message = "Registered Successfully.";
       state.type = "Success";
+      state.accountAuthToken = "";
+      state.accountSid = "";
     },
     forgotPassword: (state, action) => {
       state.user = "";
@@ -81,6 +89,8 @@ export const authSlice = createSlice({
       state.error = "";
       state.message = action.payload;
       state.type = "Success";
+      state.accountAuthToken = "";
+      state.accountSid = "";
     },
     verifyOtp: (state, action) => {
       state.user = "";
@@ -91,6 +101,8 @@ export const authSlice = createSlice({
       state.error = "";
       state.message = action.payload;
       state.type = "Success";
+      state.accountAuthToken = "";
+      state.accountSid = "";
     },
     resetPassword: (state, action) => {
       state.user = action.payload;
@@ -103,6 +115,8 @@ export const authSlice = createSlice({
       state.error = "";
       state.message = "Login Success";
       state.type = "Success";
+      state.accountAuthToken = "";
+      state.accountSid = "";
     },
     reloadPage: (state, action) => {
       state.message = "";
