@@ -13,10 +13,17 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 // Load SSL certificate and key
+// const sslOptions = {
+//   key: fs.readFileSync("desktopcrm.key"),
+//   cert: fs.readFileSync("desktopcrm.crt"),
+//   ca: fs.readFileSync("desktopcrm.ca-bundle"),
+// };
 const sslOptions = {
-  key: fs.readFileSync("desktopcrm.key"),
-  cert: fs.readFileSync("desktopcrm.crt"),
-  ca: fs.readFileSync("desktopcrm.ca-bundle"),
+  key: fs.readFileSync("app.desktopcrm.com.key"),
+  cert: fs.readFileSync("app_desktopcrm_com.crt"),
+  // cert: fs.readFileSync("desktopcrm_com.crt"),
+  ca: fs.readFileSync("app_desktopcrm_com.ca-bundle"),
+  // ca: fs.readFileSync("desktopcrm.ca-bundle"),
 };
 console.log("🚀 ~ sslOptions:", path.join(__dirname, "build"));
 
