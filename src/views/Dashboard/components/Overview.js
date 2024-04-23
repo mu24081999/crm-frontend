@@ -539,22 +539,24 @@ const Overview = ({ dashboardData, isLoading }) => {
             </duv>
           </div>
           <div className="card-body" style={{ backgroundColor: "" }}>
-            <div class="contact-list-view">
-              <table
-                data-sticky-header
-                className="table table-striped w-100 mb-5"
-              >
-                <thead className="table-primary ">
-                  <tr className="sticky-top border p-1 shadow-lg p-3 mb-5 bg-white rounded">
-                    <th>Account Name</th>
-                    <th>Email</th>
-                    <th>Date Created</th>
-                  </tr>
-                </thead>
+            {isLoading === true ? (
+              <Loader />
+            ) : (
+              <div class="contact-list-view">
+                <table
+                  data-sticky-header
+                  className="table table-striped w-100 mb-5"
+                >
+                  <thead className="table-primary ">
+                    <tr className="sticky-top border p-1 shadow-lg p-3 mb-5 bg-white rounded">
+                      <th>Account Name</th>
+                      <th>Email</th>
+                      <th>Date Created</th>
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  {!isLoading ? (
-                    dashboardData?.sub_accounts?.map((account, index) => {
+                  <tbody>
+                    {dashboardData?.sub_accounts?.map((account, index) => {
                       return (
                         <>
                           <tr key={index}>
@@ -568,13 +570,11 @@ const Overview = ({ dashboardData, isLoading }) => {
                           </tr>
                         </>
                       );
-                    })
-                  ) : (
-                    <Loader />
-                  )}
-                </tbody>
-              </table>
-            </div>
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </div>
         <div className="card p-0 col-md-12 col-sm-6">
@@ -606,25 +606,27 @@ const Overview = ({ dashboardData, isLoading }) => {
             </duv>
           </div>
           <div className="card-body" style={{ backgroundColor: "#08c91e21" }}>
-            <div class="contact-list-view">
-              <table
-                data-sticky-header
-                className="table table-striped w-100 mb-5"
-              >
-                <thead className="table-primary ">
-                  <tr className="sticky-top border p-1 shadow-lg p-3 mb-5 bg-white rounded">
-                    <th>Number</th>
-                    <th>Type</th>
-                    <th>Voice</th>
-                    <th>SMS</th>
-                    <th>MMS</th>
-                    <th>FAX</th>
-                  </tr>
-                </thead>
+            {isLoading === true ? (
+              <Loader />
+            ) : (
+              <div class="contact-list-view">
+                <table
+                  data-sticky-header
+                  className="table table-striped w-100 mb-5"
+                >
+                  <thead className="table-primary ">
+                    <tr className="sticky-top border p-1 shadow-lg p-3 mb-5 bg-white rounded">
+                      <th>Number</th>
+                      <th>Type</th>
+                      <th>Voice</th>
+                      <th>SMS</th>
+                      <th>MMS</th>
+                      <th>FAX</th>
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  {!isLoading ? (
-                    dashboardData?.numbers?.map((number, index) => (
+                  <tbody>
+                    {dashboardData?.numbers?.map((number, index) => (
                       <tr key={index}>
                         <td>{number?.phoneNumber}</td>
                         <td>Local</td>
@@ -669,13 +671,11 @@ const Overview = ({ dashboardData, isLoading }) => {
                           </span>
                         </td>
                       </tr>
-                    ))
-                  ) : (
-                    <Loader />
-                  )}
-                </tbody>
-              </table>
-            </div>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </div>
         <div className="card shadow-lg p-0 col-md-4 col-sm-6 ms-3">
