@@ -50,7 +50,7 @@ const ComposeEmail = () => {
     //   type: "email",
     //   files: data.files,
     // };
-    if (user?.google_app_passwords) {
+    if (user?.google_app_password) {
       const formData = new FormData();
 
       // Append other form fields

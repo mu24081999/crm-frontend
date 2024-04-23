@@ -46,7 +46,10 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
   };
 
   return (
-    <div className="contact-list-view">
+    <div
+      className="contact-list-view"
+      style={{ height: "100%", overflow: "scroll" }}
+    >
       {!isEdit && (
         <>
           {isLoading ? (

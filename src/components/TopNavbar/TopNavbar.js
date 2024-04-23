@@ -3,10 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser, logoutUser } from "../../redux/services/auth";
 import _ from "lodash";
 import Dialer from "../PhoneDialer/Dialer";
-import { FaBell, FaInbox, FaPlus, FaUserAstronaut } from "react-icons/fa";
+import {
+  FaBell,
+  FaInbox,
+  FaPlus,
+  FaRegUser,
+  FaUserAlt,
+  FaUserAstronaut,
+  FaUserCog,
+} from "react-icons/fa";
 import { getUserSubAccountsList } from "../../redux/services/calling";
 import { setAccount } from "../../redux/slices/auth";
 import { getUsers } from "../../redux/services/users";
+import { Link } from "react-router-dom";
 
 const TopNavbar = ({}) => {
   const dispatch = useDispatch();
@@ -694,11 +703,13 @@ const TopNavbar = ({}) => {
                     </div>
                   </div>
                   <div className="dropdown-divider"></div>
-                  <a className="dropdown-item">Profile</a>
-                  <a className="dropdown-item">
-                    <span className="me-2">Offers</span>
-                    <span className="badge badge-sm badge-soft-pink">2</span>
-                  </a>
+                  <Link to={"/profile-settings"} className="dropdown-item">
+                    <span className="pe-2" style={{ paddingTop: "-5px" }}>
+                      {" "}
+                      <FaRegUser />
+                    </span>
+                    Profile
+                  </Link>
                   <div className="dropdown-divider"></div>
                   <h6 className="dropdown-header">Manage Account</h6>
                   <a className="dropdown-item d-flex">
@@ -718,13 +729,6 @@ const TopNavbar = ({}) => {
                       <i data-feather="settings"></i>
                     </span>
                     <span>Settings</span>
-                  </a>
-                  <div className="dropdown-divider"></div>
-                  <a className="dropdown-item flex">
-                    <span className="dropdown-icon pt-1 feather-icon">
-                      <i data-feather="tag"></i>
-                    </span>
-                    <span>Raise a ticket</span>
                   </a>
                   <div className="dropdown-divider"></div>
                   <a className="dropdown-item">Terms & Conditions</a>

@@ -1,10 +1,14 @@
 import React from "react";
 import { FaEnvelope } from "react-icons/fa";
 import Dialer from "../../components/PhoneDialer/Dialer";
+import { useSelector } from "react-redux";
 
 const ChatPopup = () => {
+  const { user } = useSelector((state) => state.auth);
   return (
     <div>
+      {user?.parent_id !== null && <Dialer />}
+
       {/* <!-- Chat Popup --> */}
       {/* <div className="hk-chatbot-popup">
         <header>
@@ -273,7 +277,6 @@ const ChatPopup = () => {
           </div>
         </footer>
       </div> */}
-      <Dialer />
       {/* <a
         href="/"
         className="btn btn-icon btn-floating btn-primary btn-lg btn-rounded btn-popup-open"

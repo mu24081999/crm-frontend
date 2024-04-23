@@ -10,14 +10,17 @@ import {
   FaUserCog,
   FaUsers,
 } from "react-icons/fa";
-import { MdMarkEmailRead, MdSupportAgent } from "react-icons/md";
+import { MdMarkEmailRead, MdSupportAgent, MdSwapCalls } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { FaHouseUser } from "react-icons/fa6";
+import { FaHouseUser, FaRegCircleUser } from "react-icons/fa6";
 import { CiMenuFries } from "react-icons/ci";
-import { SiTodoist } from "react-icons/si";
+import { SiGmail, SiTodoist } from "react-icons/si";
 import logo from "./../../assets/logo.jpeg";
 import { MdOutlineSubscriptions } from "react-icons/md";
 import { TbCirclesRelation } from "react-icons/tb";
+import { LuUsers } from "react-icons/lu";
+import { RiContactsBook2Line, RiTodoLine } from "react-icons/ri";
+import { GoFileDirectory } from "react-icons/go";
 
 const VerticalNavbar = () => {
   const { user } = useSelector((state) => state.auth);
@@ -26,7 +29,7 @@ const VerticalNavbar = () => {
       {/* <!-- Brand --> */}
       <div className="menu-header">
         <span>
-          <a className="navbar-brand flex" href="index.html">
+          <Link className="navbar-brand flex" to="/">
             {/* <img className="brand-img img-fluid" src={brandSm} alt="brand" /> */}
             <TbCirclesRelation size={35} color="#007d88" />
 
@@ -38,7 +41,7 @@ const VerticalNavbar = () => {
               width={150}
               alt="brand"
             />
-          </a>
+          </Link>
           <button className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle">
             <span className="icon">
               <span className="svg-icon fs-5">
@@ -275,7 +278,7 @@ const VerticalNavbar = () => {
                     <Link className="nav-link" to="/clients">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
-                          <FaUsers />
+                          <LuUsers />
                         </span>
                       </span>
                       <span className="nav-link-text">Clients</span>
@@ -434,7 +437,7 @@ const VerticalNavbar = () => {
                     <Link className="nav-link" to="/contacts">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
-                          <FaHouseUser />
+                          <RiContactsBook2Line />
                         </span>
                       </span>
                       <span className="nav-link-text">Contacts</span>
@@ -444,7 +447,7 @@ const VerticalNavbar = () => {
                     <Link className="nav-link" to="/recordings">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
-                          <FaHistory />
+                          <MdSwapCalls />
                         </span>
                       </span>
                       <span className="nav-link-text">Call History</span>
@@ -468,7 +471,7 @@ const VerticalNavbar = () => {
                         3
                       </span>
                       <span className="svg-icon">
-                        <MdMarkEmailRead />
+                        <SiGmail />
                       </span>
                     </span>
                     <span className="nav-link-text">Email</span>
@@ -545,7 +548,7 @@ const VerticalNavbar = () => {
                   <Link className="nav-link" to="/file-manager">
                     <span className="nav-icon-wrap">
                       <span className="svg-icon">
-                        <FaCloud />
+                        <GoFileDirectory />
                       </span>
                     </span>
                     <span className="nav-link-text">File Manager</span>
@@ -590,7 +593,7 @@ const VerticalNavbar = () => {
                   <Link className="nav-link" to="/todos">
                     <span className="nav-icon-wrap">
                       <span className="svg-icon">
-                        <SiTodoist />
+                        <RiTodoLine />
                       </span>
                     </span>
                     <span className="nav-link-text">Todo</span>
@@ -784,7 +787,7 @@ const VerticalNavbar = () => {
                   >
                     <span className="nav-icon-wrap">
                       <span className="svg-icon">
-                        <FaUserCog />
+                        <FaRegCircleUser />
                       </span>
                     </span>
                     <span className="nav-link-text">Profile</span>

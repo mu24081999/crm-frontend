@@ -1,13 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import Analystics from "./components/Analystics";
 import Overview from "./components/Overview";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment/moment";
 import { FaCalendar, FaCalendarAlt } from "react-icons/fa";
+import { getDashboardData } from "../../redux/services/dashboard";
 
 const DashboardContent = () => {
-  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { token, user, accountSid, accountAuthToken } = useSelector(
+    (state) => state.auth
+  );
+  const { dashboardData, isLoading } = useSelector((state) => state.dashboard);
+  console.log("🚀 ~ DashboardContent ~ dashboardData:", dashboardData);
+  useEffect(() => {
+    const data = {
+      user_id: user.id,
+      authToken: accountAuthToken,
+      accountSid: accountSid,
+      user_email: user.email,
+      user_phone: user.phone,
+    };
+    dispatch(getDashboardData(token, data));
+  }, [dispatch, token, accountAuthToken, accountSid, user]);
+  //
   return (
     <div>
       {/* <!-- Main Content --> */}
@@ -30,7 +47,7 @@ const DashboardContent = () => {
                 </div>
               </div>
             </div>
-            <ul class="nav nav-line nav-light nav-tabs">
+            {/* <ul class="nav nav-line nav-light nav-tabs">
               <li class="nav-item">
                 <a
                   class="nav-link active"
@@ -49,15 +66,15 @@ const DashboardContent = () => {
                   <span class="nav-link-text">Analytics</span>
                 </a>
               </li>
-            </ul>
+            </ul> */}
           </div>
           {/* <!-- /Page Header --> */}
 
           {/* <!-- Page Body --> */}
           <div class="hk-pg-body">
             <div class="tab-content">
-              <Overview />
-              <Analystics />
+              <Overview dashboardData={dashboardData} isLoading={isLoading} />
+              {/* <Analystics dashboardData={dashboardData} /> */}
             </div>
           </div>
           {/* <!-- /Page Body -->		 */}

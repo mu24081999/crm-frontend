@@ -27,6 +27,7 @@ const persistConfig = {
     "agent",
     "payment",
     "subscription",
+    "dashboard",
   ],
   whitelist: ["auth"],
 };

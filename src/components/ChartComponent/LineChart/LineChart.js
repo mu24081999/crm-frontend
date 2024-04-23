@@ -1,18 +1,22 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-const LineChart = () => {
+const LineChart = ({ categories, series, title }) => {
   const state = {
-    series: [
-      {
-        name: "Calls Inbound",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
-      },
-      {
-        name: "Calls Outbound",
-        data: [74, 34, 23, 45, 65, 34, 69, 91, 148],
-      },
-    ],
+    series: series?.length > 0 ? series : [{ name: "no-data" }],
+
+    // series:
+    // [
+    //   {
+    //     name: "Calls",
+    //     data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
+    //   },
+
+    //   {
+    //     name: "Calls Outbound",
+    //     data: [74, 34, 23, 45, 65, 34, 69, 91, 148],
+    //   },
+    // ],
     options: {
       chart: {
         height: 350,
@@ -28,7 +32,8 @@ const LineChart = () => {
         curve: "straight",
       },
       title: {
-        text: "Calls Analystics",
+        // text: "Calls Analystics",
+        text: title,
         align: "left",
       },
       grid: {
@@ -38,17 +43,18 @@ const LineChart = () => {
         },
       },
       xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-        ],
+        categories: categories?.length > 0 ? categories : [{ name: "no-data" }],
+        // [
+        //   "Jan",
+        //   "Feb",
+        //   "Mar",
+        //   "Apr",
+        //   "May",
+        //   "Jun",
+        //   "Jul",
+        //   "Aug",
+        //   "Sep",
+        // ],
       },
     },
   };

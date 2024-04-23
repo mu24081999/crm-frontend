@@ -3,50 +3,74 @@ import LineChart from "../../../components/ChartComponent/LineChart/LineChart";
 import DonutChart from "../../../components/ChartComponent/DonutChart/DonutChart";
 import SyncingChart from "../../../components/ChartComponent/ SyncingChart/SyncingChart";
 
-const Analystics = () => {
+const Analystics = ({ dashboardData }) => {
   return (
     <div class="tab-pane fade show" id="dashboard_analystics_tab">
-      <div class="row ">
-        <div className="card p-0 col-md-6 col-sm-6">
-          <div className="card-header w-100 bg-primary">
+      <div class="row  gap-2">
+        <div className="card p-0 col-md-5 col-sm-6">
+          <div
+            className="card-header w-100 "
+            style={{ background: "#08c91ec4" }}
+          >
             <duv className="card-title" style={{ color: "white" }}>
               Calls Inbound/Outbound
             </duv>
           </div>
-          <LineChart title="Monthly Leads Report" />
+          <LineChart
+            title="Calls Report"
+            categories={dashboardData?.calls?.chart?.categories}
+            series={dashboardData?.calls?.chart?.series}
+          />
         </div>
-        <div className="card p-0 col-md-6 col-sm-6">
-          <div className="card-header w-100 bg-primary">
+        <div className="card p-0 col-md-5 col-sm-6">
+          <div
+            className="card-header w-100 "
+            style={{ background: "#08c91ec4" }}
+          >
             <duv className="card-title" style={{ color: "white" }}>
               SMS Inbound/Outbound
             </duv>
           </div>
-          <LineChart title="Monthly Leads Report" />
+          <LineChart
+            title="Messages Report"
+            categories={dashboardData?.messages?.chart?.categories}
+            series={dashboardData?.messages?.chart?.series}
+          />
         </div>
 
         {/* <div className="card p-0 col-md-8 col-sm-6">
-      <div className="card-header w-100 bg-primary">
+      <div className="card-header w-100 " style={backgroundr:"#08c91ec4"}}>
         <duv className="card-title" style={{ color: "white" }}>
           Calls Inbound/Outbound
         </duv>
       </div>
       <ColumnChart title="Monthly Leads Report" />
     </div> */}
-        <div className="card p-0 col-md-4 col-sm-6">
-          <div className="card-header w-100 bg-primary">
+        {/* <div className="card p-0 col-md-4 col-sm-6">
+          <div
+            className="card-header w-100 "
+            style={{ background: "#08c91ec4" }}
+          >
             <duv className="card-title" style={{ color: "white" }}>
               New Leads
             </duv>
           </div>
           <DonutChart title="New Leads" />
-        </div>
-        <div className="card p-0 col-md-8 col-sm-6">
-          <div className="card-header w-100 bg-primary">
+        </div> */}
+        <div className="card p-0 col-md-10 col-sm-6">
+          <div
+            className="card-header w-100 "
+            style={{ background: "#08c91ec4" }}
+          >
             <duv className="card-title" style={{ color: "white" }}>
               Emails Send/Recieved
             </duv>
           </div>
-          <SyncingChart title="New Leads" />
+          <SyncingChart
+            title="Emails Report"
+            categories={dashboardData?.emails?.chart?.categories}
+            series={dashboardData?.emails?.chart?.series}
+          />
         </div>
 
         {/* <div class="col-xxl-3 col-lg-4 col-md-5 mb-md-4 mb-3">

@@ -17,6 +17,7 @@ import agentReducer from "./slices/agent";
 import paymentReducer from "./slices/payment";
 import cardReducer from "./slices/card";
 import subscriptionReducer from "./slices/subscription";
+import dashboardReducer from "./slices/dashboard";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -37,4 +38,5 @@ export const rootReducer = combineReducers({
   payment: paymentReducer,
   card: cardReducer,
   subscription: subscriptionReducer,
+  dashboard: dashboardReducer,
 });

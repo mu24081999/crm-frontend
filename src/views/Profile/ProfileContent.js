@@ -5,6 +5,7 @@ import AccountSetting from "./components/AccountSetting";
 import UpdatePassword from "./components/UpdatePassword";
 import CardInformation from "./components/CardInformation";
 import EmailConfig from "./components/EmailConfig";
+import Billing from "./components/Billing";
 
 const ProfileContent = () => {
   return (
@@ -31,6 +32,7 @@ const ProfileContent = () => {
                   <AccountSetting />
                   <UpdatePassword />
                   <EmailConfig />
+                  <Billing />
                   <CardInformation />
                 </div>
               </div>

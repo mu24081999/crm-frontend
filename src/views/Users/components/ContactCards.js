@@ -289,7 +289,7 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
             </div>
           ))}
       </div>
-
+      {/* 
       <div className="row">
         <div className="d-flex align-items-center col-sm-12 col-md-5 justify-content-center justify-content-md-start">
           <div className="dataTables_info">1 - 10 of 30</div>
@@ -318,7 +318,7 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
             </li>
           </ul>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

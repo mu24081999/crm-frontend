@@ -35,6 +35,15 @@ const Sidebar = () => {
           <li className="nav-item">
             <a
               data-bs-toggle="tab"
+              href="#tab_block_billing"
+              className="nav-link"
+            >
+              <span className="nav-link-text">Billing Address</span>
+            </a>
+          </li>
+          <li className="nav-item">
+            <a
+              data-bs-toggle="tab"
               href="#tab_email_config"
               className="nav-link"
             >

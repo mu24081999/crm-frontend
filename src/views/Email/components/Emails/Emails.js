@@ -13,7 +13,6 @@ const Emails = ({
   token,
   dispatch,
 }) => {
-  console.log("🚀 ~ emailDetails:", emailDetails);
   return (
     <div class="emailapp-content">
       <div class="emailapp-aside">

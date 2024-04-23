@@ -301,7 +301,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
       {/* <!--Sidebar Fixnav--> */}
       <div className="contactapp-fixednav">
         <div className="hk-toolbar">
-          <ul className="nav nav-light">
+          {/* <ul className="nav nav-light">
             <li className="nav-item nav-link">
               <a
                 className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
@@ -330,7 +330,6 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
               >
                 <span className="icon">
                   <span className="feather-icon">
-                    {/* <i data-feather="archive"></i> */}
                     <FaArchive />
                   </span>
                 </span>
@@ -353,7 +352,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                 </span>
               </a>
             </li>
-          </ul>
+          </ul> */}
         </div>
       </div>
       {/* <!--/ Sidebar Fixnav--> */}

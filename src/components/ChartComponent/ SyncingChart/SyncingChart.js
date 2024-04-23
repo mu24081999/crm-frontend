@@ -1,7 +1,7 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-const GroupedStackedColumnChart = () => {
+const GroupedStackedColumnChart = ({ categories, series: chart_series }) => {
   // Define the options for the chart
   const options = {
     chart: {
@@ -23,20 +23,21 @@ const GroupedStackedColumnChart = () => {
       enabled: false,
     },
     xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
+      categories: categories?.length > 0 ? categories : [{ name: "no-data" }],
+      // [
+      //   "Jan",
+      //   "Feb",
+      //   "Mar",
+      //   "Apr",
+      //   "May",
+      //   "Jun",
+      //   "Jul",
+      //   "Aug",
+      //   "Sep",
+      //   "Oct",
+      //   "Nov",
+      //   "Dec",
+      // ],
       labels: {
         rotate: -45,
       },
@@ -62,16 +63,18 @@ const GroupedStackedColumnChart = () => {
   };
 
   // Define the data series for the chart
-  const series = [
-    {
-      name: "Series 1",
-      data: [44, 55, 41, 67, 34, 34, 23, 34, 56, 100, 33.9], // Data for each group
-    },
-    {
-      name: "Series 2",
-      data: [13, 23, 20, 8, 56, 78, 32, 67, 32, 45, 80, 99], // Data for each group
-    },
-  ];
+  const series =
+    chart_series?.length > 0 ? chart_series : [{ name: "no-data" }];
+  // [
+  //   {
+  //     name: "Series 1",
+  //     data: [44, 55, 41, 67, 34, 34, 23, 34, 56, 100, 33.9], // Data for each group
+  //   },
+  //   {
+  //     name: "Series 2",
+  //     data: [13, 23, 20, 8, 56, 78, 32, 67, 32, 45, 80, 99], // Data for each group
+  //   },
+  // ];
 
   // Render the chart component
   return (
