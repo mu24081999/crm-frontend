@@ -34,6 +34,8 @@ import Account from "./views/Account/Account";
 import Profile from "./views/Profile/Profile";
 import Payment from "./views/Payment/Payment";
 import Subscription from "./views/Subscription/Subscription";
+import KYC from "./views/KYC/KYC";
+import Subaccounts from "./views/SubAccounts/Subaccounts";
 
 // Define allowed roles for each route
 const roles = {
@@ -121,6 +123,14 @@ const router = (role) => {
     {
       path: "contacts",
       element: <Contacts />,
+    },
+    {
+      path: "kyc-form",
+      element: <KYC />,
+    },
+    {
+      path: "subaccounts",
+      element: <Subaccounts />,
     },
     {
       path: "sign-up",
