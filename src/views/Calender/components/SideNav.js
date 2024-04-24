@@ -45,7 +45,7 @@ const SideNav = ({
               {upcomingData?.length > 0 &&
                 upcomingData?.map((event, index) => (
                   <li className="nav-item">
-                    <a className="nav-link" href="/">
+                    <a className="nav-link">
                       <div className="d-flex align-items-center">
                         <span className="badge badge-violet badge-indicator badge-indicator-lg me-2"></span>
                         <span className="event-time">

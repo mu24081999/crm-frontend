@@ -5,8 +5,17 @@ const path = require("path");
 
 const app = express();
 
-// Serve static files from the 'build' directory
-app.use(express.static(path.join(__dirname, "build")));
+// Serve static files from the 'build' directory for all hostnames
+// app.use(express.static(path.join(__dirname, "build")));
+
+// Serve static files only for app.desktopcrm.com
+app.use((req, res, next) => {
+  if (req.hostname === "app.desktopcrm.com") {
+    express.static(path.join(__dirname, "build"))(req, res, next);
+  } else {
+    next();
+  }
+});
 
 // Handle all other requests
 app.get("*", (req, res) => {

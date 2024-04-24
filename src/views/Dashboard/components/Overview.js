@@ -14,8 +14,8 @@ import Loader from "../../../components/Loader/Loader";
 const Overview = ({ dashboardData, isLoading }) => {
   return (
     <div class="tab-pane fade show active" id="dashboard_overview_tab">
-      <div className="row p-auto  border">
-        <section class="py-3 py-md-5">
+      <div className="row p-auto">
+        <section class="pb-2">
           <div class="container">
             <div class="row justify-content-center">
               <div class="">
@@ -61,7 +61,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                           </div>
                           <div class="col-4">
                             <div class="d-flex justify-content-end">
-                              <div class="lh-1 text-white bg-info rounded-circle p-3 d-flex align-items-center justify-content-center">
+                              <div class="lh-1 text-white bg-primary rounded-circle p-3 d-flex align-items-center justify-content-center">
                                 <BsEnvelopeCheck size={25} />{" "}
                               </div>
                             </div>
@@ -113,7 +113,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                           </div>
                           <div class="col-4">
                             <div class="d-flex justify-content-end">
-                              <div class="lh-1 text-white bg-info rounded-circle p-3 d-flex align-items-center justify-content-center">
+                              <div class="lh-1 text-white bg-primary rounded-circle p-3 d-flex align-items-center justify-content-center">
                                 <IoCallOutline size={25} />
                               </div>
                             </div>
@@ -171,7 +171,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                           </div>
                           <div class="col-4">
                             <div class="d-flex justify-content-end">
-                              <div class="lh-1 text-white bg-info rounded-circle p-3 d-flex align-items-center justify-content-center">
+                              <div class="lh-1 text-white bg-primary rounded-circle p-3 d-flex align-items-center justify-content-center">
                                 <SiGmail size={25} />
                               </div>
                             </div>
@@ -219,7 +219,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                           </div>
                           <div class="col-4">
                             <div class="d-flex justify-content-end">
-                              <div class="lh-1 text-white bg-info rounded-circle p-3 d-flex align-items-center justify-content-center">
+                              <div class="lh-1 text-white bg-primary rounded-circle p-3 d-flex align-items-center justify-content-center">
                                 <MdOutlineSubscriptions size={25} />
                               </div>
                             </div>
@@ -268,7 +268,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                           </div>
                           <div class="col-4">
                             <div class="d-flex justify-content-end">
-                              <div class="lh-1 text-white bg-info rounded-circle p-3 d-flex align-items-center justify-content-center">
+                              <div class="lh-1 text-white bg-primary rounded-circle p-3 d-flex align-items-center justify-content-center">
                                 <LiaFileInvoiceDollarSolid size={25} />
                               </div>
                             </div>
@@ -314,7 +314,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                           </div>
                           <div class="col-4">
                             <div class="d-flex justify-content-end">
-                              <div class="lh-1 text-white bg-info rounded-circle p-3 d-flex align-items-center justify-content-center">
+                              <div class="lh-1 text-white bg-primary rounded-circle p-3 d-flex align-items-center justify-content-center">
                                 <SiGoogleads size={25} />
                               </div>
                             </div>
@@ -509,193 +509,208 @@ const Overview = ({ dashboardData, isLoading }) => {
           </div>
         </div> */}
       </div>
-      <div className="row gap-4 container">
-        <div className="card shadow-lg p-0 col-md-6 col-sm-6 ms-5">
-          <div className="card-header w-100 " style={{ background: "#45a59d	" }}>
-            <duv className="card-title text-center" style={{ color: "white" }}>
-              SMS Inbound and Outbound
-            </duv>
-          </div>
-          {isLoading === true ? (
-            <Loader></Loader>
-          ) : (
-            <LineChart
-              title="Messages Report"
-              categories={dashboardData?.messages?.chart?.categories}
-              series={dashboardData?.messages?.chart?.series}
-            />
-          )}
-        </div>
-        <div className="card shadow-lg p-0 col-md-5 col-sm-6 mx-3">
-          <div
-            className="card-header w-100 "
-            style={{ backgroundColor: "#45a59d	" }}
-          >
-            <duv
-              className="card-title text-center w-100"
-              style={{ color: "white" }}
+      <div className="row gap-4">
+        <div className="col-12 d-flex px-4 flex-wrap flex-wrap gap-4">
+          <div className="card shadow-lg p-0 " style={{ width: "60%" }}>
+            <div
+              className="card-header w-100 "
+              style={{ background: "#45a59d	" }}
             >
-              Sub Accounts
-            </duv>
-          </div>
-          <div className="card-body" style={{ backgroundColor: "" }}>
+              <duv
+                className="card-title text-center"
+                style={{ color: "white" }}
+              >
+                SMS Inbound and Outbound
+              </duv>
+            </div>
             {isLoading === true ? (
-              <Loader />
+              <Loader></Loader>
             ) : (
-              <div class="contact-list-view">
-                <table
-                  data-sticky-header
-                  className="table table-striped w-100 mb-5"
-                >
-                  <thead className="table-primary ">
-                    <tr className="sticky-top border p-1 shadow-lg p-3 mb-5 bg-white rounded">
-                      <th>Account Name</th>
-                      <th>Email</th>
-                      <th>Date Created</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {dashboardData?.sub_accounts?.map((account, index) => {
-                      return (
-                        <>
-                          <tr key={index}>
-                            <td>{account?.name}</td>
-                            <td>{account?.email}</td>
-                            <td>
-                              {moment(account?.created_at)?.format(
-                                "DD MMM,YYYY"
-                              )}
-                            </td>
-                          </tr>
-                        </>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
+              <LineChart
+                title="Messages Report"
+                categories={dashboardData?.messages?.chart?.categories}
+                series={dashboardData?.messages?.chart?.series}
+              />
             )}
           </div>
-        </div>
-        <div className="card p-0 col-md-12 col-sm-6">
-          <div className="card-header w-100 " style={{ background: "#45a59d	" }}>
-            <duv className="card-title" style={{ color: "white" }}>
-              Emails Send/Recieved
-            </duv>
-          </div>
-          {isLoading === true ? (
-            <Loader></Loader>
-          ) : (
-            <SyncingChart
-              title="Emails Report"
-              categories={dashboardData?.emails?.chart?.categories}
-              series={dashboardData?.emails?.chart?.series}
-            />
-          )}
-        </div>
-        <div className="card shadow-lg p-0 col-md-7 col-sm-4 ms-5">
-          <div
-            className="card-header w-100"
-            style={{ backgroundColor: "#45a59d	" }}
-          >
-            <duv
-              className="card-title text-center w-100"
-              style={{ color: "white" }}
+          <div className="card shadow-lg p-0" style={{ width: "38%" }}>
+            <div
+              className="card-header w-100 "
+              style={{ backgroundColor: "#45a59d	" }}
             >
-              Active Numbers
-            </duv>
-          </div>
-          <div className="card-body" style={{ backgroundColor: "#08c91e21" }}>
-            {isLoading === true ? (
-              <Loader />
-            ) : (
-              <div class="contact-list-view">
-                <table
-                  data-sticky-header
-                  className="table table-striped w-100 mb-5"
-                >
-                  <thead className="table-primary ">
-                    <tr className="sticky-top border p-1 shadow-lg p-3 mb-5 bg-white rounded">
-                      <th>Number</th>
-                      <th>Type</th>
-                      <th>Voice</th>
-                      <th>SMS</th>
-                      <th>MMS</th>
-                      <th>FAX</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {dashboardData?.numbers?.map((number, index) => (
-                      <tr key={index}>
-                        <td>{number?.phoneNumber}</td>
-                        <td>Local</td>
-                        <td>
-                          <span
-                            className="badge bg-primary"
-                            style={{ color: "white" }}
-                          >
-                            {number?.capabilities?.voice === true
-                              ? "true"
-                              : "false"}
-                          </span>
-                        </td>
-                        <td>
-                          <span
-                            className="badge bg-primary"
-                            style={{ color: "white" }}
-                          >
-                            {number?.capabilities?.sms === true
-                              ? "true"
-                              : "false"}
-                          </span>
-                        </td>
-                        <td>
-                          <span
-                            className="badge bg-primary"
-                            style={{ color: "white" }}
-                          >
-                            {number?.capabilities?.mms === true
-                              ? "true"
-                              : "false"}
-                          </span>
-                        </td>
-                        <td>
-                          <span
-                            className="badge bg-primary"
-                            style={{ color: "white" }}
-                          >
-                            {number?.capabilities?.fax === true
-                              ? "true"
-                              : "false"}
-                          </span>
-                        </td>
+              <duv
+                className="card-title text-center w-100"
+                style={{ color: "white" }}
+              >
+                Sub Accounts
+              </duv>
+            </div>
+            <div className="card-body" style={{ backgroundColor: "" }}>
+              {isLoading === true ? (
+                <Loader />
+              ) : (
+                <div class="contact-list-view">
+                  <table
+                    data-sticky-header
+                    className="table table-striped w-100 mb-5"
+                  >
+                    <thead className="table-primary ">
+                      <tr className="sticky-top border p-1 shadow-lg p-3 mb-5 bg-white rounded">
+                        <th>Account Name</th>
+                        <th>Email</th>
+                        <th>Date Created</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+
+                    <tbody>
+                      {dashboardData?.sub_accounts?.map((account, index) => {
+                        return (
+                          <>
+                            <tr key={index}>
+                              <td>{account?.name}</td>
+                              <td>{account?.email}</td>
+                              <td>
+                                {moment(account?.created_at)?.format(
+                                  "DD MMM,YYYY"
+                                )}
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="px-4">
+          <div className="card p-0 col-md-12 col-sm-6 ">
+            <div
+              className="card-header w-100 "
+              style={{ background: "#45a59d	" }}
+            >
+              <duv className="card-title" style={{ color: "white" }}>
+                Emails Send/Recieved
+              </duv>
+            </div>
+            {isLoading === true ? (
+              <Loader></Loader>
+            ) : (
+              <SyncingChart
+                title="Emails Report"
+                categories={dashboardData?.emails?.chart?.categories}
+                series={dashboardData?.emails?.chart?.series}
+              />
             )}
           </div>
         </div>
-        <div className="card shadow-lg p-0 col-md-4 col-sm-6 ms-3">
-          <div
-            className="card-header w-100 "
-            style={{ backgroundColor: "#45a59d	" }}
-          >
-            <duv className="card-title" style={{ color: "white" }}>
-              Calls Inbound/Outbound
-            </duv>
+        <div className="d-flex gap-3 px-4">
+          <div className="card shadow-lg p-0 " style={{ width: "70%" }}>
+            <div
+              className="card-header w-100"
+              style={{ backgroundColor: "#45a59d	" }}
+            >
+              <duv
+                className="card-title text-center w-100"
+                style={{ color: "white" }}
+              >
+                Active Numbers
+              </duv>
+            </div>
+            <div className="card-body">
+              {isLoading === true ? (
+                <Loader />
+              ) : (
+                <div class="contact-list-view">
+                  <table
+                    data-sticky-header
+                    className="table table-striped w-100 mb-5"
+                  >
+                    <thead className="table-primary ">
+                      <tr className="sticky-top border p-1 shadow-lg p-3 mb-5 bg-white rounded">
+                        <th>Number</th>
+                        <th>Type</th>
+                        <th>Voice</th>
+                        <th>SMS</th>
+                        <th>MMS</th>
+                        <th>FAX</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {dashboardData?.numbers?.map((number, index) => (
+                        <tr key={index}>
+                          <td>{number?.phoneNumber}</td>
+                          <td>Local</td>
+                          <td>
+                            <span
+                              className="badge bg-primary"
+                              style={{ color: "white" }}
+                            >
+                              {number?.capabilities?.voice === true
+                                ? "true"
+                                : "false"}
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              className="badge bg-primary"
+                              style={{ color: "white" }}
+                            >
+                              {number?.capabilities?.sms === true
+                                ? "true"
+                                : "false"}
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              className="badge bg-primary"
+                              style={{ color: "white" }}
+                            >
+                              {number?.capabilities?.mms === true
+                                ? "true"
+                                : "false"}
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              className="badge bg-primary"
+                              style={{ color: "white" }}
+                            >
+                              {number?.capabilities?.fax === true
+                                ? "true"
+                                : "false"}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
           </div>
-          {isLoading === true ? (
-            <Loader></Loader>
-          ) : (
-            <LineChart
-              title="Calls Report"
-              categories={dashboardData?.calls?.chart?.categories}
-              series={dashboardData?.calls?.chart?.series}
-            />
-          )}
+          <div className="card shadow-lg p-0 col-md-4 col-sm-6 ms-3">
+            <div
+              className="card-header w-100 "
+              style={{ backgroundColor: "#45a59d	" }}
+            >
+              <duv className="card-title" style={{ color: "white" }}>
+                Calls Inbound/Outbound
+              </duv>
+            </div>
+            {isLoading === true ? (
+              <Loader></Loader>
+            ) : (
+              <LineChart
+                title="Calls Report"
+                categories={dashboardData?.calls?.chart?.categories}
+                series={dashboardData?.calls?.chart?.series}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>
