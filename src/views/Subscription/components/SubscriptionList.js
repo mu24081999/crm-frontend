@@ -58,7 +58,7 @@ const SubscriptionList = ({ subscriptionsArray, onToggleEdit, isEdit }) => {
             <table className="table w-100 mb-5">
               <thead>
                 <tr>
-                  <th>Customer</th>
+                  {/* <th>Customer</th> */}
                   <th>Subscription Plan</th>
                   <th>Start Date</th>
                   <th>End Date</th>
@@ -71,7 +71,7 @@ const SubscriptionList = ({ subscriptionsArray, onToggleEdit, isEdit }) => {
                 {subscriptionsArray?.length > 0 &&
                   subscriptionsArray?.map((subscription) => (
                     <tr>
-                      <td>
+                      {/* <td>
                         <div className="media align-items-center">
                           <div className="media-head me-2">
                             <div className="avatar avatar-xs avatar-rounded">
@@ -103,7 +103,7 @@ const SubscriptionList = ({ subscriptionsArray, onToggleEdit, isEdit }) => {
                             </a>
                           </div>
                         </div>
-                      </td>
+                      </td> */}
                       <td className="text-center">
                         <span
                           className={`badge badge-sm  ${

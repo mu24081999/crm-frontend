@@ -76,7 +76,7 @@ const VerticalNavbar = () => {
       {/* <!-- Main Menu --> */}
       <div data-simplebar className="nicescroll-bar">
         <div className="menu-content-wrap">
-          <div className="menu-group">
+          {/* <div className="menu-group">
             <ul className="navbar-nav flex-column">
               <li className="nav-item active">
                 <Link className="nav-link" to={"/"}>
@@ -110,13 +110,41 @@ const VerticalNavbar = () => {
                 </Link>
               </li>
             </ul>
-          </div>
+          </div> */}
           <div className="menu-gap"></div>
           <div className="menu-group">
-            <div className="nav-header">
+            {/* <div className="nav-header">
               <span>Apps</span>
-            </div>
+            </div> */}
             <ul className="navbar-nav flex-column">
+              <li className="nav-item active">
+                <Link className="nav-link" to={"/"}>
+                  <span className="nav-icon-wrap">
+                    <span className="svg-icon">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="icon icon-tabler icon-tabler-template"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        strokeWidth="2"
+                        stroke="currentColor"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <rect x="4" y="4" width="16" height="4" rx="1" />
+                        <rect x="4" y="12" width="6" height="8" rx="1" />
+                        <line x1="14" y1="12" x2="20" y2="12" />
+                        <line x1="14" y1="16" x2="20" y2="16" />
+                        <line x1="14" y1="20" x2="20" y2="20" />
+                      </svg>
+                    </span>
+                  </span>
+                  <span className="nav-link-text">Dashboard</span>
+                </Link>
+              </li>
               {user?.parent_id !== null &&
                 (user?.role === "ADMIN" ||
                   user?.role === "SUPER_ADMIN" ||
