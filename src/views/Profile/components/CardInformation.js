@@ -9,13 +9,17 @@ import {
   FaRegCalendarAlt,
   FaRegCreditCard,
 } from "react-icons/fa";
+import InputField from "../../../components/FormFields/InputField";
 
 const CardInformation = () => {
   const { token } = useSelector((state) => state.auth);
   const { cards } = useSelector((state) => state.card);
-  console.log("🚀 ~ CardInformation ~ cards:", cards);
   const dispatch = useDispatch();
-  const { handleSubmit } = useForm();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
   const [cardData, setCardData] = useState({
     cardholder_name: "",
     card_number: "",
@@ -26,7 +30,15 @@ const CardInformation = () => {
     dispatch(getCardList(token));
   }, [token, dispatch]);
   const handleAddCard = (data) => {
-    dispatch(storeCard(token, cardData));
+    console.log("🚀 ~ handleAddCard ~ data:", data);
+    const formData = {
+      ...data,
+      cardholder_name: cardData?.cardholder_name,
+      card_number: cardData?.card_number,
+      cvc: cardData?.cvc,
+      expiration_date: cardData?.expiration_date,
+    };
+    dispatch(storeCard(token, formData));
   };
   return (
     <div>
@@ -37,28 +49,76 @@ const CardInformation = () => {
         <div className="row gap-5">
           {cards?.length > 0 &&
             cards?.map((card, index) => (
-              <div className="card rounded shadow-lg col-md-3 col-sm-6 my-5">
-                <div className="card-header">
-                  <div className="card-title">{card?.cardholder_name}</div>
+              <div className="card rounded shadow-lg col-md-4 col-sm-6 my-5 p-0">
+                <div className="card-header bg-primary ">
+                  <div className="card-title" style={{ color: "white" }}>
+                    {card?.cardholder_name}
+                  </div>
                 </div>
                 <div className="card-body">
-                  <p>
-                    <span>
-                      <FaRegCreditCard size={25} />
-                    </span>
-                    <span className="fw-bold"> {card?.card_number}</span>
-                  </p>
-                  <p className="my-1">
-                    <span>
-                      <FaRegCalendarAlt size={25} />
-                    </span>
-                    <span className="fw-bold"> {card?.expiration_date}</span>
-                  </p>
+                  <div
+                    className="bg-info py-2 px-3 rounded mb-3"
+                    style={{ color: "white" }}
+                  >
+                    Card Information
+                  </div>
+                  <div className="ps-3">
+                    <p>
+                      <span className="pe-1">
+                        <FaRegCreditCard size={25} />
+                      </span>
+                      <span className="fw-bold"> {card?.card_number}</span>
+                    </p>
+                    <p className="my-1">
+                      <span className="pe-1">
+                        <FaRegCalendarAlt size={25} />
+                      </span>
+                      <span className="fw-bold"> {card?.expiration_date}</span>
+                    </p>
+                  </div>
+                  <div
+                    className="bg-info py-2 px-3 rounded mt-3"
+                    style={{ color: "white" }}
+                  >
+                    Billing Information
+                  </div>
+                  <div className="card-body">
+                    <div className="d-flex justify-content-between">
+                      <div>First Name:</div>
+                      <div>{card?.firstname}</div>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <div>Last Name:</div>
+                      <div>{card?.lastname}</div>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <div>Address:</div>
+                      <div>{card?.address}</div>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <div>City:</div>
+                      <div>{card?.city}</div>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <div>State:</div>
+                      <div>{card?.state}</div>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <div>Zip/Postal Code:</div>
+                      <div>{card?.zip_code}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
         </div>
         <form onSubmit={handleSubmit(handleAddCard)}>
+          <div
+            className="bg-secondary rounded px-3 py-2 my-3"
+            style={{ color: "white" }}
+          >
+            Your Card Details
+          </div>
           <div className="row">
             <div className="form-group col-6">
               {/* <label className="form-label">Card Holder Name</label> */}
@@ -99,6 +159,77 @@ const CardInformation = () => {
                     setCardData({ ...cardData, card_number: e.target.value }),
                   onError: (err) => console.log(`number error: ${err}`),
                 }}
+              />
+            </div>
+          </div>
+          <div
+            className="bg-secondary rounded px-3 py-2 my-2"
+            style={{ color: "white" }}
+          >
+            Your Billing Information
+          </div>
+          <div className="row mt-3 gx-3">
+            <div className="col-md-4 col-sm-6">
+              <InputField
+                name="firstname"
+                placeholder="Your First Name"
+                // label="First Name"
+                control={control}
+                errors={errors}
+              />
+            </div>
+            <div className="col-md-4 col-sm-6">
+              <InputField
+                name="lastname"
+                placeholder="Last Name"
+                // label="Last Name"
+                control={control}
+                errors={errors}
+              />
+            </div>
+            <div className="col-md-4 col-sm-6">
+              <InputField
+                name="address"
+                placeholder="Address"
+                // label="Address"
+                control={control}
+                errors={errors}
+              />
+            </div>
+            <div className="col-md-4 col-sm-6">
+              <InputField
+                name="city"
+                placeholder="City"
+                // label="City"
+                control={control}
+                errors={errors}
+              />
+            </div>
+            <div className="col-md-4 col-sm-6">
+              <InputField
+                name="state"
+                placeholder="State"
+                // label="State"
+                control={control}
+                errors={errors}
+              />
+            </div>
+            <div className="col-md-4 col-sm-6">
+              <InputField
+                name="zip_code"
+                placeholder="ZIP/Postal Code"
+                // label="Zip/Postal Code"
+                control={control}
+                errors={errors}
+              />
+            </div>
+            <div className="col-md-4 col-sm-6">
+              <InputField
+                name="country"
+                placeholder="Country"
+                // label="Country"
+                control={control}
+                errors={errors}
               />
             </div>
           </div>

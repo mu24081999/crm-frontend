@@ -5,6 +5,9 @@ import _ from "lodash";
 import Dialer from "../PhoneDialer/Dialer";
 import {
   FaBell,
+  FaCheckSquare,
+  FaCogs,
+  FaCreditCard,
   FaInbox,
   FaPlus,
   FaRegUser,
@@ -703,7 +706,7 @@ const TopNavbar = ({}) => {
                     </div>
                   </div>
                   <div className="dropdown-divider"></div>
-                  <Link to={"/profile-settings"} className="dropdown-item">
+                  <Link to={"/account-settings"} className="dropdown-item">
                     <span className="pe-2" style={{ paddingTop: "-5px" }}>
                       {" "}
                       <FaRegUser />
@@ -714,22 +717,25 @@ const TopNavbar = ({}) => {
                   <h6 className="dropdown-header">Manage Account</h6>
                   <a className="dropdown-item d-flex">
                     <span className="dropdown-icon pt-1 feather-icon">
-                      <i data-feather="credit-card"></i>
+                      <FaCreditCard />
                     </span>
                     <span>Payment methods</span>
                   </a>
                   <a className="dropdown-item d-flex">
                     <span className="dropdown-icon pt-1 feather-icon">
-                      <i data-feather="check-square"></i>
+                      <FaCheckSquare />
                     </span>
                     <span>Subscriptions</span>
                   </a>
-                  <a className="dropdown-item d-flex">
+                  <Link
+                    to={"/account-settings"}
+                    className="dropdown-item d-flex"
+                  >
                     <span className="dropdown-icon pt-1 feather-icon">
-                      <i data-feather="settings"></i>
+                      <FaCogs />
                     </span>
                     <span>Settings</span>
-                  </a>
+                  </Link>
                   <div className="dropdown-divider"></div>
                   <a className="dropdown-item">Terms & Conditions</a>
                   <a className="dropdown-item">Help & Support</a>

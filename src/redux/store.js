@@ -29,6 +29,7 @@ const persistConfig = {
     "subscription",
     "dashboard",
     "billing",
+    "kyc",
   ],
   whitelist: ["auth"],
 };

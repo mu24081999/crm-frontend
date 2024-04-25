@@ -32,7 +32,7 @@ const Sidebar = () => {
               <span className="nav-link-text">Login & Security</span>
             </a>
           </li>
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <a
               data-bs-toggle="tab"
               href="#tab_block_billing"
@@ -40,7 +40,7 @@ const Sidebar = () => {
             >
               <span className="nav-link-text">Billing Address</span>
             </a>
-          </li>
+          </li> */}
           <li className="nav-item">
             <a
               data-bs-toggle="tab"

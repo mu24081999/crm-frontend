@@ -14,11 +14,7 @@ const ProfileContent = () => {
         <div className="container-xxl">
           {/* <!-- Page Header --> */}
           <div className="hk-pg-header pt-7 pb-4">
-            <h1 className="pg-title">Edit Profile</h1>
-            <p>
-              The Avatar component is used to represent a user, and displays the
-              profile picture, initials or fallback icon.
-            </p>
+            <h1 className="pg-title">Account Settings</h1>
           </div>
           {/* <!-- /Page Header --> */}
 
@@ -32,7 +28,7 @@ const ProfileContent = () => {
                   <AccountSetting />
                   <UpdatePassword />
                   <EmailConfig />
-                  <Billing />
+                  {/* <Billing /> */}
                   <CardInformation />
                 </div>
               </div>

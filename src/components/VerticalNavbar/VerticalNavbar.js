@@ -4,8 +4,10 @@ import brand from "../../assets/Jampack.svg";
 import { Link } from "react-router-dom";
 import {
   FaCloud,
+  FaCogs,
   FaHistory,
   FaPhoneAlt,
+  FaPhoneSquareAlt,
   FaRegEnvelope,
   FaRegUser,
   FaUserCog,
@@ -712,6 +714,16 @@ const VerticalNavbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to="/active-numbers">
+                  <span className="nav-icon-wrap">
+                    <span className="svg-icon">
+                      <FaPhoneSquareAlt />
+                    </span>
+                  </span>
+                  <span className="nav-link-text">Active Numbers</span>
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link className="nav-link" to="/subaccounts">
                   <span className="nav-icon-wrap">
                     <span className="svg-icon">
@@ -730,10 +742,10 @@ const VerticalNavbar = () => {
                 >
                   <span className="nav-icon-wrap">
                     <span className="svg-icon">
-                      <FaRegCircleUser />
+                      <FaCogs />
                     </span>
                   </span>
-                  <span className="nav-link-text">Profile</span>
+                  <span className="nav-link-text">Account</span>
                 </a>
                 <ul
                   id="dash_profile"
@@ -742,8 +754,10 @@ const VerticalNavbar = () => {
                   <li className="nav-item">
                     <ul className="nav flex-column">
                       <li className="nav-item">
-                        <Link className="nav-link" to="/profile-settings">
-                          <span className="nav-link-text">Edit Profile</span>
+                        <Link className="nav-link" to="/account-settings">
+                          <span className="nav-link-text">
+                            Account Settings
+                          </span>
                         </Link>
                       </li>
                     </ul>

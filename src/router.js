@@ -36,6 +36,7 @@ import Payment from "./views/Payment/Payment";
 import Subscription from "./views/Subscription/Subscription";
 import KYC from "./views/KYC/KYC";
 import Subaccounts from "./views/SubAccounts/Subaccounts";
+import ActiveNumbers from "./views/ActiveNumbers/Numbers";
 
 // Define allowed roles for each route
 const roles = {
@@ -149,6 +150,10 @@ const router = (role) => {
       element: <ContactDetails />,
     },
     {
+      path: "active-numbers",
+      element: <ActiveNumbers />,
+    },
+    {
       path: "reset-password/:email",
       element: <ResetUserPassword />,
     },
@@ -160,16 +165,16 @@ const router = (role) => {
       path: "/emails",
       element: <Email />,
     },
-    {
-      path: "/account-settings",
-      element: <Account />,
-    },
+    // {
+    //   path: "/account-settings",
+    //   element: <Account />,
+    // },
     {
       path: "/subscriptions",
       element: <Subscription />,
     },
     {
-      path: "/profile-settings",
+      path: "/account-settings",
       element: <Profile />,
     },
     {

@@ -13,7 +13,6 @@ const DashboardContent = () => {
     (state) => state.auth
   );
   const { dashboardData, isLoading } = useSelector((state) => state.dashboard);
-  console.log("🚀 ~ DashboardContent ~ dashboardData:", dashboardData);
   useEffect(() => {
     const data = {
       user_id: user.id,
