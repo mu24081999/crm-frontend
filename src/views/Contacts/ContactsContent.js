@@ -9,8 +9,7 @@ import "./contact.css";
 import ContactCards from "./components/ContactCards";
 import { SocketContext } from "../../Context";
 const ContactsContent = () => {
-  const { handleToggleShowLeadDetail, showLeadDetails } =
-    useContext(SocketContext);
+  const { showLeadDetails } = useContext(SocketContext);
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
   const { contactDetails } = useSelector((state) => state.contact);

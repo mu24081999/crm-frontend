@@ -54,18 +54,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
             <table className="table w-100 mb-5">
               <thead>
                 <tr>
-                  <th>
-                    <span className="form-check mb-0">
-                      <input
-                        type="checkbox"
-                        className="form-check-input check-select-all"
-                      />
-                      <label
-                        className="form-check-label"
-                        for="customCheck1"
-                      ></label>
-                    </span>
-                  </th>
+                  <th></th>
                   <th>Name</th>
                   <th>Email Address</th>
                   <th>Phone</th>

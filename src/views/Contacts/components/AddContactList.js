@@ -219,12 +219,12 @@ const AddContactList = () => {
             placeholder="Lead Pipeline"
             // label="City"
             control={control}
-            rules={{
-              required: {
-                value: true,
-                message: "Field required!",
-              },
-            }}
+            // rules={{
+            //   required: {
+            //     value: true,
+            //     message: "Field required!",
+            //   },
+            // }}
             options={
               boards?.length > 0
                 ? boards?.map((board, index) => {

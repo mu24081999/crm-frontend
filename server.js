@@ -12,6 +12,8 @@ const app = express();
 app.use((req, res, next) => {
   if (req.hostname === "app.desktopcrm.com") {
     express.static(path.join(__dirname, "build"))(req, res, next);
+  } else if (req.hostname === "desktopcrm.com") {
+    express.static(path.join(__dirname, "build2"))(req, res, next);
   } else {
     next();
   }

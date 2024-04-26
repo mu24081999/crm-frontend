@@ -124,7 +124,7 @@ const ReactSelectField = React.forwardRef((props, ref) => {
                   props.onChange(val, action);
                 }
               }}
-              value={field?.value}
+              // value={field?.value ? field?.value : ""}
               menuIsOpen={props.menuIsOpen || undefined}
               onFocus={(e) => {
                 setFocusState(true);

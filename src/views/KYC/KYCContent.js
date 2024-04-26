@@ -1,22 +1,88 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import InputField from "../../components/FormFields/InputField";
 import DatePicker from "../../components/FormFields/datePickerField";
 import RadioInputField from "../../components/FormFields/radioInputField";
 import ReactSelectField from "../../components/FormFields/reactSelectField";
 import Checkbox from "../../components/FormFields/checkboxField";
 import ReactSignaturePad from "../../components/FormFields/reactSignaturePad";
+import TextAreaField from "../../components/FormFields/textAreaField";
 
 import { useForm } from "react-hook-form";
+import { getUserKYCList, storeKyc } from "../../redux/services/kyc";
+import { useDispatch, useSelector } from "react-redux";
+import _ from "lodash";
 
 const KYCContent = () => {
   const {
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
   } = useForm();
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
+  const { kycDetails } = useSelector((state) => state.kyc);
+  console.log("🚀 ~ KYCContent ~ kycDetails:", kycDetails);
+  const [image, setImage] = useState(null);
+  const [base64Image, setBase64Image] = useState(null);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    dispatch(getUserKYCList(token));
+  }, [dispatch, token]);
+  useEffect(() => {
+    setValue("firstname", kycDetails?.firstname);
+    setValue("lastname", kycDetails?.lastname);
+    setValue("nationality", {
+      label: _.toUpper(kycDetails?.nationality),
+      value: kycDetails?.nationality,
+    });
+    setValue("email", kycDetails?.email);
+    setValue("phone", kycDetails?.phone);
+    setValue("address", kycDetails?.address);
+    setValue("city", kycDetails?.city);
+    setValue("state", kycDetails?.state);
+    setValue("zip_code", kycDetails?.zip_code);
+    setValue("company_size", kycDetails?.company_size);
+    setValue("company_do", kycDetails?.company_do);
+    setValue("company_type", kycDetails?.company_type);
+    setValue("company_details", kycDetails?.company_details);
+    setValue("document_type", {
+      label: _.toUpper(kycDetails?.document_type),
+      value: kycDetails?.document_type,
+    });
+    setValue("is_policy_accepted", kycDetails?.is_policy_accepted);
+  }, [kycDetails, setValue]);
+  const handleImage = (event) => {
+    setError(null);
+    const selectedImage = event.target.files[0];
+
+    // Check if image is selected
+    if (selectedImage) {
+      // Check the size of the image (in bytes)
+      if (selectedImage.size > 1000000) {
+        // 1 MB
+        setError("Image size is too large. Please select a smaller image.");
+      } else {
+        setImage(selectedImage);
+        // Convert image to base64
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setBase64Image(reader.result);
+        };
+        reader.readAsDataURL(selectedImage);
+      }
+    }
+  };
   const handleAddKYC = (data) => {
-    console.log("🚀 ~ handleAddKYC ~ data:", data);
-    return {};
+    // console.log("🚀 ~ handleAddKYC ~ data:", data);
+    // console.log("image data", base64Image);
+    const formData = {
+      ...data,
+      nationality: data?.nationality?.value,
+      document_type: data?.document_type?.value,
+    };
+
+    return dispatch(storeKyc(token, formData));
   };
   return (
     <div className="container">
@@ -50,8 +116,8 @@ const KYCContent = () => {
                   />
                 </div>
               </div>
-              <div className="d-flex">
-                <div>
+              {/* <div className="d-flex"> */}
+              {/* <div>
                   <div className="form-label" style={{ color: "black" }}>
                     Martial Status
                   </div>
@@ -116,8 +182,8 @@ const KYCContent = () => {
                     />
                   </div>
                 </div>
-              </div>
-              <div className="pt-4">
+              </div> */}
+              {/* <div className="pt-4">
                 <div className="form-label " style={{ color: "black" }}>
                   Gender
                 </div>
@@ -150,11 +216,11 @@ const KYCContent = () => {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div>
                 <ReactSelectField
-                  name="Natinality"
+                  name="nationality"
                   errors={errors}
                   control={control}
                   options={[
@@ -232,6 +298,48 @@ const KYCContent = () => {
               <div>
                 <div className="px-3 py-2 rounded bg-secondary mb-3">
                   <div className="card-title " style={{ color: "white" }}>
+                    Business Details
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-4 col-sm-6">
+                    <InputField
+                      name="company_type"
+                      errors={errors}
+                      control={control}
+                      label="What type of business you own? "
+                    />
+                  </div>
+                  <div className="col-md-4 col-sm-6">
+                    <InputField
+                      name="company_do"
+                      errors={errors}
+                      control={control}
+                      label="What does your company do?"
+                    />
+                  </div>
+                  <div className="col-md-4 col-sm-6">
+                    <InputField
+                      name="company_size"
+                      errors={errors}
+                      control={control}
+                      label="What is the size of your company"
+                    />
+                  </div>
+                  <div className="col-md-12 col-sm-6">
+                    <TextAreaField
+                      name="company_details"
+                      errors={errors}
+                      rows="5"
+                      control={control}
+                      label="Explain Your Business"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className="px-3 py-2 rounded bg-secondary mb-3">
+                  <div className="card-title " style={{ color: "white" }}>
                     Declaration
                   </div>
                 </div>
@@ -250,16 +358,37 @@ const KYCContent = () => {
                 />
               </div>
               <div className="py-2">
+                <div className="pb-3">
+                  <div
+                    className="text-center border border-primary rouded m-auto "
+                    style={{ width: "max-content" }}
+                  >
+                    {image !== null && (
+                      <img
+                        src={URL.createObjectURL(image)}
+                        width={200}
+                        className="rounded img-fluid "
+                        alt="document"
+                      />
+                    )}
+                  </div>
+                </div>
                 <div className="media-body">
                   <div className="btn btn-soft-primary btn-block btn-file mb-1">
                     Click to upload file
                     <input
                       type="file"
                       className="upload"
-                      // onChange={handleImage}
+                      onChange={handleImage}
                     />
                   </div>
+                  <p className="text-center">
+                    The image size must be smaller than 1 mb.
+                  </p>
                 </div>
+                {error !== null && (
+                  <div className="alert alert-danger text-center">{error}</div>
+                )}
               </div>
               <div className="ps-4">
                 <Checkbox
@@ -270,7 +399,7 @@ const KYCContent = () => {
                   placeholder="John Doe"
                 />
               </div>
-              <div>
+              {/* <div>
                 <div className="form-label" style={{ color: "black" }}>
                   Signature
                 </div>
@@ -286,7 +415,7 @@ const KYCContent = () => {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className=" float-end">
                 <button className="btn btn-primary">Submit</button>
               </div>
