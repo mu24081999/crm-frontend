@@ -55,7 +55,7 @@ app.use((req, res, next) => {
 });
 
 // Start the HTTPS server
-app.listen(3000, () => {
+app.listen(443, () => {
   console.log("Express server started on port 3000");
 });
 // Start HTTPS server
