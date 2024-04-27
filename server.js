@@ -2,13 +2,10 @@ const express = require("express");
 const https = require("https");
 const fs = require("fs");
 const path = require("path");
-const os = require("os");
+
 const app = express();
 
-// Serve static files from the 'build' directory for all hostnames
-// app.use(express.static(path.join(__dirname, "build")));
-
-// Serve static files only for app.desktopcrm.com
+// Serve static files only for app.desktopcrm.com and desktopcrm.com
 app.use((req, res, next) => {
   if (req.hostname === "app.desktopcrm.com") {
     express.static(path.join(__dirname, "build"))(req, res, next);
@@ -23,7 +20,8 @@ app.use((req, res, next) => {
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
-// Load SSL certificate and key
+
+// Load SSL certificates
 const landingSslOptions = {
   key: fs.readFileSync("desktopcrm.key"),
   cert: fs.readFileSync("desktopcrm.crt"),
@@ -32,33 +30,29 @@ const landingSslOptions = {
 const dashboardSslOptions = {
   key: fs.readFileSync("app.desktopcrm.com.key"),
   cert: fs.readFileSync("app_desktopcrm_com.crt"),
-  // cert: fs.readFileSync("desktopcrm_com.crt"),
   ca: fs.readFileSync("app_desktopcrm_com.ca-bundle"),
-  // ca: fs.readFileSync("desktopcrm.ca-bundle"),
 };
 
-// HTTPS server creation function
 // Function to create HTTPS server with SSL options based on the hostname
 function createServerWithSSLOptions(req) {
   // Determine SSL options based on the hostname
-  let sslOptions =
+  const sslOptions =
     req.hostname === "desktopcrm.com" ? landingSslOptions : dashboardSslOptions;
 
   // Create and return HTTPS server with the determined SSL options
   return https.createServer(sslOptions, app);
 }
 
-// Create HTTPS server based on request hostname
-app.use((req, res, next) => {
-  const server = createServerWithSSLOptions(req);
-  console.log("🚀 ~ app.use ~ server:", server);
-  server.listen(443, () => {
-    console.log("Server running...");
-  });
-  next();
+// Create and start HTTPS server based on request hostname
+const server = https.createServer((req, res) => {
+  app(req, res);
 });
 
-// Start HTTPS server
-// https.createServer(sslOptions, app).listen(443, () => {
-//   console.log("Server running...");
-// });
+server.listen(443, () => {
+  console.log("Server running...");
+});
+
+// Error handling
+server.on("error", (error) => {
+  console.error("Server error:", error);
+});
