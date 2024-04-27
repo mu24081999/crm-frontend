@@ -58,11 +58,3 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something broke!");
 });
-server.listen(443, () => {
-  console.log("Server running...");
-});
-
-// Error handling
-server.on("error", (error) => {
-  console.error("Server error:", error);
-});
