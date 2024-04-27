@@ -31,7 +31,7 @@ if (os.hostname() === "desktopcrm.com") {
     // key: fs.readFileSync("app.desktopcrm.com.key"),
     key: fs.readFileSync("desktopcrm.key"),
     // cert: fs.readFileSync("app_desktopcrm_com.crt"),
-    cert: fs.readFileSync("desktopcrm_com.crt"),
+    cert: fs.readFileSync("desktopcrm.crt"),
     // ca: fs.readFileSync("app_desktopcrm_com.ca-bundle"),
     ca: fs.readFileSync("desktopcrm.ca-bundle"),
   };
