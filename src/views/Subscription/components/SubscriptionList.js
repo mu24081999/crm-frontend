@@ -105,14 +105,7 @@ const SubscriptionList = ({ subscriptionsArray, onToggleEdit, isEdit }) => {
                         </div>
                       </td> */}
                       <td className="text-center">
-                        <span
-                          className={`badge badge-sm  ${
-                            subscription?.plan === "monthly"
-                              ? "bg-primary"
-                              : "bg-warning"
-                          }`}
-                          style={{ fontSize: "14px" }}
-                        >
+                        <span style={{ fontSize: "14px" }}>
                           {subscription?.plan}
                         </span>
                       </td>
