@@ -19,14 +19,14 @@ const Sidebar = ({ dispatch, token, authUser }) => {
     <nav className="fmapp-sidebar">
       <div data-simplebar className="nicescroll-bar">
         <div className="menu-content-wrap">
-          <div className="btn btn-primary btn-rounded btn-block btn-file mb-4">
+          {/* <div className="btn btn-primary btn-rounded btn-block btn-file mb-4">
             Upload
             <input
               type="file"
               className="upload"
               onChange={handleFileOnChange}
             />
-          </div>
+          </div> */}
           {/* 
           <div className="menu-group">
             <ul className="nav nav-light navbar-nav flex-column">

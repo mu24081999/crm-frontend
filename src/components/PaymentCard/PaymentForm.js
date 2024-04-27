@@ -31,9 +31,10 @@ const PaymentForm = () => {
       intent?.client_secret,
       isLoading
     );
+    const clientSecret = intent?.client_secret;
     // Confirm the payment on the client side
-    if (isLoading === false) {
-      const result = await stripe.confirmCardPayment(intent?.client_secret, {
+    if (isLoading === false && clientSecret) {
+      const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
         },
