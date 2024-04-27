@@ -42,10 +42,11 @@ function createServerWithSSLOptions(req, res) {
   // Determine SSL options based on the hostname
   let sslOptions =
     req.hostname === "desktopcrm.com" ? landingSslOptions : dashboardSslOptions;
+  console.log("🚀 ~ createServerWithSSLOptions ~ req.hostname:", req.hostname);
 
   // Create HTTPS server with the determined SSL options
   https.createServer(sslOptions, app).listen(443, () => {
-    console.log("Server running...");
+    console.log("Server running...", sslOptions);
   });
 }
 // Middleware to handle HTTPS server creation
@@ -56,7 +57,7 @@ app.use((req, res, next) => {
 
 // Start the HTTPS server
 app.listen(443, () => {
-  console.log("Express server started on port 3000");
+  console.log("Express server started on port 443");
 });
 // Start HTTPS server
 // https.createServer(sslOptions, app).listen(443, () => {
