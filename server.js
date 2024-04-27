@@ -56,6 +56,7 @@ const server = https.createServer((req, res) => {
     res.end("Invalid hostname");
   }
 });
+console.log("🚀 ~ server ~ server:", server);
 function handleRequest(req, res, options) {
   res.writeHead(200);
   res.end("Hello, HTTPS!");
