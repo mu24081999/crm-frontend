@@ -120,6 +120,7 @@ https
     },
     (req, socket, head) => {
       const sslOptions = req.sslOptions; // Retrieve sslOptions from req
+      console.log("🚀 ~ sslOptions:", sslOptions);
       https
         .createServer(sslOptions, (req, res) => {
           res.end();
