@@ -51,6 +51,7 @@ function createServerWithSSLOptions(req) {
 // Create HTTPS server based on request hostname
 app.use((req, res, next) => {
   const server = createServerWithSSLOptions(req);
+  console.log("🚀 ~ app.use ~ server:", server);
   server.listen(443, () => {
     console.log("Server running...");
   });
