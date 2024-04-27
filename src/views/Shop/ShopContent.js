@@ -6,6 +6,7 @@ import SearchNumber from "./components/SearchNumber";
 import { useDispatch, useSelector } from "react-redux";
 import { getAvailableNumbers } from "../../redux/services/calling";
 import { useForm } from "react-hook-form";
+import Payment from "../../components/PaymentCard/Payment";
 
 const ContactsContent = () => {
   const {
@@ -208,6 +209,8 @@ const ContactsContent = () => {
           </div>
         </div>
       </div>
+      <Payment />
+
       {/* <!-- /Page Body --> */}
     </div>
   );

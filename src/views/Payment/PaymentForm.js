@@ -18,6 +18,10 @@ const PaymentForm = () => {
       })
     );
 
+    console.log(
+      "🚀 ~ handleSubmit ~ intent?.client_secret:",
+      intent?.client_secret
+    );
     // Confirm the payment on the client side
     const result = await stripe.confirmCardPayment(intent?.client_secret, {
       payment_method: {
@@ -33,6 +37,7 @@ const PaymentForm = () => {
       // Handle success
       if (result.paymentIntent.status === "succeeded") {
         console.log("Payment successful!");
+        console.log(result);
       }
     }
   };

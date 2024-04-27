@@ -11,8 +11,6 @@ import { getUserDetails } from "./redux/services/users";
 const SocketContext = createContext();
 const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
 const ContextProvider = ({ children }) => {
-  const ringtone = new Audio(ringingTone);
-
   const socket = useMemo(() => io(socketURL), []);
   const { user_id, user } = useSelector((state) => state.auth);
   const [callAccepted, setCallAccepted] = useState(false);
@@ -21,6 +19,7 @@ const ContextProvider = ({ children }) => {
   const [openCalling, setOpenCalling] = useState(false);
   const [isCalling, setIsCalling] = useState(false);
   const [ringing, setRinging] = useState(false);
+  console.log("🚀 ~ ContextProvider ~ ringing:", ringing);
   const [showLeadDetails, setShowLeadDetails] = useState(false);
   const [showUserDetails, setShowUserDetails] = useState(false);
   const [stream, setStream] = useState();
@@ -32,6 +31,19 @@ const ContextProvider = ({ children }) => {
   const userVideo = useRef();
   const connectionRef = useRef();
   const dispatch = useDispatch();
+  // Assume you have a function to play the ringtone
+  var ringtoneAudio = new Audio(ringingTone);
+  function playRingtone() {
+    ringtoneAudio.play();
+  }
+
+  // Assume you have a function to stop the ringtone
+  function stopRingtone() {
+    if (ringtoneAudio) {
+      console.log("🚀 ~ stopRingtone ~ ringtoneAudio:", ringtoneAudio);
+      ringtoneAudio.pause();
+    }
+  }
 
   const sendTextMessage = (data) => {
     socket.emit("send-message", data);
@@ -143,13 +155,14 @@ const ContextProvider = ({ children }) => {
         "callUser",
         ({ from, name: callerName, signal, type, userToCall, to }) => {
           setType(type);
+
           if (type === "audio") {
             clickElementByDataBsTarget("#video_call", "audio");
           } else if (type === "video") {
             clickElementByDataBsTarget("#video_call", "video");
           }
           setRinging(true);
-
+          playRingtone();
           // ringtone.play();
           // setTimeout(() => {
           //   ringtone.pause();
@@ -176,7 +189,8 @@ const ContextProvider = ({ children }) => {
   };
   const answerCall = () => {
     setCallAccepted(true);
-    setRinging(false);
+    stopRingtone();
+
     const peer = new Peer({ initiator: false, trickle: false, stream });
     peer.on("signal", (data) => {
       socket.emit("answerCall", { signal: data, to: call.from });
@@ -191,6 +205,7 @@ const ContextProvider = ({ children }) => {
 
   const callUser = (id, name, type, to_name) => {
     const peer = new Peer({ initiator: true, trickle: false, stream });
+
     peer.on("signal", (data) => {
       socket.emit("callUser", {
         userToCall: id,
@@ -202,10 +217,13 @@ const ContextProvider = ({ children }) => {
       });
     });
     peer.on("stream", (currentStream) => {
+      setRinging(false);
+
       userVideo.current.srcObject = currentStream;
     });
     socket.on("callAccepted", (signal) => {
       setCallAccepted(true);
+
       peer.signal(signal);
     });
 
@@ -215,6 +233,7 @@ const ContextProvider = ({ children }) => {
   const leaveCall = (to) => {
     // Emit a message to inform the other user that the call is disconnected
     socket.emit("disconnect_call", { to: to });
+    stopRingtone();
 
     // Close the Peer connection
     if (connectionRef.current) {

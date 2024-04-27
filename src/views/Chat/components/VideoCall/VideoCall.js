@@ -12,6 +12,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../../../redux/services/users";
 import "./video.css";
 import { FaMaximize, FaMinimize } from "react-icons/fa6";
+//Helpers
+const Timer = () => {
+  const [timer, setTimer] = useState({ mins: 0, sec: 0 });
+  const getTime = () => {
+    setTimer((state) => ({
+      mins: state.sec === 60 ? state.mins + 1 : state.mins,
+      sec: state.sec === 60 ? 0 : state.sec + 1,
+    }));
+  };
+  useEffect(() => {
+    const interval = setInterval(() => getTime(), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="timer">
+      {`${timer.mins < 9 ? "0" + timer.mins : timer.mins} : ${
+        timer.sec < 9 ? "0" + timer.sec : timer.sec
+      }`}
+    </div>
+  );
+};
 const VideoCall = ({ selectedRoom, authUser, socket }) => {
   const {
     isCalling,
@@ -32,7 +54,6 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
   console.log("🚀 ~ VideoCall ~ call:", call);
 
   const [selectedUser, setSelectedUser] = useState(null);
-  console.log("🚀 ~ VideoCall ~ selectedUser:", selectedUser);
   const [usersArray, setUsersArray] = useState(null);
   const { users } = useSelector((state) => state.user);
   const { token } = useSelector((state) => state.auth);
@@ -115,28 +136,27 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                 </a>
               </div>
             </div>
-            {/* <div class="text-center m-auto">
-              {!callAccepted ||
-                (type === "audio" && (
-                  <div
-                    class="avatar avatar-xxxl avatar-rounded d-20 "
-                    style={{ marginTop: "50%" }}
-                  >
-                    <img
-                      src={
-                        (selectedRoom.user_id_1 === authUser?.id
-                          ? selectedRoom.user_image_2
-                          : selectedRoom.user_image_1) ||
-                        "https://static-00.iconduck.com/assets.00/profile-default-icon-1024x1023-4u5mrj2v.png"
-                      }
-                      alt="user"
-                      className="avatar-img m-auto"
-                    />
-                  </div>
-                ))}
-            </div> */}
+            <div class="text-center m-auto">
+              {type === "audio" && (
+                <div
+                  class="avatar avatar-xxxl avatar-rounded d-20 "
+                  style={{ marginTop: "10%" }}
+                >
+                  <img
+                    src={
+                      (selectedRoom.user_id_1 === authUser?.id
+                        ? selectedRoom.user_image_2
+                        : selectedRoom.user_image_1) ||
+                      "https://static-00.iconduck.com/assets.00/profile-default-icon-1024x1023-4u5mrj2v.png"
+                    }
+                    alt="user"
+                    className="avatar-img m-auto"
+                  />
+                </div>
+              )}
+            </div>
             {/* user's video */}
-            {callAccepted && !callEnded && type === "video" && (
+            {callAccepted && !callEnded && (
               <video
                 playsInline
                 ref={userVideo}
@@ -223,17 +243,17 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                   </li> */}
                 </ul>
                 <div class="avatar avatar-lg avatar-rounded chatapp-caller-img ">
-                  {/* {myVideo && type === "video" && ( */}
-                  <video
-                    playsInline
-                    muted
-                    ref={myVideo}
-                    autoPlay
-                    width="140"
-                    height="150"
-                    // controls="true"
-                  />
-                  {/* )} */}
+                  {type === "video" && (
+                    <video
+                      playsInline
+                      muted
+                      ref={myVideo}
+                      autoPlay
+                      width="140"
+                      height="150"
+                      // controls="true"
+                    />
+                  )}
 
                   {type === "audio" && (
                     <img
@@ -259,13 +279,15 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                     : selectedRoom.user_name_1} */}
                   {selectedUser?.name || call?.name}
                 </h3>
-                {!callAccepted && (
+                {!callAccepted ? (
                   <p style={{ color: type === "audio" ? "black" : "white" }}>
                     {type === "audio" ? "Audio" : "Video"} Calling
                     <span class="one">.</span>
                     <span class="two">.</span>
                     <span class="three">.</span>
                   </p>
+                ) : (
+                  <Timer />
                 )}
               </div>
             </div>

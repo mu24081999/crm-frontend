@@ -8,6 +8,7 @@ import {
 import Loader from "../../../components/Loader/Loader";
 import { FaStar } from "react-icons/fa";
 import { getUsers } from "../../../redux/services/users";
+import Payment from "../../../components/PaymentCard/Payment";
 
 const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
   const dispatch = useDispatch();
@@ -109,11 +110,19 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                         />
                       </td>
                       <td>{contact?.addressRequirements}</td>
-                      <td className="fw-bold">7.76 $</td>
+                      <td className="fw-bold">$7.76</td>
                       <td>
                         <div className="d-flex align-items-center">
                           <div className="d-flex">
-                            <button className="btn btn-primary">Buy</button>
+                            <button
+                              className="btn btn-primary"
+                              id="buy_number"
+                              data-bs-toggle="modal"
+                              data-bs-target="#add_payment_form"
+                              data-amount={`7000`}
+                            >
+                              Buy
+                            </button>
                           </div>
                         </div>
                       </td>
