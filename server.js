@@ -49,7 +49,7 @@ function createServerWithSSLOptions(req, res) {
       "🚀 ~ createServerWithSSLOptions ~ req.hostname:",
       req.hostname
     );
-    console.log("Server running...", sslOptions);
+    console.log("Server running with ssl...", sslOptions);
   });
 }
 // Middleware to handle HTTPS server creation
