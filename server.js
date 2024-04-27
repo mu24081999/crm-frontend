@@ -107,10 +107,10 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-// Start HTTPS server
-app.listen(443, () => {
-  console.log("Server running...");
-});
+// // Start HTTPS server
+// app.listen(443, () => {
+//   console.log("Server running...");
+// });
 
 // Start HTTPS server with SSL options
 https
