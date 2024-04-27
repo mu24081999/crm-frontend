@@ -24,48 +24,42 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 let sslOptions;
-switch (os.hostname()) {
-  case "desktopcrm.com":
-    sslOptions = {
-      // key: fs.readFileSync("app.desktopcrm.com.key"),
-      key: fs.readFileSync("desktopcrm.key"),
-      // cert: fs.readFileSync("app_desktopcrm_com.crt"),
-      cert: fs.readFileSync("desktopcrm_com.crt"),
-      // ca: fs.readFileSync("app_desktopcrm_com.ca-bundle"),
-      ca: fs.readFileSync("desktopcrm.ca-bundle"),
-    };
-    break;
-  case "app.desktopcrm.com":
-    sslOptions = {
-      key: fs.readFileSync("app.desktopcrm.com.key"),
-      cert: fs.readFileSync("app_desktopcrm_com.crt"),
-      // cert: fs.readFileSync("desktopcrm_com.crt"),
-      ca: fs.readFileSync("app_desktopcrm_com.ca-bundle"),
-      // ca: fs.readFileSync("desktopcrm.ca-bundle"),
-    };
-    break;
-  default:
-    sslOptions = {
-      key: fs.readFileSync("app.desktopcrm.com.key"),
-      cert: fs.readFileSync("app_desktopcrm_com.crt"),
-      // cert: fs.readFileSync("desktopcrm_com.crt"),
-      ca: fs.readFileSync("app_desktopcrm_com.ca-bundle"),
-      // ca: fs.readFileSync("desktopcrm.ca-bundle"),
-    };
+console.log("🚀 ~ sslOptions:", os.hostname());
+
+if (os.hostname() === "desktopcrm.com") {
+  sslOptions = {
+    // key: fs.readFileSync("app.desktopcrm.com.key"),
+    key: fs.readFileSync("desktopcrm.key"),
+    // cert: fs.readFileSync("app_desktopcrm_com.crt"),
+    cert: fs.readFileSync("desktopcrm_com.crt"),
+    // ca: fs.readFileSync("app_desktopcrm_com.ca-bundle"),
+    ca: fs.readFileSync("desktopcrm.ca-bundle"),
+  };
+} else {
+  sslOptions = {
+    key: fs.readFileSync("app.desktopcrm.com.key"),
+    cert: fs.readFileSync("app_desktopcrm_com.crt"),
+    // cert: fs.readFileSync("desktopcrm_com.crt"),
+    ca: fs.readFileSync("app_desktopcrm_com.ca-bundle"),
+    // ca: fs.readFileSync("desktopcrm.ca-bundle"),
+  };
 }
+
+console.log("🚀 ~ sslOptions:", sslOptions);
+
 // Load SSL certificate and key
 // const sslOptions = {
 //   key: fs.readFileSync("desktopcrm.key"),
 //   cert: fs.readFileSync("desktopcrm.crt"),
 //   ca: fs.readFileSync("desktopcrm.ca-bundle"),
 // };
-sslOptions = {
-  key: fs.readFileSync("app.desktopcrm.com.key"),
-  cert: fs.readFileSync("app_desktopcrm_com.crt"),
-  // cert: fs.readFileSync("desktopcrm_com.crt"),
-  ca: fs.readFileSync("app_desktopcrm_com.ca-bundle"),
-  // ca: fs.readFileSync("desktopcrm.ca-bundle"),
-};
+// sslOptions = {
+//   key: fs.readFileSync("app.desktopcrm.com.key"),
+//   cert: fs.readFileSync("app_desktopcrm_com.crt"),
+//   // cert: fs.readFileSync("desktopcrm_com.crt"),
+//   ca: fs.readFileSync("app_desktopcrm_com.ca-bundle"),
+//   // ca: fs.readFileSync("desktopcrm.ca-bundle"),
+// };
 
 // Start HTTPS server
 https.createServer(sslOptions, app).listen(443, () => {
