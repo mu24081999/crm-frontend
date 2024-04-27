@@ -41,30 +41,7 @@ const sslOptionsSub = {
   ca: fs.readFileSync("app_desktopcrm_com.ca-bundle"),
   // ca: fs.readFileSync("desktopcrm.ca-bundle"),
 };
-
-const server = https.createServer((req, res) => {
-  // Check the hostname from the request
-  const hostname = req.hostname;
-
-  // Serve the appropriate certificate based on the hostname
-  if (hostname === "desktopcrm.com") {
-    handleRequest(req, res, sslOptionsMain);
-  } else if (hostname === "app.desktopcrm.com") {
-    handleRequest(req, res, sslOptionsSub);
-  } else {
-    res.writeHead(400);
-    res.end("Invalid hostname");
-  }
-});
-console.log("🚀 ~ server ~ server:", server);
-function handleRequest(req, res, options) {
-  res.writeHead(200);
-  res.end("Hello, HTTPS!");
-}
-server.listen(443, () => {
-  console.log("Server is listening on port 443");
-});
 // Start HTTPS server
-// https.createServer(sslOptions, app).listen(443, () => {
-//   console.log("Server running...");
-// });
+https.createServer(sslOptionsSub, app).listen(443, () => {
+  console.log("Server running...");
+});
