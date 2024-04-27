@@ -43,11 +43,21 @@ function createServerWithSSLOptions(req) {
   return https.createServer(sslOptions, app);
 }
 
-// Create and start HTTPS server based on request hostname
-const server = https.createServer((req, res) => {
-  app(req, res);
+// Middleware to create and start HTTPS server based on request hostname
+app.use((req, res, next) => {
+  const server = createServerWithSSLOptions(req);
+  console.log("🚀 ~ app.use ~ server:", server);
+  server.listen(443, () => {
+    console.log("Server running...");
+  });
+  next();
 });
 
+// Error handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
 server.listen(443, () => {
   console.log("Server running...");
 });
