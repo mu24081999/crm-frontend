@@ -107,22 +107,26 @@ function validateAndGetCertificate(filePath) {
 }
 
 // Create separate HTTPS servers with pre-configured SSL options
-const landingServer = https.createServer(landingSslOptions, app);
-const dashboardServer = https.createServer(dashboardSslOptions, app);
-
+// const landingServer = https.createServer(landingSslOptions, app);
+// const dashboardServer = https.createServer(dashboardSslOptions, app);
+let server;
 // Route requests to appropriate server based on hostname (using a switch statement for clarity)
 app.use((req, res, next) => {
   switch (req.hostname) {
     case "desktopcrm.com":
-      landingServer.emit("request", req, res);
+      // landingServer.emit("request", req, res);
+      server = https.createServer(landingSslOptions, app);
       break;
     case "app.desktopcrm.com":
-      dashboardServer.emit("request", req, res);
+      // dashboardServer.emit("request", req, res);
+      server = https.createServer(dashboardSslOptions, app);
+
       break;
     default:
       // Handle invalid hostnames (e.g., return an error)
       res.status(400).send("Invalid hostname");
   }
+  server.emit("request", req, res);
 });
 
 // Error handling (improve for more specific error messages)
@@ -130,10 +134,10 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Internal Server Error");
 });
-
-landingServer.listen(443, () => {
+console.log("server: " + server);
+server.listen(443, () => {
   console.log("Landing server running on port 443...");
 });
-dashboardServer.listen(443, () => {
-  console.log("Dashboard server running on port 443...");
-});
+// dashboardServer.listen(443, () => {
+//   console.log("Dashboard server running on port 443...");
+// });
