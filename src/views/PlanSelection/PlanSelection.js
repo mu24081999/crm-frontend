@@ -152,7 +152,7 @@ const PlanSelection = () => {
           </div>
         </div>
       </div>
-      <Payment />
+      <Payment route="/kyc-form" />
     </div>
   );
 };

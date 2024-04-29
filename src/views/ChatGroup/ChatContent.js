@@ -9,6 +9,7 @@ import { getUsers } from "../../redux/services/users";
 import io from "socket.io-client";
 import { toast } from "react-toastify";
 import axios from "axios";
+import _ from "lodash";
 
 const ChatContent = () => {
   const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
@@ -18,6 +19,7 @@ const ChatContent = () => {
   const socket = useMemo(() => io(socketURL), [socketURL]);
   const [selectedRoom, setSelectedRoom] = useState({});
   const [messages, setMessages] = useState([]);
+  const [messages_, setMessages_] = useState([]);
   const [defaultUsers, setDefaultUsers] = useState([]);
   const [allMessages, setAllMessages] = useState([]);
 
@@ -55,6 +57,7 @@ const ChatContent = () => {
           .get(`${backendURL}/user/chat/group-chat-history/${room_id}`, config)
           .then((response) => {
             setMessages(response.data?.data.chatData);
+            setMessages_(response.data?.data.chatData);
           });
       } catch (error) {
         toast.error(error.message);
@@ -143,6 +146,20 @@ const ChatContent = () => {
       setDefaultUsers(data);
     }
   }, [users, user]);
+  useEffect(() => {
+    if (users?.length > 0 && messages?.length > 0) {
+      const new_array = [];
+      messages?.forEach((msg) => {
+        msg.sender_info = users?.filter(
+          (u) => u.id === _.toInteger(msg.sender)
+        )[0];
+        new_array.push(msg);
+        // message.sender = user_sender;
+      });
+      console.log("🚀 ~ newMessages ~ newMessages:", new_array);
+      setMessages_(new_array);
+    }
+  }, [users, messages]);
   const handleDataFromChild = (data) => {
     setSelectedRoom(data);
   };
@@ -166,7 +183,7 @@ const ChatContent = () => {
               />
               {selectedRoom?.id && (
                 <SingleChat
-                  messages={messages}
+                  messages={messages_}
                   selectedRoom={selectedRoom}
                   authUser={user}
                   socket={socket}

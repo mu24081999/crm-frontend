@@ -7,7 +7,9 @@ import FilePreview from "../../../../components/FilePreview/FilePreview";
 import { SocketContext } from "../../../../Context";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../../../redux/services/users";
-import { FiPaperclip } from "react-icons/fi";
+import { FiAlertTriangle, FiPaperclip } from "react-icons/fi";
+import "reactjs-popup/dist/index.css";
+import Popup from "reactjs-popup";
 
 const SingleChat = ({
   messages,
@@ -63,6 +65,8 @@ const SingleChat = ({
           name: authUser.name,
           avatar: authUser.avatar,
           socket_id: authUser.socket_id,
+          accountSid: authUser?.accountSid,
+          authToken: authUser?.authToken,
         },
         to: {
           phone: selectedRoom.phone,
@@ -287,7 +291,7 @@ const SingleChat = ({
                   </div>
                 </li>
               ) : (
-                <li class="media sent" key={index}>
+                <li class="media sent d-flex" key={index}>
                   <div class="media-body">
                     <div class="msg-box">
                       <div>
@@ -350,6 +354,29 @@ const SingleChat = ({
                         </div>
                       </div>
                     </div>
+                    {msg?.sid === null && (
+                      <div class="media-head">
+                        <div class="avatar avatar-sm avatar-secondary position-relative avatar-rounded">
+                          <Popup
+                            // open={isDialerOpen}
+                            trigger={
+                              <button
+                                className="btn btn-icon btn-floating btn-warning btn-lg btn-rounded shadow-lg"
+                                id="dialer_button"
+                              >
+                                {" "}
+                                {<FiAlertTriangle />}
+                              </button>
+                            }
+                            position="bottom right"
+                          >
+                            <p className="">
+                              Something went wrong with this message!
+                            </p>
+                          </Popup>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </li>
               )

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { paymentIntent } from "../../redux/services/payment";
 import { toast } from "react-toastify";
 import { redirect, useNavigate } from "react-router-dom";
-const PaymentForm = () => {
+const PaymentForm = ({ path }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
@@ -21,6 +21,7 @@ const PaymentForm = () => {
   //   );
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const close_button = document.getElementById("close_modal");
     await dispatch(
       paymentIntent(token, {
         currency: "usd",
@@ -42,7 +43,7 @@ const PaymentForm = () => {
           card: elements.getElement(CardElement),
         },
       });
-      console.log("🚀 ~ handleSubmit ~ result:", result);
+      console.log("🚀 ~ handleSubmit ~ result:", path);
 
       if (result.error) {
         // Handle error
@@ -51,7 +52,8 @@ const PaymentForm = () => {
         // Handle success
         if (result.paymentIntent.status === "succeeded") {
           toast.success("Payment Successful!");
-          navigate("/");
+          navigate(path);
+          close_button?.click();
           console.log("Payment successful!");
           console.log(result);
         }
@@ -75,6 +77,7 @@ const PaymentForm = () => {
             </h5>
             <button
               type="button"
+              id="close_modal"
               className="btn-close btn-light"
               data-bs-dismiss="modal"
               aria-label="Close"

@@ -243,17 +243,17 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                   </li> */}
                 </ul>
                 <div class="avatar avatar-lg avatar-rounded chatapp-caller-img ">
-                  {type === "video" && (
-                    <video
-                      playsInline
-                      muted
-                      ref={myVideo}
-                      autoPlay
-                      width="140"
-                      height="150"
-                      // controls="true"
-                    />
-                  )}
+                  {/* {type === "video" && ( */}
+                  <video
+                    playsInline
+                    muted
+                    ref={myVideo}
+                    autoPlay
+                    width="140"
+                    height="150"
+                    // controls="true"
+                  />
+                  {/* )} */}
 
                   {type === "audio" && (
                     <img

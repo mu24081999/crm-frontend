@@ -9,9 +9,9 @@ const stripePromise = loadStripe(
 );
 
 console.log("🚀 ~ stripePromise:", stripePromise);
-const Payment = () => (
+const Payment = ({ route }) => (
   <Elements stripe={stripePromise}>
-    <PaymentForm />
+    <PaymentForm path={route} />
   </Elements>
 );
 

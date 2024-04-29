@@ -32,10 +32,10 @@ const InvitePeople = ({ users, authUser, socket }) => {
         group_members.push(selectedUser);
       }
     });
-    const adminUser = users?.filter((u) => u.id === authUser?.id)[0];
-    const user_id = adminUser?.id;
-    const user_name = adminUser?.name;
-    const user_image = adminUser?.image;
+    // const adminUser = users?.filter((u) => u.id === authUser?.id)[0];
+    const user_id = authUser?.id;
+    const user_name = authUser?.name;
+    const user_image = authUser?.image;
     const formData = {
       name: roomName,
       user_id: user_id,

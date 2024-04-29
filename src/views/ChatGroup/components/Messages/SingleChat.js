@@ -27,6 +27,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import { FiPaperclip } from "react-icons/fi";
 
 const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
+  console.log("🚀 ~ SingleChat ~ messages:", messages);
   const {
     me,
     // leaveCall,
@@ -423,7 +424,12 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                       class="avatar-img"
                     />
                   </div> */}
-                  <div class="avatar avatar-sm avatar-rounded position-relative">
+                  <div>
+                    <span className="badge bg-primary">
+                      {msg?.sender_info?.username}
+                    </span>
+                  </div>
+                  {/* <div class="avatar avatar-sm avatar-rounded position-relative">
                     <span
                       class="initial-wrap bg-primary"
                       style={{ color: "white" }}
@@ -438,7 +444,8 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                         )}
                     </span>
                     <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
-                  </div>
+                  </div> */}
+
                   <div class="media-body">
                     <div class="msg-box">
                       <div>
@@ -458,7 +465,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                             />
                           </button>
                         )}
-                        <p>{msg.message}</p>
+                        <p>{msg?.message}</p>
                         <span class="chat-time">
                           {moment(message?.created_at).format("h:mm A")}
                           <span className="float-end">
@@ -524,7 +531,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                             />
                           </button>
                         )}
-                        <p>{msg.message}</p>
+                        <p>{msg?.message}</p>
                         <span class="chat-time">
                           {moment(message?.created_at).format("h:mm A")}
                           <span className="float-end">

@@ -19,7 +19,6 @@ const ContextProvider = ({ children }) => {
   const [openCalling, setOpenCalling] = useState(false);
   const [isCalling, setIsCalling] = useState(false);
   const [ringing, setRinging] = useState(false);
-  console.log("🚀 ~ ContextProvider ~ ringing:", ringing);
   const [showLeadDetails, setShowLeadDetails] = useState(false);
   const [showUserDetails, setShowUserDetails] = useState(false);
   const [stream, setStream] = useState();
@@ -35,6 +34,10 @@ const ContextProvider = ({ children }) => {
   var ringtoneAudio = new Audio(ringingTone);
   function playRingtone() {
     ringtoneAudio.play();
+    // setTimeout(() => {
+    //   // ringtoneAudio.pause();
+    //   stopRingtone();
+    // }, 15000);
   }
 
   // Assume you have a function to stop the ringtone
@@ -46,6 +49,7 @@ const ContextProvider = ({ children }) => {
   }
 
   const sendTextMessage = (data) => {
+    console.log("🚀 ~ sendTextMessage ~ data:", data);
     socket.emit("send-message", data);
   };
   const handleToggleShowLeadDetail = (value, contact_id, token) => {
@@ -163,6 +167,10 @@ const ContextProvider = ({ children }) => {
           }
           setRinging(true);
           playRingtone();
+          setTimeout(() => {
+            // ringtoneAudio.pause();
+            stopRingtone();
+          }, 15000);
           // ringtone.play();
           // setTimeout(() => {
           //   ringtone.pause();
@@ -189,10 +197,11 @@ const ContextProvider = ({ children }) => {
   };
   const answerCall = () => {
     setCallAccepted(true);
-    stopRingtone();
 
     const peer = new Peer({ initiator: false, trickle: false, stream });
     peer.on("signal", (data) => {
+      stopRingtone();
+
       socket.emit("answerCall", { signal: data, to: call.from });
     });
     peer.on("stream", (currentStream) => {
@@ -223,7 +232,7 @@ const ContextProvider = ({ children }) => {
     });
     socket.on("callAccepted", (signal) => {
       setCallAccepted(true);
-
+      stopRingtone();
       peer.signal(signal);
     });
 
