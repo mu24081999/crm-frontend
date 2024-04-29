@@ -37,6 +37,7 @@ import Subscription from "./views/Subscription/Subscription";
 import KYC from "./views/KYC/KYC";
 import Subaccounts from "./views/SubAccounts/Subaccounts";
 import ActiveNumbers from "./views/ActiveNumbers/Numbers";
+import PlanSelection from "./views/PlanSelection/PlanSelection";
 
 // Define allowed roles for each route
 const roles = {
@@ -172,6 +173,10 @@ const router = (role) => {
     {
       path: "/subscriptions",
       element: <Subscription />,
+    },
+    {
+      path: "/plan-selection",
+      element: <PlanSelection />,
     },
     {
       path: "/account-settings",

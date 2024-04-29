@@ -80,7 +80,7 @@ const DashboardContent = () => {
         </div>
 
         {/* <!-- Page Footer --> */}
-        <div class="hk-footer">
+        {/* <div class="hk-footer">
           <footer class="container-xxl footer">
             <div class="row">
               <div class="col-xl-8">
@@ -111,7 +111,7 @@ const DashboardContent = () => {
               </div>
             </div>
           </footer>
-        </div>
+        </div> */}
         {/* <!-- / Page Footer --> */}
       </div>
       {/* <!-- /Main Content --> */}

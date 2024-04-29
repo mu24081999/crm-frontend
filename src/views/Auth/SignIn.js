@@ -219,7 +219,7 @@ const SignIn = () => {
           {/* <!-- /Page Body --> */}
 
           {/* <!-- Page Footer --> */}
-          <div className="hk-footer border-0">
+          {/* <div className="hk-footer border-0">
             <footer className="container-xxl footer">
               <div className="row">
                 <div className="col-xl-8 text-center">
@@ -242,7 +242,7 @@ const SignIn = () => {
                 </div>
               </div>
             </footer>
-          </div>
+          </div> */}
           {/* <!-- / Page Footer --> */}
         </div>
         {/* <!-- /Main Content --> */}

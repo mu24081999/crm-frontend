@@ -30,7 +30,7 @@ const SignUp = () => {
   useEffect(() => {
     switch (isAuthenticated) {
       case true:
-        return redirectTo("/");
+        return redirectTo("/plan-selection");
       default:
         break;
     }
@@ -98,7 +98,7 @@ const SignUp = () => {
                                   <InputField
                                     name="name"
                                     placeholder="Enter your name"
-                                    label="Name"
+                                    label="Full Name"
                                     control={control}
                                     rules={{
                                       required: {
@@ -222,7 +222,7 @@ const SignUp = () => {
           {/* <!-- /Page Body --> */}
 
           {/* <!-- Page Footer --> */}
-          <div class="hk-footer border-0">
+          {/* <div class="hk-footer border-0">
             <footer class="container-xxl footer">
               <div class="row">
                 <div class="col-xl-8 text-center">
@@ -245,7 +245,7 @@ const SignUp = () => {
                 </div>
               </div>
             </footer>
-          </div>
+          </div> */}
           {/* <!-- / Page Footer --> */}
         </div>
         {/* <!-- /Main Content --> */}

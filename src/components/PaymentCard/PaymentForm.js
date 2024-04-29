@@ -2,8 +2,11 @@ import React from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useDispatch, useSelector } from "react-redux";
 import { paymentIntent } from "../../redux/services/payment";
+import { toast } from "react-toastify";
+import { redirect, useNavigate } from "react-router-dom";
 const PaymentForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
   const { paymentIntent: intent, isLoading } = useSelector(
     (state) => state.payment
@@ -47,6 +50,8 @@ const PaymentForm = () => {
       } else {
         // Handle success
         if (result.paymentIntent.status === "succeeded") {
+          toast.success("Payment Successful!");
+          navigate("/");
           console.log("Payment successful!");
           console.log(result);
         }

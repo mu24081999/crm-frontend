@@ -44,8 +44,8 @@ const TopNavbar = ({}) => {
   const username = user?.username;
   const avatarHeading = _.toUpper(username?.slice(0, 2));
   const handleAccountClick = (account) => {
-    setSelectedAccount(account);
-    // dispatch(loginUser(account?.username, account?.password));
+    // setSelectedAccount(account);
+    dispatch(loginUser(account?.username, account?.password, true));
     dispatch(setAccount(account));
   };
   useEffect(() => {
@@ -71,7 +71,7 @@ const TopNavbar = ({}) => {
           </button>
 
           {/* <!-- Search --> */}
-          <form className="dropdown navbar-search">
+          {/* <form className="dropdown navbar-search">
             <div
               className="dropdown-toggle no-caret"
               data-bs-toggle="dropdown"
@@ -114,7 +114,6 @@ const TopNavbar = ({}) => {
               </div>
             </div>
             <div className="dropdown-menu p-0">
-              {/* <!-- Mobile Search --> */}
               <div className="dropdown-item d-xl-none bg-transparent">
                 <div className="input-group mobile-search">
                   <span className="input-affix-wrapper input-search">
@@ -138,7 +137,6 @@ const TopNavbar = ({}) => {
                   </span>
                 </div>
               </div>
-              {/* <!--/ Mobile Search --> */}
               <div data-simplebar className="dropdown-body p-2">
                 <h6 className="dropdown-header">Recent Search</h6>
                 <div className="dropdown-item bg-transparent">
@@ -265,7 +263,7 @@ const TopNavbar = ({}) => {
                 </a>
               </div>
             </div>
-          </form>
+          </form> */}
           {/* <!-- /Search --> */}
         </div>
         {/* <!-- /Start Nav --> */}
@@ -273,7 +271,7 @@ const TopNavbar = ({}) => {
         {/* <!-- End Nav --> */}
         <div className="nav-end-wrap">
           <ul className="navbar-nav flex-row">
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <a
                 href="#"
                 className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover"
@@ -289,11 +287,11 @@ const TopNavbar = ({}) => {
                   </span>
                 </span>
               </a>
-            </li>
+            </li> */}
             {/* <li className="nav-item">
               <Dialer />
             </li> */}
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <div className="dropdown dropdown-notifications">
                 <a
                   href="#"
@@ -499,7 +497,7 @@ const TopNavbar = ({}) => {
                   </div>
                 </div>
               </div>
-            </li>
+            </li> */}
             <li className="nav-item">
               <div className="dropdown ps-2">
                 <a

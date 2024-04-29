@@ -39,8 +39,8 @@ const Layout = ({ component }) => {
     console.log(data);
     const formData = {
       ...data,
-      accountSid: accountSid,
-      authToken: accountAuthToken,
+      accountSid: accountSid !== "" && accountSid,
+      authToken: accountAuthToken !== "" && accountAuthToken,
       parent_id: user?.id,
       role: "USER",
     };

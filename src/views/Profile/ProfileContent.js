@@ -38,7 +38,7 @@ const ProfileContent = () => {
         </div>
 
         {/* <!-- Page Footer --> */}
-        <div className="hk-footer">
+        {/* <div className="hk-footer">
           <footer className="container-xxl footer">
             <div className="row">
               <div className="col-xl-8">
@@ -69,7 +69,7 @@ const ProfileContent = () => {
               </div>
             </div>
           </footer>
-        </div>
+        </div> */}
         {/* <!-- / Page Footer --> */}
       </div>
     </div>

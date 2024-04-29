@@ -405,7 +405,7 @@ const VerticalNavbar = () => {
                 </li>
               )} */}
 
-              {user?.role !== null && user?.role === "USER" && (
+              {user?.parent_id !== null && user?.role === "USER" && (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link" to="/agents">
@@ -494,6 +494,22 @@ const VerticalNavbar = () => {
                           </span>
                         </span>
                         <span className="nav-link-text">Call History</span>
+                      </Link>
+                    </li>
+                  </>
+                )}
+              {user?.parent_id === null &&
+                user?.client_id === null &&
+                user?.role === "USER" && (
+                  <>
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/subaccounts">
+                        <span className="nav-icon-wrap">
+                          <span className="svg-icon">
+                            <FaRegUser />
+                          </span>
+                        </span>
+                        <span className="nav-link-text">Sub Accounts</span>
                       </Link>
                     </li>
                   </>
@@ -752,45 +768,14 @@ const VerticalNavbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/subaccounts">
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <FaRegUser />
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Sub Accounts</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="/"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#dash_profile"
-                >
+                <Link className="nav-link" to="/account-settings">
                   <span className="nav-icon-wrap">
                     <span className="svg-icon">
                       <FaCogs />
                     </span>
                   </span>
-                  <span className="nav-link-text">Account</span>
-                </a>
-                <ul
-                  id="dash_profile"
-                  className="nav flex-column collapse  nav-children"
-                >
-                  <li className="nav-item">
-                    <ul className="nav flex-column">
-                      <li className="nav-item">
-                        <Link className="nav-link" to="/account-settings">
-                          <span className="nav-link-text">
-                            Account Settings
-                          </span>
-                        </Link>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
+                  <span className="nav-link-text">Account Settings</span>
+                </Link>
               </li>
             </ul>
           </div>
