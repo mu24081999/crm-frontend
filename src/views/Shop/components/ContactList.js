@@ -20,6 +20,7 @@ const ContactList = ({
   const dispatch = useDispatch();
   // const [contactsData, setContactData] = useState();
   const { token } = useSelector((state) => state.auth);
+  const [amount, setAmount] = useState(null);
   const { isLoading, contacts } = useSelector((state) => state.contact);
   useEffect(() => {
     if (token) {
@@ -42,11 +43,12 @@ const ContactList = ({
     dispatch(getContactDetais(token, contact_id));
   };
   const handleBuyClick = (phoneNumberData) => {
+    console.log("🚀 ~ handleBuyClick ~ phoneNumberData:", phoneNumberData);
     onDataFromChild(phoneNumberData?.phoneNumber);
     dispatch(
       paymentIntent(token, {
         currency: "usd",
-        amount: 7000,
+        amount: 2500,
         // amount: amount_value ? amount_value.getAttribute("data-amount") : "",
       })
     );
@@ -126,7 +128,7 @@ const ContactList = ({
                         />
                       </td>
                       <td>{contact?.addressRequirements}</td>
-                      <td className="fw-bold">$7.76</td>
+                      <td className="fw-bold">$2.5</td>
                       <td>
                         <div className="d-flex align-items-center">
                           <div className="d-flex">
