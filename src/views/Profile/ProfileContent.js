@@ -6,6 +6,7 @@ import UpdatePassword from "./components/UpdatePassword";
 import CardInformation from "./components/CardInformation";
 import EmailConfig from "./components/EmailConfig";
 import Billing from "./components/Billing";
+import NumberConfig from "./components/NumberConfig";
 
 const ProfileContent = () => {
   return (
@@ -28,6 +29,7 @@ const ProfileContent = () => {
                   <AccountSetting />
                   <UpdatePassword />
                   <EmailConfig />
+                  <NumberConfig />
                   {/* <Billing /> */}
                   <CardInformation />
                 </div>

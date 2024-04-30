@@ -7,6 +7,7 @@ import ringTone from "./assets/ringtone.mp3";
 import ringingTone from "./assets/ringing.mp3";
 import { getContactDetais } from "./redux/services/contact";
 import { getUserDetails } from "./redux/services/users";
+import { toast } from "react-toastify";
 
 const SocketContext = createContext();
 const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
@@ -14,6 +15,7 @@ const ContextProvider = ({ children }) => {
   const socket = useMemo(() => io(socketURL), []);
   const { user_id, user } = useSelector((state) => state.auth);
   const [callAccepted, setCallAccepted] = useState(false);
+  const [messageError, setMessageError] = useState(null);
   const [type, setType] = useState(null);
   const [callEnded, setCallEnded] = useState(false);
   const [openCalling, setOpenCalling] = useState(false);
@@ -137,6 +139,10 @@ const ContextProvider = ({ children }) => {
       //       myVideo.current.srcObject = currentStream;
       //     }
       //   });
+      socket.on("message_error", (err) => {
+        console.log("🚀 ~ socket.on ~ message_error:", err);
+        toast.error(err);
+      });
       socket.on("message_sent", (messages) => {
         setMessagesArray(messages);
       });
@@ -296,6 +302,7 @@ const ContextProvider = ({ children }) => {
         messagesArray,
         showLeadDetails,
         showUserDetails,
+        messageError,
         calling,
         readyForCall,
         readyForAudioCall,

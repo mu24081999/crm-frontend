@@ -101,7 +101,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                       <FaUserClock />
                     </span>
                   </span>
-                  <span className="nav-link-text">All Clients</span>
+                  <span className="nav-link-text">All</span>
                 </button>
               </li>
 

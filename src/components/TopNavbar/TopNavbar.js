@@ -44,9 +44,9 @@ const TopNavbar = ({}) => {
   const username = user?.username;
   const avatarHeading = _.toUpper(username?.slice(0, 2));
   const handleAccountClick = (account) => {
-    // setSelectedAccount(account);
+    setSelectedAccount(account);
     dispatch(loginUser(account?.username, account?.password, true));
-    dispatch(setAccount(account));
+    // dispatch(setAccount(account));
   };
   useEffect(() => {
     dispatch(getUsers(token));

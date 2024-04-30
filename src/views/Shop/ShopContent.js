@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAvailableNumbers } from "../../redux/services/calling";
 import { useForm } from "react-hook-form";
 import Payment from "../../components/PaymentCard/Payment";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const ContactsContent = () => {
   const {
@@ -19,6 +21,8 @@ const ContactsContent = () => {
   const [data, setData] = useState([]);
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [phoneNumbers_, setPhoneNumbers_] = useState([]);
+  const [selectedNumber, setSelectedNumber] = useState(null);
+  console.log("🚀 ~ ContactsContent ~ selectedNumber:", selectedNumber);
   const [isEdit, setIsEdit] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const { contacts } = useSelector((state) => state.contact);
@@ -26,7 +30,7 @@ const ContactsContent = () => {
   const { token, accountSid, accountAuthToken } = useSelector(
     (state) => state.auth
   );
-
+  const backendURL = process.env.REACT_APP_BACKEND_URL_PRODUCTION;
   const dispatch = useDispatch();
   useEffect(() => {
     if (contacts.length > 0) {
@@ -58,6 +62,28 @@ const ContactsContent = () => {
   };
   const handleNumbersDataFromChild = (data) => {
     setIsSearch(data);
+  };
+  const handleSelectedNumber = (data) => {
+    setSelectedNumber(data);
+  };
+  const afterPayment = async () => {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "x-access-token": token,
+      },
+    };
+    const is_added = await axios.post(
+      `${backendURL}/user/calling/claim-phone-number`,
+      {
+        subAccountSid: accountSid,
+        subAuthToken: accountAuthToken,
+        phoneNumber: selectedNumber,
+      },
+      config
+    );
+    toast.success(is_added?.data?.message);
+    console.log("New claim number", is_added);
   };
   return (
     <div className="hk-pg-wrapper pb-0">
@@ -201,6 +227,7 @@ const ContactsContent = () => {
                       contactsData={phoneNumbers}
                       onToggleEdit={handleToggleEdit}
                       isEdit={isEdit}
+                      onDataFromChild={handleSelectedNumber}
                     />
                   </div>
                 </div>
@@ -209,7 +236,7 @@ const ContactsContent = () => {
           </div>
         </div>
       </div>
-      <Payment />
+      <Payment afterPayment={afterPayment} />
 
       {/* <!-- /Page Body --> */}
     </div>

@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useDispatch, useSelector } from "react-redux";
 import { paymentIntent } from "../../redux/services/payment";
 import { toast } from "react-toastify";
 import { redirect, useNavigate } from "react-router-dom";
-const PaymentForm = ({ path }) => {
+const PaymentForm = ({ path, afterPayment }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
@@ -19,16 +19,25 @@ const PaymentForm = ({ path }) => {
   //     "Oyeeee",
   //     document.getElementById("buy_number").getAttribute("data-amount")
   //   );
+  // useEffect(() => {
+  //   dispatch(
+  //     paymentIntent(token, {
+  //       currency: "usd",
+  //       // amount: 5000,
+  //       amount: amount_value ? amount_value.getAttribute("data-amount") : "",
+  //     })
+  //   );
+  // }, [token, amount_value, dispatch]);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const close_button = document.getElementById("close_modal");
-    await dispatch(
-      paymentIntent(token, {
-        currency: "usd",
-        // amount: 5000,
-        amount: amount_value ? amount_value.getAttribute("data-amount") : "",
-      })
-    );
+    // await dispatch(
+    //   paymentIntent(token, {
+    //     currency: "usd",
+    //     // amount: 5000,
+    //     amount: amount_value ? amount_value.getAttribute("data-amount") : "",
+    //   })
+    // );
 
     console.log(
       "🚀 ~ handleSubmit ~ intent?.client_secret:",
@@ -37,25 +46,24 @@ const PaymentForm = ({ path }) => {
     );
     const clientSecret = intent?.client_secret;
     // Confirm the payment on the client side
-    if (isLoading === false && clientSecret) {
+    if (isLoading === false && intent?.client_secret !== undefined) {
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
         },
       });
-      console.log("🚀 ~ handleSubmit ~ result:", path);
+      console.log("🚀 ~ handleSubmit ~ result:", result);
 
       if (result.error) {
         // Handle error
-        console.error(result.error.message);
+        toast.error(result.error.message);
       } else {
         // Handle success
         if (result.paymentIntent.status === "succeeded") {
           toast.success("Payment Successful!");
+          afterPayment && (await afterPayment());
           navigate(path);
           close_button?.click();
-          console.log("Payment successful!");
-          console.log(result);
         }
       }
     }

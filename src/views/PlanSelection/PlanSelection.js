@@ -5,6 +5,8 @@ import InputField from "../../components/FormFields/InputField";
 import ReactSelectField from "../../components/FormFields/reactSelectField";
 import "./plan.css";
 import logo from "./../../assets/logo.jpeg";
+import { useDispatch, useSelector } from "react-redux";
+import { paymentIntent } from "../../redux/services/payment";
 
 const PlanSelection = () => {
   const {
@@ -14,7 +16,26 @@ const PlanSelection = () => {
     setValue,
     formState: { errors },
   } = useForm({});
-  const handleAddSubscription = () => {};
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
+  const onFirstClick = (amount) => {
+    dispatch(
+      paymentIntent(token, {
+        currency: "usd",
+        amount: amount,
+        // amount: amount_value ? amount_value.getAttribute("data-amount") : "",
+      })
+    );
+  };
+  const onSecondClick = (amount) => {
+    dispatch(
+      paymentIntent(token, {
+        currency: "usd",
+        amount: amount,
+        // amount: amount_value ? amount_value.getAttribute("data-amount") : "",
+      })
+    );
+  };
   return (
     // <div className="d-flex justify-content-center">
     //   <div
@@ -118,6 +139,7 @@ const PlanSelection = () => {
                 data-bs-toggle="modal"
                 data-bs-target="#add_payment_form"
                 data-amount={`10000`}
+                onClick={() => onFirstClick(1000)}
               >
                 Continue
               </button>
@@ -145,6 +167,7 @@ const PlanSelection = () => {
                 data-bs-toggle="modal"
                 data-bs-target="#add_payment_form"
                 data-amount={`120000`}
+                onClick={() => onSecondClick(12000)}
               >
                 Continue
               </button>

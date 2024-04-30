@@ -33,7 +33,7 @@ const AgentContent = () => {
         (usr) =>
           usr.status === "active" &&
           usr.role === "AGENT" &&
-          _.toInteger(usr.parent_id) === user.id
+          _.toInteger(usr.client_id) === user.id
       );
       setData(filteredData);
       setData_(filteredData);

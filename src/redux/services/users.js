@@ -79,12 +79,13 @@ export const deleteUserRec = (token, user_id) => async (dispatch) => {
     dispatch(invalidRequest(e.message));
   }
 };
-export const addUserRec = (registerData) => async (dispatch) => {
+export const addUserRec = (token, registerData) => async (dispatch) => {
   try {
     dispatch(userRequestLoading());
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
+        "x-access-token": token,
       },
     };
     await axios
@@ -98,7 +99,7 @@ export const addUserRec = (registerData) => async (dispatch) => {
 
         toast.success(response.data.message);
         dispatch(addUser(response.data.message));
-        dispatch(getUsers());
+        dispatch(getUsers(token));
         // Cookie.set("token", response.data.data.token);
       });
   } catch (e) {

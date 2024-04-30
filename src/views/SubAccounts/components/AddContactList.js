@@ -40,6 +40,7 @@ const AddContactList = () => {
     }
   }, [cityWatcher, setValue]);
   const handleAddContact = (data) => {
+    console.log("🚀 ~ handleAddContact ~ data:", data);
     const formData = new FormData();
     formData.append("name", data?.name);
     formData.append("email", data?.email);
@@ -49,7 +50,7 @@ const AddContactList = () => {
     formData.append("avatar", logo && logo);
     console.log("🚀 ~ handleAddContact ~ data:", data, logo);
     // dispatch(addContact(token, formData));
-    dispatch(addUserRec(formData));
+    dispatch(addUserRec(token, formData));
   };
   const handleChangeImage = (e) => {
     setLogo(e.currentTarget.files[0]);

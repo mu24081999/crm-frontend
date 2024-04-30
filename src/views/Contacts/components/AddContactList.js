@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import InputField from "../../../components/FormFields/InputField";
 import TextAreaField from "../../../components/FormFields/textAreaField";
@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import "./file.css";
 import { addContact } from "../../../redux/services/contact";
 import { getBoardList } from "../../../redux/services/board";
+import { SocketContext } from "../../../Context";
 const AddContactList = () => {
+  const { messageError } = useContext(SocketContext);
   const {
     handleSubmit,
     watch,
@@ -41,21 +43,21 @@ const AddContactList = () => {
   }, [cityWatcher, setValue]);
   const handleAddContact = (data) => {
     const formData = {
-      board_id: data.board_id.value,
-      firstname: data.firstname,
-      middlename: data.middlename,
-      lastname: data.lastname,
-      biography: data.biography,
-      phone: data.phone,
-      file: data.file,
-      email: data.email,
-      country: data.country,
-      state: data.state,
-      city: data.city,
-      company_name: data.company_name,
-      designation: data.designation,
-      website: data.website,
-      work_phone: data.work_phone,
+      board_id: data?.board_id?.value,
+      firstname: data?.firstname,
+      middlename: data?.middlename,
+      lastname: data?.lastname,
+      biography: data?.biography,
+      phone: data?.phone,
+      file: data?.file,
+      email: data?.email,
+      country: data?.country,
+      state: data?.state,
+      city: data?.city,
+      company_name: data?.company_name,
+      designation: data?.designation,
+      website: data?.website,
+      work_phone: data?.work_phone,
       tags: JSON.stringify([
         {
           name: "Collaborator",

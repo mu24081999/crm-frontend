@@ -10,6 +10,7 @@ import "./file.css";
 import { addContact } from "../../../redux/services/contact";
 import Loader from "../../../components/Loader/Loader";
 import { addUserRec } from "../../../redux/services/users";
+import { getAgentsList } from "../../../redux/services/agent";
 const AddContactList = () => {
   const {
     handleSubmit,
@@ -40,12 +41,13 @@ const AddContactList = () => {
     }
   }, [cityWatcher, setValue]);
   const handleAddContact = (data) => {
+    console.log("🚀 ~ handleAddContact ~ data:", data);
     const formData = new FormData();
     formData.append("name", data?.name);
     formData.append("email", data?.email);
     formData.append("password", data?.password);
     formData.append("username", data?.username);
-    formData.append("parent_id", user?.id);
+    formData.append("client_id", user?.id);
     formData.append("role", "AGENT");
     formData.append("phone", data?.phone);
     formData.append("accountSid", user?.accountSid);
@@ -54,7 +56,8 @@ const AddContactList = () => {
     // formData.append("avatar", logo && logo);
     // console.log("🚀 ~ handleAddContact ~ data:", data, logo);
     // dispatch(addContact(token, formData));
-    dispatch(addUserRec(formData));
+    dispatch(addUserRec(token, formData));
+    dispatch(getAgentsList(token, user.id));
   };
   const handleChangeImage = (e) => {
     setLogo(e.currentTarget.files[0]);
@@ -169,7 +172,7 @@ const AddContactList = () => {
                 type="phone"
                 control={control}
                 errors={errors}
-                name="Phone Number"
+                name="phone"
                 placeholder="Password"
                 label="Phone Number"
                 rules={{

@@ -18,6 +18,11 @@ const Sidebar = () => {
             </a>
           </li>
           <li className="nav-item">
+            <a data-bs-toggle="tab" href="#number_config" className="nav-link">
+              <span className="nav-link-text">Phone Number Configuration</span>
+            </a>
+          </li>
+          <li className="nav-item">
             <a data-bs-toggle="tab" href="#tab_block_2" className="nav-link">
               <span className="nav-link-text">Account Settings</span>
             </a>

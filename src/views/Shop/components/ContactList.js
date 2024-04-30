@@ -9,8 +9,14 @@ import Loader from "../../../components/Loader/Loader";
 import { FaStar } from "react-icons/fa";
 import { getUsers } from "../../../redux/services/users";
 import Payment from "../../../components/PaymentCard/Payment";
+import { paymentIntent } from "../../../redux/services/payment";
 
-const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
+const ContactList = ({
+  contactsData,
+  onToggleEdit,
+  isEdit,
+  onDataFromChild,
+}) => {
   const dispatch = useDispatch();
   // const [contactsData, setContactData] = useState();
   const { token } = useSelector((state) => state.auth);
@@ -34,6 +40,16 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
   const handleToggle = (contact_id) => {
     onToggleEdit(true);
     dispatch(getContactDetais(token, contact_id));
+  };
+  const handleBuyClick = (phoneNumberData) => {
+    onDataFromChild(phoneNumberData?.phoneNumber);
+    dispatch(
+      paymentIntent(token, {
+        currency: "usd",
+        amount: 7000,
+        // amount: amount_value ? amount_value.getAttribute("data-amount") : "",
+      })
+    );
   };
   return (
     <div className="contact-list-view">
@@ -120,6 +136,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                               data-bs-toggle="modal"
                               data-bs-target="#add_payment_form"
                               data-amount={`7000`}
+                              onClick={() => handleBuyClick(contact)}
                             >
                               Buy
                             </button>

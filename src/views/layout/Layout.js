@@ -44,7 +44,7 @@ const Layout = ({ component }) => {
       parent_id: user?.id,
       role: "USER",
     };
-    dispatch(addUserRec(formData));
+    dispatch(addUserRec(token, formData));
   };
   return (
     <div

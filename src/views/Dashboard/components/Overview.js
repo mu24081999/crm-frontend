@@ -555,7 +555,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                     className="table table-striped w-100 mb-5"
                   >
                     <thead className="table-primary ">
-                      <tr className="sticky-top border p-1 shadow-lg p-3 mb-5 bg-white rounded">
+                      <tr className=" border p-1 shadow-lg p-3 mb-5 bg-white rounded">
                         <th>Account Name</th>
                         <th>Email</th>
                         <th>Date Created</th>
