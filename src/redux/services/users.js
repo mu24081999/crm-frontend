@@ -115,7 +115,7 @@ export const updateUserRec = (token, data, user_id) => async (dispatch) => {
         "x-access-token": token,
       },
     };
-    await axios
+    const is_updated = await axios
       .put(`${backendURL}/user/update-user-details/${user_id}`, data, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
@@ -128,7 +128,9 @@ export const updateUserRec = (token, data, user_id) => async (dispatch) => {
         dispatch(updateUser(response.data.message));
         dispatch(getUsers(token));
         // Cookie.set("token", response.data.data.token);
+        return true;
       });
+    return is_updated;
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }

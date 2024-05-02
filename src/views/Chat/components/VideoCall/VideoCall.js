@@ -3,6 +3,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { SocketContext } from "../../../../Context";
@@ -12,6 +13,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../../../redux/services/users";
 import "./video.css";
 import { FaMaximize, FaMinimize } from "react-icons/fa6";
+import ringTone from "../../../../assets/ringtone.mp3";
+import callerTone from "../../../../assets/ringing.mp3";
+
 //Helpers
 const Timer = () => {
   const [timer, setTimer] = useState({ mins: 0, sec: 0 });
@@ -38,7 +42,6 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
   const {
     isCalling,
     callAccepted,
-    stream,
     myVideo,
     call,
     answerCall,
@@ -48,16 +51,19 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
     leaveCall,
     openCalling,
     callUser,
-    readyForCall,
     type,
   } = useContext(SocketContext);
-  console.log("🚀 ~ VideoCall ~ call:", call);
+  const ringingRef = useRef(null);
+  const callingRef = useRef(null);
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [usersArray, setUsersArray] = useState(null);
   const { users } = useSelector((state) => state.user);
   const { token } = useSelector((state) => state.auth);
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const dispatch = useDispatch();
+
   // useEffect(() => {
   //   readyForCall();
   // }, [readyForCall]);
@@ -95,8 +101,46 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
       setSelectedUser(response[0]);
     }
   }, [usersArray, authUser, selectedRoom]);
+
+  useMemo(() => {
+    if (
+      call.isReceivingCall === true &&
+      ringing &&
+      call.userToCall === authUser.socket_id &&
+      !callAccepted
+    ) {
+      ringingRef.current.play();
+    } else {
+      ringingRef?.current?.pause();
+    }
+  }, [call, ringing, callAccepted, authUser]);
+
+  useMemo(() => {
+    if (openCalling && !callAccepted) {
+      callingRef.current.play();
+    } else {
+      callingRef?.current?.pause();
+    }
+  }, [callingRef, openCalling, callAccepted]);
+  const handleAudioEnded = () => {
+    setIsPlaying(false);
+    // You can add any additional logic here when audio playback ends
+  };
+
   return (
     <div>
+      <audio
+        ref={ringingRef}
+        onEnded={handleAudioEnded}
+        // src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        src={ringTone}
+      />
+      <audio
+        ref={callingRef}
+        onEnded={handleAudioEnded}
+        // src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        src={callerTone}
+      />
       <div
         id="video_call"
         class="modal"

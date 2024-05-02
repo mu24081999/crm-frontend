@@ -18,15 +18,13 @@ const EditAccountSetting = () => {
   const { users, isLoading } = useSelector((state) => state.user);
   const [avatar, setAvatar] = useState(null);
   useEffect(() => {
-    if (user) {
-      setValue("firstname", user?.name?.split(" ")[0]);
-      setValue("lastname", user?.name?.split(" ")[1]);
-      setValue("username", user?.username);
-      setValue("location", user?.location);
-      setValue("bio", user?.bio);
-      setValue("phone", user?.phone);
-    }
-  }, [user, setValue]);
+    setValue("firstname", user?.name?.split(" ")[0]);
+    setValue("lastname", user?.name?.split(" ")[1]);
+    setValue("username", user?.username);
+    setValue("location", user?.location);
+    setValue("bio", user?.bio);
+    setValue("phone", user?.phone);
+  }, [user, setValue, isLoading]);
   const handleEditAccount = async (data) => {
     const formData = new FormData();
     formData.append("name", data.firstname + " " + data.lastname);
@@ -35,12 +33,12 @@ const EditAccountSetting = () => {
     formData.append("bio", data.bio);
     formData.append("username", data.username);
     formData.append("phone", data.phone);
-    const is_updated = dispatch(updateUserRec(token, formData, user.id));
+    const is_updated = await dispatch(updateUserRec(token, formData, user?.id));
 
     console.log("is)updated", is_updated);
 
     if (is_updated === true) {
-      const updatedUser = users?.filter((user) => user.phone === data.phone)[0];
+      const updatedUser = users?.filter((usr) => usr.email === user?.email)[0];
       console.log("🚀 ~ handleEditAccount ~ updatedUser:", updatedUser);
       dispatch(setAccount(updatedUser));
     }

@@ -3,8 +3,7 @@ import { io } from "socket.io-client";
 import Peer from "simple-peer";
 import { useDispatch, useSelector } from "react-redux";
 import { updatedMe } from "./redux/slices/auth";
-import ringTone from "./assets/ringtone.mp3";
-import ringingTone from "./assets/ringing.mp3";
+
 import { getContactDetais } from "./redux/services/contact";
 import { getUserDetails } from "./redux/services/users";
 import { toast } from "react-toastify";
@@ -33,25 +32,8 @@ const ContextProvider = ({ children }) => {
   const connectionRef = useRef();
   const dispatch = useDispatch();
   // Assume you have a function to play the ringtone
-  var ringtoneAudio = new Audio(ringingTone);
-  function playRingtone() {
-    ringtoneAudio.play();
-    // setTimeout(() => {
-    //   // ringtoneAudio.pause();
-    //   stopRingtone();
-    // }, 15000);
-  }
-
-  // Assume you have a function to stop the ringtone
-  function stopRingtone() {
-    if (ringtoneAudio) {
-      console.log("🚀 ~ stopRingtone ~ ringtoneAudio:", ringtoneAudio);
-      ringtoneAudio.pause();
-    }
-  }
 
   const sendTextMessage = (data) => {
-    console.log("🚀 ~ sendTextMessage ~ data:", data);
     socket.emit("send-message", data);
   };
   const handleToggleShowLeadDetail = (value, contact_id, token) => {
@@ -88,9 +70,14 @@ const ContextProvider = ({ children }) => {
   }
   //close dialog
   function clickElementByDataBsDismiss(dataBsTarget) {
+    console.log(
+      "🚀 ~ clickElementByDataBsDismiss ~ dataBsTarget:",
+      dataBsTarget
+    );
     var elements = document.querySelectorAll(
       '[data-bs-dismiss="' + dataBsTarget + '"]'
     ); // Get elements with matching data-bs-target value
+    console.log("🚀 ~ clickElementByDataBsDismiss ~ elements:", elements);
     if (elements.length > 0) {
       elements.forEach(function (element) {
         element.click(); // Trigger a click event on each matching element
@@ -140,7 +127,6 @@ const ContextProvider = ({ children }) => {
       //     }
       //   });
       socket.on("message_error", (err) => {
-        console.log("🚀 ~ socket.on ~ message_error:", err);
         toast.error(err);
       });
       socket.on("message_sent", (messages) => {
@@ -155,11 +141,31 @@ const ContextProvider = ({ children }) => {
       });
       socket.on("me", (id) => setMe(id));
       socket.on("callEnded", (data) => {
+        clickElementByDataBsDismiss("modal");
+        if (connectionRef.current) {
+          connectionRef.current.destroy();
+        }
+        // Clear the user's video stream
+        if (userVideo.current) {
+          userVideo.current.srcObject = null;
+        }
+        // clear my video stream
+        if (myVideo.current) {
+          myVideo.current.srcObject = null;
+        }
+        // Reset call state
         setCallEnded(true);
         setCallAccepted(false);
         setIsCalling(false);
-        setCall({});
         setOpenCalling(false);
+        setType(null);
+        if (stream) {
+          // Stop each track in the stream
+          stream.getTracks().forEach((track) => {
+            track.enabled = false;
+          });
+          setStream(null);
+        }
       });
       socket.on(
         "callUser",
@@ -172,15 +178,6 @@ const ContextProvider = ({ children }) => {
             clickElementByDataBsTarget("#video_call", "video");
           }
           setRinging(true);
-          playRingtone();
-          setTimeout(() => {
-            // ringtoneAudio.pause();
-            stopRingtone();
-          }, 15000);
-          // ringtone.play();
-          // setTimeout(() => {
-          //   ringtone.pause();
-          // }, 5000);
           setIsCalling(true);
           setCall({
             isReceivingCall: true,
@@ -197,21 +194,19 @@ const ContextProvider = ({ children }) => {
     // return () => {
     //   socket.disconnect();
     // };
-  }, [user_id, dispatch, callEnded]);
+  }, [socket, user_id, dispatch]);
   const calling = () => {
     setOpenCalling(!openCalling);
   };
   const answerCall = () => {
     setCallAccepted(true);
+    setOpenCalling(false);
 
     const peer = new Peer({ initiator: false, trickle: false, stream });
     peer.on("signal", (data) => {
-      stopRingtone();
-
       socket.emit("answerCall", { signal: data, to: call.from });
     });
     peer.on("stream", (currentStream) => {
-      console.log("🚀 ~ peer.on ~ currentStream:", currentStream);
       userVideo.current.srcObject = currentStream;
     });
     peer.signal(call.signal);
@@ -238,7 +233,6 @@ const ContextProvider = ({ children }) => {
     });
     socket.on("callAccepted", (signal) => {
       setCallAccepted(true);
-      stopRingtone();
       peer.signal(signal);
     });
 
@@ -248,8 +242,6 @@ const ContextProvider = ({ children }) => {
   const leaveCall = (to) => {
     // Emit a message to inform the other user that the call is disconnected
     socket.emit("disconnect_call", { to: to });
-    stopRingtone();
-
     // Close the Peer connection
     if (connectionRef.current) {
       connectionRef.current.destroy();
@@ -268,12 +260,12 @@ const ContextProvider = ({ children }) => {
     setIsCalling(false);
     setOpenCalling(false);
     setType(null);
+
     // Stop the current media stream, if there is one
     if (stream) {
       // Stop each track in the stream
       stream.getTracks().forEach((track) => {
         track.enabled = false;
-        console.log("🚀 ~ stream.getTracks ~ track:", track);
       });
       setStream(null);
     }

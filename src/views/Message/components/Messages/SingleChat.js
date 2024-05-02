@@ -292,91 +292,65 @@ const SingleChat = ({
                 </li>
               ) : (
                 <li class="media sent d-flex" key={index}>
-                  <div class="media-body">
-                    <div class="msg-box">
-                      <div>
-                        {msg?.file_key && (
-                          <button
-                            style={{ border: "none", background: "none" }}
-                            onClick={() =>
-                              downloadFile(
-                                "jampackcrm",
-                                getFile(msg.file_key)[0]?.Key
-                              )
-                            }
-                          >
-                            <FilePreview
-                              fileType={getFileExtension(msg?.file_key)}
-                              fileUrl={`https://s3.eu-west-2.amazonaws.com/jampackcrm/${msg?.file_key}`}
-                            />
-                          </button>
-                        )}
-                        <p>{msg.message}</p>
-                        <span class="chat-time">
-                          {moment(message?.created_at).format("h:mm A")}
-                          <span className="float-end">
-                            {" "}
-                            {msg?.file_key &&
-                              (msg?.file_size / (1024 * 1024)).toFixed(2) +
-                                " mb"}
-                          </span>
-                        </span>
-                      </div>
-                      <div class="msg-action">
-                        <a
-                          href="/"
-                          class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover no-caret"
-                        >
-                          <span class="icon">
-                            <span class="feather-icon">
-                              <i data-feather="corner-up-right"></i>
+                  <div class="media-body" style={{ display: "flex" }}>
+                    <div className="d-flex">
+                      <div class="msg-box">
+                        <div>
+                          {msg?.file_key && (
+                            <button
+                              style={{ border: "none", background: "none" }}
+                              onClick={() =>
+                                downloadFile(
+                                  "jampackcrm",
+                                  getFile(msg.file_key)[0]?.Key
+                                )
+                              }
+                            >
+                              <FilePreview
+                                fileType={getFileExtension(msg?.file_key)}
+                                fileUrl={`https://s3.eu-west-2.amazonaws.com/jampackcrm/${msg?.file_key}`}
+                              />
+                            </button>
+                          )}
+                          <p>{msg.message}</p>
+                          <span class="chat-time">
+                            {moment(message?.created_at).format("h:mm A")}
+                            <span className="float-end">
+                              {" "}
+                              {msg?.file_key &&
+                                (msg?.file_size / (1024 * 1024)).toFixed(2) +
+                                  " mb"}
                             </span>
                           </span>
-                        </a>
-                        <a
-                          href="/"
-                          class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                          data-bs-toggle="dropdown"
-                        >
-                          <span class="icon">
-                            <span class="feather-icon">
-                              <i data-feather="more-horizontal"></i>
-                            </span>
-                          </span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                          <a class="dropdown-item" href="/">
-                            Forward
-                          </a>
-                          <a class="dropdown-item" href="/">
-                            Copy
-                          </a>
                         </div>
+                      </div>
+                      <div className="">
+                        {msg?.sid === null && (
+                          <div class="media-head">
+                            <div class="avatar avatar-sm avatar-secondary position-relative avatar-rounded">
+                              <Popup
+                                // open={isDialerOpen}
+                                trigger={
+                                  <button
+                                    className="btn btn-icon btn-floating btn-secondary btn-lg btn-rounded shadow-lg"
+                                    id="dialer_button"
+                                  >
+                                    <FiAlertTriangle
+                                      color="red"
+                                      size={"24"}
+                                      style={{ marginTop: "-15%" }}
+                                    />
+                                  </button>
+                                }
+                                position="bottom right"
+                              >
+                                <p className="">{msg?.message_error}</p>
+                              </Popup>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
-                    {msg?.sid === null && (
-                      <div class="media-head">
-                        <div class="avatar avatar-sm avatar-secondary position-relative avatar-rounded">
-                          <Popup
-                            // open={isDialerOpen}
-                            trigger={
-                              <button
-                                className="btn btn-icon btn-floating btn-warning btn-lg btn-rounded shadow-lg"
-                                id="dialer_button"
-                              >
-                                {" "}
-                                {<FiAlertTriangle />}
-                              </button>
-                            }
-                            position="bottom right"
-                          >
-                            <p className="">
-                              Something went wrong with this message!
-                            </p>
-                          </Popup>
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </li>
               )

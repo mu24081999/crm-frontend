@@ -48,7 +48,7 @@ const ContactList = ({
     dispatch(
       paymentIntent(token, {
         currency: "usd",
-        amount: 2500,
+        amount: 250,
         // amount: amount_value ? amount_value.getAttribute("data-amount") : "",
       })
     );
