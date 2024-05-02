@@ -1,5 +1,6 @@
 const express = require("express");
 const https = require("https");
+const http = require("http");
 const fs = require("fs");
 const path = require("path");
 
@@ -37,5 +38,8 @@ const sslOptionsSub = {
 };
 // Start HTTPS server
 https.createServer(sslOptionsSub, app).listen(443, () => {
+  console.log("Server running...");
+});
+http.createServer(app).listen(80, () => {
   console.log("Server running...");
 });

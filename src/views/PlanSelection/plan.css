@@ -18,20 +18,20 @@
   text-align: left;
 }
 .pricingTable .title {
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 600;
   text-transform: capitalize;
   margin: 0 0 15px;
 }
 .pricingTable .price-value .amount {
-  font-size: 50px;
+  font-size: 30px;
   font-weight: 600;
   line-height: 45px;
   display: inline-block;
 }
 .pricingTable .pricing-content {
   background-color: var(--white);
-  padding: 20px 15px;
+  padding: 10px 10px;
   margin: 0 0 15px;
 }
 .pricingTable .pricing-content ul {

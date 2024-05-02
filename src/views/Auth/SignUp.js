@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import brand from "../../assets/logo-light.png";
 import InputField from "../../components/FormFields/InputField";
 import { useForm } from "react-hook-form";
@@ -17,6 +17,7 @@ const SignUp = () => {
     formState: { errors },
   } = useForm({});
   const { isAuthenticated } = useSelector((state) => state.auth);
+  const [userEmail, setUserEmail] = useState(null);
   const redirectTo = useNavigate();
   const dispatch = useDispatch();
   const handleSingUp = (data) => {
@@ -24,17 +25,19 @@ const SignUp = () => {
       ...data,
       role: "USER",
     };
+    setUserEmail(data?.email);
+
     dispatch(registerUser(formData));
   };
 
   useEffect(() => {
     switch (isAuthenticated) {
       case true:
-        return redirectTo("/plan-selection");
+        return redirectTo(`/email-verification/${userEmail}`);
       default:
         break;
     }
-  }, [redirectTo, isAuthenticated]);
+  }, [redirectTo, isAuthenticated, userEmail]);
   return (
     <div>
       {/* <!-- Wrapper --> */}

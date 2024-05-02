@@ -38,6 +38,7 @@ import KYC from "./views/KYC/KYC";
 import Subaccounts from "./views/SubAccounts/Subaccounts";
 import ActiveNumbers from "./views/ActiveNumbers/Numbers";
 import PlanSelection from "./views/PlanSelection/PlanSelection";
+import VerifyEmailOtp from "./views/Auth/verifyEmailOtp";
 
 // Define allowed roles for each route
 const roles = {
@@ -145,6 +146,10 @@ const router = (role) => {
     {
       path: "reset-password-verification/:email",
       element: <VerifyPassword />,
+    },
+    {
+      path: "email-verification/:email",
+      element: <VerifyEmailOtp />,
     },
     {
       path: "edit-contact/:contactId",
