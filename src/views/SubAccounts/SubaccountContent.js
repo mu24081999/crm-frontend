@@ -23,6 +23,12 @@ const ContactsContent = () => {
   const [view, setView] = useState("list");
   const { contacts } = useSelector((state) => state.contact);
   const { users, userDetails } = useSelector((state) => state.user);
+  console.log(
+    "🚀 ~ ContactsContent ~ users:",
+    users.map((key, index) => {
+      return console.log(key?.parent_id);
+    })
+  );
   useEffect(() => {
     dispatch(getUsers(token));
   }, [token, dispatch]);
@@ -31,7 +37,7 @@ const ContactsContent = () => {
       const filteredData = users?.filter(
         (usr) =>
           // usr.status === "active" &&
-          usr.role === "USER" && usr.parent_id === user.id
+          usr.role === "USER" && _.toInteger(usr.parent_id) === user.id
       );
       setData(filteredData);
       setData_(filteredData);

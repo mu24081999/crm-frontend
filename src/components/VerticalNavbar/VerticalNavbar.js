@@ -1,8 +1,9 @@
 import React from "react";
 import brandSm from "../../assets/brand-sm.svg";
-import brand from "../../assets/Jampack.svg";
-import { Link } from "react-router-dom";
+import brand from "../../assets/2.png";
+import { Link, useLocation } from "react-router-dom";
 import {
+  FaAccessibleIcon,
   FaCloud,
   FaCogs,
   FaHistory,
@@ -18,15 +19,18 @@ import { useSelector } from "react-redux";
 import { FaHouseUser, FaRegCircleUser } from "react-icons/fa6";
 import { CiMenuFries } from "react-icons/ci";
 import { SiGmail, SiTodoist } from "react-icons/si";
-import logo from "./../../assets/logo.jpeg";
+import logo from "./../../assets/3.png";
 import { MdOutlineSubscriptions } from "react-icons/md";
 import { TbCirclesRelation } from "react-icons/tb";
 import { LuUsers } from "react-icons/lu";
 import { RiContactsBook2Line, RiTodoLine } from "react-icons/ri";
 import { GoFileDirectory } from "react-icons/go";
+import { GrUserManager } from "react-icons/gr";
 
 const VerticalNavbar = () => {
   const { user } = useSelector((state) => state.auth);
+  const location = useLocation();
+  console.log("🚀 ~ VerticalNavbar ~ location:", location.pathname);
   return (
     <div className="hk-menu">
       {/* <!-- Brand --> */}
@@ -34,10 +38,15 @@ const VerticalNavbar = () => {
         <span>
           <Link className="navbar-brand flex" to="/">
             {/* <img className="brand-img img-fluid" src={brandSm} alt="brand" /> */}
-            <TbCirclesRelation size={35} color="#007d88" />
+            {/* <TbCirclesRelation size={35} color="#007d88" /> */}
 
             {/* <SiCivicrm size={30} color="#007d88" /> */}
-
+            <img
+              className="brand-img img-fluid"
+              src={brand}
+              width={35}
+              alt="brand"
+            />
             <img
               className="brand-img img-fluid"
               src={logo}
@@ -117,7 +126,9 @@ const VerticalNavbar = () => {
               <span>Apps</span>
             </div> */}
             <ul className="navbar-nav flex-column">
-              <li className="nav-item active">
+              <li
+                className={`nav-item ${location?.pathname === "/" && "active"}`}
+              >
                 <Link className="nav-link" to={"/"}>
                   <span className="nav-icon-wrap">
                     <span className="svg-icon">
@@ -145,13 +156,33 @@ const VerticalNavbar = () => {
                   <span className="nav-link-text">Dashboard</span>
                 </Link>
               </li>
+              <li
+                className={`nav-item ${
+                  location?.pathname === "/permissions" && "active"
+                }`}
+              >
+                <Link className="nav-link" to={"/permissions"}>
+                  <span className="nav-icon-wrap">
+                    <span className="svg-icon">
+                      <GrUserManager />
+                    </span>
+                  </span>
+                  <span className="nav-link-text">Permissions</span>
+                </Link>
+              </li>
               {user?.parent_id !== null &&
                 (user?.role === "ADMIN" ||
                   user?.role === "SUPER_ADMIN" ||
                   user?.role === "USER" ||
                   user?.role === "AGENT") && (
                   <>
-                    <li className="nav-item">
+                    <li
+                      className={`nav-item ${
+                        (location?.pathname === "/chats" ||
+                          location?.pathname === "/chat-group") &&
+                        "active"
+                      }`}
+                    >
                       <a
                         className="nav-link"
                         href="/"
@@ -207,7 +238,11 @@ const VerticalNavbar = () => {
                       </ul>
                     </li>
 
-                    <li className="nav-item">
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/projects-board" && "active"
+                      }`}
+                    >
                       <Link className="nav-link" to="/projects-board">
                         <span className="nav-icon-wrap">
                           <span className="svg-icon">
@@ -217,7 +252,11 @@ const VerticalNavbar = () => {
                         <span className="nav-link-text">Leads Pipeline</span>
                       </Link>
                     </li>
-                    <li className="nav-item">
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/file-manager" && "active"
+                      }`}
+                    >
                       <Link className="nav-link" to="/file-manager">
                         <span className="nav-icon-wrap">
                           <span className="svg-icon">
@@ -277,7 +316,11 @@ const VerticalNavbar = () => {
                     </ul>
                   </li> */}
 
-                    <li className="nav-item">
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/calendar" && "active"
+                      }`}
+                    >
                       <Link className="nav-link" to="/calendar">
                         <span className="nav-icon-wrap">
                           <span className="svg-icon">
@@ -310,7 +353,11 @@ const VerticalNavbar = () => {
                         <span className="nav-link-text">Calendar</span>
                       </Link>
                     </li>
-                    <li className="nav-item">
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/messages" && "active"
+                      }`}
+                    >
                       <Link className="nav-link" to="/messages">
                         <span className="nav-icon-wrap">
                           <span className="svg-icon">
@@ -325,7 +372,11 @@ const VerticalNavbar = () => {
               {(user?.role === "ADMIN" ||
                 user?.role === "SUPER_ADMIN" ||
                 user?.role === "USER") && (
-                <li className="nav-item">
+                <li
+                  className={`nav-item ${
+                    location?.pathname === "/subscriptions" && "active"
+                  }`}
+                >
                   <Link className="nav-link" to="/subscriptions">
                     <span className="nav-icon-wrap">
                       <span className="svg-icon">
@@ -338,7 +389,11 @@ const VerticalNavbar = () => {
               )}
               {(user?.role === "ADMIN" || user?.role === "SUPER_ADMIN") && (
                 <>
-                  <li className="nav-item">
+                  <li
+                    className={`nav-item ${
+                      location?.pathname === "/clients" && "active"
+                    }`}
+                  >
                     <Link className="nav-link" to="/clients">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
@@ -407,7 +462,11 @@ const VerticalNavbar = () => {
 
               {user?.parent_id !== null && user?.role === "USER" && (
                 <>
-                  <li className="nav-item">
+                  <li
+                    className={`nav-item ${
+                      location?.pathname === "/agents" && "active"
+                    }`}
+                  >
                     <Link className="nav-link" to="/agents">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
@@ -436,7 +495,12 @@ const VerticalNavbar = () => {
                   user?.role === "ADMIN" ||
                   user?.role === "SUPER_ADMIN") && (
                   <>
-                    <li className="nav-item">
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/emails" ||
+                        (location?.pathname === "/bulk-emails" && "active")
+                      }`}
+                    >
                       <a
                         className="nav-link"
                         href="/"
@@ -476,7 +540,11 @@ const VerticalNavbar = () => {
                       </ul>
                     </li>
 
-                    <li className="nav-item">
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/contacts" && "active"
+                      }`}
+                    >
                       <Link className="nav-link" to="/contacts">
                         <span className="nav-icon-wrap">
                           <span className="svg-icon">
@@ -486,7 +554,11 @@ const VerticalNavbar = () => {
                         <span className="nav-link-text">Contacts</span>
                       </Link>
                     </li>
-                    <li className="nav-item">
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/recordings" && "active"
+                      }`}
+                    >
                       <Link className="nav-link" to="/recordings">
                         <span className="nav-icon-wrap">
                           <span className="svg-icon">
@@ -502,7 +574,11 @@ const VerticalNavbar = () => {
                 user?.client_id === null &&
                 user?.role === "USER" && (
                   <>
-                    <li className="nav-item">
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/subaccounts" && "active"
+                      }`}
+                    >
                       <Link className="nav-link" to="/subaccounts">
                         <span className="nav-icon-wrap">
                           <span className="svg-icon">
@@ -519,7 +595,11 @@ const VerticalNavbar = () => {
                   user?.role === "SUPER_ADMIN" ||
                   user?.role === "ADMIN") && (
                   <>
-                    <li className="nav-item">
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/gallery" && "active"
+                      }`}
+                    >
                       <Link className="nav-link" to="/gallery">
                         <span className="nav-icon-wrap">
                           <span className="svg-icon">
@@ -550,7 +630,11 @@ const VerticalNavbar = () => {
                         <span className="nav-link-text">Gallery</span>
                       </Link>
                     </li>
-                    <li className="nav-item">
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/todos" && "active"
+                      }`}
+                    >
                       <Link className="nav-link" to="/todos">
                         <span className="nav-icon-wrap">
                           <span className="svg-icon">
@@ -584,7 +668,11 @@ const VerticalNavbar = () => {
                   user?.role === "SUPER_ADMIN" ||
                   user?.role === "ADMIN") && (
                   <>
-                    <li className="nav-item">
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/invoices" && "active"
+                      }`}
+                    >
                       <a
                         className="nav-link"
                         href="/"
@@ -636,7 +724,11 @@ const VerticalNavbar = () => {
                         </li>
                       </ul>
                     </li>
-                    <li className="nav-item">
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/posts" && "active"
+                      }`}
+                    >
                       <a
                         className="nav-link"
                         href="/"
@@ -747,7 +839,11 @@ const VerticalNavbar = () => {
                   </ul>
                 </li>
               )} */}
-              <li className="nav-item">
+              <li
+                className={`nav-item ${
+                  location?.pathname === "/kyc-form" && "active"
+                }`}
+              >
                 <Link className="nav-link" to="/kyc-form">
                   <span className="nav-icon-wrap">
                     <span className="svg-icon">
@@ -757,7 +853,11 @@ const VerticalNavbar = () => {
                   <span className="nav-link-text">KYC</span>
                 </Link>
               </li>
-              <li className="nav-item">
+              <li
+                className={`nav-item ${
+                  location?.pathname === "/active-numbers" && "active"
+                }`}
+              >
                 <Link className="nav-link" to="/active-numbers">
                   <span className="nav-icon-wrap">
                     <span className="svg-icon">
@@ -767,7 +867,11 @@ const VerticalNavbar = () => {
                   <span className="nav-link-text">Active Numbers</span>
                 </Link>
               </li>
-              <li className="nav-item">
+              <li
+                className={`nav-item ${
+                  location?.pathname === "/account-settings" && "active"
+                }`}
+              >
                 <Link className="nav-link" to="/account-settings">
                   <span className="nav-icon-wrap">
                     <span className="svg-icon">

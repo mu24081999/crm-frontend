@@ -8,12 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/services/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { TbCirclesRelation } from "react-icons/tb";
-import logo from "./../../assets/logo.jpeg";
+import logo from "./../../assets/3.png";
+import Loader from "../../components/Loader/Loader";
 
 const SignIn = () => {
   const dispatch = useDispatch();
   const redirectTo = useNavigate();
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
   const {
     handleSubmit,
     // watch,
@@ -64,133 +65,75 @@ const SignIn = () => {
                               />
                             </Link>
                           </div> */}
-                          <div className="menu-header text-center">
-                            <span>
-                              <a className="navbar-brand flex" href="#">
+
+                          <div className="card card-lg card-border">
+                            <div className="card-body">
+                              <div className="d-flex justify-content-center pb-3">
                                 <img
-                                  className="brand-img img-fluid"
+                                  className=" "
                                   src={logo}
                                   width={300}
                                   alt="brand"
                                 />
-                              </a>
-                            </span>
-                          </div>
-                          <div className="card card-lg card-border">
-                            <div className="card-body">
+                              </div>
                               <h4 className="mb-4 text-center">
                                 Sign in to your account
                               </h4>
-                              <div className="row gx-3">
-                                {/* <div className="form-group col-lg-12">
-                                  <div className="form-label-group">
-                                    <label>User Name</label>
-                                  </div>
-                                  <input
-                                    className="form-control"
-                                    placeholder="Enter username or email ID"
-                                    value=""
-                                    type="text"
-                                  />
-                                </div> */}
+                              {isLoading === true ? (
+                                <Loader />
+                              ) : (
                                 <div>
-                                  <InputField
-                                    name="username"
-                                    placeholder="Enter username or email"
-                                    label="User Name"
-                                    control={control}
-                                    rules={{
-                                      required: {
-                                        value: true,
-                                        message: "Field required!",
-                                      },
-                                    }}
-                                    errors={errors}
-                                  />
-                                </div>
-                                <div className="">
-                                  <div className="float-end">
-                                    <Link
-                                      to="/reset-password"
-                                      className="fs-7 fw-medium"
-                                    >
-                                      Forgot Password ?
-                                    </Link>
-                                  </div>
-                                  <InputField
-                                    name="password"
-                                    type="password"
-                                    placeholder="Enter your password"
-                                    label="Password"
-                                    control={control}
-                                    rules={{
-                                      required: {
-                                        value: true,
-                                        message: "Field required!",
-                                      },
-                                    }}
-                                    errors={errors}
-                                  />
-                                </div>
-                                {/* <div className="form-group col-lg-12">
-                                  <div className="form-label-group">
-                                    <label>Password</label>
-                                    <a href="/" className="fs-7 fw-medium">
-                                      Forgot Password ?
-                                    </a>
-                                  </div>
-                                  <div className="input-group password-check">
-                                    <span className="input-affix-wrapper">
-                                      <input
-                                        className="form-control"
-                                        placeholder="Enter your password"
-                                        value=""
-                                        type="password"
+                                  <div className="row gx-3">
+                                    <div>
+                                      <InputField
+                                        name="username"
+                                        placeholder="Enter username or email"
+                                        label="User Name"
+                                        control={control}
+                                        rules={{
+                                          required: {
+                                            value: true,
+                                            message: "Field required!",
+                                          },
+                                        }}
+                                        errors={errors}
                                       />
-
-                                      <a
-                                        href="/"
-                                        className="input-suffix text-muted"
-                                      >
-                                        <span className="feather-icon">
-                                          <i
-                                            className="form-icon"
-                                            data-feather="eye"
-                                          ></i>
-                                        </span>
-                                        <span className="feather-icon d-none">
-                                          <i
-                                            className="form-icon"
-                                            data-feather="eye-off"
-                                          ></i>
-                                        </span>
-                                      </a>
-                                    </span>
+                                    </div>
+                                    <div className="">
+                                      <div className="float-end">
+                                        <Link
+                                          to="/reset-password"
+                                          className="fs-7 fw-medium"
+                                        >
+                                          Forgot Password ?
+                                        </Link>
+                                      </div>
+                                      <InputField
+                                        name="password"
+                                        type="password"
+                                        placeholder="Enter your password"
+                                        label="Password"
+                                        control={control}
+                                        rules={{
+                                          required: {
+                                            value: true,
+                                            message: "Field required!",
+                                          },
+                                        }}
+                                        errors={errors}
+                                      />
+                                    </div>
                                   </div>
-                                </div> */}
-                              </div>
-                              <div className="d-flex justify-content-center">
-                                {/* <div className="form-check form-check-sm mb-3">
-                                  <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="logged_in"
-                                    checked
-                                  />
-                                  <label
-                                    className="form-check-label text-muted fs-7"
-                                    for="logged_in"
-                                  >
-                                    Keep me logged in
-                                  </label>
-                                </div> */}
-                                <Checkbox
-                                  name="keep_logged_in"
-                                  label="Keep me logged in"
-                                  control={control}
-                                  errors={errors}
-                                />
-                              </div>
+                                  <div className="d-flex justify-content-center">
+                                    <Checkbox
+                                      name="keep_logged_in"
+                                      label="Keep me logged in"
+                                      control={control}
+                                      errors={errors}
+                                    />
+                                  </div>
+                                </div>
+                              )}
                               <input
                                 type="submit"
                                 className="btn btn-primary btn-uppercase btn-block bg-primary"

@@ -6,7 +6,8 @@ import Checkbox from "../../components/FormFields/checkboxField";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../redux/services/auth";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "./../../assets/logo.jpeg";
+import logo from "./../../assets/3.png";
+import Loader from "../../components/Loader/Loader";
 
 const SignUp = () => {
   const {
@@ -16,7 +17,7 @@ const SignUp = () => {
     // setValue,
     formState: { errors },
   } = useForm({});
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
   const [userEmail, setUserEmail] = useState(null);
   const redirectTo = useNavigate();
   const dispatch = useDispatch();
@@ -54,20 +55,16 @@ const SignUp = () => {
                     <form class="w-100" onSubmit={handleSubmit(handleSingUp)}>
                       <div class="row">
                         <div class="col-xxl-5 col-xl-7 col-lg-8 col-sm-10 mx-auto">
-                          <div className="menu-header text-center">
-                            <span>
-                              <a className="navbar-brand flex" href="#">
+                          <div class="card card-border">
+                            <div class="card-body">
+                              <div className="d-flex justify-content-center pb-3">
                                 <img
-                                  className="brand-img img-fluid"
+                                  className=" "
                                   src={logo}
                                   width={300}
                                   alt="brand"
                                 />
-                              </a>
-                            </span>
-                          </div>
-                          <div class="card card-border">
-                            <div class="card-body">
+                              </div>
                               <h4 class="text-center mb-0">
                                 Sign Up to Desktopcrm
                               </h4>
@@ -77,127 +74,75 @@ const SignUp = () => {
                                   <u>Sign In</u>
                                 </Link>
                               </p>
-                              {/* <button class="btn btn-outline-dark btn-rounded btn-block mb-3">
-                                <span>
-                                  <span class="icon">
-                                    <i class="fab fa-google"></i>
-                                  </span>
-                                  <span>Sign Up with Gmail</span>
-                                </span>
-                              </button>
-                              <button class="btn btn-social btn-social-facebook btn-rounded btn-block">
-                                <span>
-                                  <span class="icon">
-                                    <i class="fab fa-facebook"></i>
-                                  </span>
-                                  <span>Sign Up with Facebook</span>
-                                </span>
-                              </button>
-                              <div class="title-sm title-wth-divider divider-center my-4">
-                                <span>Or</span>
-                              </div> */}
-                              <div class="row gx-3">
-                                <div className="col-lg-6">
-                                  <InputField
-                                    name="name"
-                                    placeholder="Enter your name"
-                                    label="Full Name"
-                                    control={control}
-                                    rules={{
-                                      required: {
-                                        value: true,
-                                        message: "Field required!",
-                                      },
-                                    }}
-                                    errors={errors}
-                                  />
-                                </div>
-                                <div className="col-lg-6">
-                                  <InputField
-                                    name="username"
-                                    placeholder="Enter username or email"
-                                    label="User Name"
-                                    control={control}
-                                    rules={{
-                                      required: {
-                                        value: true,
-                                        message: "Field required!",
-                                      },
-                                    }}
-                                    errors={errors}
-                                  />
-                                </div>
-                                <div className="col-lg-12">
-                                  <InputField
-                                    name="email"
-                                    type="email"
-                                    placeholder="Enter your email id"
-                                    label="Email"
-                                    control={control}
-                                    rules={{
-                                      required: {
-                                        value: true,
-                                        message: "Field required!",
-                                      },
-                                    }}
-                                    errors={errors}
-                                  />
-                                </div>
-                                <div className="col-lg-12">
-                                  <InputField
-                                    name="password"
-                                    type="password"
-                                    placeholder="6+ characters"
-                                    label="Password"
-                                    control={control}
-                                    rules={{
-                                      required: {
-                                        value: true,
-                                        message: "Field required!",
-                                      },
-                                    }}
-                                    errors={errors}
-                                  />
-                                </div>
-                                {/* <div class="form-group col-lg-12">
-                                  <label class="form-label">Password</label>
-                                  <div class="input-group password-check">
-                                    <span class="input-affix-wrapper affix-wth-text">
-                                      <input
-                                        class="form-control"
-                                        placeholder="6+ characters"
-                                        value=""
-                                        type="password"
-                                      />
-                                      <a
-                                        href="/"
-                                        class="input-suffix text-primary text-uppercase fs-8 fw-medium"
-                                      >
-                                        <span>Show</span>
-                                        <span class="d-none">Hide</span>
-                                      </a>
-                                    </span>
+                              {isLoading === true ? (
+                                <Loader />
+                              ) : (
+                                <div class="row gx-3">
+                                  <div className="col-lg-6">
+                                    <InputField
+                                      name="name"
+                                      placeholder="Enter your name"
+                                      label="Full Name"
+                                      control={control}
+                                      rules={{
+                                        required: {
+                                          value: true,
+                                          message: "Field required!",
+                                        },
+                                      }}
+                                      errors={errors}
+                                    />
                                   </div>
-                                </div> */}
-                              </div>
-                              {/* <div class="form-check form-check-sm mb-3 d-flex">
-                                <Checkbox
-                                  name=""
-                                  control={control}
-                                  errors={errors}
-                                />
-                                <label
-                                  class="form-check-label text-muted fs-8"
-                                  for="logged_in"
-                                >
-                                  By creating an account you specify that you
-                                  have read and agree with our{" "}
-                                  <a href="/">Tearms of use</a> and{" "}
-                                  <a href="/">Privacy policy</a>. We may keep
-                                  you inform about latest updates through our
-                                  default <a href="/">notification settings</a>
-                                </label>
-                              </div> */}
+                                  <div className="col-lg-6">
+                                    <InputField
+                                      name="username"
+                                      placeholder="Enter username or email"
+                                      label="User Name"
+                                      control={control}
+                                      rules={{
+                                        required: {
+                                          value: true,
+                                          message: "Field required!",
+                                        },
+                                      }}
+                                      errors={errors}
+                                    />
+                                  </div>
+                                  <div className="col-lg-12">
+                                    <InputField
+                                      name="email"
+                                      type="email"
+                                      placeholder="Enter your email id"
+                                      label="Email"
+                                      control={control}
+                                      rules={{
+                                        required: {
+                                          value: true,
+                                          message: "Field required!",
+                                        },
+                                      }}
+                                      errors={errors}
+                                    />
+                                  </div>
+                                  <div className="col-lg-12">
+                                    <InputField
+                                      name="password"
+                                      type="password"
+                                      placeholder="6+ characters"
+                                      label="Password"
+                                      control={control}
+                                      rules={{
+                                        required: {
+                                          value: true,
+                                          message: "Field required!",
+                                        },
+                                      }}
+                                      errors={errors}
+                                    />
+                                  </div>
+                                </div>
+                              )}
+
                               <button
                                 type="submit"
                                 class="btn btn-primary btn-rounded btn-uppercase btn-block"

@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Payment from "../../components/PaymentCard/Payment";
 import { useForm } from "react-hook-form";
 import InputField from "../../components/FormFields/InputField";
 import ReactSelectField from "../../components/FormFields/reactSelectField";
-import "./plan.css";
+// import "./plan.css";
 import logo from "./../../assets/logo.jpeg";
 import { useDispatch, useSelector } from "react-redux";
 import { paymentIntent } from "../../redux/services/payment";
+import { FcApproval } from "react-icons/fc";
+import { FaCheck } from "react-icons/fa";
 
 const PlanSelection = () => {
   const {
@@ -18,6 +20,12 @@ const PlanSelection = () => {
   } = useForm({});
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
+  const [amount, setAmount] = useState({
+    starter: 22,
+    growth: 77,
+    enterprise: 147,
+  });
+  const [showDiscount, setShowDiscount] = useState(false);
   const onFirstClick = (amount) => {
     dispatch(
       paymentIntent(token, {
@@ -35,6 +43,23 @@ const PlanSelection = () => {
         // amount: amount_value ? amount_value.getAttribute("data-amount") : "",
       })
     );
+  };
+  const handleSwitchClick = (event) => {
+    if (event.target.checked) {
+      setAmount({
+        starter: 19.8,
+        growth: 69,
+        enterprise: 132,
+      });
+      setShowDiscount(true);
+    } else {
+      setAmount({
+        starter: 22,
+        growth: 77,
+        enterprise: 147,
+      });
+      setShowDiscount(false);
+    }
   };
   return (
     // <div className="d-flex justify-content-center">
@@ -99,8 +124,8 @@ const PlanSelection = () => {
     //     </div>
     //   </div>
     // </div>
-    <div class=" ">
-      <div class="container">
+    <div className=" ">
+      <div className="container">
         <div className="menu-header text-center">
           <span>
             <a className="navbar-brand flex" href="#">
@@ -113,67 +138,302 @@ const PlanSelection = () => {
             </a>
           </span>
         </div>
-        <div className="text-center fw-bold fs-1 py-5">
-          Select your subscription plan
-        </div>
-        <div class="row d-flex justify-content-center">
-          <div class="col-md-4 col-sm-6">
-            <div class="pricingTable">
-              <div class="pricingTable-header">
-                <h3 class="title">Monthly</h3>
-                <div class="price-value">
-                  <span class="amount">$10</span>
+        <section id="pricing" className="pricing">
+          <div className="container" data-aos="fade-up">
+            <div className="section-title">
+              <h2 className="text-center bg-primary text-white p-2 rounded-3">
+                Plans
+              </h2>
+            </div>
+            <div className="d-flex gap-2 text-center justify-content-center py-3">
+              <div className="fw-bold">Monthly</div>
+              <div className="form-check form-switch">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  onClick={(e) => handleSwitchClick(e)}
+                  id="flexSwitchCheckDefault"
+                />
+              </div>
+              <div className="fw-bold">Yearly</div>
+            </div>
+            <div className="row d-flex justify-content-center gap-2">
+              <div
+                className="col-lg-4 card shadow-lg rounded-4 p-4"
+                data-aos="fade-up"
+                data-aos-delay="100"
+              >
+                <div className="">
+                  <h3 className="text-light py-2">Solo Starter</h3>
+                  <h4 className="text-primary">
+                    <div className="d-flex gap-2">
+                      <div>
+                        <sup className="fs-3">$</sup>
+                        <span className="fs-1">{amount?.starter}</span>
+                        <p style={{ fontSize: "16px" }}>per month</p>
+                      </div>
+                      {showDiscount && (
+                        <div>
+                          <span className="fs-1">(10% Off)</span>
+                        </div>
+                      )}
+                    </div>
+                  </h4>
+                  <ul className="list-style-none">
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Voice Calling
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Voice recording
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />1
+                        Subaccount/Client Account
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Agent/User
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Caller ID's
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Send & Recieve SMS
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Leads Management
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        To-do's
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Calender{" "}
+                      </div>
+                    </li>
+                    <li>
+                      <div className="py-3 text-light"></div>
+                    </li>
+                  </ul>
+                </div>
+                <div className="card-footer p-0">
+                  <button
+                    className="btn btn-block btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#add_payment_form"
+                    data-amount={`120000`}
+                    onClick={() =>
+                      onSecondClick(
+                        showDiscount
+                          ? amount?.starter * 12 * 100
+                          : amount?.starter * 100
+                      )
+                    }
+                  >
+                    Get Started
+                  </button>
                 </div>
               </div>
-              <div class="pricing-content">
-                <ul>
-                  <li>500 Calls</li>
-                  <li>500 Emails</li>
-                  <li>500 SMS</li>
-                  <li class="">Unlimited Support</li>
-                </ul>
-              </div>
-              <button
-                className="btn btn-primary btn-block fs-3 fw-bold"
-                id="buy_number"
-                data-bs-toggle="modal"
-                data-bs-target="#add_payment_form"
-                data-amount={`10000`}
-                onClick={() => onFirstClick(1000)}
+              <div
+                className="col-lg-4 card shadow-lg rounded-4 p-4"
+                data-aos="fade-up"
+                data-aos-delay="100"
               >
-                Continue
-              </button>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="pricingTable pink">
-              <div class="pricingTable-header">
-                <h3 class="title">Yearly</h3>
-                <div class="price-value">
-                  <span class="amount">$120</span>
+                <div className="">
+                  <h3 className=" py-2 text-light">Growth</h3>
+                  <h4 className="text-primary">
+                    <div className="d-flex gap-2">
+                      <div>
+                        <sup className="fs-3">$</sup>
+                        <span className="fs-1">{amount?.growth}</span>
+                        <p style={{ fontSize: "16px" }}>per month</p>
+                      </div>
+                      {showDiscount && (
+                        <div>
+                          <span className="fs-1">(10% Off)</span>
+                        </div>
+                      )}
+                    </div>
+                  </h4>
+                  <ul className="list-style-none">
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Everything In Solo Starter
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />3
+                        Subaccount/Client Account
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />3
+                        Agent/User
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        SMS Marketing
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Email Marketing
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Time Tracking
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Create & Send Invoices
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Create Funnels & Landing Pages
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Team Audio & Video Calling{" "}
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Website Creation
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div className="card-footer p-0">
+                  <button
+                    className="btn btn-block btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#add_payment_form"
+                    data-amount={`120000`}
+                    onClick={() =>
+                      onSecondClick(
+                        showDiscount
+                          ? amount?.growth * 12 * 100
+                          : amount?.growth * 100
+                      )
+                    }
+                  >
+                    Get Started
+                  </button>
                 </div>
               </div>
-              <div class="pricing-content">
-                <ul>
-                  <li>Unlimited Calls</li>
-                  <li>Unlimited SMS</li>
-                  <li>Unlimited Emails</li>
-                  <li>Leads Management</li>
-                </ul>
-              </div>
-              <button
-                className="btn btn-primary btn-block fs-3 fw-bold"
-                id="buy_number"
-                data-bs-toggle="modal"
-                data-bs-target="#add_payment_form"
-                data-amount={`120000`}
-                onClick={() => onSecondClick(12000)}
+              <div
+                className="col-lg-4 card shadow-lg rounded-4 p-4"
+                data-aos="fade-up"
+                data-aos-delay="100"
               >
-                Continue
-              </button>
+                <div className="">
+                  <h3 className="text-gold py-2">Enterprise</h3>
+                  <h4 className="text-primary">
+                    <div className="d-flex gap-2">
+                      <div>
+                        <sup className="fs-3">$</sup>
+                        <span className="fs-1">{amount?.enterprise}</span>
+                        <p style={{ fontSize: "16px" }}>per month</p>
+                      </div>
+                      {showDiscount && (
+                        <div>
+                          <span className="fs-1">(10% Off)</span>
+                        </div>
+                      )}
+                    </div>
+                  </h4>
+                  <ul className="list-style-none">
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Everything Growth
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Unlimited Subaccount/Client Account
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Unlimited Agent/User
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        White-Label Dashboard
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Send Fax{" "}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div className="card-footer p-0">
+                  <button
+                    className="btn btn-block btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#add_payment_form"
+                    data-amount={`120000`}
+                    onClick={() =>
+                      onSecondClick(
+                        showDiscount
+                          ? amount?.enterprise * 12 * 100
+                          : amount?.enterprise * 100
+                      )
+                    }
+                  >
+                    Get Started
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
       <Payment route="/kyc-form" />
     </div>

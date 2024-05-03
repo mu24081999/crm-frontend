@@ -5,7 +5,7 @@ import brand from "../../assets/logo-light.png";
 import InputField from "../../components/FormFields/InputField";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, verifyOTP } from "../../redux/services/auth";
-import logo from "./../../assets/logo.jpeg";
+import logo from "./../../assets/3.png";
 import { updateUserRec } from "../../redux/services/users";
 
 const VerifyEmailOtp = () => {
@@ -60,16 +60,14 @@ const VerifyEmailOtp = () => {
                         <div class="row">
                           <div class="col-lg-5 col-md-7 col-sm-10 mx-auto">
                             <div className="menu-header text-center">
-                              <span>
-                                <a className="navbar-brand flex" href="#">
-                                  <img
-                                    className="brand-img img-fluid"
-                                    src={logo}
-                                    width={300}
-                                    alt="brand"
-                                  />
-                                </a>
-                              </span>
+                              <div className="d-flex justify-content-center pb-3">
+                                <img
+                                  className=" "
+                                  src={logo}
+                                  width={300}
+                                  alt="brand"
+                                />
+                              </div>
                             </div>
 
                             <div class="card card-flush">

@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import brand from "../../assets/logo-light.png";
 import InputField from "../../components/FormFields/InputField";
 import { ResetPassword } from "../../redux/services/auth";
-import logo from "./../../assets/logo.jpeg";
+import logo from "./../../assets/3.png";
 
 const ResetUserPassword = () => {
   const { email } = useParams();
@@ -59,16 +59,14 @@ const ResetUserPassword = () => {
                             </Link>
                           </div> */}
                           <div className="menu-header text-center">
-                            <span>
-                              <a className="navbar-brand flex" href="#">
-                                <img
-                                  className="brand-img img-fluid"
-                                  src={logo}
-                                  width={300}
-                                  alt="brand"
-                                />
-                              </a>
-                            </span>
+                            <div className="d-flex justify-content-center pb-3">
+                              <img
+                                className=" "
+                                src={logo}
+                                width={300}
+                                alt="brand"
+                              />
+                            </div>
                           </div>
                           <div class="card card-flush">
                             <div class="card-body text-center">

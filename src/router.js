@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 // import { faCoffee } from "@fortawesome/free-solid-svg-icons";fds
 import { createBrowserRouter } from "react-router-dom";
 import RoleAuthorization from "./RoleAuthorization";
+import PermissionAuthorization from "./PermissionAuthorization";
 
 import SignIn from "./views/Auth/SignIn";
 import Dashboard from "./views/Dashboard/Dashboard";
@@ -39,12 +40,48 @@ import Subaccounts from "./views/SubAccounts/Subaccounts";
 import ActiveNumbers from "./views/ActiveNumbers/Numbers";
 import PlanSelection from "./views/PlanSelection/PlanSelection";
 import VerifyEmailOtp from "./views/Auth/verifyEmailOtp";
+import Permissions from "./views/Permissions/Permission";
 
 // Define allowed roles for each route
 const roles = {
   dashboard: ["USER", "ADMIN", "SUPER_ADMIN"],
   adminPanel: ["admin"],
   userProfile: ["user", "admin"],
+};
+const permissions = {
+  subaccounts: [
+    "dashboard",
+    "email",
+    "sms",
+    "call",
+    "todos",
+    "phone_numbers",
+    "chat",
+    "group_chat",
+    "leads_pipeline",
+    "contacts",
+    "file_manager",
+    "agents",
+    "call_recordings",
+    "blogs",
+  ],
+  users: ["dashboard", "invoices", "subscriptions", "active_numbers"],
+  agents: [
+    "dashboard",
+    "email",
+    "sms",
+    "call",
+    "todos",
+    "phone_numbers",
+    "chat",
+    "group_chat",
+    "leads_pipeline",
+    "contacts",
+    "file_manager",
+    "agents",
+    "call_recordings",
+    "blogs",
+  ],
 };
 
 const router = (role) => {
@@ -134,6 +171,10 @@ const router = (role) => {
     {
       path: "subaccounts",
       element: <Subaccounts />,
+    },
+    {
+      path: "permissions",
+      element: <Permissions />,
     },
     {
       path: "sign-up",

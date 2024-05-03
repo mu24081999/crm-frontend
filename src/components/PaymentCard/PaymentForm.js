@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { paymentIntent } from "../../redux/services/payment";
 import { toast } from "react-toastify";
 import { redirect, useNavigate } from "react-router-dom";
+import Loader from "../Loader/Loader";
 const PaymentForm = ({ path, afterPayment }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -38,12 +39,6 @@ const PaymentForm = ({ path, afterPayment }) => {
     //     amount: amount_value ? amount_value.getAttribute("data-amount") : "",
     //   })
     // );
-
-    console.log(
-      "🚀 ~ handleSubmit ~ intent?.client_secret:",
-      intent?.client_secret,
-      isLoading
-    );
     const clientSecret = intent?.client_secret;
     // Confirm the payment on the client side
     if (isLoading === false && intent?.client_secret !== undefined) {
@@ -52,8 +47,6 @@ const PaymentForm = ({ path, afterPayment }) => {
           card: elements.getElement(CardElement),
         },
       });
-      console.log("🚀 ~ handleSubmit ~ result:", result);
-
       if (result.error) {
         // Handle error
         toast.error(result.error.message);
@@ -94,33 +87,39 @@ const PaymentForm = ({ path, afterPayment }) => {
             </button>
           </div>
           <div className="modal-body">
-            <form onSubmit={handleSubmit} className="p-5">
-              <CardElement
-                options={{
-                  style: {
-                    base: {
-                      fontSize: "18px",
-                      color: "#32325d",
-                      "::placeholder": {
-                        color: "#aab7c4",
+            {isLoading === true ? (
+              <Loader />
+            ) : (
+              <form onSubmit={handleSubmit} className="p-2">
+                <div className="my-4">
+                  <CardElement
+                    options={{
+                      style: {
+                        base: {
+                          fontSize: "18px",
+                          color: "#32325d",
+                          "::placeholder": {
+                            color: "#aab7c4",
+                          },
+                        },
+                        invalid: {
+                          color: "#fa755a",
+                        },
                       },
-                    },
-                    invalid: {
-                      color: "#fa755a",
-                    },
-                  },
-                }}
-              />
-              <div className="pt-4">
-                <button
-                  type="submit"
-                  className="btn btn-primary rounded-pill"
-                  disabled={!stripe}
-                >
-                  Pay
-                </button>
-              </div>
-            </form>
+                    }}
+                  />
+                </div>
+                <div className="pt-4 ">
+                  <button
+                    type="submit"
+                    className="btn btn-primary rounded-pill"
+                    disabled={!stripe}
+                  >
+                    Pay
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>

@@ -53,7 +53,9 @@ const TopNavbar = ({}) => {
   }, [token, dispatch]);
   useEffect(() => {
     if (users?.length > 0) {
-      const data = users?.filter((usr) => usr.parent_id === user.id);
+      const data = users?.filter(
+        (usr) => _.toInteger(usr.parent_id) === user.id
+      );
       setSubAccounts(data);
     }
   }, [user, users]);
