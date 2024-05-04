@@ -1,0 +1,126 @@
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import brand from "../../assets/logo-light.png";
+import InputField from "../../components/FormFields/InputField";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser, verifyOTP } from "../../redux/services/auth";
+import logo from "./../../assets/3.png";
+import { updateUserRec } from "../../redux/services/users";
+
+const VerifyEmailOtp = () => {
+  const navigate = useNavigate();
+  const {
+    handleSubmit,
+    // watch,
+    control,
+    // setValue,
+    formState: { errors },
+  } = useForm({});
+  const dispatch = useDispatch();
+  const { email } = useParams();
+  const { token, user } = useSelector((state) => state.auth);
+  console.log("🚀 ~ VerifyEmailOtp ~ token:", user);
+  useEffect(() => {
+    if (token) {
+      const updateUser = dispatch(
+        updateUserRec(token, { verified: true }, user.id)
+      );
+      navigate("/plan-selection"); // Navigate on successful verification
+    }
+  }, [token, dispatch, navigate, user]);
+  const otpVerificationHandler = async (data) => {
+    const formData = {
+      email: email,
+      otp: data?.otp,
+    };
+    const verificationSuccess = await dispatch(verifyOTP(formData));
+    if (verificationSuccess && user) {
+      dispatch(loginUser(user?.email, user?.password, true));
+    }
+  };
+  return (
+    <div>
+      <div>
+        {/* <!-- Wrapper --> */}
+        <div class="hk-wrapper hk-pg-auth" data-footer="simple">
+          {/* <!-- Main Content --> */}
+          <div class="hk-pg-wrapper pt-0 pb-xl-0 pb-5">
+            <div class="hk-pg-body pt-0 pb-xl-0">
+              {/* <!-- Container --> */}
+              <div class="container-xxl">
+                {/* <!-- Row --> */}
+                <div class="row">
+                  <div class="col-sm-10 position-relative mx-auto">
+                    <div class="auth-content py-8">
+                      <form
+                        class="w-100"
+                        onSubmit={handleSubmit(otpVerificationHandler)}
+                      >
+                        <div class="row">
+                          <div class="col-lg-5 col-md-7 col-sm-10 mx-auto">
+                            <div className="menu-header text-center">
+                              <div className="d-flex justify-content-center pb-3">
+                                <img
+                                  className=" "
+                                  src={logo}
+                                  width={300}
+                                  alt="brand"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="card card-flush">
+                              <div class="card-body text-center">
+                                <h4>Verify your OTP</h4>
+                                <p class="mb-4">
+                                  No worries we will mail you 6 digit code to
+                                  your recovery email address to reset your
+                                  password
+                                </p>
+                                <div>
+                                  <div>
+                                    <InputField
+                                      name="otp"
+                                      placeholder="6 digits otp"
+                                      label="OTP"
+                                      control={control}
+                                      rules={{
+                                        required: {
+                                          value: true,
+                                          message: "Field required!",
+                                        },
+                                      }}
+                                      errors={errors}
+                                    />
+                                  </div>
+                                </div>
+                                <button
+                                  type="submit"
+                                  class="btn btn-primary btn-uppercase btn-block"
+                                >
+                                  Verify
+                                </button>
+                                <p class="p-xs mt-2 text-center">
+                                  <Link to="/sign-in">
+                                    <u>Back to login!</u>
+                                  </Link>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default VerifyEmailOtp;

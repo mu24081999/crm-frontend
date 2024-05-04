@@ -1,0 +1,132 @@
+import React, { useEffect, useState } from "react";
+import Sidebar from "./components/Sidebar/Sidebar";
+import Emails from "./components/Emails/Emails";
+import ComposeEmail from "./components/ComposeEmail/ComposeEmail";
+import AddCategory from "./components/AddCategory/AddCategory";
+import { getEmailList } from "../../redux/services/email";
+import { getUsers } from "../../redux/services/users";
+import { useDispatch, useSelector } from "react-redux";
+
+const EmailContent = () => {
+  const { token, user } = useSelector((state) => state.auth);
+  const { emails } = useSelector((state) => state.email);
+  const { users } = useSelector((state) => state.user);
+  const [emailData, setEmailData] = useState([]);
+  const [emailArray, setEmailArray] = useState([]);
+  const [emailsData, setEmailsData] = useState([]);
+  const [emailsData_, setEmailsData_] = useState([]);
+  const [emailDetails, setEmailDetails] = useState([]);
+  const [userData, setUsersData] = useState([]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getEmailList(token));
+    dispatch(getUsers(token));
+  }, [token, dispatch]);
+  useEffect(() => {
+    if (emails?.length > 0) {
+      const filteredData = emails?.filter((email) => email.parent_id === null);
+      const data = [];
+      emails?.forEach((email) => {
+        const sender = userData?.filter(
+          (user) => user.email === email.sender
+        )[0];
+        const reciever = userData?.filter(
+          (user) => user.email === email.reciever
+        )[0];
+        data.push({ ...email, sender, reciever });
+      });
+      setEmailArray(data);
+      setEmailData(filteredData);
+    }
+  }, [emails, userData]);
+  useEffect(() => {
+    if (users?.length > 0) {
+      setUsersData(users);
+    }
+  }, [users]);
+  useEffect(() => {
+    if (emailData?.length > 0 && userData?.length > 0) {
+      const data = [];
+      const filteredData = emailData?.filter(
+        (email) =>
+          email.reciever === user.email &&
+          (email.status === "active" || email.status === "important")
+      );
+      filteredData?.map((email) => {
+        const sender = userData?.filter(
+          (user) => user.email === email.sender
+        )[0];
+        const reciever = userData?.filter(
+          (user) => user.email === email.reciever
+        )[0];
+        data.push({ ...email, sender, reciever });
+      });
+      setEmailsData(data);
+    }
+  }, [emailData, userData, user]);
+  useEffect(() => {
+    if (emailData?.length > 0 && userData?.length > 0) {
+      const data = [];
+      // const filteredData = emailData?.filter(
+      //   (email) => email.reciever === user.email && email.status === "active"
+      // );
+      emailData?.map((email) => {
+        const sender = userData?.filter(
+          (user) => user.email === email.sender
+        )[0];
+        const reciever = userData?.filter(
+          (user) => user.email === email.reciever
+        )[0];
+        data.push({ ...email, sender, reciever });
+      });
+      setEmailsData_(data);
+    }
+  }, [emailData, userData, user]);
+  const handleDataFromChild = (data) => {
+    setEmailsData(data);
+  };
+  const handleEmailDetails = (data) => {
+    setEmailDetails(data);
+  };
+  const handleDataFromSidebar = (data) => {
+    setEmailsData(data);
+  };
+  return (
+    <>
+      {/* <!-- Main Content --> */}
+      <div class="hk-pg-wrapper pb-0">
+        {/* <!-- Page Body --> */}
+        <div class="hk-pg-body py-0">
+          <div class="emailapp-wrap">
+            <Sidebar
+              onDataFromChild={handleDataFromSidebar}
+              initialData={emailsData_}
+              authUser={user}
+            />
+            <Emails
+              onDataFromChild={handleDataFromChild}
+              onEmailDetail={handleEmailDetails}
+              authUser={user}
+              emailArray={emailArray}
+              emailDetails={emailDetails}
+              emailsData={emailsData}
+              dispatch={dispatch}
+              token={token}
+            />
+            {/* <!-- Compose email --> */}
+            <ComposeEmail />
+            {/* <!-- /Compose email --> */}
+
+            {/* <!-- Add Category --> */}
+            <AddCategory />
+            {/* <!-- /Add Category --> */}
+          </div>
+        </div>
+        {/* <!-- /Page Body --> */}
+      </div>
+      {/* <!-- /Main Content --> */}
+    </>
+  );
+};
+
+export default EmailContent;
