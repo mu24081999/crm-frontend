@@ -177,7 +177,8 @@ const AddNewTask = ({ token, usersData }) => {
                 </div>
               </div>
               <div class="row mt-3">
-                <div class="col-sm-6">
+                {/* <div class="col-sm-6">
+                  
                   <ReactSelectField
                     name="category_id"
                     placeholder=" Category"
@@ -193,11 +194,23 @@ const AddNewTask = ({ token, usersData }) => {
                         label: "Development",
                         value: "1",
                       },
+                      {
+                        label: "Development",
+                        value: "1",
+                      },
+                      {
+                        label: "Development",
+                        value: "1",
+                      },
+                      {
+                        label: "Development",
+                        value: "1",
+                      },
                     ]}
                     errors={errors}
                   />
-                </div>
-                <div class="col-sm-6">
+                </div> */}
+                <div class="col-sm-6 col-md-6">
                   <ReactSelectField
                     name="status"
                     placeholder="Select status"
@@ -233,9 +246,7 @@ const AddNewTask = ({ token, usersData }) => {
                     errors={errors}
                   />
                 </div>
-              </div>
-              <div class="row gx-3">
-                <div class="col-sm-12">
+                <div class="col-md-6 col-sm-6">
                   <div class="form-inline">
                     <ReactSelectField
                       name="priority"
@@ -266,6 +277,7 @@ const AddNewTask = ({ token, usersData }) => {
                   </div>
                 </div>
               </div>
+              <div class="row gx-3"></div>
               <div class="row gx-3">
                 <div class="col-sm-12">
                   <div class="form-inline">

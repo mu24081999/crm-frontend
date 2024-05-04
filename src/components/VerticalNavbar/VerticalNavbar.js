@@ -156,21 +156,8 @@ const VerticalNavbar = () => {
                   <span className="nav-link-text">Dashboard</span>
                 </Link>
               </li>
-              <li
-                className={`nav-item ${
-                  location?.pathname === "/permissions" && "active"
-                }`}
-              >
-                <Link className="nav-link" to={"/permissions"}>
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <GrUserManager />
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Permissions</span>
-                </Link>
-              </li>
-              {user?.parent_id !== null &&
+
+              {(user?.parent_id !== null || user?.client_id !== null) &&
                 (user?.role === "ADMIN" ||
                   user?.role === "SUPER_ADMIN" ||
                   user?.role === "USER" ||
@@ -385,6 +372,20 @@ const VerticalNavbar = () => {
                     </span>
                     <span className="nav-link-text">Subscription</span>
                   </Link>
+                  {/* <li
+                    className={`nav-item ${
+                      location?.pathname === "/permissions" && "active"
+                    }`}
+                  >
+                    <Link className="nav-link" to={"/permissions"}>
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <GrUserManager />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Permissions</span>
+                    </Link>
+                  </li> */}
                 </li>
               )}
               {(user?.role === "ADMIN" || user?.role === "SUPER_ADMIN") && (
@@ -570,6 +571,7 @@ const VerticalNavbar = () => {
                     </li>
                   </>
                 )}
+
               {user?.parent_id === null &&
                 user?.client_id === null &&
                 user?.role === "USER" && (
@@ -586,6 +588,70 @@ const VerticalNavbar = () => {
                           </span>
                         </span>
                         <span className="nav-link-text">Sub Accounts</span>
+                      </Link>
+                    </li>
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/kyc-form" && "active"
+                      }`}
+                    >
+                      <Link className="nav-link" to="/kyc-form">
+                        <span className="nav-icon-wrap">
+                          <span className="svg-icon">
+                            <RiTodoLine />
+                          </span>
+                        </span>
+                        <span className="nav-link-text">KYC</span>
+                      </Link>
+                    </li>
+                  </>
+                )}
+              {user?.parent_id === null &&
+                user?.client_id === null &&
+                user?.role === "ADMIN" && (
+                  <>
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/posts" && "active"
+                      }`}
+                    >
+                      <Link className="nav-link" to="/posts">
+                        <span className="nav-icon-wrap">
+                          <span className="svg-icon">
+                            <span className="nav-icon-wrap">
+                              <span className="svg-icon">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="icon icon-tabler icon-tabler-browser"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth="2"
+                                  stroke="currentColor"
+                                  fill="none"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                >
+                                  <path
+                                    stroke="none"
+                                    d="M0 0h24v24H0z"
+                                    fill="none"
+                                  />
+                                  <rect
+                                    x="4"
+                                    y="4"
+                                    width="16"
+                                    height="16"
+                                    rx="1"
+                                  />
+                                  <line x1="4" y1="8" x2="20" y2="8" />
+                                  <line x1="8" y1="4" x2="8" y2="8" />
+                                </svg>
+                              </span>
+                            </span>{" "}
+                          </span>
+                        </span>
+                        <span className="nav-link-text">Blogs</span>
                       </Link>
                     </li>
                   </>
@@ -724,7 +790,8 @@ const VerticalNavbar = () => {
                         </li>
                       </ul>
                     </li>
-                    <li
+
+                    {/* <li
                       className={`nav-item ${
                         location?.pathname === "/posts" && "active"
                       }`}
@@ -776,7 +843,7 @@ const VerticalNavbar = () => {
                           </ul>
                         </li>
                       </ul>
-                    </li>
+                    </li> */}
                   </>
                 )}
               {/* {(user?.role === "USER" || user?.role === "SUPER_ADMIN") && (
@@ -839,20 +906,7 @@ const VerticalNavbar = () => {
                   </ul>
                 </li>
               )} */}
-              <li
-                className={`nav-item ${
-                  location?.pathname === "/kyc-form" && "active"
-                }`}
-              >
-                <Link className="nav-link" to="/kyc-form">
-                  <span className="nav-icon-wrap">
-                    <span className="svg-icon">
-                      <RiTodoLine />
-                    </span>
-                  </span>
-                  <span className="nav-link-text">KYC</span>
-                </Link>
-              </li>
+
               <li
                 className={`nav-item ${
                   location?.pathname === "/active-numbers" && "active"

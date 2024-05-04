@@ -8,7 +8,10 @@ import ContactDetails from "./components/ContactDetails";
 import "./contact.css";
 import SubscriptionCard from "./components/SubscriptionCard";
 import { SocketContext } from "../../Context";
-import { getSubscriptionsList } from "../../redux/services/subscription";
+import {
+  getSubscriptionsList,
+  getUserSubscriptions,
+} from "../../redux/services/subscription";
 import { getUsers } from "../../redux/services/users";
 const SubscriptionContent = () => {
   const { handleToggleShowLeadDetail, showLeadDetails } =
@@ -39,7 +42,7 @@ const SubscriptionContent = () => {
   }, [subscriptions, users]);
   useEffect(() => {
     dispatch(getUsers(token));
-    dispatch(getSubscriptionsList(token));
+    dispatch(getUserSubscriptions(token));
   }, [token, dispatch]);
   const handleReceiveData = (receivedData) => {
     setData(receivedData);

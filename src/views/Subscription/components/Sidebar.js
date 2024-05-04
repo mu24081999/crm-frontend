@@ -9,7 +9,7 @@ const Sidebar = ({ onSendData, contactsData, onToggleEdit, subscriptions }) => {
   const { handleToggleShowLeadDetail } = useContext(SocketContext);
 
   const handleActiveClick = () => {
-    const data = subscriptions.filter((sub) => sub.status === "active");
+    const data = subscriptions.filter((sub) => sub.active === 1);
     setActiveBar("active");
     onSendData(data);
     handleToggleShowLeadDetail(false);

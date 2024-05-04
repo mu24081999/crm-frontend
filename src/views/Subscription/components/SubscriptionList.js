@@ -59,11 +59,11 @@ const SubscriptionList = ({ subscriptionsArray, onToggleEdit, isEdit }) => {
               <thead>
                 <tr>
                   {/* <th>Customer</th> */}
-                  <th>Subscription Plan</th>
+                  <th>Plan</th>
+                  <th>Plan Type</th>
                   <th>Start Date</th>
                   <th>End Date</th>
                   <th>Status</th>
-                  <th>Date Created</th>
                 </tr>
               </thead>
 
@@ -104,11 +104,12 @@ const SubscriptionList = ({ subscriptionsArray, onToggleEdit, isEdit }) => {
                           </div>
                         </div>
                       </td> */}
-                      <td className="text-center">
+                      <td className="">
                         <span style={{ fontSize: "14px" }}>
                           {subscription?.plan}
                         </span>
                       </td>
+                      <td>{subscription?.plan_type}</td>
                       <td>
                         {" "}
                         {moment(subscription?.start_date).format(
@@ -120,11 +121,8 @@ const SubscriptionList = ({ subscriptionsArray, onToggleEdit, isEdit }) => {
                         {" "}
                         {moment(subscription?.end_date).format("DD MMM, YYYY")}
                       </td>
-                      <td>{subscription?.status}</td>
                       <td>
-                        {moment(subscription?.created_at).format(
-                          "DD MMM, YYYY"
-                        )}
+                        {subscription?.active === 1 ? "Active" : "Stopped"}
                       </td>
                     </tr>
                   ))}

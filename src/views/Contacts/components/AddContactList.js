@@ -8,6 +8,7 @@ import "./file.css";
 import { addContact } from "../../../redux/services/contact";
 import { getBoardList } from "../../../redux/services/board";
 import { SocketContext } from "../../../Context";
+import countryList from "react-select-country-list";
 const AddContactList = () => {
   const { messageError } = useContext(SocketContext);
   const {
@@ -31,16 +32,16 @@ const AddContactList = () => {
       setValue("country", countryWatcher.value);
     }
   }, [countryWatcher, setValue]);
-  useEffect(() => {
-    if (stateWatcher !== undefined) {
-      setValue("state", stateWatcher.value);
-    }
-  }, [stateWatcher, setValue]);
-  useEffect(() => {
-    if (cityWatcher !== undefined) {
-      setValue("city", cityWatcher.value);
-    }
-  }, [cityWatcher, setValue]);
+  // useEffect(() => {
+  //   if (stateWatcher !== undefined) {
+  //     setValue("state", stateWatcher.value);
+  //   }
+  // }, [stateWatcher, setValue]);
+  // useEffect(() => {
+  //   if (cityWatcher !== undefined) {
+  //     setValue("city", cityWatcher.value);
+  //   }
+  // }, [cityWatcher, setValue]);
   const handleAddContact = (data) => {
     const formData = {
       board_id: data?.board_id?.value,
@@ -242,46 +243,49 @@ const AddContactList = () => {
         </div>
         <div className="col-sm-6 col-md-6">
           <ReactSelectField
-            name="city_array"
-            placeholder="City"
-            // label="City"
-            control={control}
-            options={[
-              {
-                label: "Downtown",
-                value: "downtown",
-              },
-            ]}
-            errors={errors}
-          />
-        </div>
-        <div className="col-sm-6 col-md-6">
-          <ReactSelectField
-            name="state_array"
-            placeholder="State"
-            // label="State"
-            control={control}
-            options={[
-              {
-                label: "Downtown",
-                value: "downtown",
-              },
-            ]}
-            errors={errors}
-          />
-        </div>
-        <div className="col-sm-6 col-md-6">
-          <ReactSelectField
             name="country_array"
             placeholder="Country"
             // label="Country"
             control={control}
-            options={[
-              {
-                label: "USA",
-                value: "USA",
+            options={countryList().getData() || []}
+            errors={errors}
+          />
+        </div>
+        <div className="col-sm-6 col-md-6">
+          <InputField
+            name="city"
+            placeholder="City"
+            // label="Phone Number"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: "Field required!",
               },
-            ]}
+            }}
+            errors={errors}
+          />
+        </div>
+        <div className="col-sm-6 col-md-6">
+          <InputField
+            name="state"
+            placeholder="State"
+            // label="Phone Number"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: "Field required!",
+              },
+            }}
+            errors={errors}
+          />
+        </div>
+        <div className="col-sm-6 col-md-12">
+          <InputField
+            name="street_address"
+            placeholder="Streat 1, apt. # 3038"
+            control={control}
             errors={errors}
           />
         </div>

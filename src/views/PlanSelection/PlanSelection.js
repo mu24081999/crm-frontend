@@ -4,11 +4,13 @@ import { useForm } from "react-hook-form";
 import InputField from "../../components/FormFields/InputField";
 import ReactSelectField from "../../components/FormFields/reactSelectField";
 // import "./plan.css";
-import logo from "./../../assets/logo.jpeg";
+import logo from "./../../assets/3.png";
 import { useDispatch, useSelector } from "react-redux";
 import { paymentIntent } from "../../redux/services/payment";
 import { FcApproval } from "react-icons/fc";
 import { FaCheck } from "react-icons/fa";
+import { addUserSubscription } from "../../redux/services/subscription";
+import moment from "moment/moment";
 
 const PlanSelection = () => {
   const {
@@ -19,22 +21,22 @@ const PlanSelection = () => {
     formState: { errors },
   } = useForm({});
   const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
+  const { token, user_id } = useSelector((state) => state.auth);
   const [amount, setAmount] = useState({
     starter: 22,
     growth: 77,
     enterprise: 147,
   });
+  const [planData, setPlanData] = useState({
+    customer_id: null,
+    plan_type: null,
+    plan: null,
+    amount_payed: null,
+    start_date: null,
+    end_date: null,
+  });
   const [showDiscount, setShowDiscount] = useState(false);
-  const onFirstClick = (amount) => {
-    dispatch(
-      paymentIntent(token, {
-        currency: "usd",
-        amount: amount,
-        // amount: amount_value ? amount_value.getAttribute("data-amount") : "",
-      })
-    );
-  };
+  console.log("🚀 ~ PlanSelection ~ planData:", planData);
   const onSecondClick = (amount) => {
     dispatch(
       paymentIntent(token, {
@@ -43,6 +45,9 @@ const PlanSelection = () => {
         // amount: amount_value ? amount_value.getAttribute("data-amount") : "",
       })
     );
+  };
+  const afterPayment = () => {
+    dispatch(addUserSubscription(token, planData));
   };
   const handleSwitchClick = (event) => {
     if (event.target.checked) {
@@ -61,6 +66,20 @@ const PlanSelection = () => {
       setShowDiscount(false);
     }
   };
+  const currentDate = new Date();
+  // Function to calculate date after adding months
+  function addMonthsToDate(date, months) {
+    const newDate = new Date(date);
+    newDate.setMonth(newDate.getMonth() + months);
+    return newDate;
+  }
+
+  // Function to calculate date after adding years
+  function addYearsToDate(date, years) {
+    const newDate = new Date(date);
+    newDate.setFullYear(newDate.getFullYear() + years);
+    return newDate;
+  }
   return (
     // <div className="d-flex justify-content-center">
     //   <div
@@ -126,9 +145,9 @@ const PlanSelection = () => {
     // </div>
     <div className=" ">
       <div className="container">
-        <div className="menu-header text-center">
+        <div className="menu-header text-center py-5">
           <span>
-            <a className="navbar-brand flex" href="#">
+            <a className="navbar-brand flex " href="#">
               <img
                 className="brand-img img-fluid"
                 src={logo}
@@ -140,11 +159,11 @@ const PlanSelection = () => {
         </div>
         <section id="pricing" className="pricing">
           <div className="container" data-aos="fade-up">
-            <div className="section-title">
+            {/* <div className="section-title">
               <h2 className="text-center bg-primary text-white p-2 rounded-3">
                 Plans
               </h2>
-            </div>
+            </div> */}
             <div className="d-flex gap-2 text-center justify-content-center py-3">
               <div className="fw-bold">Monthly</div>
               <div className="form-check form-switch">
@@ -159,7 +178,7 @@ const PlanSelection = () => {
             </div>
             <div className="row d-flex justify-content-center gap-2">
               <div
-                className="col-lg-4 card shadow-lg rounded-4 p-4"
+                className="col-lg-3 card shadow-lg rounded-4 p-4"
                 data-aos="fade-up"
                 data-aos-delay="100"
               >
@@ -179,11 +198,11 @@ const PlanSelection = () => {
                       )}
                     </div>
                   </h4>
-                  <ul className="list-style-none">
+                  <ul className="p-0">
                     <li>
-                      <div className=" text-light">
+                      <div className=" text-light d-flex">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        Voice Calling
+                        <div>Voice Calling and account serversice</div>
                       </div>
                     </li>
                     <li>
@@ -235,7 +254,10 @@ const PlanSelection = () => {
                       </div>
                     </li>
                     <li>
-                      <div className="py-3 text-light"></div>
+                      <div
+                        className=" text-light"
+                        style={{ paddingTop: "8%" }}
+                      ></div>
                     </li>
                   </ul>
                 </div>
@@ -245,20 +267,38 @@ const PlanSelection = () => {
                     data-bs-toggle="modal"
                     data-bs-target="#add_payment_form"
                     data-amount={`120000`}
-                    onClick={() =>
+                    onClick={() => {
                       onSecondClick(
                         showDiscount
                           ? amount?.starter * 12 * 100
                           : amount?.starter * 100
-                      )
-                    }
+                      );
+                      setPlanData({
+                        customer_id: user_id,
+                        plan: "Solo Starter",
+                        amount_payed: showDiscount
+                          ? amount?.starter * 12 * 100
+                          : amount?.starter * 100,
+                        plan_type: showDiscount ? "yearly" : "monthly",
+                        start_date: moment(currentDate).format(
+                          "YYYY-MM-DD HH:mm:ss"
+                        ),
+                        end_date: showDiscount
+                          ? moment(addYearsToDate(currentDate, 1)).format(
+                              "YYYY-MM-DD HH:mm:ss"
+                            )
+                          : moment(addMonthsToDate(currentDate, 1)).format(
+                              "YYYY-MM-DD HH:mm:ss"
+                            ),
+                      });
+                    }}
                   >
                     Get Started
                   </button>
                 </div>
               </div>
               <div
-                className="col-lg-4 card shadow-lg rounded-4 p-4"
+                className="col-lg-3 card shadow-lg rounded-4 p-4"
                 data-aos="fade-up"
                 data-aos-delay="100"
               >
@@ -278,7 +318,7 @@ const PlanSelection = () => {
                       )}
                     </div>
                   </h4>
-                  <ul className="list-style-none">
+                  <ul className="p-0">
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
@@ -347,20 +387,38 @@ const PlanSelection = () => {
                     data-bs-toggle="modal"
                     data-bs-target="#add_payment_form"
                     data-amount={`120000`}
-                    onClick={() =>
+                    onClick={() => {
                       onSecondClick(
                         showDiscount
                           ? amount?.growth * 12 * 100
                           : amount?.growth * 100
-                      )
-                    }
+                      );
+                      setPlanData({
+                        customer_id: user_id,
+                        plan: "Growth",
+                        amount_payed: showDiscount
+                          ? amount?.growth * 12 * 100
+                          : amount?.growth * 100,
+                        plan_type: showDiscount ? "yearly" : "monthly",
+                        start_date: moment(currentDate).format(
+                          "YYYY-MM-DD HH:mm:ss"
+                        ),
+                        end_date: showDiscount
+                          ? moment(addYearsToDate(currentDate, 1)).format(
+                              "YYYY-MM-DD HH:mm:ss"
+                            )
+                          : moment(addMonthsToDate(currentDate, 1)).format(
+                              "YYYY-MM-DD HH:mm:ss"
+                            ),
+                      });
+                    }}
                   >
                     Get Started
                   </button>
                 </div>
               </div>
               <div
-                className="col-lg-4 card shadow-lg rounded-4 p-4"
+                className="col-lg-3 card shadow-lg rounded-4 p-4"
                 data-aos="fade-up"
                 data-aos-delay="100"
               >
@@ -380,17 +438,17 @@ const PlanSelection = () => {
                       )}
                     </div>
                   </h4>
-                  <ul className="list-style-none">
-                    <li>
+                  <ul className=" p-0">
+                    <li className="">
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
                         Everything Growth
                       </div>
                     </li>
                     <li>
-                      <div className=" text-light">
+                      <div className="d-flex text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        Unlimited Subaccount/Client Account
+                        <div> Unlimited Subaccount/Client Account</div>
                       </div>
                     </li>
                     <li>
@@ -406,7 +464,10 @@ const PlanSelection = () => {
                       </div>
                     </li>
                     <li>
-                      <div className=" text-light">
+                      <div
+                        className=" text-light"
+                        style={{ paddingBottom: "56%" }}
+                      >
                         <FaCheck color="green" size={34} className="pe-2" />
                         Send Fax{" "}
                       </div>
@@ -419,13 +480,31 @@ const PlanSelection = () => {
                     data-bs-toggle="modal"
                     data-bs-target="#add_payment_form"
                     data-amount={`120000`}
-                    onClick={() =>
+                    onClick={() => {
                       onSecondClick(
                         showDiscount
                           ? amount?.enterprise * 12 * 100
                           : amount?.enterprise * 100
-                      )
-                    }
+                      );
+                      setPlanData({
+                        customer_id: user_id,
+                        plan: "Enterprise",
+                        amount_payed: showDiscount
+                          ? amount?.enterprise * 12 * 100
+                          : amount?.enterprise * 100,
+                        plan_type: showDiscount ? "yearly" : "monthly",
+                        start_date: moment(currentDate).format(
+                          "YYYY-MM-DD HH:mm:ss"
+                        ),
+                        end_date: showDiscount
+                          ? moment(addYearsToDate(currentDate, 1)).format(
+                              "YYYY-MM-DD HH:mm:ss"
+                            )
+                          : moment(addMonthsToDate(currentDate, 1)).format(
+                              "YYYY-MM-DD HH:mm:ss"
+                            ),
+                      });
+                    }}
                   >
                     Get Started
                   </button>
@@ -435,7 +514,7 @@ const PlanSelection = () => {
           </div>
         </section>
       </div>
-      <Payment route="/kyc-form" />
+      <Payment route="/kyc-form" afterPayment={afterPayment} />
     </div>
   );
 };

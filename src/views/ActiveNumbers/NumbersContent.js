@@ -1,9 +1,21 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader/Loader";
+import { getAllClaimedNumbers } from "../../redux/services/calling";
 
 const NumbersContent = () => {
-  const { dashboardData, isLoading } = useSelector((state) => state.dashboard);
+  const { dashboardData } = useSelector((state) => state.dashboard);
+  const { token, accountAuthToken, accountSid } = useSelector(
+    (state) => state.auth
+  );
+  const { claimedNumbers, isLoading } = useSelector((state) => state.calling);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      getAllClaimedNumbers(token, { accountSid, authToken: accountAuthToken })
+    );
+  }, [token, dispatch, accountSid, accountAuthToken]);
 
   return (
     <div className="" style={{ margin: "7% 10% 7% 10%" }}>
@@ -40,7 +52,7 @@ const NumbersContent = () => {
                 </thead>
 
                 <tbody>
-                  {dashboardData?.numbers?.map((number, index) => (
+                  {claimedNumbers?.map((number, index) => (
                     <tr key={index}>
                       <td>{number?.phoneNumber}</td>
                       <td>Local</td>

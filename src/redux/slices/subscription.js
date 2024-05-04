@@ -30,6 +30,19 @@ export const subscriptionSlice = createSlice({
       state.error = "";
       state.type = "success";
     },
+    getUserSubscription: (state, action) => {
+      state.isLoading = false;
+      state.subscriptions = action.payload;
+      state.message = "success";
+      state.error = "";
+      state.type = "success";
+    },
+    addSubscription: (state, action) => {
+      state.isLoading = false;
+      state.message = action.payload;
+      state.error = "";
+      state.type = "success";
+    },
     subscriptionDetails: (state, action) => {
       state.isLoading = false;
       state.subscriptionDetails = action.payload;
@@ -45,4 +58,6 @@ export const {
   invalidRequest,
   getSubscriptions,
   subscriptionDetails,
+  getUserSubscription,
+  addSubscription,
 } = subscriptionSlice.actions;

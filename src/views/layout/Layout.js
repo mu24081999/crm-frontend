@@ -114,7 +114,7 @@ const Layout = ({ component }) => {
                       }}
                     />
                   </div>
-                  <div className="col-md-6 col-sm-6">
+                  {/* <div className="col-md-6 col-sm-6">
                     <InputField
                       control={control}
                       errors={errors}
@@ -128,7 +128,7 @@ const Layout = ({ component }) => {
                         },
                       }}
                     />
-                  </div>
+                  </div> */}
 
                   <div className="col-md-6 col-sm-6">
                     <InputField

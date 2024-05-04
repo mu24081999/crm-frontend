@@ -67,7 +67,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                             </div>
                           </div>
                         </div>
-                        <div class="row">
+                        {/* <div class="row">
                           <div class="col-12">
                             <div class="d-flex align-items-center mt-3">
                               <span class="lh-1 me-3 bg-danger-subtle text-danger rounded-circle p-1 d-flex align-items-center justify-content-center">
@@ -81,7 +81,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -119,7 +119,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                             </div>
                           </div>
                         </div>
-                        <div class="row">
+                        {/* <div class="row">
                           <div class="col-12">
                             <div class="d-flex align-items-center mt-3">
                               <span class="lh-1 me-3 bg-success-subtle text-success rounded-circle p-1 d-flex align-items-center justify-content-center">
@@ -133,7 +133,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -177,7 +177,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                             </div>
                           </div>
                         </div>
-                        <div class="row">
+                        {/* <div class="row">
                           <div class="col-12">
                             <div class="d-flex align-items-center mt-3">
                               <span class="lh-1 me-3 bg-success-subtle text-success rounded-circle p-1 d-flex align-items-center justify-content-center">
@@ -191,7 +191,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -225,7 +225,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                             </div>
                           </div>
                         </div>
-                        <div class="row">
+                        {/* <div class="row">
                           <div class="col-12">
                             <div class="d-flex align-items-center mt-3">
                               <span class="lh-1 me-3 bg-danger-subtle text-danger rounded-circle p-1 d-flex align-items-center justify-content-center">
@@ -239,7 +239,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -274,7 +274,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                             </div>
                           </div>
                         </div>
-                        <div class="row">
+                        {/* <div class="row">
                           <div class="col-12">
                             <div class="d-flex align-items-center mt-3">
                               <span class="lh-1 me-3 bg-success-subtle text-success rounded-circle p-1 d-flex align-items-center justify-content-center">
@@ -288,7 +288,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -320,7 +320,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                             </div>
                           </div>
                         </div>
-                        <div class="row">
+                        {/* <div class="row">
                           <div class="col-12">
                             <div class="d-flex align-items-center mt-3">
                               <span class="lh-1 me-3 bg-danger-subtle text-danger rounded-circle p-1 d-flex align-items-center justify-content-center">
@@ -334,7 +334,7 @@ const Overview = ({ dashboardData, isLoading }) => {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>

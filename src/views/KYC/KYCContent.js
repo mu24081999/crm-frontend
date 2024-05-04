@@ -11,7 +11,8 @@ import { useForm } from "react-hook-form";
 import { getUserKYCList, storeKyc } from "../../redux/services/kyc";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
-
+import countryList from "react-select-country-list";
+console.log(countryList().getData());
 const KYCContent = () => {
   const {
     handleSubmit,
@@ -30,27 +31,29 @@ const KYCContent = () => {
     dispatch(getUserKYCList(token));
   }, [dispatch, token]);
   useEffect(() => {
-    setValue("firstname", kycDetails?.firstname);
-    setValue("lastname", kycDetails?.lastname);
-    setValue("nationality", {
-      label: _.toUpper(kycDetails?.nationality),
-      value: kycDetails?.nationality,
-    });
-    setValue("email", kycDetails?.email);
-    setValue("phone", kycDetails?.phone);
-    setValue("address", kycDetails?.address);
-    setValue("city", kycDetails?.city);
-    setValue("state", kycDetails?.state);
-    setValue("zip_code", kycDetails?.zip_code);
-    setValue("company_size", kycDetails?.company_size);
-    setValue("company_do", kycDetails?.company_do);
-    setValue("company_type", kycDetails?.company_type);
-    setValue("company_details", kycDetails?.company_details);
-    setValue("document_type", {
-      label: _.toUpper(kycDetails?.document_type),
-      value: kycDetails?.document_type,
-    });
-    setValue("is_policy_accepted", kycDetails?.is_policy_accepted);
+    if (kycDetails) {
+      setValue("firstname", kycDetails?.firstname);
+      setValue("lastname", kycDetails?.lastname);
+      setValue("nationality", {
+        label: _.toUpper(kycDetails?.nationality),
+        value: kycDetails?.nationality,
+      });
+      setValue("email", kycDetails?.email);
+      setValue("phone", kycDetails?.phone);
+      setValue("address", kycDetails?.address);
+      setValue("city", kycDetails?.city);
+      setValue("state", kycDetails?.state);
+      setValue("zip_code", kycDetails?.zip_code);
+      setValue("company_size", kycDetails?.company_size);
+      setValue("company_do", kycDetails?.company_do);
+      setValue("company_type", kycDetails?.company_type);
+      setValue("company_details", kycDetails?.company_details);
+      setValue("document_type", {
+        label: _.toUpper(kycDetails?.document_type),
+        value: kycDetails?.document_type,
+      });
+      setValue("is_policy_accepted", kycDetails?.is_policy_accepted);
+    }
   }, [kycDetails, setValue]);
   const handleImage = (event) => {
     setError(null);
@@ -223,19 +226,17 @@ const KYCContent = () => {
                   name="nationality"
                   errors={errors}
                   control={control}
-                  options={[
-                    { label: "USA", value: "US" },
-                    { label: "Pakistan", value: "PK" },
-                  ]}
+                  options={countryList().getData() || []}
                   label="Nationality"
                   placeholder="Select ..."
                 />
               </div>
               <div>
-                <div className="px-3 py-2 rounded bg-secondary mb-3">
-                  <div className="card-title " style={{ color: "white" }}>
-                    Address
-                  </div>
+                <div
+                  className="px-3 py-2 rounded mb-3"
+                  style={{ backgroundColor: " rgba(0, 128, 128, 0.156)" }}
+                >
+                  <div className="card-title text-primary fw-bold">Address</div>
                 </div>
                 <div className="row">
                   <div className="col-md-4 col-sm-6">
@@ -296,8 +297,11 @@ const KYCContent = () => {
                 </div>
               </div>
               <div>
-                <div className="px-3 py-2 rounded bg-secondary mb-3">
-                  <div className="card-title " style={{ color: "white" }}>
+                <div
+                  className="px-3 py-2 rounded mb-3"
+                  style={{ backgroundColor: "rgba(0, 128, 128, 0.156)" }}
+                >
+                  <div className="card-title text-primary fw-bold">
                     Business Details
                   </div>
                 </div>
@@ -338,8 +342,11 @@ const KYCContent = () => {
                 </div>
               </div>
               <div>
-                <div className="px-3 py-2 rounded bg-secondary mb-3">
-                  <div className="card-title " style={{ color: "white" }}>
+                <div
+                  className="px-3 py-2 rounded mb-3"
+                  style={{ backgroundColor: "rgba(0, 128, 128, 0.156)" }}
+                >
+                  <div className="card-title text-primary fw-bold">
                     Declaration
                   </div>
                 </div>

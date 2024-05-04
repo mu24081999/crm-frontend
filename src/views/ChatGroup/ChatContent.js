@@ -141,7 +141,9 @@ const ChatContent = () => {
   useEffect(() => {
     if (users?.length > 0) {
       const data = users?.filter(
-        (usr) => usr.parent_id === user.id || usr.client_id === user.id
+        (usr) =>
+          _.toInteger(usr.parent_id) === user.id ||
+          _.toInteger(usr.client_id) === user.id
       );
       setDefaultUsers(data);
     }
