@@ -14,7 +14,9 @@ import Loader from "../../components/Loader/Loader";
 const SignIn = () => {
   const dispatch = useDispatch();
   const redirectTo = useNavigate();
-  const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
+  const { isAuthenticated, isLoading, user } = useSelector(
+    (state) => state.auth
+  );
   const {
     handleSubmit,
     // watch,
@@ -23,10 +25,12 @@ const SignIn = () => {
     formState: { errors },
   } = useForm({});
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && user?.verified === 1) {
       redirectTo("/");
+    } else if (isAuthenticated && user?.verified === 0) {
+      redirectTo(`/email-verification/${user.email}`);
     }
-  }, [isAuthenticated, redirectTo]);
+  }, [isAuthenticated, redirectTo, user]);
   const signInHandler = (data) => {
     console.log("🚀 ~ signInHandler ~ data:", data);
     dispatch(loginUser(data?.username, data?.password));
@@ -68,7 +72,7 @@ const SignIn = () => {
 
                           <div className="card card-lg card-border">
                             <div className="card-body">
-                              <div className="d-flex justify-content-center pb-3">
+                              <div className="d-flex justify-content-center pb-2">
                                 <img
                                   className=" "
                                   src={logo}
@@ -141,7 +145,7 @@ const SignIn = () => {
                               />
 
                               <p className="p-xs mt-2 text-center">
-                                New to Desktop-CRM?{" "}
+                                New to DesktopCRM?{" "}
                                 <Link to="/sign-up">
                                   <u>Create new account</u>
                                 </Link>

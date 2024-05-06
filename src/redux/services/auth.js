@@ -182,6 +182,34 @@ export const verifyOTP = (data) => async (dispatch) => {
     return toast.error(e.message);
   }
 };
+export const verifyEmail = (data) => async (dispatch) => {
+  try {
+    dispatch(authRequestLoading());
+    const verify_otp = await axios
+      .post(`${backendURL}/auth/verify_email`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Host": window.location.host,
+        },
+      })
+      .then((response) => {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          dispatch(invalidRequest(response.data.message));
+          return false;
+        }
+        dispatch(verifyOtp(response.data.message));
+        toast.success(response.data.message);
+        return response.data.data.userData;
+      });
+    if (verify_otp) {
+      return verify_otp;
+    }
+  } catch (e) {
+    dispatch(invalidRequest(e.message));
+    return toast.error(e.message);
+  }
+};
 export const ResetPassword = (data) => async (dispatch) => {
   try {
     dispatch(authRequestLoading());

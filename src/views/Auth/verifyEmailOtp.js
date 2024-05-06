@@ -4,7 +4,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import brand from "../../assets/logo-light.png";
 import InputField from "../../components/FormFields/InputField";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, verifyOTP } from "../../redux/services/auth";
+import {
+  ForgotPassword,
+  loginUser,
+  verifyEmail,
+  verifyOTP,
+} from "../../redux/services/auth";
 import logo from "./../../assets/3.png";
 import { updateUserRec } from "../../redux/services/users";
 
@@ -20,24 +25,57 @@ const VerifyEmailOtp = () => {
   const dispatch = useDispatch();
   const { email } = useParams();
   const { token, user } = useSelector((state) => state.auth);
-  console.log("🚀 ~ VerifyEmailOtp ~ token:", user);
+  console.log("🚀 ~ VerifyEmailOtp ~ token:", email);
   useEffect(() => {
-    if (token) {
-      const updateUser = dispatch(
-        updateUserRec(token, { verified: true }, user.id)
-      );
+    if (
+      user?.verified === 1 &&
+      user?.role === "USER" &&
+      user?.parent_id === null &&
+      user?.client_id === null
+    ) {
       navigate("/plan-selection"); // Navigate on successful verification
+    } else if (
+      (user?.verified === 1 &&
+        user?.parent_id !== null &&
+        user?.role === "USER") ||
+      (user?.verified === 1 &&
+        user?.client_id !== null &&
+        user?.role === "AGENT")
+    ) {
+      navigate("/");
     }
-  }, [token, dispatch, navigate, user]);
+  }, [navigate, user]);
   const otpVerificationHandler = async (data) => {
     const formData = {
       email: email,
       otp: data?.otp,
+      // password: user.password,
     };
-    const verificationSuccess = await dispatch(verifyOTP(formData));
-    if (verificationSuccess && user) {
-      dispatch(loginUser(user?.email, user?.password, true));
+    const verificationSuccess = await dispatch(verifyEmail(formData));
+    console.log(
+      "🚀 ~ otpVerificationHandler ~ verificationSuccess:",
+      verificationSuccess
+    );
+    if (verificationSuccess?.verified === 1) {
+      // navigate("plan-selection");
+      dispatch(
+        loginUser(
+          verificationSuccess?.email,
+          verificationSuccess?.password,
+          true
+        )
+      );
     }
+    // const verificationSuccess = await dispatch(verifyOTP(formData));
+    // if (verificationSuccess && user) {
+    //   dispatch(loginUser(user?.email, user?.password, true));
+    // }
+  };
+  const handleResendOTP = () => {
+    const data = {
+      email: email,
+    };
+    return dispatch(ForgotPassword(data));
   };
   return (
     <div>
@@ -62,7 +100,7 @@ const VerifyEmailOtp = () => {
                             <div className="menu-header text-center">
                               <div className="d-flex justify-content-center pb-3">
                                 <img
-                                  className=" "
+                                  className=""
                                   src={logo}
                                   width={300}
                                   alt="brand"
@@ -79,6 +117,12 @@ const VerifyEmailOtp = () => {
                                   password
                                 </p>
                                 <div>
+                                  <p
+                                    className="float-end cursor-pointer"
+                                    onClick={handleResendOTP}
+                                  >
+                                    Resend OTP
+                                  </p>
                                   <div>
                                     <InputField
                                       name="otp"

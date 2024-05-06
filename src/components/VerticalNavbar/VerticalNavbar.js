@@ -356,23 +356,25 @@ const VerticalNavbar = () => {
                     </li>
                   </>
                 )}
-              {(user?.role === "ADMIN" ||
-                user?.role === "SUPER_ADMIN" ||
-                user?.role === "USER") && (
-                <li
-                  className={`nav-item ${
-                    location?.pathname === "/subscriptions" && "active"
-                  }`}
-                >
-                  <Link className="nav-link" to="/subscriptions">
-                    <span className="nav-icon-wrap">
-                      <span className="svg-icon">
-                        <MdOutlineSubscriptions />
+              {user?.parent_id === null &&
+                user?.client_id === null &&
+                (user?.role === "ADMIN" ||
+                  user?.role === "SUPER_ADMIN" ||
+                  user?.role === "USER") && (
+                  <li
+                    className={`nav-item ${
+                      location?.pathname === "/subscriptions" && "active"
+                    }`}
+                  >
+                    <Link className="nav-link" to="/subscriptions">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <MdOutlineSubscriptions />
+                        </span>
                       </span>
-                    </span>
-                    <span className="nav-link-text">Subscription</span>
-                  </Link>
-                  {/* <li
+                      <span className="nav-link-text">Subscription</span>
+                    </Link>
+                    {/* <li
                     className={`nav-item ${
                       location?.pathname === "/permissions" && "active"
                     }`}
@@ -386,8 +388,8 @@ const VerticalNavbar = () => {
                       <span className="nav-link-text">Permissions</span>
                     </Link>
                   </li> */}
-                </li>
-              )}
+                  </li>
+                )}
               {(user?.role === "ADMIN" || user?.role === "SUPER_ADMIN") && (
                 <>
                   <li

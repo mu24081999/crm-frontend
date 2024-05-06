@@ -1,43 +1,64 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import brand from "../../assets/logo-light.png";
 import InputField from "../../components/FormFields/InputField";
-import { useDispatch } from "react-redux";
-import { verifyOTP } from "../../redux/services/auth";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ForgotPassword,
+  loginUser,
+  verifyEmail,
+  verifyOTP,
+} from "../../redux/services/auth";
 import logo from "./../../assets/3.png";
+import { updateUserRec } from "../../redux/services/users";
 
-const VerifyPassword = () => {
+const VerifyEmailOtp = () => {
   const navigate = useNavigate();
   const {
     handleSubmit,
     // watch,
     control,
     // setValue,
+    reset,
     formState: { errors },
   } = useForm({});
   const dispatch = useDispatch();
   const { email } = useParams();
-
+  const { token, user } = useSelector((state) => state.auth);
+  console.log("🚀 ~ VerifyEmailOtp ~ token:", email);
+  useEffect(() => {
+    if (user?.verified === 1) {
+      navigate(`/reset_password/${email}`); // Navigate on successful verification
+    }
+  }, [navigate, user, email]);
   const otpVerificationHandler = async (data) => {
     const formData = {
       email: email,
       otp: data?.otp,
+      // password: user.password,
     };
-    const verificationSuccess = dispatch(verifyOTP(formData));
+    const verificationSuccess = await dispatch(verifyEmail(formData));
     console.log(
       "🚀 ~ otpVerificationHandler ~ verificationSuccess:",
       verificationSuccess
     );
-    if (verificationSuccess) {
-      navigate("/reset-password/" + email); // Navigate on successful verification
+    if (verificationSuccess?.verified === 1) {
+      reset();
+      navigate(`/reset_password/${email}`);
     }
+  };
+  const handleResendOTP = () => {
+    const data = {
+      email: email,
+    };
+    return dispatch(ForgotPassword(data));
   };
   return (
     <div>
       <div>
         {/* <!-- Wrapper --> */}
-        <div class="hk-wrapper hk-pg-auth" data-footer="simple">
+        <div class="hk-wrapper hk-pg-auth">
           {/* <!-- Main Content --> */}
           <div class="hk-pg-wrapper pt-0 pb-xl-0 pb-5">
             <div class="hk-pg-body pt-0 pb-xl-0">
@@ -53,19 +74,10 @@ const VerifyPassword = () => {
                       >
                         <div class="row">
                           <div class="col-lg-5 col-md-7 col-sm-10 mx-auto">
-                            {/* <div class="text-center mb-7">
-                              <Link class="navbar-brand me-0" href="/">
-                                <img
-                                  class="brand-img d-inline-block"
-                                  src={brand}
-                                  alt="brand"
-                                />
-                              </Link>
-                            </div> */}
                             <div className="menu-header text-center">
                               <div className="d-flex justify-content-center pb-3">
                                 <img
-                                  className=" "
+                                  className=""
                                   src={logo}
                                   width={300}
                                   alt="brand"
@@ -75,32 +87,19 @@ const VerifyPassword = () => {
 
                             <div class="card card-flush">
                               <div class="card-body text-center">
-                                <h4>Reset your Password</h4>
+                                <h4>Verify your OTP</h4>
                                 <p class="mb-4">
                                   No worries we will mail you 6 digit code to
                                   your recovery email address to reset your
                                   password
                                 </p>
-                                {/* <div class="row gx-3">
-                                <div class="form-group col-lg-12">
-                                  <div class="form-label-group">
-                                    <label for="userName">Email</label>
-                                    <a href="/" class="fs-7 fw-medium">
-                                      Forgot Username ?
-                                    </a>
-                                  </div>
-                                  <input
-                                    class="form-control"
-                                    placeholder="Recovery email ID"
-                                    value=""
-                                    type="email"
-                                  />
-                                </div>
-                              </div> */}
                                 <div>
-                                  {/* <a href="/" class="fs-7 fw-medium float-end">
-                                    Forgot Username ?
-                                  </a> */}
+                                  <p
+                                    className="float-end cursor-pointer"
+                                    onClick={handleResendOTP}
+                                  >
+                                    Resend OTP
+                                  </p>
                                   <div>
                                     <InputField
                                       name="otp"
@@ -136,45 +135,13 @@ const VerifyPassword = () => {
                     </div>
                   </div>
                 </div>
-                {/* <!-- /Row --> */}
               </div>
-              {/* <!-- /Container --> */}
             </div>
-            {/* <!-- /Page Body --> */}
-
-            {/* <!-- Page Footer --> */}
-            {/* <div class="hk-footer border-0">
-              <footer class="container-xxl footer">
-                <div class="row">
-                  <div class="col-xl-8 text-center">
-                    <p class="footer-text pb-0">
-                      <span class="copy-text">
-                        Jampack © 2023 All rights reserved.
-                      </span>{" "}
-                      <a href="/" class="" target="_blank">
-                        Privacy Policy
-                      </a>
-                      <span class="footer-link-sep">|</span>
-                      <a href="/" class="" target="_blank">
-                        T&C
-                      </a>
-                      <span class="footer-link-sep">|</span>
-                      <a href="/" class="" target="_blank">
-                        System Status
-                      </a>
-                    </p>
-                  </div>
-                </div>
-              </footer>
-            </div> */}
-            {/* <!-- / Page Footer --> */}
           </div>
-          {/* <!-- /Main Content --> */}
         </div>
-        {/* <!-- /Wrapper --> */}
       </div>
     </div>
   );
 };
 
-export default VerifyPassword;
+export default VerifyEmailOtp;

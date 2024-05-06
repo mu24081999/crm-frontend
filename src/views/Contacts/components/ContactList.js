@@ -131,16 +131,16 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                       <td className="text-truncate">{contact?.email}</td>
                       <td>{contact?.phone}</td>
                       <td>
-                        {contact?.tags &&
-                          contact?.tags.length > 0 &&
-                          contact?.tags.map((tag, index) => (
+                        {/* {contact?.tags &&
+                          contact?.tags?.length > 0 &&
+                          contact?.tags?.map((tag, index) => (
                             <span
                               key={index}
                               className="badge badge-soft-danger  my-1  me-2"
                             >
                               {tag.name}
                             </span>
-                          ))}
+                          ))} */}
                       </td>
                       <td>{contact?.designation}</td>
                       <td>

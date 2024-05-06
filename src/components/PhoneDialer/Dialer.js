@@ -81,6 +81,9 @@ const Dialer = () => {
           accountSid: accountSid,
           identity: user.username,
           authToken: accountAuthToken,
+          api_key_sid: user.api_key_sid,
+          api_key_secret: user.api_key_secret,
+          twiml_app_sid: user.twiml_app_sid,
         },
         {
           headers: {

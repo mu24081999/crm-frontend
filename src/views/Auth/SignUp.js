@@ -57,7 +57,7 @@ const SignUp = () => {
                         <div class="col-xxl-5 col-xl-7 col-lg-8 col-sm-10 mx-auto">
                           <div class="card card-border">
                             <div class="card-body">
-                              <div className="d-flex justify-content-center pb-3">
+                              <div className="d-flex justify-content-center pb-2">
                                 <img
                                   className=" "
                                   src={logo}

@@ -201,7 +201,7 @@ const router = (role) => {
       element: <ActiveNumbers />,
     },
     {
-      path: "reset-password/:email",
+      path: "reset_password/:email",
       element: <ResetUserPassword />,
     },
     {

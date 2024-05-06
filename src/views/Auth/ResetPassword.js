@@ -26,7 +26,7 @@ const ResetPassword = () => {
   return (
     <div>
       {/* <!-- Wrapper --> */}
-      <div class="hk-wrapper hk-pg-auth" data-footer="simple">
+      <div class="hk-wrapper hk-pg-auth">
         {/* <!-- Main Content --> */}
         <div class="hk-pg-wrapper pt-0 pb-xl-0 pb-5">
           <div class="hk-pg-body pt-0 pb-xl-0">

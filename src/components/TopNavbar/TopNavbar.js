@@ -535,166 +535,139 @@ const TopNavbar = ({}) => {
                         </div>
                       </div>
                       <div className="media-body">
-                        <div className="dropdown">
+                        {user?.parent_id === null && user.client_id === null ? (
+                          <div className="dropdown">
+                            <a
+                              // href=""
+                              className="d-block dropdown-toggle link-dark fw-medium"
+                              data-bs-toggle="dropdown"
+                              data-dropdown-animation
+                              data-bs-auto-close="inside"
+                            >
+                              {selectedAccount?.username ||
+                                selectedAccount?.friendlyName}
+                            </a>
+                            <div className="dropdown-menu dropdown-menu-end">
+                              <div className="p-2">
+                                <p>
+                                  <span
+                                    className="text-primary bg-light"
+                                    style={{ fontSize: "12px" }}
+                                  >
+                                    Parent
+                                  </span>
+                                </p>
+                                <p
+                                  class="dropdown-divider"
+                                  style={{
+                                    padding: "0px",
+                                    marginTop: "-10px",
+                                    marginBottom: "20px",
+                                  }}
+                                ></p>
+                                <div
+                                  className="media align-items-center mb-3"
+                                  onClick={() =>
+                                    handleAccountClick(parentAccount)
+                                  }
+                                >
+                                  <div className="media-head me-2">
+                                    <div className="avatar avatar-primary avatar-xs avatar-rounded">
+                                      <span className="initial-wrap">
+                                        <FaUserAstronaut />
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="media-body">
+                                    <button
+                                      className={`btn-block ${
+                                        parentAccount?.email ===
+                                        selectedAccount?.email
+                                          ? "btn-primary"
+                                          : "btn-light"
+                                      } btn btn-sm `}
+                                    >
+                                      {parentAccount?.name?.split(" ")[0]}
+                                    </button>
+                                  </div>
+                                </div>
+                                <p>
+                                  <span
+                                    className="text-primary bg-light"
+                                    style={{ fontSize: "12px" }}
+                                  >
+                                    Sub-Accounts
+                                  </span>
+                                </p>
+                                <p
+                                  class="dropdown-divider"
+                                  style={{
+                                    padding: "0px",
+                                    marginTop: "-10px",
+                                    marginBottom: "20px",
+                                  }}
+                                ></p>
+
+                                {subAccounts?.length > 0 &&
+                                  subAccounts?.map((account, index) => (
+                                    <>
+                                      {account?.id !== user?.id && (
+                                        <div
+                                          className="media align-items-center mb-3"
+                                          key={index}
+                                          onClick={() =>
+                                            handleAccountClick(account)
+                                          }
+                                        >
+                                          <div className="media-head me-2">
+                                            <div className="avatar avatar-secondary avatar-xs avatar-rounded">
+                                              <span className="initial-wrap">
+                                                {_.capitalize(
+                                                  account?.name?.slice(0, 1)
+                                                )}
+                                              </span>
+                                            </div>
+                                          </div>
+                                          <div className="media-body">
+                                            <button
+                                              className={`btn-block ${
+                                                selectedAccount?.email ===
+                                                account?.email
+                                                  ? "btn-primary"
+                                                  : "btn-light"
+                                              } btn btn-sm `}
+                                            >
+                                              {account?.name?.split(" ")[0]}
+                                            </button>
+                                          </div>
+                                        </div>
+                                      )}
+                                    </>
+                                  ))}
+                                {!user?.parent_id &&
+                                  subAccounts?.length < 3 && (
+                                    <button
+                                      type="button"
+                                      class=" btn btn-block btn-outline-light btn-sm "
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#addAccountModal"
+                                    >
+                                      <FaPlus />
+                                      Add Account
+                                    </button>
+                                  )}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
                           <a
                             // href=""
-                            className="d-block dropdown-toggle link-dark fw-medium"
-                            data-bs-toggle="dropdown"
-                            data-dropdown-animation
-                            data-bs-auto-close="inside"
+                            className="d-block link-dark fw-medium"
                           >
                             {selectedAccount?.username ||
                               selectedAccount?.friendlyName}
                           </a>
-                          <div className="dropdown-menu dropdown-menu-end">
-                            <div className="p-2">
-                              {/* <div className="media align-items-center active-user mb-3">
-                                <div className="media-head me-2">
-                                  <div className="avatar avatar-primary avatar-xs avatar-rounded">
-                                    <span className="initial-wrap">
-                                      {selectedAccount?.name?.slice(0, 1)}
-                                    </span>
-                                  </div>
-                                </div>
-                                <div className="media-body">
-                                  <a
-                                    // href=""
-                                    className="d-flex align-items-center link-dark"
-                                  >
-                                    {user?.username}
-                                    <i className="ri-checkbox-circle-fill fs-7 text-primary ms-1"></i>
-                                  </a>
-
-                                  {/* <a
-                                    // href=""
-                                    className="d-block fs-8 link-secondary"
-                                  >
-                                    <u>Manage your account</u>
-                                  </a> 
-                                </div>
-                              </div> */}
-                              <p>
-                                <span
-                                  className="text-primary bg-light"
-                                  style={{ fontSize: "12px" }}
-                                >
-                                  Parent
-                                </span>
-                              </p>
-                              <p
-                                class="dropdown-divider"
-                                style={{
-                                  padding: "0px",
-                                  marginTop: "-10px",
-                                  marginBottom: "20px",
-                                }}
-                              ></p>
-                              <div
-                                className="media align-items-center mb-3"
-                                onClick={() =>
-                                  handleAccountClick(parentAccount)
-                                }
-                              >
-                                <div className="media-head me-2">
-                                  <div className="avatar avatar-primary avatar-xs avatar-rounded">
-                                    <span className="initial-wrap">
-                                      {/* {_.capitalize(
-                                        selectedAccount?.name?.slice(0, 1)
-                                      )}{" "} */}
-                                      <FaUserAstronaut />
-                                    </span>
-                                  </div>
-                                </div>
-                                <div className="media-body">
-                                  <button
-                                    className={`btn-block ${
-                                      parentAccount?.email ===
-                                      selectedAccount?.email
-                                        ? "btn-primary"
-                                        : "btn-light"
-                                    } btn btn-sm `}
-                                  >
-                                    {parentAccount?.name?.split(" ")[0]}
-                                  </button>
-                                </div>
-                              </div>
-                              <p>
-                                <span
-                                  className="text-primary bg-light"
-                                  style={{ fontSize: "12px" }}
-                                >
-                                  Sub-Accounts
-                                </span>
-                              </p>
-                              <p
-                                class="dropdown-divider"
-                                style={{
-                                  padding: "0px",
-                                  marginTop: "-10px",
-                                  marginBottom: "20px",
-                                }}
-                              ></p>
-
-                              {subAccounts?.length > 0 &&
-                                subAccounts?.map((account, index) => (
-                                  <>
-                                    {account?.id !== user?.id && (
-                                      <div
-                                        className="media align-items-center mb-3"
-                                        key={index}
-                                        onClick={() =>
-                                          handleAccountClick(account)
-                                        }
-                                      >
-                                        <div className="media-head me-2">
-                                          <div className="avatar avatar-secondary avatar-xs avatar-rounded">
-                                            <span className="initial-wrap">
-                                              {_.capitalize(
-                                                account?.name?.slice(0, 1)
-                                              )}
-                                            </span>
-                                          </div>
-                                        </div>
-                                        <div className="media-body">
-                                          <button
-                                            className={`btn-block ${
-                                              selectedAccount?.email ===
-                                              account?.email
-                                                ? "btn-primary"
-                                                : "btn-light"
-                                            } btn btn-sm `}
-                                          >
-                                            {account?.name?.split(" ")[0]}
-                                          </button>
-                                        </div>
-                                      </div>
-                                    )}
-                                  </>
-                                ))}
-                              {/* <button className="btn btn-block btn-outline-light btn-sm">
-                                <span>
-                                  <span className="icon">
-                                    <span className="feather-icon">
-                                      <i data-feather="plus"></i>
-                                    </span>
-                                  </span>
-                                  <span>Add Account</span>
-                                </span>
-                              </button> */}
-                              {!user?.parent_id && subAccounts?.length <= 3 && (
-                                <button
-                                  type="button"
-                                  class=" btn btn-block btn-outline-light btn-sm "
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#addAccountModal"
-                                >
-                                  <FaPlus />
-                                  Add Account
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                        </div>
+                        )}
                         <div className="fs-7">{selectedAccount?.email}</div>
                         <button
                           onClick={handleLogOut}
