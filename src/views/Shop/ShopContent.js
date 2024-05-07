@@ -83,7 +83,6 @@ const ContactsContent = () => {
       config
     );
     toast.success(is_added?.data?.message);
-    console.log("New claim number", is_added);
   };
   return (
     <div className="hk-pg-wrapper pb-0">

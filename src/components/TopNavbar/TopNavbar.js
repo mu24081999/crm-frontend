@@ -27,6 +27,7 @@ const TopNavbar = ({}) => {
   const [selectedAccount, setSelectedAccount] = useState(user);
   const [parentAccount, setParentAccount] = useState(user);
   const [subAccounts, setSubAccounts] = useState([]);
+  const [userAgents, setUserAgents] = useState([]);
   useEffect(() => {
     if (selectedAccount?.parent_id) {
       const parent = users?.filter(
@@ -57,6 +58,14 @@ const TopNavbar = ({}) => {
         (usr) => _.toInteger(usr.parent_id) === user.id
       );
       setSubAccounts(data);
+    }
+  }, [user, users]);
+  useEffect(() => {
+    if (users?.length > 0) {
+      const data = users?.filter(
+        (usr) => _.toInteger(usr.client_id) === user.id
+      );
+      setUserAgents(data);
     }
   }, [user, users]);
   return (
@@ -660,13 +669,117 @@ const TopNavbar = ({}) => {
                             </div>
                           </div>
                         ) : (
-                          <a
-                            // href=""
-                            className="d-block link-dark fw-medium"
-                          >
-                            {selectedAccount?.username ||
-                              selectedAccount?.friendlyName}
-                          </a>
+                          <div className="dropdown">
+                            <a
+                              // href=""
+                              className="d-block dropdown-toggle link-dark fw-medium"
+                              data-bs-toggle="dropdown"
+                              data-dropdown-animation
+                              data-bs-auto-close="inside"
+                            >
+                              {selectedAccount?.username ||
+                                selectedAccount?.friendlyName}
+                            </a>
+                            <div className="dropdown-menu dropdown-menu-end">
+                              <div className="p-2">
+                                {/* <p>
+                                <span
+                                  className="text-primary bg-light"
+                                  style={{ fontSize: "12px" }}
+                                >
+                                  Parent
+                                </span>
+                              </p>
+                              <p
+                                class="dropdown-divider"
+                                style={{
+                                  padding: "0px",
+                                  marginTop: "-10px",
+                                  marginBottom: "20px",
+                                }}
+                              ></p>
+                              <div
+                                className="media align-items-center mb-3"
+                                onClick={() =>
+                                  handleAccountClick(parentAccount)
+                                }
+                              >
+                                <div className="media-head me-2">
+                                  <div className="avatar avatar-primary avatar-xs avatar-rounded">
+                                    <span className="initial-wrap">
+                                      <FaUserAstronaut />
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="media-body">
+                                  <button
+                                    className={`btn-block ${
+                                      parentAccount?.email ===
+                                      selectedAccount?.email
+                                        ? "btn-primary"
+                                        : "btn-light"
+                                    } btn btn-sm `}
+                                  >
+                                    {parentAccount?.name?.split(" ")[0]}
+                                  </button>
+                                </div>
+                              </div> */}
+
+                                {userAgents?.length > 0 &&
+                                  userAgents?.map((account, index) => (
+                                    <>
+                                      <p>
+                                        <span
+                                          className="text-primary bg-light"
+                                          style={{ fontSize: "12px" }}
+                                        >
+                                          Agents
+                                        </span>
+                                      </p>
+                                      <p
+                                        class="dropdown-divider"
+                                        style={{
+                                          padding: "0px",
+                                          marginTop: "-10px",
+                                          marginBottom: "20px",
+                                        }}
+                                      ></p>
+                                      {account?.id !== user?.id && (
+                                        <div
+                                          className="media align-items-center mb-3"
+                                          key={index}
+                                          onClick={() =>
+                                            handleAccountClick(account)
+                                          }
+                                        >
+                                          <div className="media-head me-2">
+                                            <div className="avatar avatar-secondary avatar-xs avatar-rounded">
+                                              <span className="initial-wrap">
+                                                {_.capitalize(
+                                                  account?.name?.slice(0, 1)
+                                                )}
+                                              </span>
+                                            </div>
+                                          </div>
+                                          <div className="media-body">
+                                            <button
+                                              className={`btn-block ${
+                                                selectedAccount?.email ===
+                                                account?.email
+                                                  ? "btn-primary"
+                                                  : "btn-light"
+                                              } btn btn-sm `}
+                                            >
+                                              {account?.name?.split(" ")[0]}
+                                            </button>
+                                          </div>
+                                        </div>
+                                      )}
+                                    </>
+                                  ))}
+                              </div>
+                            </div>
+                          </div>
                         )}
                         <div className="fs-7">{selectedAccount?.email}</div>
                         <button

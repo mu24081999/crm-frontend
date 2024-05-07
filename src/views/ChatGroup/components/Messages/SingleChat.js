@@ -27,7 +27,6 @@ import { CiMenuKebab } from "react-icons/ci";
 import { FiPaperclip } from "react-icons/fi";
 
 const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
-  console.log("🚀 ~ SingleChat ~ messages:", messages);
   const {
     me,
     // leaveCall,

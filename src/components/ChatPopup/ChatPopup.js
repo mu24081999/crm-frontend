@@ -7,7 +7,7 @@ const ChatPopup = () => {
   const { user } = useSelector((state) => state.auth);
   return (
     <div>
-      {user?.parent_id !== null && <Dialer />}
+      {(user?.parent_id !== null || user?.client_id !== null) && <Dialer />}
 
       {/* <!-- Chat Popup --> */}
       {/* <div className="hk-chatbot-popup">

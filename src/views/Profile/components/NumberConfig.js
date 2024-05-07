@@ -19,7 +19,10 @@ const NumberConfig = () => {
   const [avatar, setAvatar] = useState(null);
   useEffect(() => {
     if (user) {
-      setValue("phone", user?.phone);
+      setValue("phone", {
+        label: user?.phone,
+        value: user?.phone,
+      });
     }
   }, [user, setValue]);
   const handleEditAccount = async (data) => {

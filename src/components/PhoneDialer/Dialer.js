@@ -368,24 +368,26 @@ const Dialer = () => {
                       isDisabled={true}
                     />
                   </div> */}
-                  <div className="w-100 mt-2">
-                    <ReactSelectField
-                      name="my_numbers"
-                      placeholder="Call From"
-                      control={control}
-                      errors={errors}
-                      options={
-                        claimedNumbers?.length > 0
-                          ? claimedNumbers?.map((key, index) => {
-                              return {
-                                label: key?.phoneNumber,
-                                value: key?.phoneNumber,
-                              };
-                            })
-                          : []
-                      }
-                    />
-                  </div>
+                  {user?.parent_id !== null && user?.client_id === null && (
+                    <div className="w-100 mt-2">
+                      <ReactSelectField
+                        name="my_numbers"
+                        placeholder="Call From"
+                        control={control}
+                        errors={errors}
+                        options={
+                          claimedNumbers?.length > 0
+                            ? claimedNumbers?.map((key, index) => {
+                                return {
+                                  label: key?.phoneNumber,
+                                  value: key?.phoneNumber,
+                                };
+                              })
+                            : []
+                        }
+                      />
+                    </div>
+                  )}
                 </td>
               </tr>
             </table>

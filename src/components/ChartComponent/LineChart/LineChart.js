@@ -2,6 +2,7 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 
 const LineChart = ({ categories, series, title }) => {
+  console.log("🚀 ~ LineChart ~ categories:", categories);
   const state = {
     series: series?.length > 0 ? series : [{ name: "no-data" }],
 
@@ -43,7 +44,7 @@ const LineChart = ({ categories, series, title }) => {
         },
       },
       xaxis: {
-        categories: categories?.length > 0 ? categories : [{ name: "no-data" }],
+        categories: categories?.length > 0 ? categories : [],
         // [
         //   "Jan",
         //   "Feb",

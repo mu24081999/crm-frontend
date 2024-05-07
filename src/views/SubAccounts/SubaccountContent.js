@@ -232,7 +232,11 @@ const ContactsContent = () => {
                     </button>
                   </div>
                   <div className="modal-body">
-                    <AddContactList />
+                    {data?.length > 3 ? (
+                      <p>You have exeeded you limit</p>
+                    ) : (
+                      <AddContactList />
+                    )}
                   </div>
                 </div>
               </div>

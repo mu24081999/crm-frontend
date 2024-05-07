@@ -58,7 +58,7 @@ const SingleChat = ({
   const [message, setMessage] = useState();
 
   const sendMessage = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" || e.type === "click") {
       const messageData = {
         from: {
           phone: authUser.phone,
@@ -679,7 +679,7 @@ const SingleChat = ({
             <span class="input-suffix">
               <button
                 class="btn btn-icon btn-flush-primary btn-rounded btn-send"
-                onClick={sendMessage}
+                onClick={(e) => sendMessage(e)}
               >
                 <span class="icon">
                   {/* <span class="feather-icon"></span> */}

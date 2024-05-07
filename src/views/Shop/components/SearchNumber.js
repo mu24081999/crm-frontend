@@ -5,6 +5,7 @@ import Checkbox from "../../../components/FormFields/checkboxField";
 import InputField from "../../../components/FormFields/InputField";
 import ReactSelectField from "../../../components/FormFields/reactSelectField";
 import { searchAvailablePhoneNumber } from "../../../redux/services/calling";
+import countryList from "react-select-country-list";
 
 const SearchNumber = ({
   dispatch,
@@ -29,12 +30,13 @@ const SearchNumber = ({
     }
   }, [criteriaWatcher]);
   const handleSearchNumber = (data) => {
-    console.log("🚀 ~ handleSearchNumber ~ data:", data);
+    console.log("🚀 ~ handleSearchNumber ~ data:", data.country.value);
     const formData = {
       ...data,
       authToken: authToken,
       accountSid: accountSid,
       numberType: data.numberType.value,
+      country: data.country.value,
     };
     dispatch(searchAvailablePhoneNumber(token, formData));
     onDataFromChild(false);
@@ -49,11 +51,27 @@ const SearchNumber = ({
       <div className="m-5 d-flex justify-content-center">
         <div className=" w-100">
           <div className="row">
-            <div className="col-md-4 col-sm-6">
+            {/* <div className="col-md-4 col-sm-6">
               <ReactCountryField
                 name="country"
                 control={control}
                 errors={errors}
+                rules={{
+                  required: {
+                    value: true,
+                    message: "Field required!",
+                  },
+                }}
+              />
+            </div> */}
+            <div className="col-md-4 col-sm-6">
+              <ReactSelectField
+                name="country"
+                placeholder="Select Country"
+                control={control}
+                errors={errors}
+                mb={false}
+                options={countryList().getData() || []}
                 rules={{
                   required: {
                     value: true,

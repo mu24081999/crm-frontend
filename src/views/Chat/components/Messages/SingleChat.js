@@ -77,7 +77,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
   const [message, setMessage] = useState();
 
   const sendMessage = (e) => {
-    if (e.key === "Enter") {
+    if (e.type === "click" || e.key === "Enter") {
       let formData;
       let fileData;
       if (selectedFile) {
@@ -920,7 +920,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
             <span class="input-suffix">
               <button
                 class="btn btn-icon btn-flush-primary btn-rounded btn-send"
-                onClick={sendMessage}
+                onClick={(e) => sendMessage(e)}
               >
                 <span class="icon">
                   {/* <span class="feather-icon"></span> */}

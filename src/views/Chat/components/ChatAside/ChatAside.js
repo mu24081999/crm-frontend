@@ -1,16 +1,7 @@
 import React from "react";
 import ChatRooms from "../Rooms/ChatRooms";
-import {
-  FaArchive,
-  FaBook,
-  FaCog,
-  FaPlus,
-  FaStar,
-  FaUserCheck,
-  FaUsers,
-} from "react-icons/fa";
+import { FaCog, FaPlus, FaUserCheck } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { IoIosMail } from "react-icons/io";
 
 const ChatAside = ({
   rooms,

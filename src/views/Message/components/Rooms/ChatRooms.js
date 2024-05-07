@@ -106,7 +106,7 @@ const ChatRooms = ({
                     <div>
                       <div class="user-name">
                         {contact?.firstname +
-                          contact?.middlename +
+                          // contact?.middlename +
                           contact?.lastname}
                       </div>
                       <div class="user-last-chat">

@@ -1,46 +1,31 @@
 import React from "react";
-import brandSm from "../../assets/brand-sm.svg";
 import brand from "../../assets/2.png";
 import { Link, useLocation } from "react-router-dom";
 import {
-  FaAccessibleIcon,
-  FaCloud,
   FaCogs,
-  FaHistory,
   FaPhoneAlt,
   FaPhoneSquareAlt,
   FaRegEnvelope,
   FaRegUser,
-  FaUserCog,
-  FaUsers,
 } from "react-icons/fa";
-import { MdMarkEmailRead, MdSupportAgent, MdSwapCalls } from "react-icons/md";
+import { MdSupportAgent, MdSwapCalls } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { FaHouseUser, FaRegCircleUser } from "react-icons/fa6";
 import { CiMenuFries } from "react-icons/ci";
-import { SiGmail, SiTodoist } from "react-icons/si";
-import logo from "./../../assets/3.png";
+import { SiGmail } from "react-icons/si";
+import logo from "./../../assets/4.png";
 import { MdOutlineSubscriptions } from "react-icons/md";
-import { TbCirclesRelation } from "react-icons/tb";
 import { LuUsers } from "react-icons/lu";
 import { RiContactsBook2Line, RiTodoLine } from "react-icons/ri";
 import { GoFileDirectory } from "react-icons/go";
-import { GrUserManager } from "react-icons/gr";
-
 const VerticalNavbar = () => {
   const { user } = useSelector((state) => state.auth);
   const location = useLocation();
-  console.log("🚀 ~ VerticalNavbar ~ location:", location.pathname);
   return (
     <div className="hk-menu">
       {/* <!-- Brand --> */}
       <div className="menu-header">
         <span>
           <Link className="navbar-brand flex" to="/">
-            {/* <img className="brand-img img-fluid" src={brandSm} alt="brand" /> */}
-            {/* <TbCirclesRelation size={35} color="#007d88" /> */}
-
-            {/* <SiCivicrm size={30} color="#007d88" /> */}
             <img
               className="brand-img img-fluid"
               src={brand}

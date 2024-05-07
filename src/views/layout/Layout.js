@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import VerticalNavbar from "../../components/VerticalNavbar/VerticalNavbar";
 import ChatPopup from "../../components/ChatPopup/ChatPopup";
@@ -12,12 +12,15 @@ import {
 } from "../../redux/services/calling";
 import Loader from "../../components/Loader/Loader";
 import { color } from "@chakra-ui/react";
-import { addUserRec } from "../../redux/services/users";
+import { addUserRec, getUsers } from "../../redux/services/users";
+import _ from "lodash";
 // import Dialer from "../../components/PhoneDialer/Dialer";
 const Layout = ({ component }) => {
   const { isAuthenticated, token, accountSid, accountAuthToken, user } =
     useSelector((state) => state.auth);
   const { isLoading, subAccounts } = useSelector((state) => state.calling);
+  const { users } = useSelector((state) => state.user);
+  const [subAccountsData, setSubAccountsData] = useState([]);
   const {
     handleSubmit,
     // watch,
@@ -29,12 +32,20 @@ const Layout = ({ component }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUserSubAccountsList(token));
+    dispatch(getUsers(token));
   }, [token, dispatch]);
   useEffect(() => {
     if (!isAuthenticated) {
       redirectTo("/sign-in");
     }
   }, [isAuthenticated, redirectTo]);
+  useEffect(() => {
+    if (users) {
+      const data = users?.filter((ur) => _.toInteger(ur.parent_id) === user.id);
+      console.log("🚀 ~ useEffect ~ data:", data);
+      setSubAccountsData(data);
+    }
+  }, [users, user, setSubAccountsData]);
   const addSubAccount = (data) => {
     console.log(data);
     const formData = {
@@ -78,43 +89,50 @@ const Layout = ({ component }) => {
       >
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
-            <form onSubmit={handleSubmit(addSubAccount)}>
-              <div class="modal-header bg-primary ">
-                <h5
-                  class="modal-title fs-6 fw-bold "
-                  style={{ color: "white" }}
-                >
-                  Add New Sub Account
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
+            {subAccountsData?.length > 3 ? (
+              <div className="modal-body p-0">
+                <p className="alert alert-warning m-0">
+                  You have exeeded your limit
+                </p>
               </div>
-              {isLoading ? (
-                <Loader />
-              ) : (
-                <div class="modal-body row">
-                  <div className="col-md-6 col-sm-6">
-                    <InputField
-                      control={control}
-                      errors={errors}
-                      name="name"
-                      placeholder="Name"
-                      label="Name"
-                      rules={{
-                        required: {
-                          value: true,
-                          message: "Field required!",
-                        },
-                      }}
-                    />
-                  </div>
-                  {/* <div className="col-md-6 col-sm-6">
+            ) : (
+              <form onSubmit={handleSubmit(addSubAccount)}>
+                <div class="modal-header bg-primary ">
+                  <h5
+                    class="modal-title fs-6 fw-bold "
+                    style={{ color: "white" }}
+                  >
+                    Add New Sub Account {subAccountsData?.length}
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                {isLoading ? (
+                  <Loader />
+                ) : (
+                  <div class="modal-body row">
+                    <div className="col-md-6 col-sm-6">
+                      <InputField
+                        control={control}
+                        errors={errors}
+                        name="name"
+                        placeholder="Name"
+                        label="Name"
+                        rules={{
+                          required: {
+                            value: true,
+                            message: "Field required!",
+                          },
+                        }}
+                      />
+                    </div>
+                    {/* <div className="col-md-6 col-sm-6">
                     <InputField
                       control={control}
                       errors={errors}
@@ -130,69 +148,70 @@ const Layout = ({ component }) => {
                     />
                   </div> */}
 
-                  <div className="col-md-6 col-sm-6">
-                    <InputField
-                      control={control}
-                      errors={errors}
-                      name="username"
-                      placeholder="Username"
-                      label="Username"
-                      rules={{
-                        required: {
-                          value: true,
-                          message: "Field required!",
-                        },
-                      }}
-                    />
+                    <div className="col-md-6 col-sm-6">
+                      <InputField
+                        control={control}
+                        errors={errors}
+                        name="username"
+                        placeholder="Username"
+                        label="Username"
+                        rules={{
+                          required: {
+                            value: true,
+                            message: "Field required!",
+                          },
+                        }}
+                      />
+                    </div>
+                    <div className="col-md-6 col-sm-6">
+                      <InputField
+                        control={control}
+                        type="email"
+                        errors={errors}
+                        name="email"
+                        placeholder="Email"
+                        label="Email"
+                        rules={{
+                          required: {
+                            value: true,
+                            message: "Field required!",
+                          },
+                        }}
+                      />
+                    </div>
+                    <div className="col-md-6 col-sm-6">
+                      <InputField
+                        type="password"
+                        control={control}
+                        errors={errors}
+                        name="password"
+                        placeholder="Password"
+                        label="Password"
+                        rules={{
+                          required: {
+                            value: true,
+                            message: "Field required!",
+                          },
+                        }}
+                      />
+                    </div>
                   </div>
-                  <div className="col-md-6 col-sm-6">
-                    <InputField
-                      control={control}
-                      type="email"
-                      errors={errors}
-                      name="email"
-                      placeholder="Email"
-                      label="Email"
-                      rules={{
-                        required: {
-                          value: true,
-                          message: "Field required!",
-                        },
-                      }}
-                    />
-                  </div>
-                  <div className="col-md-6 col-sm-6">
-                    <InputField
-                      type="password"
-                      control={control}
-                      errors={errors}
-                      name="password"
-                      placeholder="Password"
-                      label="Password"
-                      rules={{
-                        required: {
-                          value: true,
-                          message: "Field required!",
-                        },
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
+                )}
 
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="submit" class="btn btn-primary">
-                  Submit
-                </button>
-              </div>
-            </form>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                    Submit
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>

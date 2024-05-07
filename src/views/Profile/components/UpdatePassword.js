@@ -37,6 +37,7 @@ const UpdatePassword = () => {
             <div className="form-group">
               <InputField
                 name="password"
+                type="password"
                 placeholder="New Password"
                 label="New Password"
                 control={control}
