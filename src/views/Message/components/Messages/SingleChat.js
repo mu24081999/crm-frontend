@@ -200,8 +200,8 @@ const SingleChat = ({
             <div class="user-name">
               {" "}
               {selectedRoom?.firstname +
-                " " +
-                selectedRoom?.middlename +
+                // " " +
+                // selectedRoom?.middlename +
                 " " +
                 selectedRoom?.lastname}
             </div>

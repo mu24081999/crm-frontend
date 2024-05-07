@@ -116,7 +116,7 @@ const EmailDetails = ({ emailDetails, emailsData, emails, onEmailDetail }) => {
   return (
     <div class="email-body">
       <div data-simplebar class="nicescroll-bar">
-        {emailDetails && (
+        {emailDetails?.subject && (
           <h4
             class="fw-bold bg-primary w-100 rounded px-5 py-2 shadow position-sticky"
             style={{ color: "white" }}

@@ -17,6 +17,8 @@ import { MdOutlineSubscriptions } from "react-icons/md";
 import { LuUsers } from "react-icons/lu";
 import { RiContactsBook2Line, RiTodoLine } from "react-icons/ri";
 import { GoFileDirectory } from "react-icons/go";
+import { TiMessages } from "react-icons/ti";
+
 const VerticalNavbar = () => {
   const { user } = useSelector((state) => state.auth);
   const location = useLocation();
@@ -464,7 +466,11 @@ const VerticalNavbar = () => {
                       <span className="nav-link-text">Agents</span>
                     </Link>
                   </li>
-                  <li className="nav-item">
+                  <li
+                    className={`nav-item ${
+                      location?.pathname === "/shop" && "active"
+                    }`}
+                  >
                     <Link className="nav-link" to="/shop">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">

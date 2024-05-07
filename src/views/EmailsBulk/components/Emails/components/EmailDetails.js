@@ -116,12 +116,14 @@ const EmailDetails = ({ emailDetails, emailsData, emails, onEmailDetail }) => {
   return (
     <div class="email-body">
       <div data-simplebar class="nicescroll-bar">
-        <h4
-          class="fw-bold bg-primary w-100 rounded px-5 py-2 shadow position-sticky"
-          style={{ color: "white" }}
-        >
-          {emailDetails.subject}
-        </h4>
+        {emailDetails?.subject && (
+          <h4
+            class="fw-bold bg-primary w-100 rounded px-5 py-2 shadow position-sticky"
+            style={{ color: "white" }}
+          >
+            {emailDetails.subject}
+          </h4>
+        )}
         {/* <div class="single-email-subject">
           <span class="badge badge-orange badge-sm badge-pill flex-shrink-0 ms-3">
             updates

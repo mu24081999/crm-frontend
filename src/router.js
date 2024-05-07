@@ -4,6 +4,7 @@ import React, { useContext } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import RoleAuthorization from "./RoleAuthorization";
 import PermissionAuthorization from "./PermissionAuthorization";
+import NotFound from "./views/NotFound/NotFound";
 
 import SignIn from "./views/Auth/SignIn";
 import Dashboard from "./views/Dashboard/Dashboard";
@@ -95,6 +96,14 @@ const router = (role) => {
     {
       path: "/test",
       element: <Test />,
+    },
+    {
+      path: "/terms-conditions",
+      element: <NotFound />,
+    },
+    {
+      path: "/help-support",
+      element: <NotFound />,
     },
     {
       path: "/agents",

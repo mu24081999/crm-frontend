@@ -4,16 +4,11 @@ import { loginUser, logoutUser } from "../../redux/services/auth";
 import _ from "lodash";
 import Dialer from "../PhoneDialer/Dialer";
 import {
-  FaBell,
-  FaCheckSquare,
   FaCogs,
   FaCreditCard,
-  FaInbox,
   FaPlus,
   FaRegUser,
-  FaUserAlt,
   FaUserAstronaut,
-  FaUserCog,
 } from "react-icons/fa";
 import { getUserSubAccountsList } from "../../redux/services/calling";
 import { setAccount } from "../../redux/slices/auth";
@@ -807,12 +802,12 @@ const TopNavbar = ({}) => {
                     </span>
                     <span>Payment methods</span>
                   </a>
-                  <a className="dropdown-item d-flex">
+                  {/* <a className="dropdown-item d-flex">
                     <span className="dropdown-icon pt-1 feather-icon">
                       <FaCheckSquare />
                     </span>
                     <span>Subscriptions</span>
-                  </a>
+                  </a> */}
                   <Link
                     to={"/account-settings"}
                     className="dropdown-item d-flex"
@@ -823,8 +818,12 @@ const TopNavbar = ({}) => {
                     <span>Settings</span>
                   </Link>
                   <div className="dropdown-divider"></div>
-                  <a className="dropdown-item">Terms & Conditions</a>
-                  <a className="dropdown-item">Help & Support</a>
+                  <Link to={"/terms-conditions"} className="dropdown-item">
+                    Terms & Conditions
+                  </Link>
+                  <Link to={"/help-support"} className="dropdown-item">
+                    Help & Support
+                  </Link>
                 </div>
               </div>
             </li>

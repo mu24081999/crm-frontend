@@ -18,6 +18,7 @@ import axios from "axios";
 import { getContactsList } from "../../redux/services/contact";
 import { getMessagesList } from "../../redux/services/message";
 import { SocketContext } from "../../Context";
+import ComposeBulk from "./components/ComposeBulk";
 
 const MessageContent = () => {
   const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
@@ -261,18 +262,10 @@ const MessageContent = () => {
                   socket={socket}
                 />
               )}
-              {/* <AudioCall
-                socket={socket}
-                authUser={user}
-                selectedRoom={selectedRoom}
-              />
-              <VideoCall
-                socket={socket}
-                authUser={user}
-                selectedRoom={selectedRoom}
-              />
-              <InvitePeople users={users} authUser={user} socket={socket} /> */}
             </div>
+          </div>
+          <div class="emailapp-wrap">
+            <ComposeBulk />
           </div>
         </div>
         {/* <!-- /Page Body --> */}

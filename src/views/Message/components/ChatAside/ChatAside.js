@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { IoIosMail } from "react-icons/io";
+import { TiMessages } from "react-icons/ti";
 
 const ChatAside = ({
   rooms,
@@ -59,12 +60,25 @@ const ChatAside = ({
             aria-expanded="false"
           >
           </a> */}
+
           <h1 className="fs-5 fw-bold">
             <span className="pe-2">
               <FaEnvelope size={30} color="#007D88" />
             </span>
             Message
           </h1>
+          <a
+            href="/"
+            class="btn btn-icon btn-rounded show-compose-popup btn-primary"
+          >
+            <span class="icon">
+              <span class="feather-icon">
+                {/* <i data-feather="edit"></i> */}
+                <TiMessages />
+              </span>
+            </span>
+          </a>
+
           {/* <div class="dropdown-menu">
             <a class="dropdown-item" onClick={() => handleFilterData("all")}>
               <span class="feather-icon dropdown-icon">

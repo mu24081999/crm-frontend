@@ -1,16 +1,10 @@
 import React from "react";
 import {
   FaArchive,
-  FaBicycle,
-  FaCalendar,
   FaCheckSquare,
-  FaCog,
-  FaCommentSlash,
   FaEdit,
   FaInbox,
   FaRecycle,
-  FaSort,
-  FaStar,
   FaTrash,
 } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
