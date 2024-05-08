@@ -1,21 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useDispatch, useSelector } from "react-redux";
-import { paymentIntent } from "../../redux/services/payment";
+import { addPaymentRec, paymentIntent } from "../../redux/services/payment";
 import { toast } from "react-toastify";
 import { redirect, useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
-const PaymentForm = ({ path, afterPayment }) => {
+import ReactSelectField from "../../components/FormFields/reactSelectField";
+const PaymentForm = ({ path, afterPayment, description }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { token } = useSelector((state) => state.auth);
+  const { token, user } = useSelector((state) => state.auth);
   const { paymentIntent: intent, isLoading } = useSelector(
     (state) => state.payment
   );
+  const [formData, setFormData] = useState({
+    card_holder_name: "",
+    user_id: user.id,
+    amount: "",
+    postal_code: "",
+    policy_accepted: "",
+    description: description,
+  });
   const stripe = useStripe();
   const elements = useElements();
   const amount_value = document.getElementById("buy_number");
 
+  console.log("🚀 ~ PaymentForm ~ formData:", formData);
   //   console.log(
   //     "Oyeeee",
   //     document.getElementById("buy_number").getAttribute("data-amount")
@@ -40,6 +50,8 @@ const PaymentForm = ({ path, afterPayment }) => {
     //   })
     // );
     const clientSecret = intent?.client_secret;
+    const amount_payable = intent?.amount;
+    setFormData({ ...formData, amount: amount_payable });
     // Confirm the payment on the client side
     if (isLoading === false && intent?.client_secret !== undefined) {
       const result = await stripe.confirmCardPayment(clientSecret, {
@@ -47,6 +59,7 @@ const PaymentForm = ({ path, afterPayment }) => {
           card: elements.getElement(CardElement),
         },
       });
+      console.log("🚀 ~ handleSubmit ~ result:", result);
       if (result.error) {
         // Handle error
         toast.error(result.error.message);
@@ -55,11 +68,15 @@ const PaymentForm = ({ path, afterPayment }) => {
         if (result.paymentIntent.status === "succeeded") {
           toast.success("Payment Successful!");
           afterPayment && (await afterPayment());
+          dispatch(addPaymentRec(token, formData));
           navigate(path);
           close_button?.click();
         }
       }
     }
+  };
+  const handleChange = (e) => {
+    setFormData({ ...formData, postal_code: e.value.postalCode });
   };
 
   return (
@@ -90,9 +107,25 @@ const PaymentForm = ({ path, afterPayment }) => {
             {isLoading === true ? (
               <Loader />
             ) : (
-              <form onSubmit={handleSubmit} className="p-2">
-                <div className="my-4">
+              <form onSubmit={handleSubmit} className="p-2" id="payment_form">
+                <div className="form-group">
+                  <input
+                    className="form-control"
+                    placeholder="Card Holder Name"
+                    style={{ borderTop: "none", borderInline: "none" }}
+                    type="text"
+                    name="card_holder_name"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        card_holder_name: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="my-5">
                   <CardElement
+                    onChange={(e) => handleChange(e)}
                     options={{
                       style: {
                         base: {
@@ -109,6 +142,25 @@ const PaymentForm = ({ path, afterPayment }) => {
                     }}
                   />
                 </div>
+                <div className=" d-flex gap-2">
+                  <input
+                    className="form-check"
+                    style={{ border: "none" }}
+                    type="checkbox"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        policy_accepted: e.target.checked ? true : false,
+                      })
+                    }
+                    required={true}
+                    name="policy_accepted"
+                  />
+                  <a href="#" className="text-primary text-underlined">
+                    Agreed with terms and conditions
+                  </a>
+                </div>
+
                 <div className="pt-4 ">
                   <button
                     type="submit"

@@ -140,6 +140,37 @@ const SignUp = () => {
                                       errors={errors}
                                     />
                                   </div>
+                                  <div className="col-lg-6">
+                                    <InputField
+                                      name="personal_phone"
+                                      type="string"
+                                      placeholder="+14849993639"
+                                      label="Phone Number"
+                                      control={control}
+                                      rules={{
+                                        required: {
+                                          value: true,
+                                          message: "Field required!",
+                                        },
+                                      }}
+                                      errors={errors}
+                                    />
+                                  </div>
+                                  <div className="col-lg-6">
+                                    <InputField
+                                      name="location"
+                                      placeholder="LA, street 2, apt # 45434"
+                                      label="Address"
+                                      control={control}
+                                      rules={{
+                                        required: {
+                                          value: true,
+                                          message: "Field required!",
+                                        },
+                                      }}
+                                      errors={errors}
+                                    />
+                                  </div>
                                 </div>
                               )}
 

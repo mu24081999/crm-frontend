@@ -663,7 +663,8 @@ const TopNavbar = ({}) => {
                               </div>
                             </div>
                           </div>
-                        ) : (
+                        ) : user?.parent_id !== null &&
+                          user.client_id === null ? (
                           <div className="dropdown">
                             <a
                               // href=""
@@ -775,6 +776,16 @@ const TopNavbar = ({}) => {
                               </div>
                             </div>
                           </div>
+                        ) : (
+                          <>
+                            <a
+                              // href=""
+                              className="d-block link-dark fw-medium"
+                            >
+                              {selectedAccount?.username ||
+                                selectedAccount?.friendlyName}
+                            </a>
+                          </>
                         )}
                         <div className="fs-7">{selectedAccount?.email}</div>
                         <button

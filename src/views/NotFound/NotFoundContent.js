@@ -43,8 +43,11 @@ const NotFoundContent = () => {
                           Sorry, the requested page cannot be found. Try finding
                           with another name.
                         </p>
-                        <Link tp="/" className="btn btn-primary mt-4">
-                          Return to app
+                        <Link
+                          tp="/plan-selection"
+                          className="btn btn-primary mt-4"
+                        >
+                          Return back and select your plan
                         </Link>
                       </div>
                     </div>

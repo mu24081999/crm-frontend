@@ -31,9 +31,33 @@ export const paymentSlice = createSlice({
       state.error = "";
       state.type = "success";
     },
+    getPayments: (state, action) => {
+      state.isLoading = false;
+      state.payments = action.payload;
+      state.error = "";
+      state.type = "success";
+    },
+    getUserPayments: (state, action) => {
+      state.isLoading = false;
+      state.payments = action.payload;
+      state.error = "";
+      state.type = "success";
+    },
+    addPayment: (state, action) => {
+      state.isLoading = false;
+      state.message = action.payload;
+      state.error = "";
+      state.type = "success";
+    },
   },
 });
 
 export default paymentSlice.reducer;
-export const { paymentRequestLoading, invalidRequest, getPaymentIntent } =
-  paymentSlice.actions;
+export const {
+  paymentRequestLoading,
+  invalidRequest,
+  getPaymentIntent,
+  getPayments,
+  getUserPayments,
+  addPayment,
+} = paymentSlice.actions;

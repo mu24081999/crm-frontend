@@ -124,7 +124,7 @@ export const authSlice = createSlice({
     },
     setAccount: (state, action) => {
       state.user = action.payload;
-      // state.token = action.payload.token;
+      state.token = action.payload.token;
       state.user_id = action.payload.id;
       state.accountSid = action.payload.accountSid;
       state.accountAuthToken = action.payload.authToken;

@@ -161,6 +161,7 @@ const ContextProvider = ({ children }) => {
           });
           setStream(null);
         }
+        window.location.reload();
       });
       socket.on(
         "callUser",
@@ -266,7 +267,7 @@ const ContextProvider = ({ children }) => {
       });
       setStream(null);
     }
-    // window.location.reload();
+    window.location.reload();
 
     // Remove event listeners
     // socket.close();

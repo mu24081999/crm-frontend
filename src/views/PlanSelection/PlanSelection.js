@@ -514,7 +514,11 @@ const PlanSelection = () => {
           </div>
         </section>
       </div>
-      <Payment route="/kyc-form" afterPayment={afterPayment} />
+      <Payment
+        route="/kyc-form"
+        afterPayment={afterPayment}
+        description="Plan Selection"
+      />
     </div>
   );
 };

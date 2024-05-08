@@ -45,7 +45,7 @@ import Permissions from "./views/Permissions/Permission";
 
 // Define allowed roles for each route
 const roles = {
-  dashboard: ["USER", "ADMIN", "SUPER_ADMIN"],
+  dashboard: ["USER", "ADMIN", "SUPER_ADMIN", "AGENT"],
   adminPanel: ["admin"],
   userProfile: ["user", "admin"],
 };
@@ -85,13 +85,18 @@ const permissions = {
   ],
 };
 
-const router = (role) => {
+const router = (user, subscribed) => {
   return createBrowserRouter([
     {
       path: "/",
-      // element: RoleAuthorization(roles.dashboard, role)(Dashboard),
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Dashboard),
       exact: true,
-      element: <Dashboard />,
+      // element: <Dashboard />,
     },
     {
       path: "/test",
@@ -107,63 +112,153 @@ const router = (role) => {
     },
     {
       path: "/agents",
-      element: <Agent />,
+      // element: <Agent />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Agent),
     },
     {
       path: "/messages",
-      element: <Message />,
+      // element: <Message />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Message),
     },
     {
       path: "/clients",
-      element: <Users />,
+      // element: <Users />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Users),
     },
     {
       path: "/recordings",
-      element: <Recordings />,
+      // element: <Recordings />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Recordings),
     },
     {
       path: "/direct-chat",
-      element: <DirectChat />,
+      // element: <DirectChat />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(DirectChat),
     },
     {
       path: "/chat-group",
-      element: <ChatGroup />,
+      // element: <ChatGroup />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(ChatGroup),
     },
     {
       path: "/bulk-emails",
-      element: <EmailsBulk />,
+      // element: <EmailsBulk />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(EmailsBulk),
     },
     {
       path: "/calendar",
-      element: <Calender />,
+      // element: <Calender />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Calender),
     },
     {
       path: "/invoices",
-      element: <Invoice />,
+      // element: <Invoice />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Invoice),
     },
     {
       path: "/gallery",
-      element: <Gallery />,
+      // element: <Gallery />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Gallery),
     },
     {
       path: "/file-manager",
-      element: <FileManager />,
+      // element: <FileManager />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(FileManager),
     },
     {
       path: "/todos",
-      element: <Todo />,
+      // element: <Todo />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Todo),
     },
     {
       path: "/posts",
-      element: <Post />,
+      // element: <Post />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Post),
     },
     {
       path: "/shop",
-      element: <Shop />,
+      // element: <Shop />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Shop),
     },
     {
       path: "/projects-board",
-      element: <Board />,
+      // element: <Board />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Board),
     },
     {
       path: "sign-in",
@@ -171,15 +266,33 @@ const router = (role) => {
     },
     {
       path: "contacts",
-      element: <Contacts />,
+      // element: <Contacts />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Contacts),
     },
     {
       path: "kyc-form",
-      element: <KYC />,
+      // element: <KYC />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(KYC),
     },
     {
       path: "subaccounts",
-      element: <Subaccounts />,
+      // element: <Subaccounts />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Subaccounts),
     },
     {
       path: "permissions",
@@ -207,7 +320,13 @@ const router = (role) => {
     },
     {
       path: "active-numbers",
-      element: <ActiveNumbers />,
+      // element: <ActiveNumbers />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(ActiveNumbers),
     },
     {
       path: "reset_password/:email",
@@ -215,11 +334,23 @@ const router = (role) => {
     },
     {
       path: "/chats",
-      element: <Chat />,
+      // element: <Chat />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Chat),
     },
     {
       path: "/emails",
-      element: <Email />,
+      // element: <Email />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Email),
     },
     // {
     //   path: "/account-settings",
@@ -227,7 +358,13 @@ const router = (role) => {
     // },
     {
       path: "/subscriptions",
-      element: <Subscription />,
+      // element: <Subscription />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Subscription),
     },
     {
       path: "/plan-selection",
@@ -235,7 +372,13 @@ const router = (role) => {
     },
     {
       path: "/account-settings",
-      element: <Profile />,
+      // element: <Profile />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Profile),
     },
     {
       path: "/test-payment",

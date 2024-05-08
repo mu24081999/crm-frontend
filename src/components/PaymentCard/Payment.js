@@ -9,10 +9,13 @@ const stripePromise = loadStripe(
   // "pk_test_51Ofz4pJKrp7ymIs26k0TGRkIE52sj88vLb6Bs0jVUdy0qp5gljvciDjPbOCxqMzTvCiQ7Hz3Q3feMxD2zdudVvsF00aU6KGlR9"
 );
 
-console.log("🚀 ~ stripePromise:", stripePromise);
-const Payment = ({ route, afterPayment }) => (
+const Payment = ({ route, afterPayment, description }) => (
   <Elements stripe={stripePromise}>
-    <PaymentForm path={route} afterPayment={afterPayment} />
+    <PaymentForm
+      path={route}
+      afterPayment={afterPayment}
+      description={description}
+    />
   </Elements>
 );
 
