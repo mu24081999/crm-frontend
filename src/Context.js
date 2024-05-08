@@ -70,14 +70,9 @@ const ContextProvider = ({ children }) => {
   }
   //close dialog
   function clickElementByDataBsDismiss(dataBsTarget) {
-    console.log(
-      "🚀 ~ clickElementByDataBsDismiss ~ dataBsTarget:",
-      dataBsTarget
-    );
     var elements = document.querySelectorAll(
       '[data-bs-dismiss="' + dataBsTarget + '"]'
     ); // Get elements with matching data-bs-target value
-    console.log("🚀 ~ clickElementByDataBsDismiss ~ elements:", elements);
     if (elements.length > 0) {
       elements.forEach(function (element) {
         element.click(); // Trigger a click event on each matching element
@@ -162,7 +157,7 @@ const ContextProvider = ({ children }) => {
         if (stream) {
           // Stop each track in the stream
           stream.getTracks().forEach((track) => {
-            track.enabled = false;
+            track.stop();
           });
           setStream(null);
         }
@@ -244,7 +239,7 @@ const ContextProvider = ({ children }) => {
     socket.emit("disconnect_call", { to: to });
     // Close the Peer connection
     if (connectionRef.current) {
-      connectionRef.current.destroy();
+      connectionRef.current = null;
     }
     // Clear the user's video stream
     if (userVideo.current) {
@@ -265,11 +260,13 @@ const ContextProvider = ({ children }) => {
     if (stream) {
       // Stop each track in the stream
       stream.getTracks().forEach((track) => {
-        track.enabled = false;
+        console.log(track);
+        track.stop();
+        console.log(track);
       });
       setStream(null);
     }
-    window.location.reload();
+    // window.location.reload();
 
     // Remove event listeners
     // socket.close();

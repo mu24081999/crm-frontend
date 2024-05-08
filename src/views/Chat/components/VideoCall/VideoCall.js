@@ -68,7 +68,7 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
   //   readyForCall();
   // }, [readyForCall]);
   const callToUser = useCallback(() => {
-    if (!isCalling && !call.isRecieving && openCalling) {
+    if (!isCalling && !call?.isRecieving && openCalling) {
       callUser(
         selectedUser?.socket_id,
         authUser.name,
@@ -104,9 +104,9 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
 
   useMemo(() => {
     if (
-      call.isReceivingCall === true &&
+      call?.isReceivingCall === true &&
       ringing &&
-      call.userToCall === authUser.socket_id &&
+      call?.userToCall === authUser.socket_id &&
       !callAccepted
     ) {
       ringingRef.current.play();
@@ -231,10 +231,10 @@ const VideoCall = ({ selectedRoom, authUser, socket }) => {
                       </span>
                     </button>
                   </li> */}
-                  {call.isReceivingCall === true &&
+                  {call?.isReceivingCall === true &&
                   // authUser.socket_id === call.from &&
                   ringing &&
-                  call.userToCall === authUser.socket_id &&
+                  call?.userToCall === authUser.socket_id &&
                   !callAccepted ? (
                     <li>
                       <button
