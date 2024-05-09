@@ -67,17 +67,16 @@ const ChatAside = ({
             </span>
             Message
           </h1>
-          <a
+          {/* <a
             href="/"
             class="btn btn-icon btn-rounded show-compose-popup btn-primary"
           >
             <span class="icon">
               <span class="feather-icon">
-                {/* <i data-feather="edit"></i> */}
                 <TiMessages />
               </span>
             </span>
-          </a>
+          </a> */}
 
           {/* <div class="dropdown-menu">
             <a class="dropdown-item" onClick={() => handleFilterData("all")}>

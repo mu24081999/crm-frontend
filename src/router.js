@@ -32,6 +32,7 @@ import Recordings from "./views/Recordings/Recording";
 import Users from "./views/Users/Users";
 import Agent from "./views/Agents/Agents";
 import Message from "./views/Message/Mesasge";
+import MessageBulk from "./views/MessageBulk/MesasgeBulk";
 import Account from "./views/Account/Account";
 import Profile from "./views/Profile/Profile";
 import Payment from "./views/Payment/Payment";
@@ -129,6 +130,16 @@ const router = (user, subscribed) => {
         subscribed,
         user
       )(Message),
+    },
+    {
+      path: "/messages-bulk",
+      // element: <Message />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(MessageBulk),
     },
     {
       path: "/clients",

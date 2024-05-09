@@ -329,6 +329,48 @@ const VerticalNavbar = () => {
                     </li>
                     <li
                       className={`nav-item ${
+                        (location?.pathname === "/messages" ||
+                          location?.pathname === "/messages-bulk") &&
+                        "active"
+                      }`}
+                    >
+                      <a
+                        className="nav-link"
+                        href="/"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#dash_invoice"
+                      >
+                        <span className="nav-icon-wrap">
+                          <span className="svg-icon">
+                            <FaRegEnvelope />
+                          </span>
+                        </span>
+                        <span className="nav-link-text">Messages</span>
+                      </a>
+                      <ul
+                        id="dash_invoice"
+                        className="nav flex-column collapse  nav-children"
+                      >
+                        <li className="nav-item">
+                          <ul className="nav flex-column">
+                            <li className="nav-item">
+                              <Link className="nav-link" to="/messages">
+                                <span className="nav-link-text">Messages</span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link className="nav-link" to="/messages-bulk">
+                                <span className="nav-link-text">
+                                  Messages Bulk
+                                </span>
+                              </Link>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    {/* <li
+                      className={`nav-item ${
                         location?.pathname === "/messages" && "active"
                       }`}
                     >
@@ -341,6 +383,20 @@ const VerticalNavbar = () => {
                         <span className="nav-link-text">Message</span>
                       </Link>
                     </li>
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/messages-bulk" && "active"
+                      }`}
+                    >
+                      <Link className="nav-link" to="/messages">
+                        <span className="nav-icon-wrap">
+                          <span className="svg-icon">
+                            <FaRegEnvelope />
+                          </span>
+                        </span>
+                        <span className="nav-link-text">Message Bulk</span>
+                      </Link>
+                    </li> */}
                   </>
                 )}
               {user?.parent_id === null &&
@@ -491,8 +547,9 @@ const VerticalNavbar = () => {
                   <>
                     <li
                       className={`nav-item ${
-                        location?.pathname === "/emails" ||
-                        (location?.pathname === "/bulk-emails" && "active")
+                        (location?.pathname === "/emails" ||
+                          location?.pathname === "/bulk-emails") &&
+                        "active"
                       }`}
                     >
                       <a
