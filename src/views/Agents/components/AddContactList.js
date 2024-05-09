@@ -1,16 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import InputField from "../../../components/FormFields/InputField";
-import TextAreaField from "../../../components/FormFields/textAreaField";
 import ReactSelectField from "../../../components/FormFields/reactSelectField";
-import DatePickerField from "../../../components/FormFields/datePickerField";
-import { FaRegArrowAltCircleUp } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import "./file.css";
-import { addContact } from "../../../redux/services/contact";
 import Loader from "../../../components/Loader/Loader";
 import { addUserRec } from "../../../redux/services/users";
 import { getAgentsList } from "../../../redux/services/agent";
+import { getAllClaimedNumbers } from "../../../redux/services/calling";
+import _ from "lodash";
 const AddContactList = () => {
   const {
     handleSubmit,
@@ -19,12 +17,22 @@ const AddContactList = () => {
     setValue,
     formState: { errors },
   } = useForm({});
-  const { token, isLoading, user } = useSelector((state) => state.auth);
+  const { token, isLoading, user, accountSid, accountAuthToken } = useSelector(
+    (state) => state.auth
+  );
+  const { claimedNumbers } = useSelector((state) => state.calling);
+  console.log("🚀 ~ AddContactList ~ claimedNumbers:", claimedNumbers);
+
   const [logo, setLogo] = useState(null);
   const countryWatcher = watch("country_array");
   const stateWatcher = watch("state_array");
   const cityWatcher = watch("city_array");
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      getAllClaimedNumbers(token, { accountSid, authToken: accountAuthToken })
+    );
+  }, [dispatch, token, accountAuthToken, accountSid]);
   useEffect(() => {
     if (countryWatcher !== undefined) {
       setValue("country", countryWatcher.value);
@@ -42,17 +50,38 @@ const AddContactList = () => {
   }, [cityWatcher, setValue]);
   const handleAddContact = (data) => {
     console.log("🚀 ~ handleAddContact ~ data:", data);
-    const formData = new FormData();
-    formData.append("name", data?.name);
-    formData.append("email", data?.email);
-    formData.append("password", data?.password);
-    formData.append("username", data?.username);
-    formData.append("client_id", user?.id);
-    formData.append("role", "AGENT");
-    formData.append("phone", data?.phone);
-    formData.append("accountSid", user?.accountSid);
-    formData.append("authToken", user?.authToken);
-
+    const formData = {
+      name: data?.name,
+      email: data?.email,
+      password: data?.password,
+      username: data?.username,
+      client_id: _.toString(user?.id),
+      role: "AGENT",
+      personal_phone: data?.phone,
+      accountSid: user?.accountSid,
+      authToken: user?.authToken,
+      api_key_sid: user?.api_key_sid,
+      api_key_secret: user?.api_key_secret,
+      twiml_app_sid: user?.twiml_app_sid,
+      twilio_numbers: { numbers: data?.twilio_numbers },
+    };
+    // const formData = new FormData();
+    // formData.append("name", data?.name);
+    // formData.append("email", data?.email);
+    // formData.append("password", data?.password);
+    // formData.append("username", data?.username);
+    // formData.append("client_id", user?.id);
+    // formData.append("role", "AGENT");
+    // formData.append("phone", data?.phone);
+    // formData.append("accountSid", user?.accountSid);
+    // formData.append("authToken", user?.authToken);
+    // formData.append("api_key_sid", user?.api_key_sid);
+    // formData.append("api_key_secret", user?.api_key_secret);
+    // formData.append("twiml_app_sid", user?.twiml_app_sid);
+    // data?.twilio_numbers?.length > 0 &&
+    //   data?.twilio_numbers?.forEach((element) => {
+    //     formData.append("twilio_numbers", element);
+    //   });
     // formData.append("avatar", logo && logo);
     // console.log("🚀 ~ handleAddContact ~ data:", data, logo);
     // dispatch(addContact(token, formData));
@@ -69,57 +98,6 @@ const AddContactList = () => {
         <Loader />
       ) : (
         <div class="modal-body">
-          {/* <div class="frame mb-5">
-            <div class="center">
-              <div class="dropzone">
-                <div>
-                  <img
-                    src={
-                      logo && URL.createObjectURL(logo)
-                    }
-                    alt="Preview"
-                    width={100}
-                  />
-                </div>
-                <img
-                  src="http://100dayscss.com/codepen/upload.svg"
-                  class={`upload-icon ${logo ? "d-none" : ""}`}
-                  alt="default"
-                />
-
-                <p
-                  className={` fs-6 fw-bolder text-center ${
-                    logo ? "d-none" : ""
-                  }`}
-                >
-                  Upload Logo
-                </p>
-
-                <input
-                  type="file"
-                  class="upload-input"
-                  onChange={(e) => {
-                    handleChangeImage(e);
-                  }}
-                />
-              </div>
-            </div>
-          </div> */}
-          {/* <div className="mb-5"> */}
-          {/* <ReactSelectField
-              name={`role`}
-              placeholder="Select"
-              label="Role"
-              mb={true}
-              options={[
-                { label: "User", value: "USER" },
-                { label: "Admin", value: "ADMIN" },
-                { label: "Super Admin", value: "SUPER_ADMIN" },
-              ]}
-              control={control}
-              errors={errors}
-            />
-          </div> */}
           <div className="row">
             <div className="col-md-6 col-sm-6">
               <InputField
@@ -197,6 +175,33 @@ const AddContactList = () => {
                     message: "Field required!",
                   },
                 }}
+              />
+            </div>
+            <div className="col-md-6 col-sm-6">
+              <ReactSelectField
+                name="twilio_numbers"
+                control={control}
+                errors={errors}
+                placeholder="Asign Number"
+                label="Asign Claimed Number"
+                isMulti={true}
+                options={
+                  claimedNumbers?.length > 0
+                    ? claimedNumbers?.map((number, index) => {
+                        return {
+                          label: number.friendlyName,
+                          value: number.phoneNumber,
+                          ...number,
+                        };
+                      })
+                    : []
+                }
+                // rules={{
+                //   required: {
+                //     value: true,
+                //     message: "Field required!",
+                //   },
+                // }}
               />
             </div>
           </div>

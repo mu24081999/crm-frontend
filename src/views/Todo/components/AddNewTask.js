@@ -24,9 +24,9 @@ const AddNewTask = ({ token, usersData }) => {
   const handleAddTask = (data) => {
     const formData = {
       ...data,
-      priority: data.priority.value,
-      status: data.status.value,
-      category_id: data.category_id.value,
+      priority: data?.priority?.value,
+      status: data?.status?.value,
+      category_id: data?.category_id?.value,
     };
     dispatch(storeTodo(token, formData));
     console.log("formData: ", formData);

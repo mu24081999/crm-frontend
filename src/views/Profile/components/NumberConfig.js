@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import ReactSelectField from "../../../components/FormFields/reactSelectField";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserRec } from "../../../redux/services/users";
+import { getUsers, updateUserRec } from "../../../redux/services/users";
 import { setAccount } from "../../../redux/slices/auth";
 const NumberConfig = () => {
   const {
@@ -17,6 +17,9 @@ const NumberConfig = () => {
   const { claimedNumbers } = useSelector((state) => state.calling);
   const { users, isLoading } = useSelector((state) => state.user);
   const [avatar, setAvatar] = useState(null);
+  useEffect(() => {
+    dispatch(getUsers(token));
+  }, [dispatch, token, user]);
   useEffect(() => {
     if (user) {
       setValue("phone", {
@@ -52,11 +55,22 @@ const NumberConfig = () => {
               label="Phone"
               control={control}
               options={
-                claimedNumbers?.length > 0
-                  ? claimedNumbers?.map((number, index) => {
+                claimedNumbers?.length > 0 &&
+                user?.role === "USER" &&
+                user.parent_id !== null &&
+                user?.client_id === null
+                  ? claimedNumbers?.map((key, index) => {
                       return {
-                        label: number?.phoneNumber,
-                        value: number.phoneNumber,
+                        label: key?.phoneNumber,
+                        value: key?.phoneNumber,
+                      };
+                    })
+                  : user?.role === "AGENT" &&
+                    user?.twilio_numbers?.numbers?.length > 0
+                  ? user?.twilio_numbers?.numbers?.map((key, index) => {
+                      return {
+                        label: key?.phoneNumber,
+                        value: key?.phoneNumber,
                       };
                     })
                   : []

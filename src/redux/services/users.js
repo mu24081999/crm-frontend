@@ -84,7 +84,7 @@ export const addUserRec = (token, registerData) => async (dispatch) => {
     dispatch(userRequestLoading());
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         "x-access-token": token,
       },
     };

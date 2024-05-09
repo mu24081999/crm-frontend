@@ -16,29 +16,15 @@ const PaymentForm = ({ path, afterPayment, description }) => {
   const [formData, setFormData] = useState({
     card_holder_name: "",
     user_id: user.id,
-    amount: "",
+    amount: intent?.amount,
     postal_code: "",
     policy_accepted: "",
     description: description,
   });
+  console.log("🚀 ~ PaymentForm ~ formData:", formData);
   const stripe = useStripe();
   const elements = useElements();
   const amount_value = document.getElementById("buy_number");
-
-  console.log("🚀 ~ PaymentForm ~ formData:", formData);
-  //   console.log(
-  //     "Oyeeee",
-  //     document.getElementById("buy_number").getAttribute("data-amount")
-  //   );
-  // useEffect(() => {
-  //   dispatch(
-  //     paymentIntent(token, {
-  //       currency: "usd",
-  //       // amount: 5000,
-  //       amount: amount_value ? amount_value.getAttribute("data-amount") : "",
-  //     })
-  //   );
-  // }, [token, amount_value, dispatch]);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const close_button = document.getElementById("close_modal");
@@ -49,9 +35,10 @@ const PaymentForm = ({ path, afterPayment, description }) => {
     //     amount: amount_value ? amount_value.getAttribute("data-amount") : "",
     //   })
     // );
+    const amount = intent?.amount;
+    setFormData({ ...formData, amount: amount });
+    console.log(formData);
     const clientSecret = intent?.client_secret;
-    const amount_payable = intent?.amount;
-    setFormData({ ...formData, amount: amount_payable });
     // Confirm the payment on the client side
     if (isLoading === false && intent?.client_secret !== undefined) {
       const result = await stripe.confirmCardPayment(clientSecret, {
@@ -59,7 +46,6 @@ const PaymentForm = ({ path, afterPayment, description }) => {
           card: elements.getElement(CardElement),
         },
       });
-      console.log("🚀 ~ handleSubmit ~ result:", result);
       if (result.error) {
         // Handle error
         toast.error(result.error.message);
@@ -68,7 +54,7 @@ const PaymentForm = ({ path, afterPayment, description }) => {
         if (result.paymentIntent.status === "succeeded") {
           toast.success("Payment Successful!");
           afterPayment && (await afterPayment());
-          dispatch(addPaymentRec(token, formData));
+          await dispatch(addPaymentRec(token, formData));
           navigate(path);
           close_button?.click();
         }

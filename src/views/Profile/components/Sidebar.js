@@ -1,6 +1,6 @@
 import React from "react";
 
-const Sidebar = () => {
+const Sidebar = ({ user }) => {
   return (
     <div className="col-lg-2 col-sm-3 col-4">
       <div className="nav-profile mt-4">
@@ -17,21 +17,33 @@ const Sidebar = () => {
               <span className="nav-link-text">Public Profile</span>
             </a>
           </li>
-          <li className="nav-item">
-            <a data-bs-toggle="tab" href="#number_config" className="nav-link">
-              <span className="nav-link-text">Phone Number Configuration</span>
-            </a>
-          </li>
+          {user?.parent_id !== null ||
+            (user?.client_id !== null && (
+              <li className="nav-item">
+                <a
+                  data-bs-toggle="tab"
+                  href="#number_config"
+                  className="nav-link"
+                >
+                  <span className="nav-link-text">
+                    Phone Number Configuration
+                  </span>
+                </a>
+              </li>
+            ))}
           <li className="nav-item">
             <a data-bs-toggle="tab" href="#tab_block_2" className="nav-link">
               <span className="nav-link-text">Account Settings</span>
             </a>
           </li>
-          <li className="nav-item">
-            <a data-bs-toggle="tab" href="#tab_cards" className="nav-link">
-              <span className="nav-link-text">Card Information</span>
-            </a>
-          </li>
+          {user?.parent_id === null && user?.client_id === null && (
+            <li className="nav-item">
+              <a data-bs-toggle="tab" href="#tab_cards" className="nav-link">
+                <span className="nav-link-text">Card Information</span>
+              </a>
+            </li>
+          )}
+
           <li className="nav-item">
             <a data-bs-toggle="tab" href="#tab_block_4" className="nav-link">
               <span className="nav-link-text">Login & Security</span>
@@ -46,15 +58,17 @@ const Sidebar = () => {
               <span className="nav-link-text">Billing Address</span>
             </a>
           </li> */}
-          <li className="nav-item">
-            <a
-              data-bs-toggle="tab"
-              href="#tab_email_config"
-              className="nav-link"
-            >
-              <span className="nav-link-text">Email Configuration</span>
-            </a>
-          </li>
+          {user?.parent_id !== null && user?.client_id === null && (
+            <li className="nav-item">
+              <a
+                data-bs-toggle="tab"
+                href="#tab_email_config"
+                className="nav-link"
+              >
+                <span className="nav-link-text">Email Configuration</span>
+              </a>
+            </li>
+          )}
         </ul>
       </div>
     </div>

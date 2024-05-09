@@ -52,6 +52,7 @@ const Layout = ({ component }) => {
       ...data,
       accountSid: accountSid !== "" && accountSid,
       authToken: accountAuthToken !== "" && accountAuthToken,
+
       parent_id: user?.id,
       role: "USER",
     };

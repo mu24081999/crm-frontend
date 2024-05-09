@@ -8,19 +8,27 @@ import { useDispatch } from "react-redux";
 import { getTodosList } from "../../redux/services/todo";
 import TaskInfo from "./components/TaskInfo";
 import { getUsers } from "../../redux/services/users";
+import _ from "lodash";
 
 const TodoContent = () => {
   const [usersData, setUsersData] = useState([]);
   const [todosData, setTodosData] = useState([]);
   const [todosData_, setTodosData_] = useState([]);
   const [showTaskInfo, setShowTaskInfo] = useState(false);
-  const { token } = useSelector((state) => state.auth);
+  const { token, user } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
   const { todos, todoDetails } = useSelector((state) => state.todo);
   const dispatch = useDispatch();
   useEffect(() => {
-    setUsersData(users);
-  }, [users]);
+    if (users?.length > 0) {
+      const data = users?.filter(
+        (u) =>
+          _.toInteger(u.parent_id) === user.id ||
+          _.toInteger(u.client_id) === user.id
+      );
+      setUsersData(data);
+    }
+  }, [users, user]);
   useEffect(() => {
     const todosByDate = todos?.reduce((acc, todo) => {
       const date = todo.created_at.split("T")[0]; // Assuming created_at is in ISO 8601 format

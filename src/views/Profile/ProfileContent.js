@@ -7,8 +7,10 @@ import CardInformation from "./components/CardInformation";
 import EmailConfig from "./components/EmailConfig";
 import Billing from "./components/Billing";
 import NumberConfig from "./components/NumberConfig";
+import { useSelector } from "react-redux";
 
 const ProfileContent = () => {
+  const { user } = useSelector((state) => state.auth);
   return (
     <div>
       <div className="hk-pg-wrapper">
@@ -22,7 +24,7 @@ const ProfileContent = () => {
           {/* <!-- Page Body --> */}
           <div className="hk-pg-body">
             <div className="row edit-profile-wrap">
-              <Sidebar />
+              <Sidebar user={user} />
               <div className="col-lg-10 col-sm-9 col-8">
                 <div className="tab-content">
                   <EditAccountSetting />

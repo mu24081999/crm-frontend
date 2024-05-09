@@ -376,8 +376,19 @@ const Dialer = () => {
                       control={control}
                       errors={errors}
                       options={
-                        claimedNumbers?.length > 0
+                        claimedNumbers?.length > 0 &&
+                        user?.role === "USER" &&
+                        user.parent_id !== null &&
+                        user?.client_id === null
                           ? claimedNumbers?.map((key, index) => {
+                              return {
+                                label: key?.phoneNumber,
+                                value: key?.phoneNumber,
+                              };
+                            })
+                          : user?.role === "AGENT" &&
+                            user?.twilio_numbers?.numbers?.length > 0
+                          ? user?.twilio_numbers?.numbers?.map((key, index) => {
                               return {
                                 label: key?.phoneNumber,
                                 value: key?.phoneNumber,

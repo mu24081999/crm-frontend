@@ -65,7 +65,7 @@ export const addUserSubscription = (token, data) => async (dispatch) => {
         "x-access-token": token,
       },
     };
-    await axios
+    const is_added = await axios
       .post(`${backendURL}/user/subscriptions/add-subscription`, data, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
@@ -75,7 +75,9 @@ export const addUserSubscription = (token, data) => async (dispatch) => {
         }
         dispatch(addSubscription(response.data.message));
         dispatch(getUserSubscriptions(token));
+        return true;
       });
+    return is_added;
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }

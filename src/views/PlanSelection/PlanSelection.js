@@ -46,8 +46,11 @@ const PlanSelection = () => {
       })
     );
   };
-  const afterPayment = () => {
-    dispatch(addUserSubscription(token, planData));
+  const afterPayment = async () => {
+    const is_added = await dispatch(addUserSubscription(token, planData));
+    if (is_added === true) {
+      window.location = `${process.env.REACT_APP_HOST}/kyc-form`;
+    }
   };
   const handleSwitchClick = (event) => {
     if (event.target.checked) {
@@ -515,7 +518,7 @@ const PlanSelection = () => {
         </section>
       </div>
       <Payment
-        route="/kyc-form"
+        // route="/kyc-form"
         afterPayment={afterPayment}
         description="Plan Selection"
       />
