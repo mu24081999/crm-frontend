@@ -11,7 +11,7 @@ import { IoCallOutline } from "react-icons/io5";
 import moment from "moment";
 import LineChart from "../../../components/ChartComponent/LineChart/LineChart";
 import Loader from "../../../components/Loader/Loader";
-const Overview = ({ dashboardData, isLoading }) => {
+const Overview = ({ dashboardData, isLoading, user }) => {
   return (
     <div class="tab-pane fade show active" id="dashboard_overview_tab">
       <div className="row p-auto">
@@ -510,8 +510,11 @@ const Overview = ({ dashboardData, isLoading }) => {
         </div> */}
       </div>
       <div className="row gap-4">
-        <div className="col-12 d-flex px-4 flex-wrap flex-wrap gap-4">
-          <div className="card shadow-lg p-0 " style={{ width: "60%" }}>
+        <div className="col-12 d-flex px-4 flex-wrap flex-wrap gap-2">
+          <div
+            className="card shadow-lg col-md-7 col-sm-6 p-0 "
+            style={{ maxWidth: "56%" }}
+          >
             <div
               className="card-header w-100 "
               style={{ background: "#45a59d	" }}
@@ -533,56 +536,24 @@ const Overview = ({ dashboardData, isLoading }) => {
               />
             )}
           </div>
-          <div className="card shadow-lg p-0" style={{ width: "38%" }}>
+          <div className="card shadow-lg p-0 col-md-5 col-sm-6 ms-3">
             <div
               className="card-header w-100 "
               style={{ backgroundColor: "#45a59d	" }}
             >
-              <duv
-                className="card-title text-center w-100"
-                style={{ color: "white" }}
-              >
-                Sub Accounts
+              <duv className="card-title" style={{ color: "white" }}>
+                Calls Inbound/Outbound
               </duv>
             </div>
-            <div className="card-body" style={{ backgroundColor: "" }}>
-              {isLoading === true ? (
-                <Loader />
-              ) : (
-                <div class="contact-list-view">
-                  <table
-                    data-sticky-header
-                    className="table table-striped w-100 mb-5"
-                  >
-                    <thead className="table-primary ">
-                      <tr className=" border p-1 shadow-lg p-3 mb-5 bg-white rounded">
-                        <th>Account Name</th>
-                        <th>Email</th>
-                        <th>Date Created</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {dashboardData?.sub_accounts?.map((account, index) => {
-                        return (
-                          <>
-                            <tr key={index}>
-                              <td>{account?.name}</td>
-                              <td>{account?.email}</td>
-                              <td>
-                                {moment(account?.created_at)?.format(
-                                  "DD MMM,YYYY"
-                                )}
-                              </td>
-                            </tr>
-                          </>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
+            {isLoading === true ? (
+              <Loader></Loader>
+            ) : (
+              <LineChart
+                title="Calls Report"
+                categories={dashboardData?.calls?.chart?.categories}
+                series={dashboardData?.calls?.chart?.series}
+              />
+            )}
           </div>
         </div>
         <div className="px-4">
@@ -606,111 +577,153 @@ const Overview = ({ dashboardData, isLoading }) => {
             )}
           </div>
         </div>
-        <div className="d-flex gap-3 px-4">
-          <div className="card shadow-lg p-0 " style={{ width: "70%" }}>
+        <div className="d-flex gap-4 flex-wrap px-4">
+          {user?.client_id === null && (
             <div
-              className="card-header w-100"
-              style={{ backgroundColor: "#45a59d	" }}
+              className="card col-md-7 col-sm-6 shadow-lg p-0 "
+              style={{ maxWidth: "56%" }}
             >
-              <duv
-                className="card-title text-center w-100"
-                style={{ color: "white" }}
+              <div
+                className="card-header w-100"
+                style={{ backgroundColor: "#45a59d	" }}
               >
-                Active Numbers
-              </duv>
-            </div>
-            <div className="card-body">
-              {isLoading === true ? (
-                <Loader />
-              ) : (
-                <div class="contact-list-view">
-                  <table
-                    data-sticky-header
-                    className="table table-striped w-100 mb-5"
-                  >
-                    <thead className="table-primary ">
-                      <tr className="sticky-top border p-1 shadow-lg p-3 mb-5 bg-white rounded">
-                        <th>Number</th>
-                        <th>Type</th>
-                        <th>Voice</th>
-                        <th>SMS</th>
-                        <th>MMS</th>
-                        <th>FAX</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {dashboardData?.numbers?.map((number, index) => (
-                        <tr key={index}>
-                          <td>{number?.phoneNumber}</td>
-                          <td>Local</td>
-                          <td>
-                            <span
-                              className="badge bg-primary"
-                              style={{ color: "white" }}
-                            >
-                              {number?.capabilities?.voice === true
-                                ? "true"
-                                : "false"}
-                            </span>
-                          </td>
-                          <td>
-                            <span
-                              className="badge bg-primary"
-                              style={{ color: "white" }}
-                            >
-                              {number?.capabilities?.sms === true
-                                ? "true"
-                                : "false"}
-                            </span>
-                          </td>
-                          <td>
-                            <span
-                              className="badge bg-primary"
-                              style={{ color: "white" }}
-                            >
-                              {number?.capabilities?.mms === true
-                                ? "true"
-                                : "false"}
-                            </span>
-                          </td>
-                          <td>
-                            <span
-                              className="badge bg-primary"
-                              style={{ color: "white" }}
-                            >
-                              {number?.capabilities?.fax === true
-                                ? "true"
-                                : "false"}
-                            </span>
-                          </td>
+                <duv
+                  className="card-title text-center w-100"
+                  style={{ color: "white" }}
+                >
+                  Active Numbers
+                </duv>
+              </div>
+              <div className="card-body">
+                {isLoading === true ? (
+                  <Loader />
+                ) : (
+                  <div class="contact-list-view">
+                    <table
+                      data-sticky-header
+                      className="table table-striped w-100 mb-5"
+                    >
+                      <thead className="table-primary ">
+                        <tr className="sticky-top border p-1 shadow-lg p-3 mb-5 bg-white rounded">
+                          <th>Number</th>
+                          <th>Type</th>
+                          <th>Voice</th>
+                          <th>SMS</th>
+                          <th>MMS</th>
+                          <th>FAX</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
+                      </thead>
+
+                      <tbody>
+                        {dashboardData?.numbers?.map((number, index) => (
+                          <tr key={index}>
+                            <td>{number?.phoneNumber}</td>
+                            <td>Local</td>
+                            <td>
+                              <span
+                                className="badge bg-primary"
+                                style={{ color: "white" }}
+                              >
+                                {number?.capabilities?.voice === true
+                                  ? "true"
+                                  : "false"}
+                              </span>
+                            </td>
+                            <td>
+                              <span
+                                className="badge bg-primary"
+                                style={{ color: "white" }}
+                              >
+                                {number?.capabilities?.sms === true
+                                  ? "true"
+                                  : "false"}
+                              </span>
+                            </td>
+                            <td>
+                              <span
+                                className="badge bg-primary"
+                                style={{ color: "white" }}
+                              >
+                                {number?.capabilities?.mms === true
+                                  ? "true"
+                                  : "false"}
+                              </span>
+                            </td>
+                            <td>
+                              <span
+                                className="badge bg-primary"
+                                style={{ color: "white" }}
+                              >
+                                {number?.capabilities?.fax === true
+                                  ? "true"
+                                  : "false"}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="card shadow-lg p-0 col-md-4 col-sm-6 ms-3">
+          )}
+          {user?.parent_id === null && user?.client_id === null && (
             <div
-              className="card-header w-100 "
-              style={{ backgroundColor: "#45a59d	" }}
+              className="card shadow-lg col-md-5 col-sm-6 p-0"
+              style={{ maxWidth: "42%" }}
             >
-              <duv className="card-title" style={{ color: "white" }}>
-                Calls Inbound/Outbound
-              </duv>
+              <div
+                className="card-header w-100 "
+                style={{ backgroundColor: "#45a59d	" }}
+              >
+                <duv
+                  className="card-title text-center w-100"
+                  style={{ color: "white" }}
+                >
+                  Sub Accounts
+                </duv>
+              </div>
+              <div className="card-body" style={{ backgroundColor: "" }}>
+                {isLoading === true ? (
+                  <Loader />
+                ) : (
+                  <div class="contact-list-view">
+                    <table
+                      data-sticky-header
+                      className="table table-striped w-100 mb-5"
+                    >
+                      <thead className="table-primary ">
+                        <tr className=" border p-1 shadow-lg p-3 mb-5 bg-white rounded">
+                          <th>Account Name</th>
+                          <th>Email</th>
+                          <th>Date Created</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {dashboardData?.sub_accounts?.map((account, index) => {
+                          return (
+                            <>
+                              <tr key={index}>
+                                <td>{account?.name}</td>
+                                <td>{account?.email}</td>
+                                <td>
+                                  {moment(account?.created_at)?.format(
+                                    "DD MMM,YYYY"
+                                  )}
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
             </div>
-            {isLoading === true ? (
-              <Loader></Loader>
-            ) : (
-              <LineChart
-                title="Calls Report"
-                categories={dashboardData?.calls?.chart?.categories}
-                series={dashboardData?.calls?.chart?.series}
-              />
-            )}
-          </div>
+          )}
         </div>
       </div>
     </div>

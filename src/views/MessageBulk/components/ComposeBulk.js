@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaClipboard, FaEdit, FaMinus, FaTrash } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
@@ -12,67 +12,129 @@ import { sendEmailRec } from "../../../redux/services/email";
 import EditorField from "../../../components/FormFields/Editor";
 import Loader from "../../../components/Loader/Loader";
 import { toast } from "react-toastify";
+import { SocketContext } from "../../../Context";
 
 const ComposeBulk = () => {
+  const { sendTextMessage } = useContext(SocketContext);
+
   const {
     handleSubmit,
-    // watch,
+    watch,
     control,
     setValue,
     reset,
     formState: { errors },
   } = useForm();
+  const bodyWatcher = watch("body");
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
-  const { users } = useSelector((state) => state.user);
-  const { isLoading } = useSelector((state) => state.email);
-  const [usersData, setUsersData] = useState([]);
-  const [emails, setEmails] = useState([]);
+  // const { isLoading } = useSelector((state) => state.email);
+  const [isLoading, setIsLoading] = useState(false);
+  const [toNumbers, setToNumbers] = useState([]);
   useEffect(() => {
     // if (token) {
     dispatch(getUsers(token));
     // }
   }, [token, dispatch]);
-  useEffect(() => {
-    if (users?.length > 0) {
-      setUsersData(users);
-    }
-  }, [users]);
   const handleFileChange = (e) => {
     setValue("files", e.currentTarget.files);
   };
-  const handleSendEmail = (data) => {
-    if (user?.google_app_password) {
-      const formData = new FormData();
-
-      // Append other form fields
-      formData.append("subject", data.subject);
-      formData.append("body", data.body);
-      formData.append("type", "email");
-      formData.append("from", user?.email);
-      formData.append("google_app_password", user?.google_app_password);
-      if (emails.length > 0) {
-        emails?.forEach((element) => {
-          formData.append("to", element);
-        });
-      } else {
-        const textEmails = data?.to?.split("\n");
-        console.log("🚀 ~ handleSendEmail ~ textEmails:", textEmails);
-        textEmails?.forEach((element) => {
-          formData.append("to", element);
-        });
+  // const handleSendBulkSMS = (data) => {
+  //   if (toNumbers.length > 0) {
+  //     toNumbers?.forEach((element) => {
+  //       const data = {
+  //         from: {
+  //           phone: user.phone,
+  //           name: user.name,
+  //           avatar: user.avatar,
+  //           socket_id: user.socket_id,
+  //           accountSid: user?.accountSid,
+  //           authToken: user?.authToken,
+  //         },
+  //         to: {
+  //           phone: element,
+  //         },
+  //         message: bodyWatcher,
+  //       };
+  //       console.log(data);
+  //       sendTextMessage(data);
+  //     });
+  //   } else if (data?.to?.split("\n")?.length > 0) {
+  //     const to_numbers = data?.to?.split("\n");
+  //     to_numbers?.map((element) => {
+  //       const data = {
+  //         from: {
+  //           phone: user.phone,
+  //           name: user.name,
+  //           avatar: user.avatar,
+  //           socket_id: user.socket_id,
+  //           accountSid: user?.accountSid,
+  //           authToken: user?.authToken,
+  //         },
+  //         to: {
+  //           phone: element,
+  //         },
+  //         message: bodyWatcher,
+  //       };
+  //       sendTextMessage(data);
+  //     });
+  //   }
+  // };
+  const handleSendBulkSMS = async (data) => {
+    try {
+      setIsLoading(true);
+      if (toNumbers.length > 0) {
+        await Promise.all(
+          toNumbers.map(async (element) => {
+            const smsData = {
+              from: {
+                phone: user.phone,
+                name: user.name,
+                avatar: user.avatar,
+                socket_id: user.socket_id,
+                accountSid: user?.accountSid,
+                authToken: user?.authToken,
+              },
+              to: {
+                phone: element,
+              },
+              message: bodyWatcher,
+            };
+            console.log(smsData);
+            await sendTextMessage(smsData);
+          })
+        );
+      } else if (data?.to?.split("\n")?.length > 0) {
+        const to_numbers = data?.to?.split("\n");
+        const is_completed = await Promise.all(
+          to_numbers.map(async (element) => {
+            const smsData = {
+              from: {
+                phone: user.phone,
+                name: user.name,
+                avatar: user.avatar,
+                socket_id: user.socket_id,
+                accountSid: user?.accountSid,
+                authToken: user?.authToken,
+              },
+              to: {
+                phone: element,
+              },
+              message: bodyWatcher,
+            };
+            await sendTextMessage(smsData);
+          })
+        );
+        console.log("Sent text message", is_completed);
       }
-      data?.files &&
-        data?.files.forEach((element) => {
-          formData.append("files", element);
-        });
-
-      dispatch(sendEmailRec(token, formData));
-      reset();
-    } else {
-      toast.error("You are not allowed to send email!");
+      setIsLoading(false);
+      // Add any post-processing logic here
+    } catch (error) {
+      console.error("Error sending SMS messages:", error);
+      // Handle errors here
     }
   };
+
   // Function to extract email addresses from CSV contents
   // Function to extract all columns and their data from CSV contents
   const extractColumnsFromCSV = (csvContent) => {
@@ -107,11 +169,11 @@ const ComposeBulk = () => {
 
     reader.onload = function (e) {
       const contents = e.target.result;
-      const emailsArray = extractColumnsFromCSV(contents);
-      const resultString = emailsArray.join("\n");
+      const numbersArray = extractColumnsFromCSV(contents);
+      const resultString = numbersArray.join("\n");
 
-      // console.log("🚀 ~ handleChangeCsvFile ~ emailsArray:", resultString);
-      setEmails(emailsArray);
+      // console.log("🚀 ~ handleChangeCsvFile ~ numbersArray:", resultString);
+      setToNumbers(numbersArray);
       setValue("to", resultString);
     };
 
@@ -162,7 +224,7 @@ const ComposeBulk = () => {
           <Loader />
         ) : (
           <form
-            onSubmit={handleSubmit(handleSendEmail)}
+            onSubmit={handleSubmit(handleSendBulkSMS)}
             style={{
               maxHeight: "600px",
               overflow: "scroll",
@@ -173,7 +235,7 @@ const ComposeBulk = () => {
               <TextAreaField
                 name="to"
                 height="150px"
-                placeholder="Enter list of phone numbers in format +14849993639"
+                placeholder="Enter list of phone numbers in format +1234567890"
                 rows={2}
                 control={control}
                 errors={errors}
@@ -186,15 +248,16 @@ const ComposeBulk = () => {
               <input
                 type="file"
                 className="form-control"
-                name="emails"
+                name="toNumbers"
                 onChange={handleChangeCsvFile}
               />
             </div>
             <div className="w-100">
-              <EditorField
+              <TextAreaField
                 name="body"
                 placeholder="Body text"
                 control={control}
+                rows={4}
                 rules={{
                   required: {
                     value: true,

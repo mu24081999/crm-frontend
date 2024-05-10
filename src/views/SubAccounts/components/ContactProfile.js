@@ -27,12 +27,9 @@ const ContactProfile = ({ contact }) => {
     if (contact) {
       setValue("name", contact.name);
       setValue("username", contact.username);
-      setValue("phone", contact.phone);
+      setValue("personal_phone", contact.personal_phone);
       setValue("email", contact.email);
-      setValue("role", {
-        label: contact.role,
-        value: contact.role,
-      });
+      setValue("location", contact.location);
       setValue("status", {
         label: _.capitalize(contact.status),
         value: contact.status,
@@ -44,10 +41,9 @@ const ContactProfile = ({ contact }) => {
     formData.append("name", data?.name);
     formData.append("username", data?.username);
     formData.append("email", data?.email);
-    formData.append("phoneNumber", data?.phone);
+    formData.append("personal_phone", data?.personal_phone);
     formData.append("status", data?.status?.value);
-    formData.append("role", data?.role?.value);
-    console.log("🚀 ~ handleUpdateUser ~ data:", data);
+    formData.append("location", data?.location);
     if (logo) {
       formData.append("avatar", logo);
     }
@@ -170,7 +166,7 @@ const ContactProfile = ({ contact }) => {
                     <InputField
                       name="email"
                       placeholder="Enter your email identity"
-                      label="Email Id"
+                      label="Email Address"
                       control={control}
                       rules={{
                         required: {
@@ -183,7 +179,7 @@ const ContactProfile = ({ contact }) => {
                   </div>
                   <div className="col-sm-6">
                     <InputField
-                      name="phone"
+                      name="personal_phone"
                       placeholder="Enter your phone number"
                       label="Phone Number"
                       control={control}
@@ -196,10 +192,11 @@ const ContactProfile = ({ contact }) => {
                       errors={errors}
                     />
                   </div>
-                  {/* <div className="col-sm-6">
-                    <TagInput
-                      name="tags"
-                      label="Tags"
+                  <div className="col-sm-6">
+                    <InputField
+                      name="location"
+                      placeholder="apt # 3, street # 3, LA,USA"
+                      label="Location"
                       control={control}
                       rules={{
                         required: {
@@ -209,8 +206,8 @@ const ContactProfile = ({ contact }) => {
                       }}
                       errors={errors}
                     />
-                  </div> */}
-                  <div className="col-sm-6 mb-5">
+                  </div>
+                  {/* <div className="col-sm-6 mb-5">
                     <ReactSelectField
                       name={`role`}
                       placeholder="Select"
@@ -224,7 +221,7 @@ const ContactProfile = ({ contact }) => {
                       control={control}
                       errors={errors}
                     />
-                  </div>
+                  </div> */}
                   <div className="col-sm-6 mb-5">
                     <ReactSelectField
                       name={`status`}

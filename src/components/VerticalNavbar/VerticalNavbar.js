@@ -2,7 +2,6 @@ import React from "react";
 import brand from "../../assets/2.png";
 import { Link, useLocation } from "react-router-dom";
 import {
-  FaCogs,
   FaPhoneAlt,
   FaPhoneSquareAlt,
   FaRegEnvelope,
@@ -14,10 +13,10 @@ import { CiMenuFries } from "react-icons/ci";
 import { SiGmail } from "react-icons/si";
 import logo from "./../../assets/4.png";
 import { MdOutlineSubscriptions } from "react-icons/md";
-import { LuUsers } from "react-icons/lu";
+import { LuPhone, LuUsers } from "react-icons/lu";
 import { RiContactsBook2Line, RiTodoLine } from "react-icons/ri";
 import { GoFileDirectory } from "react-icons/go";
-import { TiMessages } from "react-icons/ti";
+import { IoSettingsOutline } from "react-icons/io5";
 
 const VerticalNavbar = () => {
   const { user } = useSelector((state) => state.auth);
@@ -530,7 +529,7 @@ const VerticalNavbar = () => {
                     <Link className="nav-link" to="/shop">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
-                          <FaPhoneAlt />
+                          <LuPhone />
                         </span>
                       </span>
                       <span className="nav-link-text">Phone Numbers</span>
@@ -965,7 +964,7 @@ const VerticalNavbar = () => {
                 <Link className="nav-link" to="/active-numbers">
                   <span className="nav-icon-wrap">
                     <span className="svg-icon">
-                      <FaPhoneSquareAlt />
+                      <RiContactsBook2Line />
                     </span>
                   </span>
                   <span className="nav-link-text">Active Numbers</span>
@@ -979,7 +978,7 @@ const VerticalNavbar = () => {
                 <Link className="nav-link" to="/account-settings">
                   <span className="nav-icon-wrap">
                     <span className="svg-icon">
-                      <FaCogs />
+                      <IoSettingsOutline />
                     </span>
                   </span>
                   <span className="nav-link-text">Account Settings</span>

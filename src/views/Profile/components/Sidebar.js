@@ -17,20 +17,19 @@ const Sidebar = ({ user }) => {
               <span className="nav-link-text">Public Profile</span>
             </a>
           </li>
-          {user?.parent_id !== null ||
-            (user?.client_id !== null && (
-              <li className="nav-item">
-                <a
-                  data-bs-toggle="tab"
-                  href="#number_config"
-                  className="nav-link"
-                >
-                  <span className="nav-link-text">
-                    Phone Number Configuration
-                  </span>
-                </a>
-              </li>
-            ))}
+          {(user?.parent_id !== null || user?.client_id !== null) && (
+            <li className="nav-item">
+              <a
+                data-bs-toggle="tab"
+                href="#number_config"
+                className="nav-link"
+              >
+                <span className="nav-link-text">
+                  Phone Number Configuration
+                </span>
+              </a>
+            </li>
+          )}
           <li className="nav-item">
             <a data-bs-toggle="tab" href="#tab_block_2" className="nav-link">
               <span className="nav-link-text">Account Settings</span>

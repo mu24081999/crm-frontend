@@ -72,7 +72,11 @@ const DashboardContent = () => {
           {/* <!-- Page Body --> */}
           <div class="hk-pg-body">
             <div class="tab-content">
-              <Overview dashboardData={dashboardData} isLoading={isLoading} />
+              <Overview
+                dashboardData={dashboardData}
+                isLoading={isLoading}
+                user={user}
+              />
               {/* <Analystics dashboardData={dashboardData} /> */}
             </div>
           </div>

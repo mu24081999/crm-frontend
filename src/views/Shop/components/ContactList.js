@@ -89,8 +89,8 @@ const ContactList = ({
                     <tr className="shadow ">
                       <td>
                         <div className="fw-bold">
-                          {contact?.phoneNumber?.slice(0, 2)}&nbsp;&nbsp;
-                          {contact?.friendlyName}
+                          {/* {contact?.phoneNumber?.slice(0, 2)}&nbsp;&nbsp; */}
+                          {contact?.phoneNumber}
                         </div>
                         <div className="fs-5">
                           {contact?.locality} ,{contact?.region}{" "}

@@ -23,7 +23,7 @@ const EditAccountSetting = () => {
     setValue("username", user?.username);
     setValue("location", user?.location);
     setValue("bio", user?.bio);
-    setValue("phone", user?.phone);
+    setValue("personal_phone", user?.personal_phone);
   }, [user, setValue, isLoading]);
   const handleEditAccount = async (data) => {
     const formData = new FormData();
@@ -121,7 +121,7 @@ const EditAccountSetting = () => {
           </div>
           <div className="col-sm-6">
             <InputField
-              name="phone"
+              name="personal_phone"
               placeholder="Your Phone Number"
               label="Phone"
               control={control}

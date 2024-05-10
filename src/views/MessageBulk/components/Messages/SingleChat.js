@@ -18,18 +18,18 @@ const SingleChat = ({
   socket,
   selectedMessages,
 }) => {
-  const { me, call, callUser, sendTextMessage } = useContext(SocketContext);
+  const { sendTextMessage } = useContext(SocketContext);
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [usersArray, setUsersArray] = useState(null);
   const { users } = useSelector((state) => state.user);
   const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (selectedUser && me && token) {
-      // callUser(selectedUser?.socket_id, authUser.name);
-    }
-  }, [selectedUser, authUser, callUser, call, me, token]);
+  // useEffect(() => {
+  //   if (selectedUser && me && token) {
+  //     // callUser(selectedUser?.socket_id, authUser.name);
+  //   }
+  // }, [selectedUser, authUser, callUser, call, me, token]);
   useEffect(() => {
     if (users?.length > 0) {
       setUsersArray(users);

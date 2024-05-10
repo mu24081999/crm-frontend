@@ -59,7 +59,20 @@ const MessageContent = () => {
       setContactsData(filteredArray);
     }
   }, [defaultMessages, user]);
+  useEffect(() => {
+    if (messagesArray?.length > 0) {
+      let uniquePhoneNumbers = {}; // Object to store unique phone numbers
+      let filteredArray = [];
 
+      messagesArray?.forEach((obj) => {
+        if (!uniquePhoneNumbers[obj.to_phone] && obj.to_phone !== user?.phone) {
+          uniquePhoneNumbers[obj.to_phone] = true;
+          filteredArray.push(obj);
+        }
+      });
+      setContactsData(filteredArray);
+    }
+  }, [messagesArray, user]);
   const getRooms = useCallback(async () => {
     try {
       const config = {
@@ -124,34 +137,7 @@ const MessageContent = () => {
     },
     [backendURL, token, getRooms]
   );
-  // const getChats = useCallback(
-  //   async (room) => {
-  //     try {
-  //       const config = {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "x-access-token": token,
-  //         },
-  //       };
-  //       await axios
-  //         .get(
-  //           `${backendURL}/user/chat/chat-history/${room?.user_id_1}/${room?.user_id_2}`,
-  //           config
-  //         )
-  //         .then((response) => {
-  //           setMessages(response.data?.data.chatData);
-  //         });
-  //     } catch (error) {
-  //       toast.error(error.message);
-  //     }
-  //   },
-  //   [backendURL, token]
-  // );
-  // useMemo(() => {
-  //   if (selectedRoom) {
-  //     getChats(selectedRoom);
-  //   }
-  // }, [getChats, selectedRoom]);
+
   const getAllChats = useCallback(
     async (room) => {
       try {
@@ -172,11 +158,6 @@ const MessageContent = () => {
     },
     [backendURL, token]
   );
-  // useMemo(() => {
-  //   if (selectedRoom) {
-  //     getChats(selectedRoom);
-  //   }
-  // }, [getChats, selectedRoom]);
   useEffect(() => {
     if (token) {
       getRooms();
@@ -184,20 +165,6 @@ const MessageContent = () => {
       dispatch(getUsers(token));
     }
   }, [token, dispatch, getRooms, getAllChats]);
-  // useEffect(() => {
-  //   // Listen for incoming messages
-  //   socket.on("message_added", (data) => {
-  //     // setMessages([...messages, data]);
-  //     setMessages(data);
-  //   });
-  //   socket.on("room_added", (data) => {
-  //     setRooms(data);
-  //   });
-
-  //   // return () => {
-  //   //   socket.disconnect();
-  //   // };
-  // }, [socket]);
   useEffect(() => {
     if (messagesArray?.length > 0) {
       setMessages(messagesArray);
