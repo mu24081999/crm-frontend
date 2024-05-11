@@ -1,16 +1,18 @@
 import React from "react";
 
-const Header = () => {
+const Header = ({ authUser }) => {
   return (
     <header class="todo-header">
       <div class="d-flex align-items-center">
-        <button
-          className="btn btn-primary me-4"
-          data-bs-toggle="modal"
-          data-bs-target="#add_new_task"
-        >
-          Add New Task
-        </button>
+        {authUser?.parent_id !== null && (
+          <button
+            className="btn btn-primary me-4"
+            data-bs-toggle="modal"
+            data-bs-target="#add_new_task"
+          >
+            Add New Task
+          </button>
+        )}
         <div className="fw-bold fs-4">Todos</div>
         {/* <a
           class="todoapp-title dropdown-toggle link-dark"

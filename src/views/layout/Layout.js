@@ -103,7 +103,7 @@ const Layout = ({ component }) => {
                     class="modal-title fs-6 fw-bold "
                     style={{ color: "white" }}
                   >
-                    Add New Sub Account {subAccountsData?.length}
+                    Add New Sub Account
                   </h5>
                   <button
                     type="button"

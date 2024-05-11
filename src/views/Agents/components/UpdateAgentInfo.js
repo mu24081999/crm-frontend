@@ -5,11 +5,11 @@ import ReactSelectField from "../../../components/FormFields/reactSelectField";
 import { useDispatch, useSelector } from "react-redux";
 import "./file.css";
 import Loader from "../../../components/Loader/Loader";
-import { addUserRec } from "../../../redux/services/users";
+import { addUserRec, updateUserRec } from "../../../redux/services/users";
 import { getAgentsList } from "../../../redux/services/agent";
 import { getAllClaimedNumbers } from "../../../redux/services/calling";
 import _ from "lodash";
-const AddContactList = () => {
+const UpdateAgentInfo = ({ agentDetails }) => {
   const {
     handleSubmit,
     watch,
@@ -34,6 +34,13 @@ const AddContactList = () => {
     );
   }, [dispatch, token, accountAuthToken, accountSid]);
   useEffect(() => {
+    setValue("name", agentDetails?.name);
+    setValue("username", agentDetails?.username);
+    setValue("email", agentDetails?.email);
+    setValue("personal_phone", agentDetails?.personal_phone);
+    setValue("twilio_numbers", agentDetails?.twilio_numbers?.numbers);
+  }, [agentDetails, setValue]);
+  useEffect(() => {
     if (countryWatcher !== undefined) {
       setValue("country", countryWatcher.value);
     }
@@ -48,24 +55,17 @@ const AddContactList = () => {
       setValue("city", cityWatcher.value);
     }
   }, [cityWatcher, setValue]);
-  const handleAddContact = (data) => {
-    console.log("🚀 ~ handleAddContact ~ data:", data);
+  const handleUpdateInfo = (data) => {
+    console.log("🚀 ~ handleUpdateInfo ~ data:", data);
     const formData = {
       name: data?.name,
       email: data?.email,
-      password: data?.password,
       username: data?.username,
-      client_id: _.toString(user?.id),
-      role: "AGENT",
-      personal_phone: data?.phone,
+      personal_phone: data?.personal_phone,
       accountSid: user?.accountSid,
-      authToken: user?.authToken,
-      api_key_sid: user?.api_key_sid,
-      api_key_secret: user?.api_key_secret,
-      twiml_app_sid: user?.twiml_app_sid,
       twilio_numbers: { numbers: data?.twilio_numbers },
     };
-    dispatch(addUserRec(token, formData));
+    dispatch(updateUserRec(token, formData, user.id));
     dispatch(getAgentsList(token, user.id));
   };
   const handleChangeImage = (e) => {
@@ -73,7 +73,7 @@ const AddContactList = () => {
     console.log("🚀 ~ handleChangeImage ~ e:", e.currentTarget.files[0]);
   };
   return (
-    <form onSubmit={handleSubmit(handleAddContact)}>
+    <form onSubmit={handleSubmit(handleUpdateInfo)}>
       {isLoading ? (
         <Loader />
       ) : (
@@ -127,11 +127,11 @@ const AddContactList = () => {
             </div>
             <div className="col-md-6 col-sm-6">
               <InputField
-                type="phone"
+                type="text"
                 control={control}
                 errors={errors}
-                name="phone"
-                placeholder="Password"
+                name="personal_phone"
+                placeholder="Phone Number"
                 label="Phone Number"
                 rules={{
                   required: {
@@ -141,22 +141,7 @@ const AddContactList = () => {
                 }}
               />
             </div>
-            <div className="col-md-6 col-sm-6">
-              <InputField
-                type="password"
-                control={control}
-                errors={errors}
-                name="password"
-                placeholder="Password"
-                label="Password"
-                rules={{
-                  required: {
-                    value: true,
-                    message: "Field required!",
-                  },
-                }}
-              />
-            </div>
+
             <div className="col-md-6 col-sm-6">
               <ReactSelectField
                 name="twilio_numbers"
@@ -200,4 +185,4 @@ const AddContactList = () => {
   );
 };
 
-export default AddContactList;
+export default UpdateAgentInfo;

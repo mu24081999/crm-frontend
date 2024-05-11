@@ -74,6 +74,7 @@ const SingleChat = ({
           avatar: selectedRoom.avatar,
         },
         // to: "+923174660027",
+        user_id: authUser.id,
         message: message,
       };
       sendTextMessage(messageData);

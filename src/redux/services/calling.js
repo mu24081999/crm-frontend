@@ -61,6 +61,29 @@ export const getAllClaimedNumbers = (token, data) => async (dispatch) => {
     dispatch(invalidRequest(e.message));
   }
 };
+export const getMainAccountClaimedNumbers =
+  (token, data) => async (dispatch) => {
+    try {
+      dispatch(callingRequestLoading());
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
+      };
+      await axios
+        .get(`${backendURL}/user/calling/main-claimed-numbers`, config)
+        .then((response) => {
+          if (response?.data?.statusCode !== 200) {
+            toast.error(response.data.message);
+            return dispatch(invalidRequest(response.data.message));
+          }
+          dispatch(getClaimedNumbers(response.data.data.claimedNumbers));
+        });
+    } catch (e) {
+      dispatch(invalidRequest(e.message));
+    }
+  };
 
 export const CallLogsList = (token, data) => async (dispatch) => {
   try {

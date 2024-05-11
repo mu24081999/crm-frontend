@@ -12,6 +12,10 @@ import moment from "moment";
 import LineChart from "../../../components/ChartComponent/LineChart/LineChart";
 import Loader from "../../../components/Loader/Loader";
 const Overview = ({ dashboardData, isLoading, user }) => {
+  const active_numbers =
+    user?.parent_id === null && user?.client_id === null
+      ? dashboardData?.sub_accounts_data?.numbers
+      : dashboardData?.numbers;
   return (
     <div class="tab-pane fade show active" id="dashboard_overview_tab">
       <div className="row p-auto">
@@ -36,10 +40,12 @@ const Overview = ({ dashboardData, isLoading, user }) => {
                                     Recieved
                                   </li>
                                   <p className="px-2">
-                                    {
-                                      dashboardData?.messages
-                                        ?.number_of_recieved_sms
-                                    }
+                                    {user?.parent_id === null &&
+                                    user?.client_id === null
+                                      ? dashboardData?.sub_accounts_data
+                                          ?.messages?.number_of_recieved_sms
+                                      : dashboardData?.messages
+                                          ?.number_of_recieved_sms}
                                   </p>
                                 </div>
                                 <div className="d-flex">
@@ -50,10 +56,12 @@ const Overview = ({ dashboardData, isLoading, user }) => {
                                     Sent
                                   </li>
                                   <p className="px-2">
-                                    {
-                                      dashboardData?.messages
-                                        ?.number_of_sent_sms
-                                    }
+                                    {user?.parent_id === null &&
+                                    user?.client_id === null
+                                      ? dashboardData?.sub_accounts_data
+                                          ?.messages?.number_of_sent_sms
+                                      : dashboardData?.messages
+                                          ?.number_of_sent_sms}
                                   </p>
                                 </div>
                               </div>
@@ -103,10 +111,12 @@ const Overview = ({ dashboardData, isLoading, user }) => {
                               <div className="d-flex">
                                 <li className="text-left fw-bold">Outbound</li>
                                 <p className="px-2">
-                                  {
-                                    dashboardData?.calls
-                                      ?.number_of_outbound_call
-                                  }
+                                  {user?.parent_id === null &&
+                                  user?.client_id === null
+                                    ? dashboardData?.sub_accounts_data?.calls
+                                        ?.number_of_outbound_call
+                                    : dashboardData?.calls
+                                        ?.number_of_outbound_call}
                                 </p>
                               </div>
                             </div>{" "}
@@ -155,16 +165,23 @@ const Overview = ({ dashboardData, isLoading, user }) => {
                                   Sent
                                 </li>
                                 <p className="px-2">
-                                  {dashboardData?.emails?.number_of_send_emails}
+                                  {user?.parent_id === null &&
+                                  user?.client_id === null
+                                    ? dashboardData?.sub_accounts_data?.emails
+                                        ?.number_of_send_emails
+                                    : dashboardData?.emails
+                                        ?.number_of_send_emails}
                                 </p>
                               </div>
                               <div className="d-flex ">
                                 <li className="text-left fw-bold">Recieved</li>
                                 <p className="px-2">
-                                  {
-                                    dashboardData?.emails
-                                      ?.number_of_emails_recieved
-                                  }
+                                  {user?.parent_id === null &&
+                                  user?.client_id === null
+                                    ? dashboardData?.sub_accounts_data?.emails
+                                        ?.number_of_emails_recieved
+                                    : dashboardData?.emails
+                                        ?.number_of_emails_recieved}
                                 </p>
                               </div>
                             </div>
@@ -261,7 +278,7 @@ const Overview = ({ dashboardData, isLoading, user }) => {
                                   Sent
                                 </li>
                                 <p className="px-2">
-                                  {dashboardData?.emails?.number_of_send_emails}
+                                  {dashboardData?.number_of_invoices_sent}
                                 </p>
                               </div>
                             </div>
@@ -308,7 +325,11 @@ const Overview = ({ dashboardData, isLoading, user }) => {
                                 Active
                               </li>
                               <p className="px-2">
-                                {dashboardData?.number_of_leads}
+                                {user?.parent_id === null &&
+                                user?.client_id === null
+                                  ? dashboardData?.sub_accounts_data
+                                      ?.number_of_leads
+                                  : dashboardData?.number_of_leads}
                               </p>
                             </div>
                           </div>
@@ -531,8 +552,17 @@ const Overview = ({ dashboardData, isLoading, user }) => {
             ) : (
               <LineChart
                 title="Messages Report"
-                categories={dashboardData?.messages?.chart?.categories}
-                series={dashboardData?.messages?.chart?.series}
+                categories={
+                  user?.parent_id === null && user?.client_id === null
+                    ? dashboardData?.sub_accounts_data?.messages?.chart
+                        ?.categories
+                    : dashboardData?.messages?.chart?.categories
+                }
+                series={
+                  user?.parent_id === null && user?.client_id === null
+                    ? dashboardData?.sub_accounts_data?.messages?.chart?.series
+                    : dashboardData?.messages?.chart?.series
+                }
               />
             )}
           </div>
@@ -550,8 +580,16 @@ const Overview = ({ dashboardData, isLoading, user }) => {
             ) : (
               <LineChart
                 title="Calls Report"
-                categories={dashboardData?.calls?.chart?.categories}
-                series={dashboardData?.calls?.chart?.series}
+                categories={
+                  user?.parent_id === null && user?.client_id === null
+                    ? dashboardData?.sub_accounts_data?.calls?.chart?.categories
+                    : dashboardData?.calls?.chart?.categories
+                }
+                series={
+                  user?.parent_id === null && user?.client_id === null
+                    ? dashboardData?.sub_accounts_data?.calls?.chart?.series
+                    : dashboardData?.calls?.chart?.series
+                }
               />
             )}
           </div>
@@ -571,8 +609,17 @@ const Overview = ({ dashboardData, isLoading, user }) => {
             ) : (
               <SyncingChart
                 title="Emails Report"
-                categories={dashboardData?.emails?.chart?.categories}
-                series={dashboardData?.emails?.chart?.series}
+                categories={
+                  user?.parent_id === null && user?.client_id === null
+                    ? dashboardData?.sub_accounts_data?.emails?.chart
+                        ?.categories
+                    : dashboardData?.emails?.chart?.categories
+                }
+                series={
+                  user?.parent_id === null && user?.client_id === null
+                    ? dashboardData?.sub_accounts_data?.emails?.chart?.series
+                    : dashboardData?.emails?.chart?.series
+                }
               />
             )}
           </div>
@@ -615,7 +662,7 @@ const Overview = ({ dashboardData, isLoading, user }) => {
                       </thead>
 
                       <tbody>
-                        {dashboardData?.numbers?.map((number, index) => (
+                        {active_numbers?.map((number, index) => (
                           <tr key={index}>
                             <td>{number?.phoneNumber}</td>
                             <td>Local</td>

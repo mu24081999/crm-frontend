@@ -71,7 +71,7 @@ const TaskInfo = ({
   return (
     <div class="task-info">
       <div data-simplebar class="nicescroll-bar">
-        <header class="task-header">
+        {/* <header class="task-header">
           <div class="d-flex align-items-center">
             <div id="sparkline_chart_7"></div>
             <div class="form-check mx-lg-3 ms-3">
@@ -121,7 +121,6 @@ const TaskInfo = ({
             >
               <span class="icon">
                 <span class="feather-icon">
-                  {/* <i data-feather="more-vertical"></i> */}
                   <CiMenuKebab />
                 </span>
               </span>
@@ -202,15 +201,14 @@ const TaskInfo = ({
             >
               <span class="icon">
                 <span class="feather-icon">
-                  {/* <i data-feather="x"></i> */}
                   <RxCross2 />
                 </span>
               </span>
             </button>
           </div>
-        </header>
+        </header> */}
         <div class="task-detail-body">
-          <div
+          {/* <div
             class="alert alert-primary alert-wth-icon fade show mb-4"
             role="alert"
           >
@@ -220,20 +218,19 @@ const TaskInfo = ({
               </span>
             </span>{" "}
             This task is private for Jampack Team
-          </div>
+          </div> */}
           <h4 class="d-flex align-items-center fw-bold mb-0 inline-editable-wrap">
             <span class="editable">{todoDetails?.name}</span>
-            <a
+            {/* <a
               class="btn btn-sm btn-icon btn-flush-light btn-rounded flush-soft-hover edit-tyn ms-1"
               href="/"
             >
               <span class="icon">
                 <span class="feather-icon">
-                  {/* <i data-feather="edit-2"></i> */}
                   <FaEdit />
                 </span>
               </span>
-            </a>
+            </a> */}
           </h4>
           <p class="d-flex align-items-center inline-editable-wrap">
             <span class="editable">{todoDetails?.description}</span>
@@ -407,7 +404,7 @@ const TaskInfo = ({
               </div>
             </div>
             <div class="row gx-3">
-              <div class="col-sm-6">
+              {/* <div class="col-sm-6">
                 <ReactSelectField
                   name="category_id"
                   placeholder="Select Category"
@@ -427,8 +424,39 @@ const TaskInfo = ({
                   ]}
                   errors={errors}
                 />
+              </div> */}
+              <div class="col-sm-6 col-md-6">
+                <div class="form-inline">
+                  <ReactSelectField
+                    name="priority"
+                    placeholder="Select priority"
+                    label="Priority"
+                    control={control}
+                    rules={{
+                      required: {
+                        value: true,
+                        message: "Field required!",
+                      },
+                    }}
+                    options={[
+                      {
+                        label: "High",
+                        value: "high",
+                      },
+                      {
+                        label: "Medium",
+                        value: "medium",
+                      },
+                      {
+                        label: "Low",
+                        value: "low",
+                      },
+                    ]}
+                    errors={errors}
+                  />
+                </div>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-6 col-md-6">
                 <ReactSelectField
                   name="status"
                   placeholder="Select status"
@@ -464,39 +492,6 @@ const TaskInfo = ({
                   ]}
                   errors={errors}
                 />
-              </div>
-            </div>
-            <div class="row gx-3">
-              <div class="col-sm-12">
-                <div class="form-inline">
-                  <ReactSelectField
-                    name="priority"
-                    placeholder="Select priority"
-                    label="Priority"
-                    control={control}
-                    rules={{
-                      required: {
-                        value: true,
-                        message: "Field required!",
-                      },
-                    }}
-                    options={[
-                      {
-                        label: "High",
-                        value: "high",
-                      },
-                      {
-                        label: "Medium",
-                        value: "medium",
-                      },
-                      {
-                        label: "Low",
-                        value: "low",
-                      },
-                    ]}
-                    errors={errors}
-                  />
-                </div>
               </div>
             </div>
             <div class="row gx-3">

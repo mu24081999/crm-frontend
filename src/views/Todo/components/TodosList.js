@@ -23,7 +23,7 @@ const TodosList = ({
   };
   return (
     <div class="container">
-      <div class="todo-toolbar">
+      {/* <div class="todo-toolbar">
         <div>
           <select class="form-select form-select-sm">
             <option selected="">Bulk actions</option>
@@ -69,7 +69,7 @@ const TodosList = ({
             </li>
           </ul>
         </div>
-      </div>
+      </div> */}
       {Object.entries(todosData).map(([date, todosList]) => (
         <div class="collapse-simple mt-4" key={date}>
           <div class="card">
@@ -98,7 +98,7 @@ const TodosList = ({
                     >
                       <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center">
-                          <div class="form-check">
+                          {/* <div class="form-check">
                             <input
                               type="checkbox"
                               class="form-check-input"
@@ -108,14 +108,13 @@ const TodosList = ({
                               class="form-check-label"
                               for="customCheckTodo1"
                             ></label>
-                          </div>
+                          </div> */}
                           <div>
-                            <span class="todo-star marked">
+                            {/* <span class="todo-star marked">
                               <span class="feather-icon">
-                                {/* <i data-feather="star"></i> */}
                                 <FaStar />
                               </span>
-                            </span>
+                            </span> */}
                             <span class="badge badge-danger badge-indicator badge-indicator-xl"></span>
                             <span class="todo-text text-dark text-truncate">
                               {task.name}
@@ -230,7 +229,7 @@ const TodosList = ({
           </div>
         </div>
       ))}
-
+      {/* 
       <div class="row mt-3">
         <div class="col-sm-12">
           <div class="float-end text-end">
@@ -263,7 +262,7 @@ const TodosList = ({
             </ul>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* <Pagination
         items={todosData_}
         itemsPerPage={1}

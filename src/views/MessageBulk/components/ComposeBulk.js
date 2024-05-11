@@ -14,7 +14,7 @@ import Loader from "../../../components/Loader/Loader";
 import { toast } from "react-toastify";
 import { SocketContext } from "../../../Context";
 
-const ComposeBulk = () => {
+const ComposeBulk = ({ onShowAddForm }) => {
   const { sendTextMessage } = useContext(SocketContext);
 
   const {
@@ -98,6 +98,7 @@ const ComposeBulk = () => {
               to: {
                 phone: element,
               },
+              user_id: user?.id,
               message: bodyWatcher,
             };
             console.log(smsData);
@@ -121,6 +122,7 @@ const ComposeBulk = () => {
                 phone: element,
               },
               message: bodyWatcher,
+              user_id: user?.id,
             };
             await sendTextMessage(smsData);
           })
@@ -128,6 +130,7 @@ const ComposeBulk = () => {
         console.log("Sent text message", is_completed);
       }
       setIsLoading(false);
+      toast.success("SMS sent successfully.");
       // Add any post-processing logic here
     } catch (error) {
       console.error("Error sending SMS messages:", error);
@@ -211,6 +214,7 @@ const ComposeBulk = () => {
             <button
               id="close_compose_popup"
               class="btn btn-sm btn-icon btn-dark btn-rounded"
+              onClick={() => onShowAddForm(false)}
             >
               <span class="icon">
                 <span class="feather-icon">

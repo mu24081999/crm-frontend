@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader/Loader";
-import { getAllClaimedNumbers } from "../../redux/services/calling";
+import {
+  getAllClaimedNumbers,
+  getMainAccountClaimedNumbers,
+} from "../../redux/services/calling";
 
 const NumbersContent = () => {
   const { dashboardData } = useSelector((state) => state.dashboard);
@@ -12,9 +15,7 @@ const NumbersContent = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(
-      getAllClaimedNumbers(token, { accountSid, authToken: accountAuthToken })
-    );
+    dispatch(getMainAccountClaimedNumbers(token));
   }, [token, dispatch, accountSid, accountAuthToken]);
 
   return (

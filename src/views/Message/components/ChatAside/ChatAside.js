@@ -65,7 +65,7 @@ const ChatAside = ({
             <span className="pe-2">
               <FaEnvelope size={30} color="#007D88" />
             </span>
-            Message
+            SMS
           </h1>
           {/* <a
             href="/"

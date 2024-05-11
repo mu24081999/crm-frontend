@@ -210,7 +210,20 @@ const VerticalNavbar = () => {
                         </li>
                       </ul>
                     </li>
-
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/contacts" && "active"
+                      }`}
+                    >
+                      <Link className="nav-link" to="/contacts">
+                        <span className="nav-icon-wrap">
+                          <span className="svg-icon">
+                            <RiContactsBook2Line />
+                          </span>
+                        </span>
+                        <span className="nav-link-text">Contacts</span>
+                      </Link>
+                    </li>
                     <li
                       className={`nav-item ${
                         location?.pathname === "/projects-board" && "active"
@@ -237,6 +250,20 @@ const VerticalNavbar = () => {
                           </span>
                         </span>
                         <span className="nav-link-text">File Manager</span>
+                      </Link>
+                    </li>
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/todos" && "active"
+                      }`}
+                    >
+                      <Link className="nav-link" to="/todos">
+                        <span className="nav-icon-wrap">
+                          <span className="svg-icon">
+                            <RiTodoLine />
+                          </span>
+                        </span>
+                        <span className="nav-link-text">Todo</span>
                       </Link>
                     </li>
                     {/* <li className="nav-item">
@@ -344,7 +371,7 @@ const VerticalNavbar = () => {
                             <FaRegEnvelope />
                           </span>
                         </span>
-                        <span className="nav-link-text">Messages</span>
+                        <span className="nav-link-text">SMS</span>
                       </a>
                       <ul
                         id="dash_invoice"
@@ -354,14 +381,12 @@ const VerticalNavbar = () => {
                           <ul className="nav flex-column">
                             <li className="nav-item">
                               <Link className="nav-link" to="/messages">
-                                <span className="nav-link-text">Messages</span>
+                                <span className="nav-link-text">SMS</span>
                               </Link>
                             </li>
                             <li className="nav-item">
                               <Link className="nav-link" to="/messages-bulk">
-                                <span className="nav-link-text">
-                                  Messages Bulk
-                                </span>
+                                <span className="nav-link-text">SMS Bulk</span>
                               </Link>
                             </li>
                           </ul>
@@ -592,20 +617,6 @@ const VerticalNavbar = () => {
 
                     <li
                       className={`nav-item ${
-                        location?.pathname === "/contacts" && "active"
-                      }`}
-                    >
-                      <Link className="nav-link" to="/contacts">
-                        <span className="nav-icon-wrap">
-                          <span className="svg-icon">
-                            <RiContactsBook2Line />
-                          </span>
-                        </span>
-                        <span className="nav-link-text">Contacts</span>
-                      </Link>
-                    </li>
-                    <li
-                      className={`nav-item ${
                         location?.pathname === "/recordings" && "active"
                       }`}
                     >
@@ -743,20 +754,6 @@ const VerticalNavbar = () => {
                           </span>
                         </span>
                         <span className="nav-link-text">Gallery</span>
-                      </Link>
-                    </li>
-                    <li
-                      className={`nav-item ${
-                        location?.pathname === "/todos" && "active"
-                      }`}
-                    >
-                      <Link className="nav-link" to="/todos">
-                        <span className="nav-icon-wrap">
-                          <span className="svg-icon">
-                            <RiTodoLine />
-                          </span>
-                        </span>
-                        <span className="nav-link-text">Todo</span>
                       </Link>
                     </li>
                   </>

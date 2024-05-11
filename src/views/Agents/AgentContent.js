@@ -12,6 +12,7 @@ import { getUsers } from "../../redux/services/users";
 import { MdClose } from "react-icons/md";
 import { getAgentsList } from "../../redux/services/agent";
 import _ from "lodash";
+import UpdateAgentInfo from "./components/UpdateAgentInfo";
 const AgentContent = () => {
   const { handleToggleShowLeadDetail, showUserDetails } =
     useContext(SocketContext);
@@ -201,7 +202,7 @@ const AgentContent = () => {
                 </div>
               </div>
             )}
-            {/* <!-- Edit Info --> */}
+            {/* <!-- Add Info --> */}
             <div
               id="add_new_agent"
               className="modal fade add-new-contact"
@@ -231,6 +232,41 @@ const AgentContent = () => {
                   </div>
                   <div className="modal-body">
                     <AddContactList />
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <!-- /Add Info --> */}
+            {/* <!-- Edit Info --> */}
+            <div
+              id="update_agent_info"
+              className="modal fade add-new-contact"
+              tabIndex="-1"
+              role="dialog"
+              aria-hidden="true"
+            >
+              <div
+                className="modal-dialog modal-dialog-centered modal-lg"
+                role="document"
+              >
+                <div className="modal-content">
+                  <div className="modal-header bg-primary">
+                    <div className="modal-title">
+                      <p className="fs-6 fw-bold" style={{ color: "white" }}>
+                        Update Agent
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  <div className="modal-body">
+                    <UpdateAgentInfo agentDetails={userDetails} />
                   </div>
                 </div>
               </div>

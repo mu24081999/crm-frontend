@@ -18,7 +18,6 @@ import axios from "axios";
 import { getContactsList } from "../../redux/services/contact";
 import { getMessagesList } from "../../redux/services/message";
 import { SocketContext } from "../../Context";
-import ComposeBulk from "./components/ComposeBulk";
 
 const MessageContent = () => {
   const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
@@ -263,9 +262,6 @@ const MessageContent = () => {
                 />
               )}
             </div>
-          </div>
-          <div class="emailapp-wrap">
-            <ComposeBulk />
           </div>
         </div>
         {/* <!-- /Page Body --> */}

@@ -720,26 +720,25 @@ const TopNavbar = ({}) => {
                                   </button>
                                 </div>
                               </div> */}
-
+                                <p>
+                                  <span
+                                    className="text-primary bg-light"
+                                    style={{ fontSize: "12px" }}
+                                  >
+                                    Agents
+                                  </span>
+                                </p>
+                                <p
+                                  class="dropdown-divider"
+                                  style={{
+                                    padding: "0px",
+                                    marginTop: "-10px",
+                                    marginBottom: "20px",
+                                  }}
+                                ></p>
                                 {userAgents?.length > 0 &&
                                   userAgents?.map((account, index) => (
                                     <>
-                                      <p>
-                                        <span
-                                          className="text-primary bg-light"
-                                          style={{ fontSize: "12px" }}
-                                        >
-                                          Agents
-                                        </span>
-                                      </p>
-                                      <p
-                                        class="dropdown-divider"
-                                        style={{
-                                          padding: "0px",
-                                          marginTop: "-10px",
-                                          marginBottom: "20px",
-                                        }}
-                                      ></p>
                                       {account?.id !== user?.id && (
                                         <div
                                           className="media align-items-center mb-3"

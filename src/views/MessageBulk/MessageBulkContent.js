@@ -22,6 +22,7 @@ const MessageContent = () => {
   const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
   const { messagesArray } = useContext(SocketContext);
   const [selectedMessages, setSelectedMessages] = useState({});
+  const [showForm, setShowForm] = useState(false);
   const { messages: defaultMessages } = useSelector((state) => state.message);
   //Socket connection
   const socket = useMemo(() => io(socketURL), [socketURL]);
@@ -51,7 +52,11 @@ const MessageContent = () => {
       let filteredArray = [];
 
       defaultMessages?.forEach((obj) => {
-        if (!uniquePhoneNumbers[obj.to_phone] && obj.to_phone !== user?.phone) {
+        if (
+          !uniquePhoneNumbers[obj.to_phone] &&
+          obj.to_phone !== user?.phone &&
+          obj.user_id === user?.id
+        ) {
           uniquePhoneNumbers[obj.to_phone] = true;
           filteredArray.push(obj);
         }
@@ -65,7 +70,11 @@ const MessageContent = () => {
       let filteredArray = [];
 
       messagesArray?.forEach((obj) => {
-        if (!uniquePhoneNumbers[obj.to_phone] && obj.to_phone !== user?.phone) {
+        if (
+          !uniquePhoneNumbers[obj.to_phone] &&
+          obj.to_phone !== user?.phone &&
+          obj.user_id === user?.id
+        ) {
           uniquePhoneNumbers[obj.to_phone] = true;
           filteredArray.push(obj);
         }
@@ -173,11 +182,14 @@ const MessageContent = () => {
         messagesArray?.filter(
           (message) =>
             (message.from_phone === user?.phone &&
-              message.to_phone === selectedRoom?.to_phone) ||
+              message.to_phone === selectedRoom?.to_phone &&
+              message.user_id === user?.id) ||
             (message.to_phone === user?.phone &&
-              message.from_phone === selectedRoom?.from_phone)
+              message.from_phone === selectedRoom?.from_phone &&
+              message.user_id === user?.id)
         );
       setSelectedMessages(messagesData);
+      console.log("🚀 ~ useEffect ~ messagesData:", messagesData);
     }
   }, [messagesArray, selectedRoom, user]);
   const handleDataFromChild = (data) => {
@@ -200,6 +212,9 @@ const MessageContent = () => {
 
     setSelectedMessages(data);
   };
+  const onShowAddForm = (data) => {
+    setShowForm(data);
+  };
   return (
     <div>
       {/* <!-- Wrapper --> */}
@@ -207,7 +222,10 @@ const MessageContent = () => {
       {/* <!-- Main Content --> */}
       <div class="hk-pg-wrapper pb-0">
         {/* <!-- Page Body --> */}
-        <div class="hk-pg-body py-0">
+        <div
+          class="hk-pg-body py-0"
+          style={{ maxHeight: "100%", overflow: "hidden" }}
+        >
           <div class="chatapp-wrap chatapp-info-active">
             <div class="chatapp-content">
               <ChatAside
@@ -221,6 +239,7 @@ const MessageContent = () => {
                 onMessagesDataFromChild={handleMessagesDataFromChild}
                 deleteChatRecord={deleteChatRecord}
                 updateChat={updateChat}
+                onShowAddForm={onShowAddForm}
               />
               {selectedRoom?.id && (
                 <SingleChat
@@ -233,9 +252,11 @@ const MessageContent = () => {
               )}
             </div>
           </div>
-          <div class="emailapp-wrap">
-            <ComposeBulk />
-          </div>
+          {showForm && (
+            <div class="emailapp-wrap">
+              <ComposeBulk onShowAddForm={onShowAddForm} />
+            </div>
+          )}
         </div>
         {/* <!-- /Page Body --> */}
       </div>

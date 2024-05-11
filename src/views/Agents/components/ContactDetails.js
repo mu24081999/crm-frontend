@@ -20,7 +20,7 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb  mb-0">
                 <li className="breadcrumb-item">
-                  <a href="contact.html">Contacts</a>
+                  <a href="contact.html">Agent Details</a>
                 </li>
                 <li className="breadcrumb-item active" aria-current="page">
                   {contactDetails?.firstname} {contactDetails?.middlename}{" "}
@@ -29,8 +29,7 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
               </ol>
             </nav>
           </div>
-          <div className="contact-options-wrap">
-            <div className="d-flex fs-7 align-items-center">1 of 30</div>
+          {/* <div className="contact-options-wrap">
             <a
               className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover contactapp-info-toggle"
               href="/"
@@ -76,7 +75,7 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                 </span>
               </span>
             </a>
-          </div>
+          </div> */}
           <div className="hk-sidebar-togglable"></div>
         </header>
 
@@ -87,31 +86,6 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                 className="contact-info w-xxl-30 w-100"
                 style={{ maxHeight: "1000px", overflow: "scroll" }}
               >
-                <div className="dropdown action-btn">
-                  <button
-                    aria-expanded="false"
-                    data-bs-toggle="dropdown"
-                    className="btn btn-light dropdown-toggle "
-                    type="button"
-                  >
-                    Action
-                  </button>
-                  <div role="menu" className="dropdown-menu">
-                    <a className="dropdown-item" href="/">
-                      Action
-                    </a>
-                    <a className="dropdown-item" href="/">
-                      Another action
-                    </a>
-                    <a className="dropdown-item" href="/">
-                      Something else here
-                    </a>
-                    <div className="dropdown-divider"></div>
-                    <a className="dropdown-item" href="/">
-                      Separated link
-                    </a>
-                  </div>
-                </div>
                 <div className="text-center mt-5">
                   <div className="dropify-circle edit-img">
                     <img
@@ -145,7 +119,8 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                       <span
                         className="icon"
                         data-bs-toggle="modal"
-                        data-bs-target="#editInfo"
+                        // data-bs-target="#editInfo"
+                        data-bs-target="#update_agent_info"
                       >
                         <span className="feather-icon">
                           <FaEdit />
@@ -176,50 +151,16 @@ const ContactDetails = ({ contactDetails, dispatch, token, authUser }) => {
                       </li>
                       <li>
                         <span>Phone</span>
-                        <span>{contactDetails?.phone}</span>
+                        <span>{contactDetails?.personal_phone}</span>
                       </li>
                       <li>
                         <span>Location</span>
-                        <span>Newyork</span>
+                        <span>{contactDetails?.location}</span>
                       </li>
                     </ul>
                   </div>
                 </div>
                 <div className="separator-full"></div>
-                <div className="card">
-                  <div className="card-header">
-                    <a href="/">Tags</a>
-                    <button
-                      className="btn btn-xs btn-icon btn-rounded btn-light"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      title=""
-                      data-bs-original-title="Add Tags"
-                    >
-                      <span
-                        className="icon"
-                        data-bs-toggle="modal"
-                        data-bs-target="#tagsInput"
-                      >
-                        <span className="feather-icon">
-                          {/* <i data-feather="plus"></i> */}
-                          <FaPlus />
-                        </span>
-                      </span>
-                    </button>
-                  </div>
-                  <div className="card-body">
-                    {contactDetails?.tags?.map((tag, index) => (
-                      <span key={index} className="badge badge-soft-violet">
-                        {tag.name}
-                      </span>
-                    ))}
-
-                    <span className="badge badge-soft-danger">
-                      React Developer
-                    </span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

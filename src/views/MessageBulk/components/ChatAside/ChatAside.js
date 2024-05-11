@@ -25,6 +25,7 @@ const ChatAside = ({
   onFilterDataFromChild,
   onMessagesDataFromChild,
   rooms_,
+  onShowAddForm,
 }) => {
   const { users } = useSelector((state) => state.user);
   function extractCharactersFromArray(str) {
@@ -65,11 +66,12 @@ const ChatAside = ({
             <span className="pe-2">
               <FaEnvelope size={30} color="#007D88" />
             </span>
-            Message
+            SMS Bulk
           </h1>
           <a
             href="/"
             class="btn btn-icon btn-rounded show-compose-popup btn-primary"
+            onClick={() => onShowAddForm(true)}
           >
             <span class="icon">
               <span class="feather-icon">

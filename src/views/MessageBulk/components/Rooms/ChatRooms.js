@@ -26,9 +26,11 @@ const ChatRooms = ({
       messages?.filter(
         (message) =>
           (message.from_phone === authUser.phone &&
-            message.to_phone === contact.to_phone) ||
+            message.to_phone === contact.to_phone &&
+            message.user_id === authUser.id) ||
           (message.to_phone === authUser.phone &&
-            message.from_phone === contact.to_phone)
+            message.from_phone === contact.to_phone &&
+            message.user_id === authUser.id)
       );
     onMessagesDataFromChild(messagesData);
 

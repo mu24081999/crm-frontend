@@ -30,7 +30,18 @@ const TodoContent = () => {
     }
   }, [users, user]);
   useEffect(() => {
-    const todosByDate = todos?.reduce((acc, todo) => {
+    const todosArray = [];
+    todos?.length > 0 &&
+      todos?.map((todo, index) => {
+        todo?.asign_to?.members?.map((mem, index) => {
+          if (mem.id === user.id) {
+            todosArray.push(todo);
+          }
+        });
+      });
+
+    const data = user?.role === "AGENT" ? todosArray : todos;
+    const todosByDate = data?.reduce((acc, todo) => {
       const date = todo.created_at.split("T")[0]; // Assuming created_at is in ISO 8601 format
       acc[date] = acc[date] || [];
       acc[date].push(todo);
@@ -38,7 +49,7 @@ const TodoContent = () => {
     }, {});
     setTodosData(todosByDate);
     setTodosData_(todos);
-  }, [todos]);
+  }, [todos, user]);
   useEffect(() => {
     dispatch(getTodosList(token));
     dispatch(getUsers(token));
@@ -57,7 +68,7 @@ const TodoContent = () => {
           <Sidebar />
           <div class="todoapp-content">
             <div class="todoapp-detail-wrap">
-              <Header />
+              <Header authUser={user} />
               <div class="todo-body">
                 <div data-simplebar class="nicescroll-bar">
                   <TodosList
