@@ -31,7 +31,7 @@ const EmailsList = ({ emailsData, emails, onEmailDetail, dispatch, token }) => {
         emailsData?.map((email, index) => (
           <li
             onClick={() => {
-              handleEmailClick(email.id);
+              handleEmailClick(email?.id);
             }}
             className={`list-group-item `}
             key={index}

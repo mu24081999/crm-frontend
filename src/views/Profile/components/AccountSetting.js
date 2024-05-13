@@ -4,6 +4,7 @@ import InputField from "../../../components/FormFields/InputField";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUserRec, updateUserRec } from "../../../redux/services/users";
 import { logoutUser } from "../../../redux/services/auth";
+import { setAccount } from "../../../redux/slices/auth";
 
 const AccountSetting = () => {
   const {
@@ -22,8 +23,16 @@ const AccountSetting = () => {
       setValue("email", user?.email);
     }
   }, [user, setValue]);
-  const handleUpdateSettings = (data) => {
-    const is_updated = dispatch(updateUserRec(token, data, user.id));
+  const handleUpdateSettings = async (data) => {
+    const is_updated = await dispatch(updateUserRec(token, data, user.id));
+    if (is_updated) {
+      const newUser = {
+        ...user,
+        username: data?.username,
+        email: data?.email,
+      };
+      dispatch(setAccount(newUser));
+    }
   };
   const handleCloseAccount = () => {
     dispatch(deleteUserRec(token, user.id));

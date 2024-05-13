@@ -115,13 +115,13 @@ const EmailDetails = ({ emailDetails, emailsData, emails, onEmailDetail }) => {
   }
   return (
     <div class="email-body">
-      <div data-simplebar class="nicescroll-bar">
-        {emailDetails?.subject && (
+      <div class="nicescroll-bar">
+        {emailDetails && emailDetails?.subject && (
           <h4
             class="fw-bold bg-primary w-100 rounded px-5 py-2 shadow position-sticky"
             style={{ color: "white" }}
           >
-            {emailDetails.subject}
+            {emailDetails?.subject}
           </h4>
         )}
         {/* <div class="single-email-subject">
@@ -177,7 +177,7 @@ const EmailDetails = ({ emailDetails, emailsData, emails, onEmailDetail }) => {
           id="accordionSimpleExample"
           class="accordion accordion-simple single-email-thread"
         >
-          {emailDetails.selectedEmail && (
+          {emailDetails?.selectedEmail && (
             <div class="accordion-item">
               <div id="simple-headingOne" class="accordion-header">
                 <div>
@@ -434,7 +434,7 @@ const EmailDetails = ({ emailDetails, emailsData, emails, onEmailDetail }) => {
                             </div>
                             <div class="media-body">
                               <p class="file-name">
-                                {file?.file_link.split("/").pop()}
+                                {file?.file_link?.split("/").pop()}
                               </p>
                               <p class="file-size">
                                 {bytesToMegabytes(file?.size)} MB
@@ -453,8 +453,8 @@ const EmailDetails = ({ emailDetails, emailsData, emails, onEmailDetail }) => {
                                   }}
                                   onClick={() =>
                                     downloadFile(
-                                      file.file_link,
-                                      file.created_at
+                                      file?.file_link,
+                                      file?.created_at
                                     )
                                   }
                                 >
@@ -566,7 +566,6 @@ const EmailDetails = ({ emailDetails, emailsData, emails, onEmailDetail }) => {
                                   data-bs-original-title="Add flag"
                                 >
                                   <span class="feather-icon">
-                                    {/* <i data-feather="paperclip"></i> */}
                                     <FaClipboard />
                                   </span>
                                 </span>
@@ -582,7 +581,6 @@ const EmailDetails = ({ emailDetails, emailsData, emails, onEmailDetail }) => {
                                   data-bs-original-title="Save Draft"
                                 >
                                   <span class="feather-icon">
-                                    {/* <i data-feather="edit"></i> */}
                                     <FaEdit />
                                   </span>
                                 </span>
@@ -596,7 +594,6 @@ const EmailDetails = ({ emailDetails, emailsData, emails, onEmailDetail }) => {
                                   data-bs-original-title="Delete"
                                 >
                                   <span class="feather-icon">
-                                    {/* <i data-feather="trash-2"></i> */}
                                     <FaTrash />
                                   </span>
                                 </span>

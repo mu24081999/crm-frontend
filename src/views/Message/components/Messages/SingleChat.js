@@ -326,7 +326,7 @@ const SingleChat = ({
                         </div>
                       </div>
                       <div className="">
-                        {msg?.sid === null && (
+                        {(msg?.sid === null || msg?.status === "Failed") && (
                           <div class="media-head">
                             <div class="avatar avatar-sm avatar-secondary position-relative avatar-rounded">
                               <Popup

@@ -22,7 +22,6 @@ const ContactsContent = () => {
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [phoneNumbers_, setPhoneNumbers_] = useState([]);
   const [selectedNumber, setSelectedNumber] = useState(null);
-  console.log("🚀 ~ ContactsContent ~ selectedNumber:", selectedNumber);
   const [isEdit, setIsEdit] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const { contacts } = useSelector((state) => state.contact);

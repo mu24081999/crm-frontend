@@ -57,7 +57,7 @@ const AddContactList = () => {
       username: data?.username,
       client_id: _.toString(user?.id),
       role: "AGENT",
-      personal_phone: data?.phone,
+      personal_phone: data?.personal_phone,
       accountSid: user?.accountSid,
       authToken: user?.authToken,
       api_key_sid: user?.api_key_sid,
@@ -127,11 +127,11 @@ const AddContactList = () => {
             </div>
             <div className="col-md-6 col-sm-6">
               <InputField
-                type="phone"
+                type="personal_phone"
                 control={control}
                 errors={errors}
                 name="phone"
-                placeholder="Password"
+                placeholder="Personal phone number"
                 label="Phone Number"
                 rules={{
                   required: {

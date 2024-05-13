@@ -22,6 +22,7 @@ import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import axios from "axios";
 import { getContactsList } from "../../redux/services/contact";
 import ReactSelectField from "../FormFields/reactSelectField";
+import Loader from "../Loader/Loader";
 
 //Helpers
 const Timer = () => {
@@ -56,6 +57,7 @@ const Dialer = () => {
   } = useForm();
   const [inputValue, setInputValue] = useState("");
   const [isDial, setIsDial] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [showContacts, setShowContacts] = useState(false);
   const [isDialerOpen, setIsDialerOpen] = useState(false);
   const [callStatus, setCallStatus] = useState(null);
@@ -73,6 +75,7 @@ const Dialer = () => {
 
   const selectedNumberWatcher = watch("my_numbers");
   useEffect(() => {
+    setIsLoading(true);
     axios
       .post(
         backendURL + "/user/calling/get-call-token",
@@ -93,6 +96,7 @@ const Dialer = () => {
         }
       )
       .then((resp) => {
+        setIsLoading(false);
         const device = new Device();
         device.setup(resp.data.token, {
           logLevel: 1,
@@ -222,6 +226,7 @@ const Dialer = () => {
       // }}
     >
       <Popup
+        contentStyle={{ position: "fixed" }}
         open={isDialerOpen}
         trigger={
           <button
@@ -242,6 +247,7 @@ const Dialer = () => {
                   <InputField
                     style={{ height: "50px", fontSize: "18px" }}
                     name="subject"
+                    mb={true}
                     placeholder="Phone Number"
                     control={control}
                     onChange={(e) => setInputValue(e.target.value)}
@@ -351,30 +357,26 @@ const Dialer = () => {
               </tr>
               <tr className="mt-5 p-0">
                 <td colspan="3">
-                  <button
-                    className="btn btn-primary rounded-pill btn-lg"
-                    onClick={makeCall}
-                  >
-                    Call
-                  </button>
-                  {/* <div className="w-100 d-flex flex-wrap gap-2 mt-4">
-                    <p className="fs-6 pt-3">Call From</p>
-                    <InputField
-                      name="subject"
-                      placeholder="Phone Number"
-                      control={control}
-                      errors={errors}
-                      value={user.phone}
-                      isDisabled={true}
-                    />
-                  </div> */}
+                  <div>
+                    {isLoading ? (
+                      <Loader />
+                    ) : (
+                      <button
+                        className="btn btn-primary rounded-pill btn-lg"
+                        onClick={makeCall}
+                      >
+                        Call
+                      </button>
+                    )}
+                  </div>
                   {/* {user?.parent_id !== null && user?.client_id === null && ( */}
-                  <div className="w-100 mt-2">
+                  <div className="w-100 mt-2 mb-2">
                     <ReactSelectField
                       name="my_numbers"
                       placeholder="Call From"
                       control={control}
                       errors={errors}
+                      mb={true}
                       options={
                         claimedNumbers?.length > 0 &&
                         user?.role === "USER" &&
@@ -405,11 +407,7 @@ const Dialer = () => {
           )}
           {showContacts && (
             <>
-              <header>
-                {/* <div className="row p-3">
-                <button className="col-6 btn btn-primary ">All Contacts</button>
-                <button className="btn btn-primary col-6">Recent</button>
-              </div> */}
+              {/* <header>
                 <InputField
                   name="firstname"
                   placeholder="Your name"
@@ -423,10 +421,10 @@ const Dialer = () => {
                   }}
                   errors={errors}
                 />{" "}
-              </header>
+              </header> */}
               <div
                 className="list-group"
-                style={{ height: "400px", overflow: "scroll" }}
+                style={{ height: "407px", overflow: "scroll" }}
               >
                 {contacts?.length > 0 &&
                   contacts?.map((contact, index) => (
@@ -471,7 +469,7 @@ const Dialer = () => {
             </>
           )}
           {userState === "ON_CALL" && (
-            <div>
+            <div style={{ height: "450px" }}>
               <div className="rounded-circle mb-5">
                 <div className="m-auto w-50">
                   <img
@@ -512,32 +510,34 @@ const Dialer = () => {
             </div>
           )}
 
-          <footer className="w-100 d-flex justify-content-between p-1 gap-1">
-            <button
-              type="button"
-              class="btn btn-primary btn-md "
-              onClick={() => {
-                setIsDial(false);
-                setShowContacts(true);
-                setUserState("READY");
-              }}
-            >
-              <MdOutlineContacts />
-              &nbsp; Contacts
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary btn-md w-50"
-              onClick={() => {
-                setIsDial(true);
-                setShowContacts(false);
-                setUserState("READY");
-              }}
-            >
-              <IoIosKeypad className="mb-1" />
-              &nbsp; Dial
-            </button>
-          </footer>
+          {userState !== "ON_CALL" && (
+            <footer className="w-100 d-flex justify-content-between p-1 gap-1">
+              <button
+                type="button"
+                class="btn btn-primary btn-md "
+                onClick={() => {
+                  setIsDial(false);
+                  setShowContacts(true);
+                  setUserState("READY");
+                }}
+              >
+                <MdOutlineContacts />
+                &nbsp; Contacts
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary btn-md w-50"
+                onClick={() => {
+                  setIsDial(true);
+                  setShowContacts(false);
+                  setUserState("READY");
+                }}
+              >
+                <IoIosKeypad className="mb-1" />
+                &nbsp; Dial
+              </button>
+            </footer>
+          )}
         </div>
       </Popup>
     </div>

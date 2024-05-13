@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import InputField from "../../../components/FormFields/InputField";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserRec } from "../../../redux/services/users";
+import { setAccount } from "../../../redux/slices/auth";
 
 const UpdatePassword = () => {
   const {
@@ -17,9 +18,17 @@ const UpdatePassword = () => {
   useEffect(() => {
     setValue("google_app_password", user?.google_app_password);
   }, [user, setValue]);
-  const handleAddPassword = (data) => {
-    dispatch(updateUserRec(token, data, user.id));
+  const handleUpdate = async (data) => {
+    const updated = await dispatch(updateUserRec(token, data, user.id));
+    if (updated) {
+      const newUser = {
+        ...user,
+        google_app_password: data.google_app_password,
+      };
+      dispatch(setAccount(newUser));
+    }
   };
+
   return (
     <div className="tab-pane fade" id="tab_email_config">
       <div className="title-lg fs-4">
@@ -29,7 +38,7 @@ const UpdatePassword = () => {
         The Avatar component is used to represent a user, and displays the
         profile picture, initials or fallback icon.
       </p> */}
-      <form onSubmit={handleSubmit(handleAddPassword)}>
+      <form onSubmit={handleSubmit(handleUpdate)}>
         <div className="title title-xs title-wth-divider text-primary text-uppercase my-4">
           <span>Email Configuration</span>
         </div>

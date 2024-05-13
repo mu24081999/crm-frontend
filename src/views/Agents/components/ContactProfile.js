@@ -27,7 +27,7 @@ const ContactProfile = ({ contact }) => {
     if (contact) {
       setValue("name", contact.name);
       setValue("username", contact.username);
-      setValue("phone", contact.phone);
+      setValue("personal_phone", contact.personal_phone);
       setValue("email", contact.email);
       setValue("role", {
         label: contact.role,
@@ -44,7 +44,7 @@ const ContactProfile = ({ contact }) => {
     formData.append("name", data?.name);
     formData.append("username", data?.username);
     formData.append("email", data?.email);
-    formData.append("phoneNumber", data?.phone);
+    formData.append("personal_phone", data?.personal_phone);
     formData.append("status", data?.status?.value);
     formData.append("role", data?.role?.value);
     console.log("🚀 ~ handleUpdateUser ~ data:", data);
@@ -183,7 +183,7 @@ const ContactProfile = ({ contact }) => {
                   </div>
                   <div className="col-sm-6">
                     <InputField
-                      name="phone"
+                      name="personal_phone"
                       placeholder="Enter your phone number"
                       label="Phone Number"
                       control={control}

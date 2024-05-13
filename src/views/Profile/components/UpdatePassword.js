@@ -15,8 +15,8 @@ const UpdatePassword = () => {
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
 
-  const handleUpdatePassword = (data) => {
-    dispatch(updateUserRec(token, data, user.id));
+  const handleUpdatePassword = async (data) => {
+    const is_updated = await dispatch(updateUserRec(token, data, user.id));
   };
   return (
     <div className="tab-pane fade" id="tab_block_4">

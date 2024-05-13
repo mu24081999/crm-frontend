@@ -21,13 +21,15 @@ export const getUsers = (token) => async (dispatch) => {
         "x-access-token": token,
       },
     };
-    await axios.get(`${backendURL}/user/get-users`, config).then((response) => {
-      console.log("🚀 ~ .then ~ response:", response);
-      if (response?.data?.statusCode !== 200) {
-        return dispatch(invalidRequest(response.data.message));
-      }
-      dispatch(getAllUsers(response.data.data.usersData));
-    });
+    await axios
+      .get(`${backendURL}/user/get-users`, config)
+      .then(async (response) => {
+        console.log("🚀 ~ .then ~ response:", response);
+        if (response?.data?.statusCode !== 200) {
+          return dispatch(invalidRequest(response.data.message));
+        }
+        await dispatch(getAllUsers(response.data.data.usersData));
+      });
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }
@@ -117,16 +119,16 @@ export const updateUserRec = (token, data, user_id) => async (dispatch) => {
     };
     const is_updated = await axios
       .put(`${backendURL}/user/update-user-details/${user_id}`, data, config)
-      .then((response) => {
+      .then(async (response) => {
         console.log("🚀 ~ .then ~ response:", response);
         if (response?.data?.statusCode !== 200) {
           toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
 
+        await dispatch(updateUser(response.data.message));
+        await dispatch(getUsers(token));
         toast.success(response.data.message);
-        dispatch(updateUser(response.data.message));
-        dispatch(getUsers(token));
         // Cookie.set("token", response.data.data.token);
         return true;
       });

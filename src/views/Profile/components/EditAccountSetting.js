@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import InputField from "../../../components/FormFields/InputField";
 import TextAreaField from "../../../components/FormFields/textAreaField";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserRec } from "../../../redux/services/users";
+import { getUsers, updateUserRec } from "../../../redux/services/users";
 import { setAccount } from "../../../redux/slices/auth";
 const EditAccountSetting = () => {
   const {
@@ -16,31 +16,35 @@ const EditAccountSetting = () => {
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
   const { users, isLoading } = useSelector((state) => state.user);
+  console.log("🚀 ~ EditAccountSetting ~ users:", users);
   const [avatar, setAvatar] = useState(null);
   useEffect(() => {
     setValue("firstname", user?.name?.split(" ")[0]);
     setValue("lastname", user?.name?.split(" ")[1]);
-    setValue("username", user?.username);
     setValue("location", user?.location);
     setValue("bio", user?.bio);
     setValue("personal_phone", user?.personal_phone);
-  }, [user, setValue, isLoading]);
+  }, [user, setValue, users]);
   const handleEditAccount = async (data) => {
     const formData = new FormData();
     formData.append("name", data.firstname + " " + data.lastname);
     formData.append("avatar", avatar);
     formData.append("location", data.location);
     formData.append("bio", data.bio);
-    formData.append("username", data.username);
-    formData.append("phone", data.phone);
+    formData.append("personal_phone", data.personal_phone);
     const is_updated = await dispatch(updateUserRec(token, formData, user?.id));
-
-    console.log("is)updated", is_updated);
-
     if (is_updated === true) {
-      const updatedUser = users?.filter((usr) => usr.email === user?.email)[0];
-      console.log("🚀 ~ handleEditAccount ~ updatedUser:", updatedUser);
-      dispatch(setAccount(updatedUser));
+      const newUser = {
+        ...user,
+        name: data.firstname + " " + data.lastname,
+        email: data.email,
+        location: data.location,
+        bio: data.bio,
+        personal_phone: data.personal_phone,
+      };
+      console.log("🚀 ~ handleEditAccount ~ newUser:", newUser);
+
+      await dispatch(setAccount(newUser));
     }
   };
   const handleImage = (e) => {

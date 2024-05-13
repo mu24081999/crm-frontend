@@ -181,8 +181,8 @@ const SUB_Accounts_tab = ({
                           <div>{contact?.email}</div>
                         </div>
                         <div className="d-flex justify-content-between py-1">
-                          <div className="fw-bold fs-6">Phone</div>
-                          <div>{contact?.phoneNumber}</div>
+                          <div className="fw-bold fs-6">Phone Number</div>
+                          <div>{contact?.personal_phone}</div>
                         </div>
                         <div className="d-flex justify-content-between py-1">
                           <div className="fw-bold fs-6">Date Joined</div>

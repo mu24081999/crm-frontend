@@ -32,13 +32,12 @@ const NumberConfig = () => {
     const formData = new FormData();
     formData.append("phone", data?.phone?.value);
     const is_updated = await dispatch(updateUserRec(token, formData, user.id));
-
-    console.log("is)updated", is_updated);
-
     if (is_updated === true) {
-      const updatedUser = users?.filter((usr) => usr.email === user.email)[0];
-      console.log("🚀 ~ handleEditAccount ~ updatedUser:", updatedUser);
-      dispatch(setAccount(updatedUser));
+      const newUser = {
+        ...user,
+        phone: data?.phone?.value,
+      };
+      dispatch(setAccount(newUser));
     }
   };
   return (
