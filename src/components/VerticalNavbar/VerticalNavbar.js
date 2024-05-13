@@ -188,7 +188,7 @@ const VerticalNavbar = () => {
                             </svg>
                           </span>
                         </span>
-                        <span className="nav-link-text">Chat</span>
+                        <span className="nav-link-text">Team Chat</span>
                       </a>
                       <ul
                         id="dash_chat"
@@ -716,7 +716,7 @@ const VerticalNavbar = () => {
                     </li>
                   </>
                 )}
-              {user?.parent_id !== null &&
+              {/* {user?.parent_id !== null &&
                 (user?.role === "USER" ||
                   user?.role === "SUPER_ADMIN" ||
                   user?.role === "ADMIN") && (
@@ -757,7 +757,7 @@ const VerticalNavbar = () => {
                       </Link>
                     </li>
                   </>
-                )}
+                )} */}
               {/* {(user?.role === "SUPER_ADMIN" ||
                 user?.role === "ADMIN" ||
                 user?.role === "USER") && (
