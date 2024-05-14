@@ -50,6 +50,7 @@ const ComposeEmail = () => {
       formData.append("body", data.body);
       formData.append("type", "email");
       formData.append("from", user?.email);
+      formData.append("from_name", user?.name);
       formData.append("google_app_password", user?.google_app_password);
       if (emails.length > 0) {
         emails?.forEach((element) => {

@@ -12,6 +12,7 @@ import moment from "moment";
 
 const App = () => {
   const dispatch = useDispatch();
+
   const { user, token } = useSelector((state) => state.auth);
   const { subscriptions, isLoading } = useSelector(
     (state) => state.subscription

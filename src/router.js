@@ -29,8 +29,9 @@ import Invoice from "./views/Invoice/Invoice";
 import ChatGroup from "./views/ChatGroup/Chat";
 import DirectChat from "./views/ChatPopup/Chat";
 import Recordings from "./views/Recordings/Recording";
-import Users from "./views/Users/Users";
+import Clients from "./views/Admin/Clients/Users";
 import Agent from "./views/Agents/Agents";
+import AdminAgent from "./views/Admin/Agents/Agents";
 import Message from "./views/Message/Mesasge";
 import MessageBulk from "./views/MessageBulk/MesasgeBulk";
 import Account from "./views/Account/Account";
@@ -39,6 +40,7 @@ import Payment from "./views/Payment/Payment";
 import Subscription from "./views/Subscription/Subscription";
 import KYC from "./views/KYC/KYC";
 import Subaccounts from "./views/SubAccounts/Subaccounts";
+import AdminSubaccounts from "./views/Admin/Subaccounts/Subaccounts";
 import ActiveNumbers from "./views/ActiveNumbers/Numbers";
 import PlanSelection from "./views/PlanSelection/PlanSelection";
 import VerifyEmailOtp from "./views/Auth/verifyEmailOtp";
@@ -142,14 +144,34 @@ const router = (user, subscribed) => {
       )(MessageBulk),
     },
     {
-      path: "/clients",
+      path: "/admin/clients",
       // element: <Users />,
       element: RoleAuthorization(
         roles.dashboard,
         user?.role,
         subscribed,
         user
-      )(Users),
+      )(Clients),
+    },
+    {
+      path: "/admin/subaccounts",
+      // element: <Users />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(AdminSubaccounts),
+    },
+    {
+      path: "/admin/agents",
+      // element: <Users />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(AdminAgent),
     },
     {
       path: "/recordings",

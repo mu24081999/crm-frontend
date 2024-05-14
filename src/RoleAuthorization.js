@@ -17,8 +17,6 @@ const RoleAuthorization =
         user.parent_id === null &&
         user.client_id === null
       ) {
-        console.log("🚀 ~ AuthorizedComponent ~ userRole:", userRole);
-
         return <WrappedComponent />;
       } else if (
         allowedRoles.includes(role) &&
@@ -33,6 +31,8 @@ const RoleAuthorization =
         user.parent_id === null &&
         user.client_id !== null
       ) {
+        return <WrappedComponent />;
+      } else if (role === "ADMIN") {
         return <WrappedComponent />;
       } else {
         return <NotFound />;

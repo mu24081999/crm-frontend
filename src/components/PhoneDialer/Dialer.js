@@ -10,19 +10,14 @@ import { IoIosKeypad } from "react-icons/io";
 import { MdOutlineContacts } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getUsers } from "../../redux/services/users";
 import { useSelector } from "react-redux";
 import { Device } from "twilio-client";
-import {
-  getAllClaimedNumbers,
-  makeUserToCall,
-} from "../../redux/services/calling";
-import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
+import { getAllClaimedNumbers } from "../../redux/services/calling";
 
 import axios from "axios";
 import { getContactsList } from "../../redux/services/contact";
 import ReactSelectField from "../FormFields/reactSelectField";
-import Loader from "../Loader/Loader";
+import { BiLoaderCircle } from "react-icons/bi";
 
 //Helpers
 const Timer = () => {
@@ -359,7 +354,7 @@ const Dialer = () => {
                 <td colspan="3">
                   <div>
                     {isLoading ? (
-                      <Loader />
+                      <BiLoaderCircle />
                     ) : (
                       <button
                         className="btn btn-primary rounded-pill btn-lg"
