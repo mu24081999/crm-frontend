@@ -38,10 +38,13 @@ import Account from "./views/Account/Account";
 import Profile from "./views/Profile/Profile";
 import Payment from "./views/Payment/Payment";
 import Subscription from "./views/Subscription/Subscription";
+import AdminSubscription from "./views/Admin/Subscription/Subscription";
 import KYC from "./views/KYC/KYC";
+import AdminKYC from "./views/Admin/KYC/KYC";
 import Subaccounts from "./views/SubAccounts/Subaccounts";
 import AdminSubaccounts from "./views/Admin/Subaccounts/Subaccounts";
 import ActiveNumbers from "./views/ActiveNumbers/Numbers";
+import AdminActiveNumbers from "./views/Admin/ActiveNumbers/Numbers";
 import PlanSelection from "./views/PlanSelection/PlanSelection";
 import VerifyEmailOtp from "./views/Auth/verifyEmailOtp";
 import Permissions from "./views/Permissions/Permission";
@@ -318,6 +321,16 @@ const router = (user, subscribed) => {
       )(KYC),
     },
     {
+      path: "/admin/kyc-forms",
+      // element: <KYC />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(AdminKYC),
+    },
+    {
       path: "subaccounts",
       // element: <Subaccounts />,
       element: RoleAuthorization(
@@ -332,27 +345,27 @@ const router = (user, subscribed) => {
       element: <Permissions />,
     },
     {
-      path: "sign-up",
+      path: "/sign-up",
       element: <SignUp />,
     },
     {
-      path: "reset-password",
+      path: "/reset-password",
       element: <ResetPassword />,
     },
     {
-      path: "reset-password-verification/:email",
+      path: "/reset-password-verification/:email",
       element: <VerifyPassword />,
     },
     {
-      path: "email-verification/:email",
+      path: "/email-verification/:email",
       element: <VerifyEmailOtp />,
     },
     {
-      path: "edit-contact/:contactId",
+      path: "/edit-contact/:contactId",
       element: <ContactDetails />,
     },
     {
-      path: "active-numbers",
+      path: "/active-numbers",
       // element: <ActiveNumbers />,
       element: RoleAuthorization(
         roles.dashboard,
@@ -362,7 +375,17 @@ const router = (user, subscribed) => {
       )(ActiveNumbers),
     },
     {
-      path: "reset_password/:email",
+      path: "/admin/active-numbers",
+      // element: <ActiveNumbers />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(AdminActiveNumbers),
+    },
+    {
+      path: "/reset_password/:email",
       element: <ResetUserPassword />,
     },
     {
@@ -398,6 +421,16 @@ const router = (user, subscribed) => {
         subscribed,
         user
       )(Subscription),
+    },
+    {
+      path: "/admin/subscriptions",
+      // element: <Subscription />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(AdminSubscription),
     },
     {
       path: "/plan-selection",

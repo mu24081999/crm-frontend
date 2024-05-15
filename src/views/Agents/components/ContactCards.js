@@ -6,12 +6,14 @@ import moment from "moment";
 import { deleteUserRec } from "../../../redux/services/users";
 import { getAgentDetails } from "../../../redux/services/agent";
 import { loginUser } from "../../../redux/services/auth";
+import { useNavigate } from "react-router-dom";
 const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
+  const redirectTo = useNavigate();
   const { handleToggleShowUserDetail } = useContext(SocketContext);
   const handleLoginAccount = (account) => {
     dispatch(loginUser(account?.email, account?.password, true));
     // dispatch(setAccount(account));
-    // redirect("/");
+    redirectTo("/");
   };
   const handleToggle = (agent_id) => {
     // onToggleEdit(true);

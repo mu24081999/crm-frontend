@@ -1,18 +1,14 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import brand from "../../assets/logo-light.png";
 import InputField from "../../components/FormFields/InputField";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ForgotPassword,
   loginUser,
   verifyEmail,
-  verifyOTP,
 } from "../../redux/services/auth";
 import logo from "./../../assets/3.png";
-import { updateUserRec } from "../../redux/services/users";
-
 const VerifyEmailOtp = () => {
   const navigate = useNavigate();
   const {
@@ -26,7 +22,6 @@ const VerifyEmailOtp = () => {
   const dispatch = useDispatch();
   const { email } = useParams();
   const { token, user } = useSelector((state) => state.auth);
-  console.log("🚀 ~ VerifyEmailOtp ~ token:", email);
   useEffect(() => {
     if (user?.verified === 1) {
       navigate(`/reset_password/${email}`); // Navigate on successful verification
@@ -39,10 +34,6 @@ const VerifyEmailOtp = () => {
       // password: user.password,
     };
     const verificationSuccess = await dispatch(verifyEmail(formData));
-    console.log(
-      "🚀 ~ otpVerificationHandler ~ verificationSuccess:",
-      verificationSuccess
-    );
     if (verificationSuccess?.verified === 1) {
       reset();
       navigate(`/reset_password/${email}`);

@@ -4,7 +4,7 @@ import Analystics from "./components/Analystics";
 import Overview from "./components/Overview";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment/moment";
-import { FaCalendar, FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt } from "react-icons/fa";
 import { getDashboardData } from "../../redux/services/dashboard";
 
 const DashboardContent = () => {

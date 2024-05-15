@@ -3,7 +3,15 @@ import React from "react";
 import { FaArchive, FaRegStar, FaStar, FaTrash } from "react-icons/fa";
 import { updateEmailRec } from "../../../../../redux/services/email";
 import _ from "lodash";
-const EmailsList = ({ emailsData, emails, onEmailDetail, dispatch, token }) => {
+import Loader from "../../../../../components/Loader/Loader";
+const EmailsList = ({
+  emailsData,
+  emails,
+  onEmailDetail,
+  dispatch,
+  token,
+  isLoading,
+}) => {
   const handleEmailClick = (id) => {
     const repliesData = emails.filter((email) => email.parent_id === id);
     const selectedEmail = emailsData.filter((email) => email.id === id)[0];
@@ -27,18 +35,22 @@ const EmailsList = ({ emailsData, emails, onEmailDetail, dispatch, token }) => {
   }
   return (
     <ul className="email-list list-group list-group-flush">
-      {emailsData?.length > 0 &&
-        emailsData?.map((email, index) => (
-          <li
-            onClick={() => {
-              handleEmailClick(email?.id);
-            }}
-            className={`list-group-item `}
-            key={index}
-          >
-            <div className="media">
-              <div className="media-head">
-                {/* <div class="avatar avatar-sm avatar-rounded position-relative">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          {emailsData?.length > 0 &&
+            emailsData?.map((email, index) => (
+              <li
+                onClick={() => {
+                  handleEmailClick(email?.id);
+                }}
+                className={`list-group-item `}
+                key={index}
+              >
+                <div className="media">
+                  <div className="media-head">
+                    {/* <div class="avatar avatar-sm avatar-rounded position-relative">
                   <span
                     class="initial-wrap bg-primary"
                     style={{ color: "white" }}
@@ -53,15 +65,15 @@ const EmailsList = ({ emailsData, emails, onEmailDetail, dispatch, token }) => {
                   </span>
                   <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
                 </div> */}
-                <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
-                  <span class="initial-wrap">
-                    {extractCharactersFromArray(email?.sender?.name)
-                      .firstCharacter +
-                      extractCharactersFromArray(email?.sender?.name)
-                        .characterAfterSpace}
-                  </span>
-                </div>
-                {/* <div className="avatar avatar-sm avatar-rounded">
+                    <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
+                      <span class="initial-wrap">
+                        {extractCharactersFromArray(email?.sender?.name)
+                          .firstCharacter +
+                          extractCharactersFromArray(email?.sender?.name)
+                            .characterAfterSpace}
+                      </span>
+                    </div>
+                    {/* <div className="avatar avatar-sm avatar-rounded">
                   <img
                     // src="dist/img/avatar2.jpg"
                     src={
@@ -72,65 +84,69 @@ const EmailsList = ({ emailsData, emails, onEmailDetail, dispatch, token }) => {
                     className="avatar-img"
                   />
                 </div> */}
-                {/* <span className="badge badge-primary badge-indicator badge-indicator-nobdr"></span> */}
-              </div>
-              <div className="media-body">
-                <div>
-                  <div>
-                    <div className="email-head">{email?.sender?.name}</div>
+                    {/* <span className="badge badge-primary badge-indicator badge-indicator-nobdr"></span> */}
+                  </div>
+                  <div className="media-body">
                     <div>
-                      <span className="email-star marked">
-                        <span className="feather-icon pt-1">
-                          {/* <i data-feather="star"></i> */}
-                          {email?.status === "important" ? (
-                            <FaStar
-                              onClick={() =>
-                                handleImportantClick(email?.id, "active")
-                              }
-                            />
-                          ) : (
-                            <FaRegStar
-                              onClick={() =>
-                                handleImportantClick(email?.id, "important")
-                              }
-                            />
-                          )}
-                        </span>
-                        <span className="px-2 pb-1">
-                          <FaArchive
-                            color="#007d88"
-                            onClick={() =>
-                              handleImportantClick(email?.id, "archive")
-                            }
-                          />
-                        </span>
-                        <span className="px-1 pb-1">
-                          <FaTrash
-                            color="red"
-                            onClick={() =>
-                              handleImportantClick(email?.id, "blocked")
-                            }
-                          />
-                        </span>
-                      </span>
+                      <div>
+                        <div className="email-head">{email?.sender?.name}</div>
+                        <div>
+                          <span className="email-star marked">
+                            <span className="feather-icon pt-1">
+                              {/* <i data-feather="star"></i> */}
+                              {email?.status === "important" ? (
+                                <FaStar
+                                  onClick={() =>
+                                    handleImportantClick(email?.id, "active")
+                                  }
+                                />
+                              ) : (
+                                <FaRegStar
+                                  onClick={() =>
+                                    handleImportantClick(email?.id, "important")
+                                  }
+                                />
+                              )}
+                            </span>
+                            <span className="px-2 pb-1">
+                              <FaArchive
+                                color="#007d88"
+                                onClick={() =>
+                                  handleImportantClick(email?.id, "archive")
+                                }
+                              />
+                            </span>
+                            <span className="px-1 pb-1">
+                              <FaTrash
+                                color="red"
+                                onClick={() =>
+                                  handleImportantClick(email?.id, "blocked")
+                                }
+                              />
+                            </span>
+                          </span>
 
-                      <div className="email-time">
-                        {moment(email.created_at, "h:mm A").format("h:mm A")}
+                          <div className="email-time">
+                            {moment(email.created_at, "h:mm A").format(
+                              "h:mm A"
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="email-subject">{email.subject}</div>
+                      <div className="email-text">
+                        <div
+                          dangerouslySetInnerHTML={{ __html: email?.body }}
+                        ></div>
+                        <p></p>
                       </div>
                     </div>
                   </div>
-                  <div className="email-subject">{email.subject}</div>
-                  <div className="email-text">
-                    <div
-                      dangerouslySetInnerHTML={{ __html: email?.body }}
-                    ></div>
-                    <p></p>
-                  </div>
                 </div>
-              </div>
-            </div>
-          </li>
-        ))}
+              </li>
+            ))}
+        </>
+      )}
     </ul>
   );
 };

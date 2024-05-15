@@ -3,18 +3,17 @@ import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import SubscriptionList from "./components/SubscriptionList";
 import { useDispatch, useSelector } from "react-redux";
-import ContactDetails from "./components/ContactDetails";
-import "./contact.css";
 import SubscriptionCard from "./components/SubscriptionCard";
-import { SocketContext } from "../../Context";
-import { getUserSubscriptions } from "../../redux/services/subscription";
-import { getUsers } from "../../redux/services/users";
+import { SocketContext } from "../../../Context";
+import {
+  getSubscriptionsList,
+  getUserSubscriptions,
+} from "../../../redux/services/subscription";
+import { getUsers } from "../../../redux/services/users";
 const SubscriptionContent = () => {
-  const { handleToggleShowLeadDetail, showLeadDetails } =
-    useContext(SocketContext);
+  const { showLeadDetails } = useContext(SocketContext);
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
-  const { contactDetails } = useSelector((state) => state.contact);
   const [data, setData] = useState([]);
   const [data_, setData_] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -32,13 +31,13 @@ const SubscriptionContent = () => {
         };
         return filterData?.push(data);
       });
-      setData(filterData);
-      setData_(filterData);
+      setData(subscriptions);
+      setData_(subscriptions);
     }
   }, [subscriptions, users]);
   useEffect(() => {
     dispatch(getUsers(token));
-    dispatch(getUserSubscriptions(token));
+    dispatch(getSubscriptionsList(token));
   }, [token, dispatch]);
   const handleReceiveData = (receivedData) => {
     setData(receivedData);
@@ -61,15 +60,6 @@ const SubscriptionContent = () => {
               onToggleEdit={handleToggleEdit}
               subscriptions={data_}
             />
-            {showLeadDetails && (
-              <ContactDetails
-                isEdit={isEdit}
-                contactDetails={contactDetails}
-                dispatch={dispatch}
-                token={token}
-                authUser={user}
-              />
-            )}
 
             {!showLeadDetails && (
               <div className="contactapp-detail-wrap">
@@ -79,21 +69,12 @@ const SubscriptionContent = () => {
                 />
                 <div className="contact-body">
                   <div className="nicescroll-bar">
-                    {view === "list" ? (
-                      <SubscriptionList
-                        subscriptionsArray={data}
-                        onToggleEdit={handleToggleEdit}
-                        isEdit={isEdit}
-                      />
-                    ) : (
-                      <SubscriptionCard
-                        subscriptionArray={data}
-                        onToggleEdit={handleToggleEdit}
-                        isEdit={isEdit}
-                        dispatch={dispatch}
-                        token={token}
-                      />
-                    )}
+                    <SubscriptionList
+                      subscriptionsArray={data}
+                      users={users}
+                      onToggleEdit={handleToggleEdit}
+                      isEdit={isEdit}
+                    />
                   </div>
                 </div>
               </div>

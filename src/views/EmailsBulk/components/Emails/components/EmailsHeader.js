@@ -25,7 +25,7 @@ const EmailsHeader = ({ onDataFromChild, emailsData, authUser }) => {
     onDataFromChild(data);
   };
   const refresh = () => {
-    dispatch(getEmailList(token));
+    dispatch(getEmailList(token, authUser, 20, 1));
     dispatch(getUsers(token));
   };
   return (

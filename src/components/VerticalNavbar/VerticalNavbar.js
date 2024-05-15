@@ -109,7 +109,7 @@ const VerticalNavbar = () => {
                 <>
                   <li
                     className={`nav-item ${
-                      location?.pathname === "/clients" && "active"
+                      location?.pathname === "/admin/clients" && "active"
                     }`}
                   >
                     <Link className="nav-link" to="/admin/clients">
@@ -123,7 +123,7 @@ const VerticalNavbar = () => {
                   </li>
                   <li
                     className={`nav-item ${
-                      location?.pathname === "/subaccounts" && "active"
+                      location?.pathname === "/admin/subaccounts" && "active"
                     }`}
                   >
                     <Link className="nav-link" to="/admin/subaccounts">
@@ -137,7 +137,7 @@ const VerticalNavbar = () => {
                   </li>
                   <li
                     className={`nav-item ${
-                      location?.pathname === "/agents" && "active"
+                      location?.pathname === "/admin/agents" && "active"
                     }`}
                   >
                     <Link className="nav-link" to="/admin/agents">
@@ -151,7 +151,21 @@ const VerticalNavbar = () => {
                   </li>
                   <li
                     className={`nav-item ${
-                      location?.pathname === "/subscriptions" && "active"
+                      location?.pathname === "/admin/active-numbers" && "active"
+                    }`}
+                  >
+                    <Link className="nav-link" to="/admin/active-numbers">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <RiContactsBook2Line />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Active Numbers</span>
+                    </Link>
+                  </li>
+                  <li
+                    className={`nav-item ${
+                      location?.pathname === "/admin/subscriptions" && "active"
                     }`}
                   >
                     <Link className="nav-link" to="/admin/subscriptions">
@@ -165,7 +179,7 @@ const VerticalNavbar = () => {
                   </li>
                   <li
                     className={`nav-item ${
-                      location?.pathname === "/kyc-forms" && "active"
+                      location?.pathname === "/admin/kyc-forms" && "active"
                     }`}
                   >
                     <Link className="nav-link" to="/admin/kyc-forms">

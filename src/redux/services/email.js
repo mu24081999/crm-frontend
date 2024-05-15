@@ -10,28 +10,32 @@ import {
 import { toast } from "react-toastify";
 const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
 
-export const getEmailList = (token) => async (dispatch) => {
-  try {
-    dispatch(emailRequestLoading());
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": token,
-      },
-    };
-    await axios
-      .get(`${backendURL}/user/email/get-emails`, config)
-      .then((response) => {
-        if (response?.data?.statusCode !== 200) {
-          toast.error(response.data.message);
-          return dispatch(invalidRequest(response.data.message));
-        }
-        dispatch(getEmails(response.data.data.emailsData));
-      });
-  } catch (e) {
-    dispatch(invalidRequest(e.message));
-  }
-};
+export const getEmailList =
+  (token, user_email, page_size, page) => async (dispatch) => {
+    try {
+      dispatch(emailRequestLoading());
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
+      };
+      await axios
+        .get(
+          `${backendURL}/user/email/get-emails/${user_email}/${page_size}/${page}`,
+          config
+        )
+        .then((response) => {
+          if (response?.data?.statusCode !== 200) {
+            toast.error(response.data.message);
+            return dispatch(invalidRequest(response.data.message));
+          }
+          dispatch(getEmails(response.data.data.emailsData));
+        });
+    } catch (e) {
+      dispatch(invalidRequest(e.message));
+    }
+  };
 export const getEmailListByEmail = (token, data) => async (dispatch) => {
   try {
     dispatch(emailRequestLoading());
@@ -73,7 +77,7 @@ export const sendEmailRec = (token, data) => async (dispatch) => {
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(sendEmail(response.data.message));
-        dispatch(getEmailList(token));
+        dispatch(getEmailList(token, data.from, 20, 1));
         toast.success(response.data.message);
       });
   } catch (e) {

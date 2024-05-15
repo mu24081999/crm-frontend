@@ -1,28 +1,21 @@
 import React, { useContext } from "react";
 import { CiMenuKebab } from "react-icons/ci";
-import {
-  FaEdit,
-  FaRegStar,
-  FaStar,
-  FaTrash,
-  FaUser,
-  FaUserCheck,
-} from "react-icons/fa";
-import { FaMessage } from "react-icons/fa6";
-import { getContactDetais } from "../../../redux/services/contact";
+import { FaEdit, FaRegStar, FaTrash, FaUserCheck } from "react-icons/fa";
+
 import { SocketContext } from "../../../Context";
 import moment from "moment";
 import { deleteUserRec } from "../../../redux/services/users";
-import { setAccount } from "../../../redux/slices/auth";
-import { redirect } from "react-router-dom";
+
 import { loginUser } from "../../../redux/services/auth";
+import { useNavigate } from "react-router-dom";
 
 const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
+  const redirect = useNavigate();
   const { handleToggleShowUserDetail } = useContext(SocketContext);
   const handleLoginAccount = (account) => {
     dispatch(loginUser(account?.email, account?.password, true));
     // dispatch(setAccount(account));
-    // redirect("/");
+    redirect("/");
   };
   const handleToggle = (user_id) => {
     // onToggleEdit(true);

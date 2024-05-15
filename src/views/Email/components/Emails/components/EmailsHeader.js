@@ -1,5 +1,7 @@
 import React from "react";
 import {
+  FaAngleLeft,
+  FaAngleRight,
   FaArchive,
   FaCheckSquare,
   FaEdit,
@@ -19,12 +21,23 @@ const EmailsHeader = ({ onDataFromChild, emailsData, authUser }) => {
     onDataFromChild(data);
   };
   const refresh = () => {
-    dispatch(getEmailList(token));
+    dispatch(getEmailList(token, authUser.email, 20, 1));
     dispatch(getUsers(token));
   };
   return (
     <header class="aside-header">
-      <a
+      <div>
+        <span style={{ cursor: "pointer" }}>
+          <FaAngleLeft />
+        </span>
+        <span>
+          <FaAngleRight style={{ cursor: "pointer" }} />
+        </span>
+        <span className="ps-3" style={{ fontSize: "12px" }}>
+          1-20 of {emailsData?.length}
+        </span>
+      </div>
+      {/* <a
         class="emailapp-title dropdown-toggle link-dark"
         data-bs-toggle="dropdown"
         href="/"
@@ -37,40 +50,35 @@ const EmailsHeader = ({ onDataFromChild, emailsData, authUser }) => {
       <div class="dropdown-menu">
         <a class="dropdown-item" href="/">
           <span class="feather-icon dropdown-icon">
-            {/* <i data-feather="inbox"></i> */}
             <FaInbox />
           </span>
           <span>Inbox</span>
         </a>
         <button onClick={handleSentClick} class="dropdown-item" href="/">
           <span class="feather-icon dropdown-icon">
-            {/* <i data-feather="send"></i> */}
             <FaCheckSquare />
           </span>
           <span>Sent</span>
         </button>
         <a class="dropdown-item" href="/">
           <span class="feather-icon dropdown-icon">
-            {/* <i data-feather="archive"></i> */}
             <FaArchive />
           </span>
           <span>Archive</span>
         </a>
         <a class="dropdown-item" href="/">
           <span class="feather-icon dropdown-icon">
-            {/* <i data-feather="edit"></i> */}
             <FaEdit />
           </span>
           <span>Draft</span>
         </a>
         <a class="dropdown-item" href="/">
           <span class="feather-icon dropdown-icon">
-            {/* <i data-feather="trash-2"></i> */}
             <FaTrash />
           </span>
           <span>Trash</span>
         </a>
-      </div>
+      </div> */}
       <div class="d-flex">
         <a
           class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover me-0"

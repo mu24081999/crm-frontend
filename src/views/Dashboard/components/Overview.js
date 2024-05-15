@@ -749,21 +749,22 @@ const Overview = ({ dashboardData, isLoading, user }) => {
                       </thead>
 
                       <tbody>
-                        {dashboardData?.sub_accounts?.map((account, index) => {
-                          return (
-                            <>
-                              <tr key={index}>
-                                <td>{account?.name}</td>
-                                <td>{account?.email}</td>
-                                <td>
-                                  {moment(account?.created_at)?.format(
-                                    "DD MMM,YYYY"
-                                  )}
-                                </td>
-                              </tr>
-                            </>
-                          );
-                        })}
+                        {dashboardData?.sub_accounts?.length > 0 &&
+                          dashboardData?.sub_accounts?.map((account, index) => {
+                            return (
+                              <>
+                                <tr key={index}>
+                                  <td>{account?.name}</td>
+                                  <td>{account?.email}</td>
+                                  <td>
+                                    {moment(account?.created_at)?.format(
+                                      "DD MMM,YYYY"
+                                    )}
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          })}
                       </tbody>
                     </table>
                   </div>

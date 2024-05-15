@@ -12,6 +12,7 @@ const Emails = ({
   emailDetails,
   token,
   dispatch,
+  isLoading,
 }) => {
   return (
     <div class="emailapp-content">
@@ -36,6 +37,7 @@ const Emails = ({
             emails={emailArray}
             dispatch={dispatch}
             token={token}
+            isLoading={isLoading}
             // onEmailDetail={handleEmailDetails}
             onEmailDetail={onEmailDetail}
           />

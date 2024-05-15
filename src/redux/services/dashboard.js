@@ -18,7 +18,13 @@ export const getDashboardData = (token, data) => async (dispatch) => {
       },
     };
     await axios
-      .post(`${backendURL}/user/dashboard/get-dashboard`, data, config)
+      .post(`${backendURL}/user/dashboard/get-dashboard`, data, {
+        timeout: 60000,
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
+      })
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         if (response?.data?.statusCode !== 200) {

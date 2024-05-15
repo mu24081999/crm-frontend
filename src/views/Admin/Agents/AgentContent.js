@@ -9,21 +9,16 @@ import "./contact.css";
 import ContactCards from "./components/ContactCards";
 import { SocketContext } from "../../../Context";
 import { getUsers } from "../../../redux/services/users";
-import { MdClose } from "react-icons/md";
 import _ from "lodash";
 const AgentContent = () => {
-  const { handleToggleShowLeadDetail, showUserDetails } =
-    useContext(SocketContext);
+  const { showUserDetails } = useContext(SocketContext);
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
-  const { contactDetails } = useSelector((state) => state.contact);
   const [data, setData] = useState([]);
   const [data_, setData_] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [view, setView] = useState("list");
-  const { contacts } = useSelector((state) => state.contact);
   const { users, userDetails } = useSelector((state) => state.user);
-  console.log("🚀 ~ ContactsContent ~ users:", users);
   useEffect(() => {
     dispatch(getUsers(token));
   }, [token, dispatch]);

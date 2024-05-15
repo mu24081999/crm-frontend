@@ -13,9 +13,10 @@ import {
 import { getUserSubAccountsList } from "../../redux/services/calling";
 import { setAccount } from "../../redux/slices/auth";
 import { getUsers } from "../../redux/services/users";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const TopNavbar = ({}) => {
+  const redirectTo = useNavigate();
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
@@ -42,6 +43,7 @@ const TopNavbar = ({}) => {
   const handleAccountClick = (account) => {
     setSelectedAccount(account);
     dispatch(loginUser(account?.username, account?.password, true));
+    redirectTo("/");
     // dispatch(setAccount(account));
   };
   useEffect(() => {

@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
-import { CiMenuKebab } from "react-icons/ci";
-import { FaEdit, FaRegStar, FaTrash } from "react-icons/fa";
+import { FaRegStar } from "react-icons/fa";
 import moment from "moment";
-import { SocketContext } from "../../../Context";
+import { SocketContext } from "../../../../Context";
 
 const SubscriptionCard = ({ subscriptionArray, token }) => {
   const { handleToggleShowLeadDetail } = useContext(SocketContext);

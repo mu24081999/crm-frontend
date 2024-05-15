@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const EmailContent = () => {
   const { token, user } = useSelector((state) => state.auth);
-  const { emails } = useSelector((state) => state.email);
+  const { isLoading, emails } = useSelector((state) => state.email);
   const { users } = useSelector((state) => state.user);
   const [emailData, setEmailData] = useState([]);
   const [emailArray, setEmailArray] = useState([]);
@@ -19,9 +19,9 @@ const EmailContent = () => {
   const [userData, setUsersData] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getEmailList(token));
+    dispatch(getEmailList(token, user?.email, 20, 1));
     dispatch(getUsers(token));
-  }, [token, dispatch]);
+  }, [token, dispatch, user]);
   useEffect(() => {
     if (emails?.length > 0) {
       const filteredData = emails?.filter((email) => email.parent_id === null);
@@ -107,6 +107,7 @@ const EmailContent = () => {
               onDataFromChild={handleDataFromChild}
               onEmailDetail={handleEmailDetails}
               authUser={user}
+              isLoading={isLoading}
               emailArray={emailArray}
               emailDetails={emailDetails}
               emailsData={emailsData}
