@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 
 const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
+  console.log("🚀 ~ Sidebar ~ initialData:", initialData);
   const [activeBar, setActiveBar] = useState("inbox");
   const onSentClick = () => {
     const data = initialData?.filter(
@@ -35,9 +36,7 @@ const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
   };
   const onInboxClick = () => {
     const data = initialData?.filter(
-      (email) =>
-        (email?.status === "active" && email?.reciever?.id === authUser?.id) ||
-        (email?.status === "important" && email?.reciever?.id === authUser?.id)
+      (email) => email?.reciever?.email === authUser?.email
     );
     onDataFromChild(data);
     setActiveBar("inbox");

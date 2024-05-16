@@ -28,10 +28,12 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
     if (event.key === "Enter") {
       const messageData = {
         from: {
-          phone: authUser?.phone,
-          name: authUser?.name,
-          avatar: authUser?.avatar,
-          socket_id: authUser?.socket_id,
+          phone: authUser.phone,
+          name: authUser.name,
+          avatar: authUser.avatar,
+          socket_id: authUser.socket_id,
+          accountSid: authUser?.accountSid,
+          authToken: authUser?.authToken,
         },
         to: {
           phone: contactDetails?.phone,
@@ -39,6 +41,7 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
           avatar: contactDetails?.avatar,
         },
         // to: "+923174660027",
+        user_id: authUser?.id,
         message: message,
       };
       sendTextMessage(messageData);
@@ -67,7 +70,7 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
       >
         <ul
           className="list-unstyled"
-          style={{ height: "550px", overflow: "scroll" }}
+          style={{ maxHeight: "35rem", overflow: "scroll" }}
         >
           {Object.entries(selectedMessages).map(([date, messages]) => (
             <div key={date}>
@@ -114,14 +117,14 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
                       </div>
                     </li>
                   ) : (
-                    <li className="media received w-100 d-flex justify-content-end">
+                    <li className="media sent w-100 d-flex justify-content-end">
                       <div className="rounded-3 d-flex">
-                        <div className="alert alert-secondary mx-1 border border-primary">
+                        <div className="alert bg-primary mx-1 border border-primary">
                           <div
                             className="msg-box"
                             style={{ width: "max-content" }}
                           >
-                            <div>
+                            <div className="text-white">
                               <p>{message?.message}</p>
                               <span
                                 className="chat-time float-end"
@@ -132,7 +135,7 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
                             </div>
                           </div>
                         </div>
-                        <div className="avatar avatar-sm avatar-primary position-relative avatar-rounded">
+                        {/* <div className="avatar avatar-sm avatar-primary position-relative avatar-rounded">
                           <span className="initial-wrap">
                             {extractCharactersFromArray(
                               contactDetails.firstname +
@@ -145,7 +148,7 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
                                   contactDetails.lastname
                               ).characterAfterSpace}
                           </span>
-                        </div>
+                        </div> */}
                       </div>
                     </li>
                   )}

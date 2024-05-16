@@ -23,21 +23,20 @@ const EmailContent = () => {
     dispatch(getUsers(token));
   }, [token, dispatch, user]);
   useEffect(() => {
-    if (emails?.length > 0) {
-      const filteredData = emails?.filter((email) => email.parent_id === null);
-      const data = [];
-      emails?.forEach((email) => {
-        const sender = userData?.filter(
-          (user) => user.email === email.sender
-        )[0];
-        const reciever = userData?.filter(
-          (user) => user.email === email.reciever
-        )[0];
-        data.push({ ...email, sender, reciever });
-      });
-      setEmailArray(data);
-      setEmailData(filteredData);
-    }
+    // if (emails?.length > 0) {
+    const filteredData = emails?.filter((email) => email.parent_id === null);
+
+    const data = [];
+    emails?.forEach((email) => {
+      const sender = userData?.filter((user) => user.email === email.sender)[0];
+      const reciever = userData?.filter(
+        (user) => user.email === email.reciever
+      )[0];
+      data.push({ ...email, sender, reciever });
+    });
+    setEmailArray(data);
+    setEmailData(filteredData);
+    // }
   }, [emails, userData]);
   useEffect(() => {
     if (users?.length > 0) {
@@ -45,42 +44,36 @@ const EmailContent = () => {
     }
   }, [users]);
   useEffect(() => {
-    if (emailData?.length > 0 && userData?.length > 0) {
-      const data = [];
-      const filteredData = emailData?.filter(
-        (email) =>
-          email.reciever === user.email &&
-          (email.status === "active" || email.status === "important")
-      );
-      filteredData?.map((email) => {
-        const sender = userData?.filter(
-          (user) => user.email === email.sender
-        )[0];
-        const reciever = userData?.filter(
-          (user) => user.email === email.reciever
-        )[0];
-        data.push({ ...email, sender, reciever });
-      });
-      setEmailsData(data);
-    }
+    // if (emailData?.length > 0 && userData?.length > 0) {
+    const data = [];
+    const filteredData = emailData?.filter(
+      (email) => email.reciever === user.email
+    );
+    filteredData?.map((email) => {
+      const sender = userData?.filter((user) => user.email === email.sender)[0];
+      const reciever = userData?.filter(
+        (user) => user.email === email.reciever
+      )[0];
+      data.push({ ...email, sender, reciever });
+    });
+    setEmailsData(data);
+    // }
   }, [emailData, userData, user]);
   useEffect(() => {
-    if (emailData?.length > 0 && userData?.length > 0) {
-      const data = [];
-      // const filteredData = emailData?.filter(
-      //   (email) => email.reciever === user.email && email.status === "active"
-      // );
-      emailData?.map((email) => {
-        const sender = userData?.filter(
-          (user) => user.email === email.sender
-        )[0];
-        const reciever = userData?.filter(
-          (user) => user.email === email.reciever
-        )[0];
-        data.push({ ...email, sender, reciever });
-      });
-      setEmailsData_(data);
-    }
+    // if (emailData?.length > 0 && userData?.length > 0) {
+    const data = [];
+    // const filteredData = emailData?.filter(
+    //   (email) => email.reciever === user.email && email.status === "active"
+    // );
+    emailData?.map((email) => {
+      const sender = userData?.filter((user) => user.email === email.sender)[0];
+      const reciever = userData?.filter(
+        (user) => user.email === email.reciever
+      )[0];
+      data.push({ ...email, sender, reciever });
+    });
+    setEmailsData_(data);
+    // }
   }, [emailData, userData, user]);
   const handleDataFromChild = (data) => {
     setEmailsData(data);

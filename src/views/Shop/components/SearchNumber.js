@@ -39,7 +39,7 @@ const SearchNumber = ({
       country: data.country.value,
     };
     dispatch(searchAvailablePhoneNumber(token, formData));
-    onDataFromChild(false);
+    // onDataFromChild(false);
   };
   return (
     <form onSubmit={handleSubmit(handleSearchNumber)}>
@@ -152,7 +152,7 @@ const SearchNumber = ({
             <div className="col-md-4 col-sm-6">
               <InputField
                 name="area_code"
-                placeholder="Area Code"
+                placeholder="Area Code (start digits)"
                 control={control}
                 errors={errors}
                 mb={false}
@@ -170,7 +170,7 @@ const SearchNumber = ({
               ) : (
                 <InputField
                   name="number"
-                  placeholder="Search by Digits "
+                  placeholder="Search by Digits (last digits)"
                   control={control}
                   errors={errors}
                   mb={false}

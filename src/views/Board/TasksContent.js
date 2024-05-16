@@ -9,15 +9,11 @@ import {
   FaFacebook,
   FaGoogle,
   FaLinkedin,
-  FaPlus,
   FaTrash,
   FaTwitter,
 } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import {
-  getTaskDetails,
-  updateTaskRec,
-} from "../../redux/services/project-task";
+import { getTaskDetails } from "../../redux/services/project-task";
 import { updateContactRec } from "../../redux/services/contact";
 import { Link } from "react-router-dom";
 import { SocketContext } from "../../Context";
@@ -286,8 +282,8 @@ const TasksContent = ({ tasksData, token, contactsData, boardDetails }) => {
                                 <div className="dropdown-menu dropdown-menu-end">
                                   <button
                                     className="dropdown-item"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#edit_project_task"
+                                    // data-bs-toggle="modal"
+                                    // data-bs-target="#edit_project_task"
                                     onClick={() => handleUpdateTask(task.id)}
                                   >
                                     <span className="feather-icon dropdown-icon">

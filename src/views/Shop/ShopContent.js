@@ -32,18 +32,18 @@ const ContactsContent = () => {
   const backendURL = process.env.REACT_APP_BACKEND_URL_PRODUCTION;
   const dispatch = useDispatch();
   useEffect(() => {
-    if (contacts.length > 0) {
-      const filterData = contacts.filter(
-        (contact) => contact.status !== "blocked"
-      );
-      setData(filterData);
-    }
+    // if (contacts.length > 0) {
+    const filterData = contacts?.filter(
+      (contact) => contact.status !== "blocked"
+    );
+    setData(filterData);
+    // }
   }, [contacts]);
   useEffect(() => {
-    if (availableNumbers.length > 0) {
-      setPhoneNumbers(availableNumbers);
-      setPhoneNumbers_(availableNumbers);
-    }
+    // if (availableNumbers.length > 0) {
+    setPhoneNumbers(availableNumbers);
+    setPhoneNumbers_(availableNumbers);
+    // }
   }, [availableNumbers]);
   useEffect(() => {
     dispatch(
@@ -117,7 +117,7 @@ const ContactsContent = () => {
                 )}
                 <div className="contact-body">
                   <div data-simplebar className="nicescroll-bar">
-                    <div className="collapse" id="collapseQuick">
+                    {/* <div className="collapse" id="collapseQuick">
                       <div className="quick-access-form-wrap">
                         <form className="quick-access-form border">
                           <div className="row gx-3">
@@ -219,7 +219,7 @@ const ContactsContent = () => {
                           </div>
                         </form>
                       </div>
-                    </div>
+                    </div> */}
 
                     <ContactList
                       contactsData={phoneNumbers}

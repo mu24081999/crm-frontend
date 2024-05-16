@@ -77,6 +77,7 @@ const EmailDetails = ({ emailDetails, emailsData, emails, onEmailDetail }) => {
     formData.append("type", "reply");
     formData.append("from", user.email);
     formData.append("parent_id", emailDetails?.selectedEmail?.id);
+    formData.append("google_app_password", user.google_app_password);
     formData.append("to", data.to);
     data.files &&
       data.files.forEach((element) => {

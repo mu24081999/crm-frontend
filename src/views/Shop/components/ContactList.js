@@ -18,32 +18,15 @@ const ContactList = ({
   onDataFromChild,
 }) => {
   const dispatch = useDispatch();
-  // const [contactsData, setContactData] = useState();
   const { token } = useSelector((state) => state.auth);
-  const [amount, setAmount] = useState(null);
-  const { isLoading, contacts } = useSelector((state) => state.contact);
+  const { isLoading } = useSelector((state) => state.calling);
   useEffect(() => {
     if (token) {
       dispatch(getContactsList(token));
       dispatch(getUsers(token));
     }
   }, [dispatch, token]);
-  // useEffect(() => {
-  //   if (contacts.length > 0) {
-  //     setContactData(contacts);
-  //   }
-  // }, [contacts]);
-  const handleDeleteContact = (contact_id) => {
-    console.log("🚀 ~ handleDeleteContact ~ contact_id:", contact_id);
-    dispatch(deleteContactRec(token, contact_id));
-    onToggleEdit(false);
-  };
-  const handleToggle = (contact_id) => {
-    onToggleEdit(true);
-    dispatch(getContactDetais(token, contact_id));
-  };
   const handleBuyClick = (phoneNumberData) => {
-    console.log("🚀 ~ handleBuyClick ~ phoneNumberData:", phoneNumberData);
     onDataFromChild(phoneNumberData?.phoneNumber);
     dispatch(
       paymentIntent(token, {
@@ -99,33 +82,24 @@ const ContactList = ({
                       </td>
                       <td>Local</td>
                       <td className="">
-                        {" "}
-                        <input
-                          className=""
-                          type="radio"
-                          checked={contact?.capabilities?.voice}
-                        />
+                        <button className="btn btn-sm btn-primary">
+                          {contact?.capabilities?.voice ? "true" : "false"}
+                        </button>
                       </td>
                       <td>
-                        <input
-                          className=""
-                          type="radio"
-                          checked={contact?.capabilities?.SMS}
-                        />
+                        <button className="btn btn-sm btn-primary">
+                          {contact?.capabilities?.SMS ? "true" : "false"}
+                        </button>
                       </td>
                       <td>
-                        <input
-                          className=""
-                          type="radio"
-                          checked={contact?.capabilities?.MMS}
-                        />
+                        <button className="btn btn-sm btn-primary">
+                          {contact?.capabilities?.MMS ? "true" : "false"}
+                        </button>
                       </td>
                       <td>
-                        <input
-                          className=""
-                          type="radio"
-                          checked={contact?.capabilities?.fax}
-                        />
+                        <button className="btn btn-sm btn-primary">
+                          {contact?.capabilities?.fax ? "true" : "false"}
+                        </button>
                       </td>
                       <td>{contact?.addressRequirements}</td>
                       <td className="fw-bold">$2.5</td>

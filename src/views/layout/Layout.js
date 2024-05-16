@@ -42,7 +42,6 @@ const Layout = ({ component }) => {
   useEffect(() => {
     if (users) {
       const data = users?.filter((ur) => _.toInteger(ur.parent_id) === user.id);
-      console.log("🚀 ~ useEffect ~ data:", data);
       setSubAccountsData(data);
     }
   }, [users, user, setSubAccountsData]);
@@ -50,10 +49,10 @@ const Layout = ({ component }) => {
     console.log(data);
     const formData = {
       ...data,
-      accountSid: accountSid !== "" && accountSid,
-      authToken: accountAuthToken !== "" && accountAuthToken,
+      // accountSid: accountSid !== "" && accountSid,
+      // authToken: accountAuthToken !== "" && accountAuthToken,
 
-      parent_id: user?.id,
+      parent_id: _.toString(user.id),
       role: "USER",
     };
     dispatch(addUserRec(token, formData));

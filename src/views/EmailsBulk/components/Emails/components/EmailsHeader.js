@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+  FaAngleLeft,
+  FaAngleRight,
   FaArchive,
   FaBicycle,
   FaCalendar,
@@ -19,63 +21,43 @@ import { getUsers } from "../../../../../redux/services/users";
 
 const EmailsHeader = ({ onDataFromChild, emailsData, authUser }) => {
   const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
   const { token } = useSelector((state) => state.auth);
   const handleSentClick = () => {
     const data = emailsData.filter((data) => data.sender === authUser.email);
     onDataFromChild(data);
   };
   const refresh = () => {
-    dispatch(getEmailList(token, authUser, 20, 1));
+    dispatch(getEmailList(token, authUser.email, 20, 1));
     dispatch(getUsers(token));
+  };
+  const handleNextClick = () => {
+    setPage((newNextPage) => {
+      const nextPage = newNextPage + 1;
+      dispatch(getEmailList(token, authUser.email, 20, nextPage));
+      return nextPage;
+    });
+  };
+
+  const handlePrevClick = () => {
+    setPage((newPrevPage) => {
+      const prevPage = newPrevPage - 1;
+      dispatch(getEmailList(token, authUser.email, 20, prevPage));
+      return prevPage;
+    });
   };
   return (
     <header class="aside-header">
-      <a
-        class="emailapp-title dropdown-toggle link-dark"
-        data-bs-toggle="dropdown"
-        href="/"
-        role="button"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        <h1>Inbox</h1>
-      </a>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="/">
-          <span class="feather-icon dropdown-icon">
-            {/* <i data-feather="inbox"></i> */}
-            <FaInbox />
-          </span>
-          <span>Inbox</span>
-        </a>
-        <button onClick={handleSentClick} class="dropdown-item" href="/">
-          <span class="feather-icon dropdown-icon">
-            {/* <i data-feather="send"></i> */}
-            <FaCheckSquare />
-          </span>
-          <span>Sent</span>
-        </button>
-        <a class="dropdown-item" href="/">
-          <span class="feather-icon dropdown-icon">
-            {/* <i data-feather="archive"></i> */}
-            <FaArchive />
-          </span>
-          <span>Archive</span>
-        </a>
-        <a class="dropdown-item" href="/">
-          <span class="feather-icon dropdown-icon">
-            {/* <i data-feather="edit"></i> */}
-            <FaEdit />
-          </span>
-          <span>Draft</span>
-        </a>
-        <a class="dropdown-item" href="/">
-          <span class="feather-icon dropdown-icon">
-            {/* <i data-feather="trash-2"></i> */}
-            <FaTrash />
-          </span>
-          <span>Trash</span>
-        </a>
+      <div>
+        <span style={{ cursor: "pointer" }} onClick={handlePrevClick}>
+          <FaAngleLeft />
+        </span>
+        <span onClick={handleNextClick}>
+          <FaAngleRight style={{ cursor: "pointer" }} />
+        </span>
+        <span className="ps-3" style={{ fontSize: "12px" }}>
+          1-{emailsData?.length} Page number {page}
+        </span>
       </div>
       <div class="d-flex">
         <a

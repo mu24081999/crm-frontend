@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ReactSelectField from "../../components/FormFields/reactSelectField";
 import { useForm } from "react-hook-form";
 import Checkbox from "../../components/FormFields/checkboxField";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsers } from "../../redux/services/users";
+import _ from "lodash";
 
 const PermissionContent = () => {
   const {
@@ -9,6 +12,21 @@ const PermissionContent = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const dispatch = useDispatch();
+  const { token, user } = useSelector((state) => state.auth);
+  const { users } = useSelector((state) => state.user);
+  const [subaccounts, setSubaccounts] = useState([]);
+  useEffect(() => {
+    dispatch(getUsers(token));
+  }, [dispatch, token]);
+  useEffect(() => {
+    if (users?.length > 0) {
+      const data = users?.filter(
+        (usr) => _.toInteger(usr.parent_id) === user.id
+      );
+      setSubaccounts(data);
+    }
+  }, [users, user]);
   return (
     <div>
       <div className="hk-pg-wrapper">
@@ -22,7 +40,16 @@ const PermissionContent = () => {
                 <ReactSelectField
                   control={control}
                   errors={errors}
-                  options={[]}
+                  options={
+                    subaccounts?.length > 0
+                      ? subaccounts?.map((account, index) => {
+                          return {
+                            label: account?.name,
+                            value: account?.id,
+                          };
+                        })
+                      : []
+                  }
                   name="user"
                   placeholder={"Select Account"}
                   label="Account"

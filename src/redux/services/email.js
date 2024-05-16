@@ -59,7 +59,6 @@ export const getEmailListByEmail = (token, data) => async (dispatch) => {
   }
 };
 export const sendEmailRec = (token, data) => async (dispatch) => {
-  console.log("🚀 ~ sendEmailRec ~ data:", data);
   try {
     dispatch(emailRequestLoading());
     const config = {

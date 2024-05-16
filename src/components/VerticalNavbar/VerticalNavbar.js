@@ -910,7 +910,20 @@ const VerticalNavbar = () => {
                   </li>
                 </>
               )}
-
+              <li
+                className={`nav-item ${
+                  location?.pathname === "/permissions" && "active"
+                }`}
+              >
+                <Link className="nav-link" to="/permissions">
+                  <span className="nav-icon-wrap">
+                    <span className="svg-icon">
+                      <IoSettingsOutline />
+                    </span>
+                  </span>
+                  <span className="nav-link-text">Permission</span>
+                </Link>
+              </li>
               <li
                 className={`nav-item ${
                   location?.pathname === "/account-settings" && "active"

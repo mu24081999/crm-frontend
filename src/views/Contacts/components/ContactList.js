@@ -2,20 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteContactRec,
-  getContactDetais,
   getContactsList,
   updateContactRec,
 } from "../../../redux/services/contact";
 import Loader from "../../../components/Loader/Loader";
-import {
-  FaArchive,
-  FaArrowDown,
-  FaCopy,
-  FaEdit,
-  FaRegStar,
-  FaStar,
-  FaTrash,
-} from "react-icons/fa";
+import { FaArchive, FaEdit, FaRegStar, FaStar, FaTrash } from "react-icons/fa";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { SocketContext } from "../../../Context";
@@ -54,12 +45,9 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
             <table className="table w-100 mb-5">
               <thead>
                 <tr>
-                  <th></th>
                   <th>Name</th>
                   <th>Email Address</th>
                   <th>Phone</th>
-                  <th>Tags</th>
-                  <th>Labels</th>
                   <th>Date Created</th>
                   <th>Actions</th>
                 </tr>
@@ -69,28 +57,6 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                 {contactsData?.length > 0 &&
                   contactsData?.map((contact) => (
                     <tr>
-                      <td>
-                        <div className="d-flex align-items-center">
-                          <span className="contact-star marked">
-                            <span className="feather-icon">
-                              {/* <i data-feather="star"></i> */}
-                              {contact?.status === "important" ? (
-                                <FaStar
-                                  onClick={() =>
-                                    handleUpdateStatus(contact?.id, "active")
-                                  }
-                                />
-                              ) : (
-                                <FaRegStar
-                                  onClick={() =>
-                                    handleUpdateStatus(contact?.id, "important")
-                                  }
-                                />
-                              )}
-                            </span>
-                          </span>
-                        </div>
-                      </td>
                       <td>
                         <div className="media align-items-center">
                           <div className="media-head me-2">
@@ -130,19 +96,6 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                       </td>
                       <td className="text-truncate">{contact?.email}</td>
                       <td>{contact?.phone}</td>
-                      <td>
-                        {/* {contact?.tags &&
-                          contact?.tags?.length > 0 &&
-                          contact?.tags?.map((tag, index) => (
-                            <span
-                              key={index}
-                              className="badge badge-soft-danger  my-1  me-2"
-                            >
-                              {tag.name}
-                            </span>
-                          ))} */}
-                      </td>
-                      <td>{contact?.designation}</td>
                       <td>
                         {moment(contact?.created_at).format("DD MMM, YYYY")}
                       </td>

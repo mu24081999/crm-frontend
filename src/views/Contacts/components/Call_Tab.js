@@ -10,17 +10,16 @@ const Call_Tab = ({ activeBar, contactDetails, authUser, token, dispatch }) => {
   useMemo(() => {
     dispatch(
       CallLogsList(token, {
-        accountSid: "AC1237366c79ad62eb76b0e0775cf053d3",
-        authToken: "39a1a699c20634690e6e1c935cfeda9d",
+        accountSid: authUser?.accountSid,
+        authToken: authUser.authToken,
       })
     );
-  }, [token, dispatch]);
+  }, [token, dispatch, authUser]);
   useEffect(() => {
     if (callLogs?.length > 0) {
       const data = callLogs?.filter(
         (call) =>
-          (call.from === authUser.phone && call.to === contactDetails.phone) ||
-          (call.from === contactDetails.phone && call.to === authUser.phone)
+          call.to === contactDetails.phone || call.from === contactDetails.phone
       );
       setCallsData(data);
     }
@@ -32,24 +31,21 @@ const Call_Tab = ({ activeBar, contactDetails, authUser, token, dispatch }) => {
           activeBar === "Call_tab" ? "active" : ""
         }`}
         id="Call_tab"
-        style={{ maxWidth: "800px", overflow: "scroll", maxHeight: "670px" }}
+        style={{ maxWidth: "800px", overflow: "scroll", maxHeight: "35rem" }}
       >
         {isLoading ? (
           <div className="w-100 border border-primary">
             <Loader />
           </div>
         ) : (
-          <table class="table table-striped">
-            <thead class="table-success">
-              <tr className="sticky-top border rounded">
-                <th>Call SID and Date </th>
-                <th>Status</th>
-                <th>Direction</th>
+          <table class="table table-striped shadow-lg">
+            <thead class="table-primary">
+              <tr className="sticky-top rounded">
                 <th>From</th>
                 <th>To</th>
-                <th>Call Type </th>
                 <th>Duration</th>
-                <th>STIR Status</th>
+                <th>Status</th>
+                <th>Direction</th>
               </tr>
             </thead>
 
@@ -58,20 +54,18 @@ const Call_Tab = ({ activeBar, contactDetails, authUser, token, dispatch }) => {
                 {callsData?.length > 0 &&
                   callsData?.map((call, index) => (
                     <tr key={index}>
-                      <td>
-                        {call?.accountSid}
+                      {/* <td>
+                         {call?.accountSid}
                         <hr></hr>
                         {moment(call?.dateCreated).format(
                           "HH:mm:ss YYYY-MM-DD"
                         )}
-                      </td>
-                      <td>{call?.status}</td>
-                      <td>{call?.direction}</td>
+                      </td> */}
                       <td>{call?.from}</td>
                       <td>{call?.to}</td>
-                      <td>Phone</td>
                       <td>{call?.duration} sec</td>
-                      <td>...</td>
+                      <td>{call?.status}</td>
+                      <td>{call?.direction}</td>
                     </tr>
                   ))}
               </>

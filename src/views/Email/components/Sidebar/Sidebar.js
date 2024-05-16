@@ -37,8 +37,10 @@ const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
   const onInboxClick = () => {
     const data = initialData?.filter(
       (email) =>
-        (email?.status === "active" && email?.reciever?.id === authUser?.id) ||
-        (email?.status === "important" && email?.reciever?.id === authUser?.id)
+        (email?.status === "active" &&
+          email?.reciever?.email === authUser?.email) ||
+        (email?.status === "important" &&
+          email?.reciever?.email === authUser?.email)
     );
     onDataFromChild(data);
     setActiveBar("inbox");

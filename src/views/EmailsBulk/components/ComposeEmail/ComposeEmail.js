@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaClipboard, FaEdit, FaMinus, FaTrash } from "react-icons/fa";
+import { FaMinus } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { CiMinimize1 } from "react-icons/ci";
 import { CgMaximize } from "react-icons/cg";
@@ -43,33 +43,69 @@ const ComposeEmail = () => {
   };
   const handleSendEmail = (data) => {
     if (user?.google_app_password) {
-      const formData = new FormData();
-
-      // Append other form fields
-      formData.append("subject", data.subject);
-      formData.append("body", data.body);
-      formData.append("type", "email");
-      formData.append("from", user?.email);
-      formData.append("from_name", user?.name);
-      formData.append("google_app_password", user?.google_app_password);
-      if (emails.length > 0) {
-        emails?.forEach((element) => {
-          formData.append("to", element);
-        });
-      } else {
-        const textEmails = data?.to?.split("\n");
-        console.log("🚀 ~ handleSendEmail ~ textEmails:", textEmails);
-        textEmails?.forEach((element) => {
-          formData.append("to", element);
-        });
-      }
-      data?.files &&
-        data?.files.forEach((element) => {
-          formData.append("files", element);
-        });
-
-      dispatch(sendEmailRec(token, formData));
+      const textEmails = data?.to?.split("\n");
+      textEmails?.length > 0
+        ? textEmails?.map((email, index) => {
+            const formData = new FormData();
+            // Append other form fields
+            formData.append("subject", data.subject);
+            formData.append("body", data.body);
+            formData.append("type", "email");
+            formData.append("from", user?.email);
+            formData.append("from_name", user?.name);
+            formData.append("google_app_password", user?.google_app_password);
+            formData.append("to", email);
+            data?.files &&
+              data?.files.forEach((element) => {
+                formData.append("files", element);
+              });
+            dispatch(sendEmailRec(token, formData));
+          })
+        : emails?.length > 0 &&
+          emails?.map((email, index) => {
+            const formData = new FormData();
+            // Append other form fields
+            formData.append("subject", data.subject);
+            formData.append("body", data.body);
+            formData.append("type", "email");
+            formData.append("from", user?.email);
+            formData.append("from_name", user?.name);
+            formData.append("google_app_password", user?.google_app_password);
+            formData.append("to", email);
+            data?.files &&
+              data?.files.forEach((element) => {
+                formData.append("files", element);
+              });
+            dispatch(sendEmailRec(token, formData));
+          });
       reset();
+      // const formData = new FormData();
+
+      // // Append other form fields
+      // formData.append("subject", data.subject);
+      // formData.append("body", data.body);
+      // formData.append("type", "email");
+      // formData.append("from", user?.email);
+      // formData.append("from_name", user?.name);
+      // formData.append("google_app_password", user?.google_app_password);
+      // if (emails.length > 0) {
+      //   emails?.forEach((element) => {
+      //     formData.append("to", element);
+      //   });
+      // } else {
+      //   const textEmails = data?.to?.split("\n");
+      //   console.log("🚀 ~ handleSendEmail ~ textEmails:", textEmails);
+      //   textEmails?.forEach((element) => {
+      //     formData.append("to", element);
+      //   });
+      // }
+      // data?.files &&
+      //   data?.files.forEach((element) => {
+      //     formData.append("files", element);
+      //   });
+
+      // dispatch(sendEmailRec(token, formData));
+      // reset();
     } else {
       toast.error("You are not allowed to send email!");
     }

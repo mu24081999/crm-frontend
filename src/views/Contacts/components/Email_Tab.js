@@ -90,7 +90,12 @@ const Email_Tab = ({
       >
         <div id="accordion">
           {emailsData?.length > 0 ? (
-            <div style={{ height: "600px", overflow: "scroll" }}>
+            <div
+              style={{
+                height: "35rem",
+                overflow: "scroll",
+              }}
+            >
               {emailsData?.map((email, index) => (
                 <div class="card" key={index}>
                   <div class="card-header">
