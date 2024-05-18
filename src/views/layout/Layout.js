@@ -6,28 +6,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import InputField from "../../components/FormFields/InputField";
 import { useForm } from "react-hook-form";
-import {
-  createSubAccount,
-  getUserSubAccountsList,
-} from "../../redux/services/calling";
+import { getUserSubAccountsList } from "../../redux/services/calling";
 import Loader from "../../components/Loader/Loader";
-import { color } from "@chakra-ui/react";
 import { addUserRec, getUsers } from "../../redux/services/users";
 import _ from "lodash";
+import Ticket from "./Ticket";
+import SubaccountForm from "./SubaccountForm";
 // import Dialer from "../../components/PhoneDialer/Dialer";
 const Layout = ({ component }) => {
   const { isAuthenticated, token, accountSid, accountAuthToken, user } =
     useSelector((state) => state.auth);
   const { isLoading, subAccounts } = useSelector((state) => state.calling);
   const { users } = useSelector((state) => state.user);
-  const [subAccountsData, setSubAccountsData] = useState([]);
-  const {
-    handleSubmit,
-    // watch,
-    control,
-    // setValue,
-    formState: { errors },
-  } = useForm({});
+
   const redirectTo = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -39,24 +30,7 @@ const Layout = ({ component }) => {
       redirectTo("/sign-in");
     }
   }, [isAuthenticated, redirectTo]);
-  useEffect(() => {
-    if (users) {
-      const data = users?.filter((ur) => _.toInteger(ur.parent_id) === user.id);
-      setSubAccountsData(data);
-    }
-  }, [users, user, setSubAccountsData]);
-  const addSubAccount = (data) => {
-    console.log(data);
-    const formData = {
-      ...data,
-      // accountSid: accountSid !== "" && accountSid,
-      // authToken: accountAuthToken !== "" && accountAuthToken,
 
-      parent_id: _.toString(user.id),
-      role: "USER",
-    };
-    dispatch(addUserRec(token, formData));
-  };
   return (
     <div
       class="hk-wrapper"
@@ -78,142 +52,10 @@ const Layout = ({ component }) => {
       </button> */}
       <ChatPopup />
       {component}
-
-      <div
-        class="modal fade"
-        id="addAccountModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="addAccountModal"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            {subAccountsData?.length > 3 ? (
-              <div className="modal-body p-0">
-                <p className="alert alert-warning m-0">
-                  You have exeeded your limit
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit(addSubAccount)}>
-                <div class="modal-header bg-primary ">
-                  <h5
-                    class="modal-title fs-6 fw-bold "
-                    style={{ color: "white" }}
-                  >
-                    Add New Sub Account
-                  </h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                {isLoading ? (
-                  <Loader />
-                ) : (
-                  <div class="modal-body row">
-                    <div className="col-md-6 col-sm-6">
-                      <InputField
-                        control={control}
-                        errors={errors}
-                        name="name"
-                        placeholder="Name"
-                        label="Name"
-                        rules={{
-                          required: {
-                            value: true,
-                            message: "Field required!",
-                          },
-                        }}
-                      />
-                    </div>
-                    {/* <div className="col-md-6 col-sm-6">
-                    <InputField
-                      control={control}
-                      errors={errors}
-                      name="phone"
-                      placeholder="Phone Number"
-                      label="Phone Number"
-                      rules={{
-                        required: {
-                          value: true,
-                          message: "Field required!",
-                        },
-                      }}
-                    />
-                  </div> */}
-
-                    <div className="col-md-6 col-sm-6">
-                      <InputField
-                        control={control}
-                        errors={errors}
-                        name="username"
-                        placeholder="Username"
-                        label="Username"
-                        rules={{
-                          required: {
-                            value: true,
-                            message: "Field required!",
-                          },
-                        }}
-                      />
-                    </div>
-                    <div className="col-md-6 col-sm-6">
-                      <InputField
-                        control={control}
-                        type="email"
-                        errors={errors}
-                        name="email"
-                        placeholder="Email"
-                        label="Email"
-                        rules={{
-                          required: {
-                            value: true,
-                            message: "Field required!",
-                          },
-                        }}
-                      />
-                    </div>
-                    <div className="col-md-6 col-sm-6">
-                      <InputField
-                        type="password"
-                        control={control}
-                        errors={errors}
-                        name="password"
-                        placeholder="Password"
-                        label="Password"
-                        rules={{
-                          required: {
-                            value: true,
-                            message: "Field required!",
-                          },
-                        }}
-                      />
-                    </div>
-                  </div>
-                )}
-
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                  <button type="submit" class="btn btn-primary">
-                    Submit
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
-        </div>
+      <div>
+        {" "}
+        <Ticket />
+        <SubaccountForm />
       </div>
     </div>
   );

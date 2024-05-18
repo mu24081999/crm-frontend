@@ -1,18 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-  FaArchive,
-  FaBars,
-  FaBook,
-  FaEdit,
-  FaFileDownload,
-  FaPlus,
-  FaPrint,
-  FaStar,
-  FaTrash,
-  FaUpload,
-  FaUserCheck,
-  FaUserClock,
-} from "react-icons/fa";
+import { FaTrash, FaUserCheck, FaUserClock } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { SocketContext } from "../../../Context";
 

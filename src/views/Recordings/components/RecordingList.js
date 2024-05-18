@@ -10,14 +10,8 @@ import { FaStar } from "react-icons/fa";
 import { getUsers } from "../../../redux/services/users";
 import moment from "moment/moment";
 
-const RecordingList = ({
-  contactsData,
-  onToggleEdit,
-  isEdit,
-  recordingsData,
-}) => {
+const RecordingList = ({ isEdit, recordingsData }) => {
   const dispatch = useDispatch();
-  // const [contactsData, setContactData] = useState();
   const { token } = useSelector((state) => state.auth);
   const { isLoading } = useSelector((state) => state.calling);
   useEffect(() => {
@@ -26,27 +20,9 @@ const RecordingList = ({
       dispatch(getUsers(token));
     }
   }, [dispatch, token]);
-  // useEffect(() => {
-  //   if (contacts.length > 0) {
-  //     setContactData(contacts);
-  //   }
-  // }, [contacts]);
-  const handleDeleteContact = (contact_id) => {
-    console.log("🚀 ~ handleDeleteContact ~ contact_id:", contact_id);
-    dispatch(deleteContactRec(token, contact_id));
-    onToggleEdit(false);
-  };
-  const handleToggle = (contact_id) => {
-    onToggleEdit(true);
-    dispatch(getContactDetais(token, contact_id));
-  };
+
   return (
     <div className="contact-list-view">
-      {/* <div className="bg-primary p-2 rounded mb-5">
-        <h5 className="pt-2 fw-bold" style={{ color: "white" }}>
-          Phone Numbers
-        </h5>
-      </div> */}
       {!isEdit && (
         <>
           {isLoading ? (

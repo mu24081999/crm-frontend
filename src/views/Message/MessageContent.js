@@ -7,9 +7,6 @@ import React, {
 } from "react";
 import ChatAside from "./components/ChatAside/ChatAside";
 import SingleChat from "./components/Messages/SingleChat";
-import AudioCall from "./components/AudioCall/AudioCall";
-import VideoCall from "./components/VideoCall/VideoCall";
-import InvitePeople from "./components/InvitePeople/InvitePeople";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../redux/services/users";
 import io from "socket.io-client";
@@ -39,7 +36,6 @@ const MessageContent = () => {
   const [rooms, setRooms] = useState([]);
   const [rooms_, setRooms_] = useState([]);
   const { contacts } = useSelector((state) => state.contact);
-
   const dispatch = useDispatch();
   useEffect(() => {
     setMessages(defaultMessages);
@@ -203,10 +199,8 @@ const MessageContent = () => {
       messagesArray?.length > 0 &&
       messagesArray?.filter(
         (message) =>
-          (message.from_phone === user.phone &&
-            message.to_phone === selectedRoom.phone) ||
-          (message.to_phone === user.phone &&
-            message.from_phone === selectedRoom.phone)
+          message.to_phone === selectedRoom.phone ||
+          message.from_phone === selectedRoom.phone
       );
     setSelectedMessages(messagesData);
   }, [messagesArray]);
@@ -217,17 +211,7 @@ const MessageContent = () => {
     setRooms(data);
   };
   const handleMessagesDataFromChild = (data) => {
-    // const categorizeMessagesByDate =
-    //   data?.length > 0 &&
-    //   data?.reduce((result, message) => {
-    //     const date = message.created_at.slice(0, 10); // Extract date from created_at
-    //     if (!result[date]) {
-    //       result[date] = []; // Initialize array for the date if it doesn't exist
-    //     }
-    //     result[date].push(message); // Push message to the array for the date
-    //     return result;
-    //   }, {});
-
+    console.log("🚀 ~ handleMessagesDataFromChild ~ data:", data);
     setSelectedMessages(data);
   };
   return (

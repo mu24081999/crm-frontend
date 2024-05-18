@@ -806,14 +806,14 @@ const TopNavbar = ({}) => {
                     </span>
                     Profile
                   </Link>
-                  <div className="dropdown-divider"></div>
-                  <h6 className="dropdown-header">Manage Account</h6>
-                  <a className="dropdown-item d-flex">
+                  {/* <div className="dropdown-divider"></div> */}
+                  {/* <h6 className="dropdown-header">Manage Account</h6> */}
+                  <Link to={"/balance"} className="dropdown-item d-flex">
                     <span className="dropdown-icon pt-1 feather-icon">
                       <FaCreditCard />
                     </span>
-                    <span>Payment methods</span>
-                  </a>
+                    <span>Balance</span>
+                  </Link>
                   {/* <a className="dropdown-item d-flex">
                     <span className="dropdown-icon pt-1 feather-icon">
                       <FaCheckSquare />
@@ -833,9 +833,13 @@ const TopNavbar = ({}) => {
                   <Link to={"/terms-conditions"} className="dropdown-item">
                     Terms & Conditions
                   </Link>
-                  <Link to={"/help-support"} className="dropdown-item">
+                  <a
+                    data-bs-target="#submitTicket"
+                    data-bs-toggle="modal"
+                    className="dropdown-item"
+                  >
                     Help & Support
-                  </Link>
+                  </a>
                 </div>
               </div>
             </li>

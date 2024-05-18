@@ -8,7 +8,7 @@ import InputField from "../../../../components/FormFields/InputField";
 import TextAreaField from "../../../../components/FormFields/textAreaField";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../../../redux/services/users";
-import { sendEmailRec } from "../../../../redux/services/email";
+import { sendEmailBulk, sendEmailRec } from "../../../../redux/services/email";
 import EditorField from "../../../../components/FormFields/Editor";
 import Loader from "../../../../components/Loader/Loader";
 import { toast } from "react-toastify";
@@ -41,7 +41,7 @@ const ComposeEmail = () => {
   const handleFileChange = (e) => {
     setValue("files", e.currentTarget.files);
   };
-  const handleSendEmail = (data) => {
+  const handleSendEmail = async (data) => {
     if (user?.google_app_password) {
       const textEmails = data?.to?.split("\n");
       textEmails?.length > 0
@@ -59,7 +59,7 @@ const ComposeEmail = () => {
               data?.files.forEach((element) => {
                 formData.append("files", element);
               });
-            dispatch(sendEmailRec(token, formData));
+            dispatch(sendEmailBulk(token, formData));
           })
         : emails?.length > 0 &&
           emails?.map((email, index) => {
@@ -76,12 +76,12 @@ const ComposeEmail = () => {
               data?.files.forEach((element) => {
                 formData.append("files", element);
               });
-            dispatch(sendEmailRec(token, formData));
+            dispatch(sendEmailBulk(token, formData));
           });
       reset();
       // const formData = new FormData();
 
-      // // Append other form fields
+      // Append other form fields
       // formData.append("subject", data.subject);
       // formData.append("body", data.body);
       // formData.append("type", "email");
@@ -104,8 +104,8 @@ const ComposeEmail = () => {
       //     formData.append("files", element);
       //   });
 
-      // dispatch(sendEmailRec(token, formData));
-      // reset();
+      // await dispatch(sendEmailRec(token, formData));
+      reset();
     } else {
       toast.error("You are not allowed to send email!");
     }

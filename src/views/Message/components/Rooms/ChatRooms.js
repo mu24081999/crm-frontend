@@ -11,23 +11,17 @@ const ChatRooms = ({
   updateChat,
 }) => {
   const [selectedRoom, setSelectedRoom] = useState("");
-  const sendDataToParent = () => {
-    // Call the callback function with the data from the child
-    onDataFromChild(selectedRoom);
-  };
 
   const roomClickHandler = (contact) => {
     setSelectedRoom(contact);
     // sendDataToParent();
     onDataFromChild(contact);
     const messagesData =
-      messages?.length > 0 &&
+      // messages?.length > 0 &&
       messages?.filter(
         (message) =>
-          (message.from_phone === authUser.phone &&
-            message.to_phone === contact.phone) ||
-          (message.to_phone === authUser.phone &&
-            message.from_phone === contact.phone)
+          message.to_phone === contact.phone ||
+          message.from_phone === contact.phone
       );
     onMessagesDataFromChild(messagesData);
 

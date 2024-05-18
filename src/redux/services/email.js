@@ -76,7 +76,32 @@ export const sendEmailRec = (token, data) => async (dispatch) => {
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(sendEmail(response.data.message));
-        dispatch(getEmailList(token, data.from, 20, 1));
+        // dispatch(getEmailList(token, data.from, 20, 1));
+        toast.success(response.data.message);
+      });
+  } catch (e) {
+    dispatch(invalidRequest(e.message));
+  }
+};
+export const sendEmailBulk = (token, data) => async (dispatch) => {
+  try {
+    dispatch(emailRequestLoading());
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "x-access-token": token,
+      },
+    };
+    await axios
+      .post(`${backendURL}/user/email/send-email-bulk`, data, config)
+      .then((response) => {
+        console.log(response);
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          return dispatch(invalidRequest(response.data.message));
+        }
+        dispatch(sendEmail(response.data.message));
+        // dispatch(getEmailList(token, data.from, 20, 1));
         toast.success(response.data.message);
       });
   } catch (e) {

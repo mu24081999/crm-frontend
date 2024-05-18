@@ -48,6 +48,8 @@ import AdminActiveNumbers from "./views/Admin/ActiveNumbers/Numbers";
 import PlanSelection from "./views/PlanSelection/PlanSelection";
 import VerifyEmailOtp from "./views/Auth/verifyEmailOtp";
 import Permissions from "./views/Permissions/Permission";
+import Terms from "./views/Terms/Terms";
+import Balance from "./views/Balance/Balance";
 
 // Define allowed roles for each route
 const roles = {
@@ -110,7 +112,7 @@ const router = (user, subscribed) => {
     },
     {
       path: "/terms-conditions",
-      element: <NotFound />,
+      element: <Terms />,
     },
     {
       path: "/help-support",
@@ -125,6 +127,16 @@ const router = (user, subscribed) => {
         subscribed,
         user
       )(Agent),
+    },
+    {
+      path: "/balance",
+      // element: <Agent />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(Balance),
     },
     {
       path: "/messages",

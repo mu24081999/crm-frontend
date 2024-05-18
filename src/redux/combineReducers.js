@@ -20,6 +20,7 @@ import subscriptionReducer from "./slices/subscription";
 import dashboardReducer from "./slices/dashboard";
 import billingReducer from "./slices/billing";
 import kycReducer from "./slices/kyc";
+import ticketReducer from "./slices/ticket";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -43,4 +44,5 @@ export const rootReducer = combineReducers({
   dashboard: dashboardReducer,
   billing: billingReducer,
   kyc: kycReducer,
+  ticket: ticketReducer,
 });

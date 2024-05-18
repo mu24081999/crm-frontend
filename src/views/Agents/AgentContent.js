@@ -13,13 +13,18 @@ import { MdClose } from "react-icons/md";
 import { getAgentsList } from "../../redux/services/agent";
 import _ from "lodash";
 import UpdateAgentInfo from "./components/UpdateAgentInfo";
+import { getSubscriptionsList } from "../../redux/services/subscription";
 const AgentContent = () => {
   const { handleToggleShowLeadDetail, showUserDetails } =
     useContext(SocketContext);
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
   const { contactDetails } = useSelector((state) => state.contact);
+  const { subscriptions } = useSelector((state) => state.subscription);
   const [data, setData] = useState([]);
+  const [parentAccount, setParentAccount] = useState({});
+  const [parentSubscription, setParentSubscription] = useState({});
+  const [limitAgentAccounts, setLimitAgentAccounts] = useState(null);
   const [data_, setData_] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [view, setView] = useState("list");
@@ -27,6 +32,7 @@ const AgentContent = () => {
   const { users, userDetails } = useSelector((state) => state.user);
   useEffect(() => {
     dispatch(getUsers(token));
+    dispatch(getSubscriptionsList(token));
   }, [token, dispatch]);
   useEffect(() => {
     if (users?.length > 0) {
@@ -36,10 +42,36 @@ const AgentContent = () => {
           usr.role === "AGENT" &&
           _.toInteger(usr.client_id) === user.id
       );
+      const parent = users?.filter(
+        (usr) => usr.id === _.toInteger(user?.parent_id)
+      )[0];
+      setParentAccount(parent);
       setData(filteredData);
       setData_(filteredData);
     }
   }, [users, user]);
+  useEffect(() => {
+    const parentSubscription = subscriptions?.filter(
+      (sub) => sub.customer_id === parentAccount?.id
+    )[0];
+    setParentSubscription(parentSubscription);
+  }, [subscriptions, parentAccount]);
+  useEffect(() => {
+    switch (parentSubscription?.plan) {
+      case "Solo Starter":
+        setLimitAgentAccounts(1);
+        break;
+      case "Growth":
+        setLimitAgentAccounts(3);
+        break;
+      case "Enterprise":
+        setLimitAgentAccounts(1000);
+        break;
+      default:
+        setLimitAgentAccounts(0);
+        break;
+    }
+  }, [parentSubscription, user]);
   const handleReceiveData = (receivedData) => {
     setData(receivedData);
   };
@@ -79,110 +111,6 @@ const AgentContent = () => {
                 />
                 <div className="contact-body">
                   <div className="nicescroll-bar">
-                    <div className="collapse" id="collapseQuick">
-                      <div className="quick-access-form-wrap">
-                        <form className="quick-access-form border">
-                          <div className="row gx-3">
-                            <div className="col-xxl-10">
-                              <div className="position-relative">
-                                <div className="dropify-square">
-                                  <input type="file" className="dropify-1" />
-                                </div>
-                                <div className="col-md-12">
-                                  <div className="row gx-3">
-                                    <div className="col-lg-4">
-                                      <div className="form-group">
-                                        <input
-                                          className="form-control"
-                                          placeholder="First name*"
-                                          value=""
-                                          type="text"
-                                        />
-                                      </div>
-                                      <div className="form-group">
-                                        <input
-                                          className="form-control"
-                                          placeholder="Last name*"
-                                          value=""
-                                          type="text"
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="col-lg-4">
-                                      <div className="form-group">
-                                        <input
-                                          className="form-control"
-                                          placeholder="Email Id*"
-                                          value=""
-                                          type="text"
-                                        />
-                                      </div>
-                                      <div className="form-group">
-                                        <input
-                                          className="form-control"
-                                          placeholder="Phone"
-                                          value=""
-                                          type="text"
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="col-lg-4">
-                                      <div className="form-group">
-                                        <input
-                                          className="form-control"
-                                          placeholder="Department"
-                                          value=""
-                                          type="text"
-                                        />
-                                      </div>
-                                      <div className="form-group">
-                                        <select
-                                          id="input_tags"
-                                          className="form-control"
-                                          multiple="multiple"
-                                        >
-                                          <option selected="selected">
-                                            Collaborator
-                                          </option>
-                                          <option>Designer</option>
-                                          <option selected="selected">
-                                            Developer
-                                          </option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-xxl-2">
-                              <div className="form-group">
-                                <button
-                                  data-bs-toggle="collapse"
-                                  data-bs-target="#collapseExample"
-                                  aria-expanded="false"
-                                  className="btn btn-block btn-primary "
-                                >
-                                  Create New
-                                </button>
-                              </div>
-                              <div className="form-group">
-                                <button
-                                  data-bs-toggle="collapse"
-                                  disabled
-                                  data-bs-target="#collapseExample"
-                                  aria-expanded="false"
-                                  className="btn btn-block btn-secondary"
-                                >
-                                  Discard
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-
                     {view === "list" ? (
                       <ContactList
                         usersData={data}
@@ -230,9 +158,17 @@ const AgentContent = () => {
                       <span aria-hidden="true">×</span>
                     </button>
                   </div>
-                  <div className="modal-body">
-                    <AddContactList />
-                  </div>
+                  {data?.length > limitAgentAccounts ? (
+                    <div className="modal-body p-0">
+                      <p className="alert alert-warning m-0">
+                        You have exeeded your limit
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="modal-body">
+                      <AddContactList />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
