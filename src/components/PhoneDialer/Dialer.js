@@ -58,6 +58,8 @@ const Dialer = () => {
   const [callStatus, setCallStatus] = useState(null);
   const [twilioDevice, setTwilioDevice] = useState(null);
   const [userState, setUserState] = useState("READY");
+  const [showCall, setShowCall] = useState(false);
+  const [connection, setConnection] = useState(false);
   const [activeCall, setActiveCall] = useState(null);
   const [active, setActive] = useState(true);
   const dispatch = useDispatch();
@@ -119,6 +121,7 @@ const Dialer = () => {
   useEffect(() => {
     if (twilioDevice) {
       twilioDevice.on("incoming", (call) => {
+        setShowCall(true);
         setIsDialerOpen(true);
         setActiveCall(call);
         setUserState("ON_CALL");
@@ -126,6 +129,11 @@ const Dialer = () => {
         setIsDial(false);
         setShowContacts(false);
         console.log("Call comming");
+      });
+
+      twilioDevice.on("connect", (conn) => {
+        console.log("Call connected");
+        setConnection(conn);
       });
     }
   }, [twilioDevice]);
@@ -142,6 +150,7 @@ const Dialer = () => {
     const outgoingCall = twilioDevice?.connect(params);
     outgoingCall.on("accept", (call) => {
       console.log(call, "call accepted");
+      setShowCall(true);
       setActiveCall(call);
       setUserState("ON_CALL");
       setIsDial(false);
@@ -149,7 +158,9 @@ const Dialer = () => {
       setCallStatus("STARTED");
       console.log("Call accepted");
     });
+
     outgoingCall.on("reject", () => {
+      setShowCall(false);
       setUserState("READY");
       setIsDial(true);
       setShowContacts(false);
@@ -158,6 +169,7 @@ const Dialer = () => {
       console.log("Call accepted");
     });
     outgoingCall.on("disconnect", () => {
+      setShowCall(false);
       setUserState("READY");
       setIsDial(true);
       setShowContacts(false);
@@ -178,6 +190,7 @@ const Dialer = () => {
   const dialerClick = (type, value) => {
     if (type === "dial") {
       setInputValue((prevValue) => prevValue + value);
+      userState === "ON_CALL" && sendDigit(value);
     } else if (type === "delete") {
       setInputValue((prevValue) =>
         prevValue.substring(0, prevValue.length - 1)
@@ -189,6 +202,7 @@ const Dialer = () => {
   const handleDisconnectCall = () => {
     if (activeCall) {
       activeCall.disconnect(); // Disconnect the active call
+      setShowCall(false);
       setActiveCall(null); // Reset active call state
       setIsDial(true);
       setShowContacts(false);
@@ -198,6 +212,7 @@ const Dialer = () => {
   const handleAcceptCall = () => {
     if (activeCall) {
       activeCall.accept(); // Disconnect the active call
+      setShowCall(true);
       setCallStatus("STARTED");
       setUserState("ON_CALL");
     }
@@ -209,6 +224,11 @@ const Dialer = () => {
       spaceIndex !== -1 ? str.charAt(spaceIndex + 1) : "";
     return { firstCharacter, characterAfterSpace };
   }
+  const sendDigit = (digit) => {
+    if (twilioDevice) {
+      connection.sendDigits(digit);
+    }
+  };
 
   return (
     <div
@@ -400,7 +420,7 @@ const Dialer = () => {
               </tr>
             </table>
           )}
-          {showContacts && (
+          {showContacts === true && (
             <>
               {/* <header>
                 <InputField
@@ -463,7 +483,7 @@ const Dialer = () => {
               </div>
             </>
           )}
-          {userState === "ON_CALL" && (
+          {userState === "ON_CALL" && showCall && (
             <div style={{ height: "450px" }}>
               <div className="rounded-circle mb-5">
                 <div className="m-auto w-50">
@@ -505,13 +525,15 @@ const Dialer = () => {
             </div>
           )}
 
-          {userState !== "ON_CALL" && (
-            <footer className="w-100 d-flex justify-content-between p-1 gap-1">
+          {/* {userState !== "ON_CALL" && ( */}
+          <footer className="w-100 d-flex justify-content-between p-1 gap-1">
+            {userState !== "ON_CALL" && (
               <button
                 type="button"
                 class="btn btn-primary btn-md "
                 onClick={() => {
                   setIsDial(false);
+                  setShowCall(false);
                   setShowContacts(true);
                   setUserState("READY");
                 }}
@@ -519,20 +541,38 @@ const Dialer = () => {
                 <MdOutlineContacts />
                 &nbsp; Contacts
               </button>
-              <button
-                type="button"
-                class="btn btn-primary btn-md w-50"
-                onClick={() => {
-                  setIsDial(true);
-                  setShowContacts(false);
-                  setUserState("READY");
-                }}
-              >
-                <IoIosKeypad className="mb-1" />
-                &nbsp; Dial
-              </button>
-            </footer>
-          )}
+            )}
+            <button
+              type="button"
+              class="btn btn-primary btn-md w-50"
+              onClick={() => {
+                setIsDial(true);
+                setShowCall(false);
+                setShowContacts(false);
+                // setUserState("READY");
+              }}
+            >
+              <IoIosKeypad className="mb-1" />
+              &nbsp; Dial
+            </button>
+            {userState === "ON_CALL" && (
+              <>
+                <button
+                  type="button"
+                  class="btn btn-primary btn-md w-50"
+                  onClick={() => {
+                    setShowCall(!showCall);
+                    setIsDial(false);
+                    setShowContacts(false);
+                  }}
+                >
+                  <FaPhone className="mb-1" />
+                  &nbsp; Show Call
+                </button>
+              </>
+            )}
+          </footer>
+          {/* )} */}
         </div>
       </Popup>
     </div>

@@ -8,7 +8,7 @@ import FileField from "../../../components/FormFields/fileField";
 import { useDispatch, useSelector } from "react-redux";
 import { storeBoard, updateBoardRec } from "../../../redux/services/board";
 
-const AddNewTask = ({ teamsData, boardDetails }) => {
+const AddNewTask = ({ agents, boardDetails }) => {
   const {
     handleSubmit,
     // watch,
@@ -105,7 +105,7 @@ const AddNewTask = ({ teamsData, boardDetails }) => {
                 </div>
 
                 <div className="row">
-                  <div className="col-sm-6 pt-3">
+                  <div className="col-sm-6 pt-1">
                     <ReactColorInput
                       name="avatar_color"
                       placeholder="Avatar Color"
@@ -149,8 +149,8 @@ const AddNewTask = ({ teamsData, boardDetails }) => {
                     isMulti={true}
                     control={control}
                     options={
-                      teamsData?.length > 0
-                        ? teamsData?.map((member) => {
+                      agents?.length > 0
+                        ? agents?.map((member) => {
                             return {
                               ...member,
                               label: member.name,

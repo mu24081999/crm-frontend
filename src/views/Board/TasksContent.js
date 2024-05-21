@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TaskHeader from "./components/TaskHeader";
 import TaskHeading from "./components/TaskHeading";
 import { CiMenuKebab } from "react-icons/ci";
@@ -21,32 +21,55 @@ const TasksContent = ({ tasksData, token, contactsData, boardDetails }) => {
   const { handleToggleShowLeadDetail } = useContext(SocketContext);
   const [updateTaskData, setUpdateTaskData] = useState({});
   const dispatch = useDispatch();
-  const pendingData =
-    contactsData?.length > 0 &&
-    contactsData?.filter(
+  const [pendingData, setPendingData] = useState();
+  const [inProgressData, setInProgressData] = useState();
+  const [completedData, setCompletedData] = useState();
+  useEffect(() => {
+    const pending = contactsData?.filter(
       (task) =>
         task.board_status === "pending" && task.board_id === boardDetails?.id
     );
-  const inProgressData =
-    contactsData?.length > 0 &&
-    contactsData?.filter(
+    setPendingData(pending);
+    const inProgress = contactsData?.filter(
       (task) =>
         task.board_status === "in-progress" &&
         task.board_id === boardDetails?.id
     );
-  const completedData =
-    contactsData?.length > 0 &&
-    contactsData?.filter(
+    setInProgressData(inProgress);
+    const completed = contactsData?.filter(
       (task) =>
         task.board_status === "completed" && task.board_id === boardDetails?.id
     );
+    setCompletedData(completed);
+  }, [contactsData, boardDetails]);
+  // const pendingData =
+  //   contactsData?.length > 0 &&
+  //   contactsData?.filter(
+  //     (task) =>
+  //       task.board_status === "pending" && task.board_id === boardDetails?.id
+  //   );
+  // const inProgressData =
+  //   contactsData?.length > 0 &&
+  //   contactsData?.filter(
+  //     (task) =>
+  //       task.board_status === "in-progress" &&
+  //       task.board_id === boardDetails?.id
+  //   );
+  // const completedData =
+  //   contactsData?.length > 0 &&
+  //   contactsData?.filter(
+  //     (task) =>
+  //       task.board_status === "completed" && task.board_id === boardDetails?.id
+  //   );
   const handleUpdateTask = (id) => {
     dispatch(getTaskDetails(token, id));
   };
   const handleDragStart = (event, taskId) => {
     setUpdateTaskData({ task_id: taskId });
+    // const element = document.querySelector("#boardTaskList");
+    // element.style.backgroundColor = "black";
+    // element.style.color = "white";
   };
-
   const handleDrop = (event, status) => {
     event.preventDefault();
     dispatch(
@@ -246,6 +269,7 @@ const TasksContent = ({ tasksData, token, contactsData, boardDetails }) => {
                         pendingData.map((task, index) => (
                           <Link
                             className="card card-border card-simple tasklist-card"
+                            id="boardTaskList"
                             key={index}
                             draggable
                             to={"/contacts"}
@@ -416,6 +440,7 @@ const TasksContent = ({ tasksData, token, contactsData, boardDetails }) => {
                         inProgressData.map((task, index) => (
                           <Link
                             className="card card-border card-simple tasklist-card"
+                            id="boardTaskList"
                             key={index}
                             draggable
                             onDragStart={(event) =>
@@ -587,6 +612,7 @@ const TasksContent = ({ tasksData, token, contactsData, boardDetails }) => {
                         completedData.map((task, index) => (
                           <Link
                             className="card card-border card-simple tasklist-card"
+                            id="boardTaskList"
                             key={index}
                             draggable
                             onDragStart={(event) =>

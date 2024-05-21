@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteContactRec,
   getContactsList,
+  permanentDeleteContactRec,
   updateContactRec,
 } from "../../../redux/services/contact";
 import Loader from "../../../components/Loader/Loader";
 import { FaArchive, FaEdit, FaRegStar, FaStar, FaTrash } from "react-icons/fa";
 import moment from "moment";
-import { Link } from "react-router-dom";
 import { SocketContext } from "../../../Context";
+import { ImBlocked } from "react-icons/im";
 
 const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
   const { handleToggleShowLeadDetail, showLeadDetails } =
@@ -34,6 +35,10 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
   const handleUpdateStatus = (contact_id, status) => {
     dispatch(updateContactRec(token, contact_id, { status: status }));
   };
+  const handlePermanentDeleteContact = (contact_id) => {
+    dispatch(permanentDeleteContactRec(token, contact_id));
+    onToggleEdit(false);
+  };
 
   return (
     <div className="contact-list-view">
@@ -45,6 +50,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
             <table className="table w-100 mb-5">
               <thead>
                 <tr>
+                  <td></td>
                   <th>Name</th>
                   <th>Email Address</th>
                   <th>Phone</th>
@@ -58,6 +64,28 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                   contactsData?.map((contact) => (
                     <tr>
                       <td>
+                        <div className="d-flex align-items-center">
+                          <span className="contact-star marked">
+                            <span className="feather-icon">
+                              {/* <i data-feather="star"></i> */}
+                              {contact?.status === "important" ? (
+                                <FaStar
+                                  onClick={() =>
+                                    handleUpdateStatus(contact.id, "active")
+                                  }
+                                />
+                              ) : (
+                                <FaRegStar
+                                  onClick={() =>
+                                    handleUpdateStatus(contact.id, "important")
+                                  }
+                                />
+                              )}
+                            </span>
+                          </span>
+                        </div>
+                      </td>
+                      <td className="d-flex">
                         <div className="media align-items-center">
                           <div className="media-head me-2">
                             <div className="avatar avatar-xs avatar-rounded">
@@ -138,6 +166,19 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                             <button
                               className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
                               onClick={() => handleDeleteContact(contact?.id)}
+                            >
+                              <span className="icon">
+                                <span className="feather-icon">
+                                  {/* <i data-feather="trash"></i> */}
+                                  <ImBlocked />
+                                </span>
+                              </span>
+                            </button>
+                            <button
+                              className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
+                              onClick={() =>
+                                handlePermanentDeleteContact(contact?.id)
+                              }
                             >
                               <span className="icon">
                                 <span className="feather-icon">

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { storeFile } from "../../../redux/services/gallery";
-import { FaFileAlt, FaGoogleDrive } from "react-icons/fa";
+import { FaFileAlt, FaGoogleDrive, FaStar, FaTrash } from "react-icons/fa";
 
 const Sidebar = ({ dispatch, token, authUser }) => {
+  const [activeBar, setActiveBar] = useState("all");
   const handleFileOnChange = (file) => {
     console.log("🚀 ~ handleFileOnChange ~ file:", file.currentTarget.files);
     const formData = new FormData();
@@ -14,6 +15,9 @@ const Sidebar = ({ dispatch, token, authUser }) => {
     formData.append("user_name", authUser.name);
     dispatch(storeFile(token, formData));
     return {};
+  };
+  const handleActiveBar = (data) => {
+    setActiveBar(data);
   };
   return (
     <nav className="fmapp-sidebar">
@@ -27,20 +31,13 @@ const Sidebar = ({ dispatch, token, authUser }) => {
               onChange={handleFileOnChange}
             />
           </div> */}
-          {/* 
+
           <div className="menu-group">
             <ul className="nav nav-light navbar-nav flex-column">
-              <li className="nav-item active">
-                <button className="nav-link btn-block">
-                  <span className="nav-icon-wrap">
-                    <span className="feather-icon">
-                      <FaGoogleDrive />
-                    </span>
-                  </span>
-                  <span className="nav-link-text">My Space</span>
-                </button>
-              </li>
-              <li className="nav-item">
+              <li
+                className={`nav-item ${activeBar === "all" && "active"}`}
+                onClick={() => handleActiveBar("all")}
+              >
                 <button className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
@@ -50,41 +47,28 @@ const Sidebar = ({ dispatch, token, authUser }) => {
                   <span className="nav-link-text">All Files</span>
                 </button>
               </li>
-              <li className="nav-item">
+              <li
+                className={`nav-item ${activeBar === "starred" && "active"}`}
+                onClick={() => handleActiveBar("starred")}
+              >
                 <button className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
-                      <i data-feather="folder"></i>
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Folders</span>
-                </button>
-              </li>
-              <li className="nav-item">
-                <button className="nav-link btn-block">
-                  <span className="nav-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="upload"></i>
-                    </span>
-                  </span>
-                  <span className="nav-link-text">Shared</span>
-                </button>
-              </li>
-              <li className="nav-item">
-                <button className="nav-link btn-block">
-                  <span className="nav-icon-wrap">
-                    <span className="feather-icon">
-                      <i data-feather="star"></i>
+                      {/* <i data-feather="star"></i> */}
+                      <FaStar />
                     </span>
                   </span>
                   <span className="nav-link-text">Starred</span>
                 </button>
               </li>
-              <li className="nav-item">
+              <li
+                className={`nav-item ${activeBar === "trash" && "active"}`}
+                onClick={() => handleActiveBar("trash")}
+              >
                 <button className="nav-link btn-block">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
-                      <i data-feather="trash-2"></i>
+                      <FaTrash />
                     </span>
                   </span>
                   <span className="nav-link-text">Trash</span>
@@ -93,7 +77,7 @@ const Sidebar = ({ dispatch, token, authUser }) => {
             </ul>
           </div>
           <div className="separator separator-light"></div>
-          <div className="menu-group">
+          {/* <div className="menu-group">
             <ul className="nav nav-light navbar-nav flex-column">
               <li className="nav-item">
                 <button className="nav-link btn-block">
@@ -139,7 +123,7 @@ const Sidebar = ({ dispatch, token, authUser }) => {
           </div> */}
         </div>
       </div>
-      <div className="fmapp-storage">
+      {/* <div className="fmapp-storage">
         <p className="p-sm">
           Storage is 85% full. 78.5 GB of 1 TB used. You can buy more space.
         </p>
@@ -160,7 +144,7 @@ const Sidebar = ({ dispatch, token, authUser }) => {
         <a className="fs-7">
           <u>Buy Storage</u>
         </a>
-      </div>
+      </div> */}
       {/* <!--Sidebar Fixnav--> */}
       <div className="fmapp-fixednav">
         <div className="hk-toolbar">

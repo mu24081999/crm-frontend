@@ -4,6 +4,7 @@ import { loginUser, logoutUser } from "../../redux/services/auth";
 import _ from "lodash";
 import Dialer from "../PhoneDialer/Dialer";
 import {
+  FaBell,
   FaCogs,
   FaCreditCard,
   FaPlus,
@@ -299,7 +300,7 @@ const TopNavbar = ({}) => {
             {/* <li className="nav-item">
               <Dialer />
             </li> */}
-            {/* <li className="nav-item">
+            <li className="nav-item">
               <div className="dropdown dropdown-notifications">
                 <a
                   href="#"
@@ -335,7 +336,7 @@ const TopNavbar = ({}) => {
                     </a>
                   </h6>
                   <div data-simplebar className="dropdown-body  p-2">
-                    <a href="" className="dropdown-item">
+                    {/* <a href="" className="dropdown-item">
                       <div className="media">
                         <div className="media-head">
                           <div className="avatar avatar-rounded avatar-sm">
@@ -496,7 +497,7 @@ const TopNavbar = ({}) => {
                           </div>
                         </div>
                       </div>
-                    </a>
+                    </a> */}
                   </div>
                   <div className="dropdown-footer">
                     <a href="">
@@ -505,7 +506,7 @@ const TopNavbar = ({}) => {
                   </div>
                 </div>
               </div>
-            </li> */}
+            </li>
             <li className="nav-item">
               <div className="dropdown ps-2">
                 <a

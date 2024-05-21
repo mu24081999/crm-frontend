@@ -20,7 +20,8 @@ const ContactsContent = () => {
   useEffect(() => {
     if (contacts.length > 0) {
       const filterData = contacts.filter(
-        (contact) => contact.status !== "blocked"
+        (contact) =>
+          contact.status !== "archived" && contact.status !== "blocked"
       );
       setData(filterData);
     }

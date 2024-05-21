@@ -449,9 +449,9 @@ const VerticalNavbar = () => {
                       data-bs-target="#email_section"
                     >
                       <span className="nav-icon-wrap position-relative">
-                        <span className="badge badge-sm badge-primary badge-sm badge-pill position-top-end-overflow">
+                        {/* <span className="badge badge-sm badge-primary badge-sm badge-pill position-top-end-overflow">
                           3
-                        </span>
+                        </span> */}
                         <span className="svg-icon">
                           <SiGmail />
                         </span>

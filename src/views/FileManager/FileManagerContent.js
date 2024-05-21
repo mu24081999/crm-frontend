@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import Alert from "./components/Alert";
-import Files from "./components/Files";
-import Folders from "./components/Folders";
 import QuickAccess from "./components/QuickAccess";
 import FileInfo from "./components/FileInfo";
 import FileManagerListView from "./FileManagerListView";

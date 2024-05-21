@@ -15,6 +15,7 @@ const CalenderContent = () => {
   const [eventDetailRight, setEventDetailRight] = useState("-370px");
   const { token, user } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
+  const [agents, setAgents] = useState([]);
   const { events, isLoading, eventDetails } = useSelector(
     (state) => state.calendar_event
   );

@@ -1,14 +1,7 @@
 import React, { useContext } from "react";
 import { CiMenuKebab } from "react-icons/ci";
-import {
-  FaEdit,
-  FaRegStar,
-  FaStar,
-  FaTrash,
-  FaUserCheck,
-} from "react-icons/fa";
-import { FaMessage } from "react-icons/fa6";
-import { getContactDetais } from "../../../redux/services/contact";
+import { FaEdit, FaTrash } from "react-icons/fa";
+
 import moment from "moment";
 import { SocketContext } from "../../../Context";
 
@@ -21,7 +14,7 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
   };
   return (
     <div className="contact-card-view overflow-scroll h-100">
-      <div className="row">
+      {/* <div className="row">
         <div className="col-7 mb-3">
           <div className="contact-toolbar-left">
             <div className="d-xxl-flex d-none align-items-center form-group mb-0">
@@ -137,7 +130,7 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="row">
         {contactsData?.length > 0 &&
           contactsData?.map((contact, index) => (
@@ -215,14 +208,6 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
                       className="avatar-img"
                     />
                   </div>
-                  <div className="user-name">
-                    <span className="contact-star">
-                      <span className="feather-icon">
-                        {/* <i data-feather="star"></i> */}
-                        <FaRegStar />
-                      </span>
-                    </span>
-                  </div>
                   <div className="d-flex justify-content-between py-1">
                     <div className="fw-bold fs-6">Name</div>
                     <div>
@@ -269,7 +254,7 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
           ))}
       </div>
 
-      <div className="row">
+      {/* <div className="row">
         <div className="d-flex align-items-center col-sm-12 col-md-5 justify-content-center justify-content-md-start">
           <div className="dataTables_info">1 - 10 of 30</div>
         </div>
@@ -297,7 +282,7 @@ const ContactCards = ({ contactsData, token, dispatch, onToggleEdit }) => {
             </li>
           </ul>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

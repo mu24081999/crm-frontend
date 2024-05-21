@@ -194,8 +194,8 @@ export default function Calendar({
                 "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
             }}
             initialView="dayGridMonth"
-            editable={true}
-            selectable={true}
+            editable={false}
+            selectable={false}
             selectMirror={true}
             dayMaxEvents={true}
             weekends={weekendsVisible}

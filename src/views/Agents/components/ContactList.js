@@ -55,22 +55,10 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
             <table className="table w-100 mb-5">
               <thead>
                 <tr>
-                  <th>
-                    <span className="form-check mb-0">
-                      <input
-                        type="checkbox"
-                        className="form-check-input check-select-all"
-                      />
-                      <label
-                        className="form-check-label"
-                        for="customCheck1"
-                      ></label>
-                    </span>
-                  </th>
                   <th>Name</th>
                   <th>Email Address</th>
-                  <th>Role</th>
-                  <th>Tags</th>
+                  {/* <th>Role</th>
+                  <th>Tags</th> */}
                   <th>Status</th>
                   {/* <th>Socket ID</th> */}
                   <th>Date Created</th>
@@ -82,30 +70,6 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                 {usersData?.length > 0 &&
                   usersData?.map((contact) => (
                     <tr>
-                      <td>
-                        <div className="d-flex align-items-center">
-                          <span className="contact-star marked">
-                            <span className="feather-icon">
-                              {/* <i data-feather="star"></i> */}
-                              {contact?.status === "important" ? (
-                                <FaStar
-                                  onClick={
-                                    () => {}
-                                    // handleUpdateStatus(contact.id, "active")
-                                  }
-                                />
-                              ) : (
-                                <FaRegStar
-                                  onClick={() =>
-                                    // handleUpdateStatus(contact.id, "important")
-                                    {}
-                                  }
-                                />
-                              )}
-                            </span>
-                          </span>
-                        </div>
-                      </td>
                       <td>
                         <div className="media align-items-center">
                           <div className="media-head me-2">
@@ -137,7 +101,7 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                       </td>
                       <td className="text-truncate">{contact.email}</td>
 
-                      <td className="text-truncate">
+                      {/* <td className="text-truncate">
                         {contact.role || "user"}
                       </td>
                       <td>
@@ -151,7 +115,7 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                               {tag.name}
                             </span>
                           ))}
-                      </td>
+                      </td> */}
                       <td>
                         <span
                           className={`${

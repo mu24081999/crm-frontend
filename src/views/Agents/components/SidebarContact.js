@@ -1,18 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-  FaArchive,
-  FaBars,
-  FaBook,
-  FaEdit,
-  FaFileDownload,
-  FaPlus,
-  FaPrint,
-  FaStar,
-  FaTrash,
-  FaUpload,
-  FaUserCheck,
-  FaUserClock,
-} from "react-icons/fa";
+import { FaTrash, FaUserCheck, FaUserClock } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { SocketContext } from "../../../Context";
 
@@ -146,61 +133,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
       </div>
       {/* <!--Sidebar Fixnav--> */}
       <div className="contactapp-fixednav">
-        <div className="hk-toolbar">
-          <ul className="nav nav-light">
-            <li className="nav-item nav-link">
-              <a
-                className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title=""
-                data-bs-original-title="Settings"
-                href="/"
-              >
-                <span className="icon">
-                  <span className="feather-icon">
-                    <i data-feather="settings"></i>
-                    <FaBars />
-                  </span>
-                </span>
-              </a>
-            </li>
-            <li className="nav-item nav-link">
-              <a
-                href="/"
-                className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title=""
-                data-bs-original-title="Archive"
-              >
-                <span className="icon">
-                  <span className="feather-icon">
-                    {/* <i data-feather="archive"></i> */}
-                    <FaArchive />
-                  </span>
-                </span>
-              </a>
-            </li>
-            <li className="nav-item nav-link">
-              <a
-                href="/"
-                className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title=""
-                data-bs-original-title="Help"
-              >
-                <span className="icon">
-                  <span className="feather-icon">
-                    <i data-feather="book"></i>
-                    <FaBook />
-                  </span>
-                </span>
-              </a>
-            </li>
-          </ul>
-        </div>
+        <div className="hk-toolbar"></div>
       </div>
       {/* <!--/ Sidebar Fixnav--> */}
     </nav>

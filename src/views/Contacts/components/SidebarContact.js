@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { SocketContext } from "../../../Context";
+import { ImBlocked } from "react-icons/im";
 
 const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
   const { contacts } = useSelector((state) => state.contact);
@@ -30,7 +31,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
   };
   const handleAllClick = () => {
     const filterData = contacts.filter(
-      (contact) => contact.status !== "blocked"
+      (contact) => contact.status !== "blocked" && contact.status !== "archived"
     );
     setActiveBar("all");
     // onToggleEdit(false);
@@ -156,10 +157,10 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="trash-2"></i> */}
-                      <FaTrash />
+                      <ImBlocked />
                     </span>
                   </span>
-                  <span className="nav-link-text">Deleted</span>
+                  <span className="nav-link-text">Blocked</span>
                 </button>
               </li>
             </ul>

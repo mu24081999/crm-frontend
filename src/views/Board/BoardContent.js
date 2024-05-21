@@ -15,16 +15,20 @@ import { getTasksList } from "../../redux/services/project-task";
 import EditProjectTask from "./components/EditProjectTask";
 import Kanban from "./Kanban";
 import { getContactsList } from "../../redux/services/contact";
+import { getUsers } from "../../redux/services/users";
+import _ from "lodash";
 
 const BoardContent = () => {
   const [toggleType, setToggleType] = useState("board");
   const [boardsData, setBoardsData] = useState([]);
   const [contactsData, setContactsData] = useState([]);
   const [boardsData_, setBoardsData_] = useState([]);
+  const [agents, setAgents] = useState([]);
   const [teamsData, setTeamsData] = useState([]);
   const [tasksData, setTasksData] = useState([]);
   const [isShowTask, setShowTask] = useState(false);
-  const { token } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
+  const { users } = useSelector((state) => state.user);
   const { boards, boardDetails } = useSelector((state) => state.board);
   const { contacts } = useSelector((state) => state.contact);
   const { teams } = useSelector((state) => state.board_team);
@@ -37,10 +41,18 @@ const BoardContent = () => {
   useEffect(() => {
     dispatch(getBoardList(token));
     dispatch(getBoardTeamList(token));
+    dispatch(getUsers(token));
     dispatch(getTasksList(token));
     dispatch(getContactsList(token));
     // dispatch(getContactsListByBoard(token, boardDetails?.id));
   }, [token, dispatch]);
+  useEffect(() => {
+    const agentsData = users?.filter(
+      (ur) => _.toInteger(ur.client_id) === user.id
+    );
+    console.log(agentsData);
+    setAgents(agentsData);
+  }, [users, user]);
   useEffect(() => {
     const data = boards?.filter((board) => board.visibility !== "deleted");
     setBoardsData_(boards);
@@ -114,7 +126,7 @@ const BoardContent = () => {
               </div>
 
               {/* <!-- Add New Task --> */}
-              <AddNewTask teamsData={teamsData} boardDetails={boardDetails} />
+              <AddNewTask agents={agents} boardDetails={boardDetails} />
               {/* <!-- /Add New Task --> */}
 
               {/* <!-- Add New Member --> */}

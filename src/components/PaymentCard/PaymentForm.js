@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { redirect, useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import ReactSelectField from "../../components/FormFields/reactSelectField";
+import { Link } from "react-router-dom";
 const PaymentForm = ({ path, afterPayment, description }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,9 +26,9 @@ const PaymentForm = ({ path, afterPayment, description }) => {
   const stripe = useStripe();
   const elements = useElements();
   const amount_value = document.getElementById("buy_number");
+  const close_button = document.getElementById("close_modal");
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const close_button = document.getElementById("close_modal");
     // await dispatch(
     //   paymentIntent(token, {
     //     currency: "usd",
@@ -63,6 +64,9 @@ const PaymentForm = ({ path, afterPayment, description }) => {
   };
   const handleChange = (e) => {
     setFormData({ ...formData, postal_code: e.value.postalCode });
+  };
+  const handleTermsClick = () => {
+    close_button.click();
   };
 
   return (
@@ -142,9 +146,13 @@ const PaymentForm = ({ path, afterPayment, description }) => {
                     required={true}
                     name="policy_accepted"
                   />
-                  <a href="#" className="text-primary text-underlined">
+                  <Link
+                    to="/terms-conditions"
+                    className="text-primary text-underlined"
+                    onClick={handleTermsClick}
+                  >
                     Agreed with terms and conditions
-                  </a>
+                  </Link>
                 </div>
 
                 <div className="pt-4 ">

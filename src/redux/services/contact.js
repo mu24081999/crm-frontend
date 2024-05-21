@@ -165,3 +165,31 @@ export const deleteContactRec = (token, contact_id) => async (dispatch) => {
     dispatch(invalidRequest(e.message));
   }
 };
+export const permanentDeleteContactRec =
+  (token, contact_id) => async (dispatch) => {
+    try {
+      dispatch(contactRequestLoading());
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
+      };
+      await axios
+        .delete(
+          `${backendURL}/user/contact/permanent-delete-contact/${contact_id}`,
+          config
+        )
+        .then((response) => {
+          console.log("🚀 ~ .then ~ response:", response);
+          if (response?.data?.statusCode !== 200) {
+            toast.error(response.data.message);
+            return dispatch(invalidRequest(response.data.message));
+          }
+          dispatch(deleteContact(response.data.message));
+          dispatch(getContactsList(token));
+        });
+    } catch (e) {
+      dispatch(invalidRequest(e.message));
+    }
+  };

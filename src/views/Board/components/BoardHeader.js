@@ -14,7 +14,7 @@ const BoardHeader = ({ onToggle }) => {
             <span className="nav-link-text">Boards</span>
           </button>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <button
             className="nav-link"
             data-bs-toggle="tab"
@@ -23,7 +23,7 @@ const BoardHeader = ({ onToggle }) => {
           >
             <span className="nav-link-text badge-on-text">Team</span>
           </button>
-        </li>
+        </li> */}
       </ul>
       <div className="hk-sidebar-togglable"></div>
     </header>
