@@ -1,7 +1,7 @@
 import React from "react";
 import brand from "../../assets/2.png";
 import { Link, useLocation } from "react-router-dom";
-import { FaRegEnvelope, FaRegUser } from "react-icons/fa";
+import { FaRegEnvelope, FaRegUser, FaWallet } from "react-icons/fa";
 import { MdSupportAgent, MdSwapCalls } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { CiMenuFries } from "react-icons/ci";
@@ -546,6 +546,20 @@ const VerticalNavbar = () => {
                         </span>
                       </span>
                       <span className="nav-link-text">Active Numbers</span>
+                    </Link>
+                  </li>
+                  <li
+                    className={`nav-item ${
+                      location?.pathname === "/balance" && "active"
+                    }`}
+                  >
+                    <Link className="nav-link" to="/balance">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <FaWallet />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Wallet</span>
                     </Link>
                   </li>
                   <li

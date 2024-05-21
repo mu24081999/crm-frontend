@@ -45,7 +45,7 @@ export const getUserAllPayments = (token, data) => async (dispatch) => {
       },
     };
     await axios
-      .post(`${backendURL}/user/payments/get-user-payments`, data, config)
+      .get(`${backendURL}/user/payments/get-user-payments`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         if (response?.data?.statusCode !== 200) {

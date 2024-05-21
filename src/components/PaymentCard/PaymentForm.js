@@ -11,18 +11,21 @@ const PaymentForm = ({ path, afterPayment, description }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token, user } = useSelector((state) => state.auth);
-  const { paymentIntent: intent, isLoading } = useSelector(
-    (state) => state.payment
-  );
+  const { paymentIntent, isLoading } = useSelector((state) => state.payment);
   const [formData, setFormData] = useState({
     card_holder_name: "",
     user_id: user.id,
-    amount: intent?.amount,
+    amount: "",
     postal_code: "",
     policy_accepted: "",
     description: description,
   });
-  console.log("🚀 ~ PaymentForm ~ formData:", formData);
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      amount: paymentIntent?.amount,
+    }));
+  }, [paymentIntent]);
   const stripe = useStripe();
   const elements = useElements();
   const amount_value = document.getElementById("buy_number");
@@ -36,12 +39,13 @@ const PaymentForm = ({ path, afterPayment, description }) => {
     //     amount: amount_value ? amount_value.getAttribute("data-amount") : "",
     //   })
     // );
-    const amount = intent?.amount;
-    setFormData({ ...formData, amount: amount });
+    const amount = paymentIntent?.amount;
+    console.log("🚀 ~ handleSubmit ~ amount:", amount);
+    // setFormData((prevFormData) => ({ ...prevFormData, amount: amount }));
     console.log(formData);
-    const clientSecret = intent?.client_secret;
+    const clientSecret = paymentIntent?.client_secret;
     // Confirm the payment on the client side
-    if (isLoading === false && intent?.client_secret !== undefined) {
+    if (isLoading === false && paymentIntent?.client_secret !== undefined) {
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),

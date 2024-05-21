@@ -73,16 +73,24 @@ const EditorField = React.forwardRef((props, ref) => {
                   init={{
                     height: 300,
                     menubar: false,
+                    // plugins: [
+                    //   "advlist autolink lists link image charmap print preview anchor",
+                    //   "searchreplace visualblocks code fullscreen",
+                    //   "insertdatetime media table paste code help wordcount",
+                    // ],
+                    // toolbar:
+                    // "undo redo | formatselect | " +
+                    // "bold italic backcolor | alignleft aligncenter " +
+                    // "alignright alignjustify | bullist numlist outdent indent | " +
+                    // "removeformat | help",
                     plugins: [
-                      "advlist autolink lists link image charmap print preview anchor",
-                      "searchreplace visualblocks code fullscreen",
-                      "insertdatetime media table paste code help wordcount",
+                      "a11ychecker advcode casechange formatpainter",
+                      "linkchecker autolink lists checklist",
+                      "media mediaembed pageembed permanentpen",
+                      "powerpaste table advtable tinymcespellchecker",
                     ],
                     toolbar:
-                      "undo redo | formatselect | " +
-                      "bold italic backcolor | alignleft aligncenter " +
-                      "alignright alignjustify | bullist numlist outdent indent | " +
-                      "removeformat | help",
+                      "formatselect | fontselect | bold italic strikethrough forecolor backcolor formatpainter | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | link insertfile image | removeformat | code | addcomment | checklist | casechange",
                     content_style:
                       "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }, .tox-statusbar{display:none}",
                   }}

@@ -18,6 +18,7 @@ import axios from "axios";
 import { getContactsList } from "../../redux/services/contact";
 import ReactSelectField from "../FormFields/reactSelectField";
 import { BiLoaderCircle } from "react-icons/bi";
+import _ from "lodash";
 
 //Helpers
 const Timer = () => {
@@ -226,7 +227,7 @@ const Dialer = () => {
   }
   const sendDigit = (digit) => {
     if (twilioDevice) {
-      connection.sendDigits(digit);
+      connection.sendDigits(_.toString(digit));
     }
   };
 

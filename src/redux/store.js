@@ -31,6 +31,7 @@ const persistConfig = {
     "billing",
     "kyc",
     "ticket",
+    "balance",
   ],
   whitelist: ["auth"],
 };
