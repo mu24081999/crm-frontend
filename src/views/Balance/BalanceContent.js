@@ -209,7 +209,7 @@ const BalanceContent = () => {
                               data-bs-target={`#call_usage`}
                               role="button"
                               aria-expanded="false"
-                              className="px-3 py-3 border fw-bold "
+                              className="px-3 py-3 border fw-bold"
                             >
                               Call Usage
                             </div>
