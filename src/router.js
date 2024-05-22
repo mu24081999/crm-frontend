@@ -50,6 +50,7 @@ import VerifyEmailOtp from "./views/Auth/verifyEmailOtp";
 import Permissions from "./views/Permissions/Permission";
 import Terms from "./views/Terms/Terms";
 import Balance from "./views/Balance/Balance";
+import CallHistory from "./views/CallHistory/CallHistory";
 
 // Define allowed roles for each route
 const roles = {
@@ -147,6 +148,16 @@ const router = (user, subscribed) => {
         subscribed,
         user
       )(Message),
+    },
+    {
+      path: "/call-history",
+      // element: <Message />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(CallHistory),
     },
     {
       path: "/messages-bulk",

@@ -100,9 +100,9 @@ const ChatAside = ({
             />
           </form>
           <div class="frequent-contact">
-            <div class="title-sm text-primary">
+            {/* <div class="title-sm text-primary">
               <span>Frequent contact</span>
-            </div>
+            </div> */}
             <ul class="hk-list">
               {users?.length > 0 &&
                 users.map(

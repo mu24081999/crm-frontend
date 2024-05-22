@@ -95,9 +95,9 @@ const ChatRooms = ({
                             )
                           : "..."}
                       </div>
-                      <div class="badge badge-primary badge-sm badge-pill">
+                      {/* <div class="badge badge-primary badge-sm badge-pill">
                         15
-                      </div>
+                      </div> */}
                       <div class="dropdown action-drp">
                         <a
                           href="/"

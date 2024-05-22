@@ -1,6 +1,6 @@
 import _ from "lodash";
 import moment from "moment";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
   FaArrowAltCircleRight,
   FaArrowDown,
@@ -44,11 +44,12 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
   const { users } = useSelector((state) => state.user);
   const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (selectedUser && me && token) {
-      // callUser(selectedUser?.socket_id, authUser.name);
-    }
-  }, [selectedUser, authUser, callUser, call, me, token]);
+  // useEffect(() => {
+  //   if (selectedUser && me && token) {
+  //     callUser(selectedUser?.socket_id, authUser.name, type,       selectedUser?.name
+  //     );
+  //   }
+  // }, [selectedUser, authUser, callUser, call, me, token]);
   useEffect(() => {
     if (users?.length > 0) {
       setUsersArray(users);
@@ -296,7 +297,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               </span>
             </span>
           </a>
-          <a
+          {/* <a
             class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover d-none d-xl-block"
             href="/"
             data-bs-toggle="modal"
@@ -344,7 +345,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                 <FaVideo />
               </span>
             </span>
-          </a>
+          </a> */}
           {/* <a
             class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
             href="/"
@@ -362,7 +363,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               </span>
             </span>
           </a> */}
-          <div class="dropdown-menu dropdown-menu-end">
+          {/* <div class="dropdown-menu dropdown-menu-end">
             <a
               class="d-xl-none dropdown-item"
               href="/"
@@ -370,7 +371,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               data-bs-target="invite_people"
             >
               <span class="feather-icon dropdown-icon">
-                {/* <i data-feather="user-plus"></i> */}
                 <FaUserPlus />
               </span>
               <span>Invite People</span>
@@ -424,8 +424,8 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
               </span>
               <span>Feedback</span>
             </a>
-          </div>
-          <a
+          </div> */}
+          {/* <a
             class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-none d-xl-block"
             href="/"
             data-bs-toggle="tooltip"
@@ -435,15 +435,13 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
           >
             <span class="icon">
               <span class="feather-icon">
-                {/* <i data-feather="chevron-up"></i> */}
                 <FaChevronUp />
               </span>
               <span class="feather-icon d-none">
-                {/* <i data-feather="chevron-down"></i> */}
                 <FaChevronDown />
               </span>
             </span>
-          </a>
+          </a> */}
         </div>
       </header>
       <div data-simplebar id="chat_body" class="chat-body">
@@ -1014,7 +1012,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                     </div>
                   </div>
                 </div>
-                <div class="card">
+                {/* <div class="card">
                   <div class="card-header">
                     <a
                       role="button"
@@ -1115,10 +1113,10 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                       </a>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
-            <div class="tab-pane fade" id="tab_files">
+            {/* <div class="tab-pane fade" id="tab_files">
               <form role="search">
                 <input
                   type="text"
@@ -1476,7 +1474,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

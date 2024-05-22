@@ -93,18 +93,6 @@ const ChatAside = ({
           </div> */}
           <div class="d-flex">
             <div class="dropdown">
-              <a
-                // href="/"
-                class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                // data-bs-toggle="dropdown"
-              >
-                <span class="icon">
-                  <span class="feather-icon">
-                    {/* <i data-feather="settings"></i> */}
-                    <FaCog />
-                  </span>
-                </span>
-              </a>
               <div class="dropdown-menu dropdown-menu-end">
                 <a class="dropdown-item" href="/">
                   <span class="feather-icon dropdown-icon">

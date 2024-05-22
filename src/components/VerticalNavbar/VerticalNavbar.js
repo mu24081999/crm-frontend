@@ -2,9 +2,9 @@ import React from "react";
 import brand from "../../assets/2.png";
 import { Link, useLocation } from "react-router-dom";
 import { FaRegEnvelope, FaRegUser, FaWallet } from "react-icons/fa";
-import { MdSupportAgent, MdSwapCalls } from "react-icons/md";
+import { MdHistory, MdSupportAgent, MdSwapCalls } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { CiMenuFries } from "react-icons/ci";
+import { CiMenuFries, CiWallet } from "react-icons/ci";
 import { SiGmail } from "react-icons/si";
 import logo from "./../../assets/4.png";
 import { MdOutlineSubscriptions } from "react-icons/md";
@@ -16,6 +16,7 @@ import { FaRegNoteSticky } from "react-icons/fa6";
 import { GrCheckboxSelected } from "react-icons/gr";
 import { PiUsersLight } from "react-icons/pi";
 import { TbUsers } from "react-icons/tb";
+import { IoIosRecording } from "react-icons/io";
 
 const VerticalNavbar = () => {
   const { user } = useSelector((state) => state.auth);
@@ -500,10 +501,10 @@ const VerticalNavbar = () => {
                     <Link className="nav-link" to="/recordings">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
-                          <MdSwapCalls />
+                          <IoIosRecording />
                         </span>
                       </span>
-                      <span className="nav-link-text">Call History</span>
+                      <span className="nav-link-text"> Recordings</span>
                     </Link>
                   </li>
                   <li
@@ -556,7 +557,7 @@ const VerticalNavbar = () => {
                     <Link className="nav-link" to="/balance">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
-                          <FaWallet />
+                          <CiWallet />
                         </span>
                       </span>
                       <span className="nav-link-text">Wallet</span>
@@ -714,6 +715,20 @@ const VerticalNavbar = () => {
                         </ul>
                       </li>
                     </ul>
+                  </li>
+                  <li
+                    className={`nav-item ${
+                      location?.pathname === "/call-history" && "active"
+                    }`}
+                  >
+                    <Link className="nav-link" to="/call-history">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <MdHistory />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Call History</span>
+                    </Link>
                   </li>
                 </>
               )}
@@ -924,7 +939,7 @@ const VerticalNavbar = () => {
                   </li>
                 </>
               )}
-              <li
+              {/* <li
                 className={`nav-item ${
                   location?.pathname === "/permissions" && "active"
                 }`}
@@ -937,7 +952,7 @@ const VerticalNavbar = () => {
                   </span>
                   <span className="nav-link-text">Permission</span>
                 </Link>
-              </li>
+              </li> */}
               <li
                 className={`nav-item ${
                   location?.pathname === "/account-settings" && "active"

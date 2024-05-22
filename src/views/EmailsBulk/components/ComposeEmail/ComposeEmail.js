@@ -43,68 +43,68 @@ const ComposeEmail = () => {
   };
   const handleSendEmail = async (data) => {
     if (user?.google_app_password) {
-      const textEmails = data?.to?.split("\n");
-      textEmails?.length > 0
-        ? textEmails?.map((email, index) => {
-            const formData = new FormData();
-            // Append other form fields
-            formData.append("subject", data.subject);
-            formData.append("body", data.body);
-            formData.append("type", "email");
-            formData.append("from", user?.email);
-            formData.append("from_name", user?.name);
-            formData.append("google_app_password", user?.google_app_password);
-            formData.append("to", email);
-            data?.files &&
-              data?.files.forEach((element) => {
-                formData.append("files", element);
-              });
-            dispatch(sendEmailBulk(token, formData));
-          })
-        : emails?.length > 0 &&
-          emails?.map((email, index) => {
-            const formData = new FormData();
-            // Append other form fields
-            formData.append("subject", data.subject);
-            formData.append("body", data.body);
-            formData.append("type", "email");
-            formData.append("from", user?.email);
-            formData.append("from_name", user?.name);
-            formData.append("google_app_password", user?.google_app_password);
-            formData.append("to", email);
-            data?.files &&
-              data?.files.forEach((element) => {
-                formData.append("files", element);
-              });
-            dispatch(sendEmailBulk(token, formData));
-          });
-      reset();
-      // const formData = new FormData();
+      // const textEmails = data?.to?.split("\n");
+      // textEmails?.length > 0
+      //   ? textEmails?.map((email, index) => {
+      //       const formData = new FormData();
+      //       // Append other form fields
+      //       formData.append("subject", data.subject);
+      //       formData.append("body", data.body);
+      //       formData.append("type", "email");
+      //       formData.append("from", user?.email);
+      //       formData.append("from_name", user?.name);
+      //       formData.append("google_app_password", user?.google_app_password);
+      //       formData.append("to", email);
+      //       data?.files &&
+      //         data?.files.forEach((element) => {
+      //           formData.append("files", element);
+      //         });
+      //       dispatch(sendEmailBulk(token, formData));
+      //     })
+      //   : emails?.length > 0 &&
+      //     emails?.map((email, index) => {
+      //       const formData = new FormData();
+      //       // Append other form fields
+      //       formData.append("subject", data.subject);
+      //       formData.append("body", data.body);
+      //       formData.append("type", "email");
+      //       formData.append("from", user?.email);
+      //       formData.append("from_name", user?.name);
+      //       formData.append("google_app_password", user?.google_app_password);
+      //       formData.append("to", email);
+      //       data?.files &&
+      //         data?.files.forEach((element) => {
+      //           formData.append("files", element);
+      //         });
+      //       dispatch(sendEmailBulk(token, formData));
+      //     });
+      // reset();
+      const formData = new FormData();
 
       // Append other form fields
-      // formData.append("subject", data.subject);
-      // formData.append("body", data.body);
-      // formData.append("type", "email");
-      // formData.append("from", user?.email);
-      // formData.append("from_name", user?.name);
-      // formData.append("google_app_password", user?.google_app_password);
-      // if (emails.length > 0) {
-      //   emails?.forEach((element) => {
-      //     formData.append("to", element);
-      //   });
-      // } else {
-      //   const textEmails = data?.to?.split("\n");
-      //   console.log("🚀 ~ handleSendEmail ~ textEmails:", textEmails);
-      //   textEmails?.forEach((element) => {
-      //     formData.append("to", element);
-      //   });
-      // }
-      // data?.files &&
-      //   data?.files.forEach((element) => {
-      //     formData.append("files", element);
-      //   });
+      formData.append("subject", data.subject);
+      formData.append("body", data.body);
+      formData.append("type", "email");
+      formData.append("from", user?.email);
+      formData.append("from_name", user?.name);
+      formData.append("google_app_password", user?.google_app_password);
+      if (emails.length > 0) {
+        emails?.forEach((element) => {
+          formData.append("to", element);
+        });
+      } else {
+        const textEmails = data?.to?.split("\n");
+        console.log("🚀 ~ handleSendEmail ~ textEmails:", textEmails);
+        textEmails?.forEach((element) => {
+          formData.append("to", element);
+        });
+      }
+      data?.files &&
+        data?.files.forEach((element) => {
+          formData.append("files", element);
+        });
 
-      // await dispatch(sendEmailRec(token, formData));
+      await dispatch(sendEmailBulk(token, formData));
       reset();
     } else {
       toast.error("You are not allowed to send email!");

@@ -801,7 +801,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                     </ul>
                   </div>
                 </div>
-                <div class="card">
+                {/* <div class="card">
                   <div class="card-header">
                     <a
                       role="button"
@@ -902,10 +902,10 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                       </a>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
-            <div class="tab-pane fade" id="tab_files">
+            {/* <div class="tab-pane fade" id="tab_files">
               <form role="search">
                 <input
                   type="text"
@@ -1263,7 +1263,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
