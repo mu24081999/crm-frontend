@@ -5,19 +5,13 @@ import RecordingList from "./components/RecordingList";
 import SearchNumber from "./components/SearchNumber";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  CallLogsList,
   getAvailableNumbers,
   recordingsList,
 } from "../../redux/services/calling";
 import { useForm } from "react-hook-form";
 
 const ContactsContent = () => {
-  const {
-    handleSubmit,
-    watch,
-    control,
-    setValue,
-    formState: { errors },
-  } = useForm({});
   const [data, setData] = useState([]);
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [phoneNumbers_, setPhoneNumbers_] = useState([]);
@@ -27,7 +21,6 @@ const ContactsContent = () => {
   const { availableNumbers, recordings } = useSelector(
     (state) => state.calling
   );
-  console.log("🚀 ~ ContactsContent ~ recordings:", recordings);
   const { token, accountSid, accountAuthToken } = useSelector(
     (state) => state.auth
   );
@@ -50,6 +43,12 @@ const ContactsContent = () => {
     // dispatch(getAvailableNumbers(token));
     dispatch(
       recordingsList(token, {
+        accountSid: accountSid,
+        authToken: accountAuthToken,
+      })
+    );
+    dispatch(
+      CallLogsList(token, {
         accountSid: accountSid,
         authToken: accountAuthToken,
       })

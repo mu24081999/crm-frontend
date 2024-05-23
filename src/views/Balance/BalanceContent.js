@@ -220,7 +220,9 @@ const BalanceContent = () => {
                           >
                             <div class="accordion-body">
                               {" "}
-                              <Link to={"#"}>Check Call Usage Logs</Link>
+                              <Link to={"/call-history"}>
+                                Check Call Usage Logs
+                              </Link>
                             </div>
                           </div>
                         </div>
@@ -242,7 +244,9 @@ const BalanceContent = () => {
                           >
                             <div class="accordion-body">
                               {" "}
-                              <Link to={"#"}>Check SMS Usage Logs</Link>
+                              <Link to={"/messages-logs"}>
+                                Check SMS Usage Logs
+                              </Link>
                             </div>
                           </div>
                         </div>

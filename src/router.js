@@ -51,6 +51,7 @@ import Permissions from "./views/Permissions/Permission";
 import Terms from "./views/Terms/Terms";
 import Balance from "./views/Balance/Balance";
 import CallHistory from "./views/CallHistory/CallHistory";
+import MessagesLogs from "./views/MessagesLogs/MessagesLogs";
 
 // Define allowed roles for each route
 const roles = {
@@ -148,6 +149,16 @@ const router = (user, subscribed) => {
         subscribed,
         user
       )(Message),
+    },
+    {
+      path: "/messages-logs",
+      // element: <Message />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(MessagesLogs),
     },
     {
       path: "/call-history",

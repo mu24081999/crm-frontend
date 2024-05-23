@@ -1,24 +1,37 @@
 import React, { useState } from "react";
-import { FaPhone, FaPhoneSlash, FaSpeakerDeck } from "react-icons/fa";
+import {
+  FaArrowAltCircleRight,
+  FaArrowRight,
+  FaPhone,
+  FaPhoneSlash,
+  FaSpeakerDeck,
+} from "react-icons/fa";
 
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import "./dialer.css";
 import InputField from "../FormFields/InputField";
 import { useForm } from "react-hook-form";
-import { IoIosKeypad } from "react-icons/io";
-import { MdOutlineContacts } from "react-icons/md";
+import { IoIosKeypad, IoIosRecording } from "react-icons/io";
+import { MdMicExternalOff, MdMicNone, MdOutlineContacts } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Device } from "twilio-client";
-import { getAllClaimedNumbers } from "../../redux/services/calling";
+import {
+  getAllClaimedNumbers,
+  transferCall,
+  updateBalanceAfterCall,
+} from "../../redux/services/calling";
 
 import axios from "axios";
 import { getContactsList } from "../../redux/services/contact";
 import ReactSelectField from "../FormFields/reactSelectField";
 import { BiLoaderCircle } from "react-icons/bi";
 import _ from "lodash";
+import { TbRecordMailOff } from "react-icons/tb";
+import { AiOutlineAudioMuted } from "react-icons/ai";
+import { FaMicrophoneLines } from "react-icons/fa6";
 
 //Helpers
 const Timer = () => {
@@ -170,6 +183,13 @@ const Dialer = () => {
       console.log("Call accepted");
     });
     outgoingCall.on("disconnect", () => {
+      dispatch(
+        updateBalanceAfterCall(token, {
+          accountSid: accountSid,
+          authToken: accountAuthToken,
+          user_id: user.id,
+        })
+      );
       setShowCall(false);
       setUserState("READY");
       setIsDial(true);
@@ -226,8 +246,40 @@ const Dialer = () => {
     return { firstCharacter, characterAfterSpace };
   }
   const sendDigit = (digit) => {
-    if (twilioDevice) {
+    if (connection) {
       connection.sendDigits(_.toString(digit));
+    }
+  };
+  // Function to mute the call
+  const muteCall = () => {
+    if (connection) {
+      connection.mute(!connection.isMuted());
+    }
+  };
+  // Function to pause recording
+  const pauseRecording = () => {
+    if (connection) {
+      connection.mediaStream?.pauseRecording();
+    }
+  };
+  const transferCall = (target) => {
+    // Initiate a new connection to the target
+    const newConnection = twilioDevice.connect({ To: target });
+
+    // Disconnect the existing connection
+    if (connection) {
+      connection.disconnect();
+    }
+  };
+  // Function to unmute the call
+  const unmuteCall = () => {
+    if (connection) {
+      connection.mute(false);
+    }
+  };
+  const resumeRecording = () => {
+    if (connection && connection.mediaStream) {
+      connection.mediaStream.resumeRecording();
     }
   };
 
@@ -484,47 +536,80 @@ const Dialer = () => {
               </div>
             </>
           )}
-          {userState === "ON_CALL" && showCall && (
-            <div style={{ height: "450px" }}>
-              <div className="rounded-circle mb-5">
-                <div className="m-auto w-50">
-                  <img
-                    src="https://static.vecteezy.com/system/resources/previews/026/619/142/non_2x/default-avatar-profile-icon-of-social-media-user-photo-image-vector.jpg"
-                    alt="new"
-                    width={150}
-                  />
-                  <p>{activeCall?.parameters?.From}</p>
-                </div>
+          {/* {userState === "ON_CALL" && showCall && ( */}
+          <div style={{ height: "450px" }}>
+            {/* <button
+              className="btn  btn-icon btn-light btn-rounded"
+              onClick={transferCall}
+            > size={24}
+              <FaArrowRight />
+            </button> */}
+
+            <div className="rounded-circle mb-5">
+              <div className="m-auto w-50">
+                <img
+                  src="https://static.vecteezy.com/system/resources/previews/026/619/142/non_2x/default-avatar-profile-icon-of-social-media-user-photo-image-vector.jpg"
+                  alt="new"
+                  width={150}
+                />
+                <p>{activeCall?.parameters?.From}</p>
               </div>
-              {callStatus === "STARTED" && (
-                <div className="my-5 text-center">
-                  <Timer />
-                </div>
-              )}
-              <div className="d-flex justify-content-around ">
-                {/* {callStatus === "INCOMING" && ( */}
+            </div>
+            {callStatus === "STARTED" && (
+              <div className="my-5 text-center">
+                <Timer />
+              </div>
+            )}
+            <div className="d-flex justify-content-center gap-3">
+              <button
+                className="btn  btn-icon btn-light btn-rounded"
+                onClick={muteCall}
+              >
+                <AiOutlineAudioMuted size={24} />
+              </button>
+              <button
+                className="btn  btn-icon btn-light btn-rounded"
+                onClick={pauseRecording}
+              >
+                <TbRecordMailOff size={24} />
+              </button>
+              <button
+                className="btn  btn-icon btn-light btn-rounded"
+                onClick={resumeRecording}
+              >
+                <IoIosRecording size={24} />
+              </button>
+              <button
+                className="btn  btn-icon btn-light btn-rounded"
+                onClick={unmuteCall}
+              >
+                <MdMicNone size={24} />
+              </button>
+            </div>
+            <div className="d-flex justify-content-around ">
+              {/* {callStatus === "INCOMING" && ( */}
+              <div className="d-flex justify-content-center my-5 mx-1">
+                <button
+                  className="btn btn-danger rounded-circle p-3"
+                  onClick={handleDisconnectCall}
+                >
+                  <FaPhone size={22} />
+                </button>
+              </div>
+              {/* )} */}
+              {callStatus === "INCOMING" && (
                 <div className="d-flex justify-content-center my-5 mx-1">
                   <button
-                    className="btn btn-danger rounded-circle p-3"
-                    onClick={handleDisconnectCall}
+                    className="btn btn-success rounded-circle p-3"
+                    onClick={handleAcceptCall}
                   >
                     <FaPhone size={22} />
                   </button>
                 </div>
-                {/* )} */}
-                {callStatus === "INCOMING" && (
-                  <div className="d-flex justify-content-center my-5 mx-1">
-                    <button
-                      className="btn btn-success rounded-circle p-3"
-                      onClick={handleAcceptCall}
-                    >
-                      <FaPhone size={22} />
-                    </button>
-                  </div>
-                )}
-              </div>
+              )}
             </div>
-          )}
+          </div>
+          {/* )} */}
 
           {/* {userState !== "ON_CALL" && ( */}
           <footer className="w-100 d-flex justify-content-between p-1 gap-1">

@@ -17,6 +17,7 @@ import { GrCheckboxSelected } from "react-icons/gr";
 import { PiUsersLight } from "react-icons/pi";
 import { TbUsers } from "react-icons/tb";
 import { IoIosRecording } from "react-icons/io";
+import { TbListCheck } from "react-icons/tb";
 
 const VerticalNavbar = () => {
   const { user } = useSelector((state) => state.auth);
@@ -561,6 +562,20 @@ const VerticalNavbar = () => {
                         </span>
                       </span>
                       <span className="nav-link-text">Wallet</span>
+                    </Link>
+                  </li>
+                  <li
+                    className={`nav-item ${
+                      location?.pathname === "/messages-logs" && "active"
+                    }`}
+                  >
+                    <Link className="nav-link" to="/messages-logs">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <TbListCheck />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Messages Logs</span>
                     </Link>
                   </li>
                   <li

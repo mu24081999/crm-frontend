@@ -9,17 +9,21 @@ import Loader from "../../../components/Loader/Loader";
 import { FaStar } from "react-icons/fa";
 import { getUsers } from "../../../redux/services/users";
 import moment from "moment/moment";
+import { CallLogsList } from "../../../redux/services/calling";
 
 const RecordingList = ({ isEdit, recordingsData }) => {
   const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
-  const { isLoading } = useSelector((state) => state.calling);
+  const { token, accountAuthToken, accountSid } = useSelector(
+    (state) => state.auth
+  );
+  const { isLoading, callLogs } = useSelector((state) => state.calling);
   useEffect(() => {
     if (token) {
       dispatch(getContactsList(token));
+
       dispatch(getUsers(token));
     }
-  }, [dispatch, token]);
+  }, [dispatch, token, accountSid, accountAuthToken]);
 
   return (
     <div className="contact-list-view">
