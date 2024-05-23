@@ -536,80 +536,80 @@ const Dialer = () => {
               </div>
             </>
           )}
-          {/* {userState === "ON_CALL" && showCall && ( */}
-          <div style={{ height: "450px" }}>
-            {/* <button
+          {userState === "ON_CALL" && showCall && (
+            <div style={{ height: "450px" }}>
+              {/* <button
               className="btn  btn-icon btn-light btn-rounded"
               onClick={transferCall}
             > size={24}
               <FaArrowRight />
             </button> */}
 
-            <div className="rounded-circle mb-5">
-              <div className="m-auto w-50">
-                <img
-                  src="https://static.vecteezy.com/system/resources/previews/026/619/142/non_2x/default-avatar-profile-icon-of-social-media-user-photo-image-vector.jpg"
-                  alt="new"
-                  width={150}
-                />
-                <p>{activeCall?.parameters?.From}</p>
+              <div className="rounded-circle mb-5">
+                <div className="m-auto w-50">
+                  <img
+                    src="https://static.vecteezy.com/system/resources/previews/026/619/142/non_2x/default-avatar-profile-icon-of-social-media-user-photo-image-vector.jpg"
+                    alt="new"
+                    width={150}
+                  />
+                  <p>{activeCall?.parameters?.From}</p>
+                </div>
               </div>
-            </div>
-            {callStatus === "STARTED" && (
-              <div className="my-5 text-center">
-                <Timer />
-              </div>
-            )}
-            <div className="d-flex justify-content-center gap-3">
-              <button
-                className="btn  btn-icon btn-light btn-rounded"
-                onClick={muteCall}
-              >
-                <AiOutlineAudioMuted size={24} />
-              </button>
-              <button
-                className="btn  btn-icon btn-light btn-rounded"
-                onClick={pauseRecording}
-              >
-                <TbRecordMailOff size={24} />
-              </button>
-              <button
-                className="btn  btn-icon btn-light btn-rounded"
-                onClick={resumeRecording}
-              >
-                <IoIosRecording size={24} />
-              </button>
-              <button
-                className="btn  btn-icon btn-light btn-rounded"
-                onClick={unmuteCall}
-              >
-                <MdMicNone size={24} />
-              </button>
-            </div>
-            <div className="d-flex justify-content-around ">
-              {/* {callStatus === "INCOMING" && ( */}
-              <div className="d-flex justify-content-center my-5 mx-1">
+              {callStatus === "STARTED" && (
+                <div className="my-5 text-center">
+                  <Timer />
+                </div>
+              )}
+              <div className="d-flex justify-content-center gap-3">
                 <button
-                  className="btn btn-danger rounded-circle p-3"
-                  onClick={handleDisconnectCall}
+                  className="btn  btn-icon btn-light btn-rounded"
+                  onClick={muteCall}
                 >
-                  <FaPhone size={22} />
+                  <AiOutlineAudioMuted size={24} />
+                </button>
+                <button
+                  className="btn  btn-icon btn-light btn-rounded"
+                  onClick={pauseRecording}
+                >
+                  <TbRecordMailOff size={24} />
+                </button>
+                <button
+                  className="btn  btn-icon btn-light btn-rounded"
+                  onClick={resumeRecording}
+                >
+                  <IoIosRecording size={24} />
+                </button>
+                <button
+                  className="btn  btn-icon btn-light btn-rounded"
+                  onClick={unmuteCall}
+                >
+                  <MdMicNone size={24} />
                 </button>
               </div>
-              {/* )} */}
-              {callStatus === "INCOMING" && (
+              <div className="d-flex justify-content-around ">
+                {/* {callStatus === "INCOMING" && ( */}
                 <div className="d-flex justify-content-center my-5 mx-1">
                   <button
-                    className="btn btn-success rounded-circle p-3"
-                    onClick={handleAcceptCall}
+                    className="btn btn-danger rounded-circle p-3"
+                    onClick={handleDisconnectCall}
                   >
                     <FaPhone size={22} />
                   </button>
                 </div>
-              )}
+                {/* )} */}
+                {callStatus === "INCOMING" && (
+                  <div className="d-flex justify-content-center my-5 mx-1">
+                    <button
+                      className="btn btn-success rounded-circle p-3"
+                      onClick={handleAcceptCall}
+                    >
+                      <FaPhone size={22} />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-          {/* )} */}
+          )}
 
           {/* {userState !== "ON_CALL" && ( */}
           <footer className="w-100 d-flex justify-content-between p-1 gap-1">
