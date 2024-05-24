@@ -21,7 +21,6 @@ const UpdateAgentInfo = ({ agentDetails }) => {
     (state) => state.auth
   );
   const { claimedNumbers } = useSelector((state) => state.calling);
-  console.log("🚀 ~ AddContactList ~ claimedNumbers:", claimedNumbers);
 
   const [logo, setLogo] = useState(null);
   const countryWatcher = watch("country_array");
@@ -62,10 +61,11 @@ const UpdateAgentInfo = ({ agentDetails }) => {
       email: data?.email,
       username: data?.username,
       personal_phone: data?.personal_phone,
-      accountSid: user?.accountSid,
+      accountSid: agentDetails?.accountSid,
       twilio_numbers: { numbers: data?.twilio_numbers },
+      // twilio_numbers: data?.twilio_numbers,
     };
-    dispatch(updateUserRec(token, formData, user.id));
+    dispatch(updateUserRec(token, formData, agentDetails.id));
     dispatch(getAgentsList(token, user.id));
   };
   const handleChangeImage = (e) => {

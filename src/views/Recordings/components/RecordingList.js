@@ -41,7 +41,10 @@ const RecordingList = ({ isEdit, recordingsData }) => {
                   <th>Date</th>
                   <th>Source</th>
                   <th>Status</th>
+                  <th>From</th>
+                  <th>To</th>
                   <th>Duration</th>
+                  <th>Direction</th>
                   <th>Recording</th>
                 </tr>
               </thead>
@@ -57,7 +60,10 @@ const RecordingList = ({ isEdit, recordingsData }) => {
                       </td>
                       <td>{recording?.source}</td>
                       <td>{recording?.status}</td>
+                      <td>{recording?.fromNumber}</td>
+                      <td>{recording?.toNumber}</td>
                       <td>{recording?.duration} sec</td>
+                      <td>{recording?.direction}</td>
                       <td>
                         <audio controls>
                           <source

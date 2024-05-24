@@ -61,6 +61,7 @@ const InvoiceContent = () => {
             onShowDetailsDataFromChild={handleShowDetailsData}
             onFilterDataFromChild={handleDataFromSidenav}
             invoiceData={invoiceData_}
+            dispatch={dispatch}
           />
           <div className="invoiceapp-content">
             <div className="invoiceapp-detail-wrap">

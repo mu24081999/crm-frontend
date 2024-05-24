@@ -48,7 +48,7 @@ const InvoiceList = ({
           >
             <h1>All invoices</h1>
           </a>
-          <div className="dropdown-menu">
+          {/* <div className="dropdown-menu">
             <a className="dropdown-item" href="/">
               <span className="feather-icon dropdown-icon">
                 <i data-feather="users"></i>
@@ -79,9 +79,9 @@ const InvoiceList = ({
               </span>
               <span>Deleted</span>
             </a>
-          </div>
+          </div> */}
         </div>
-        <div className="invoice-options-wrap">
+        {/* <div className="invoice-options-wrap">
           <a
             className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover no-caret d-lg-inline-block d-none"
             href="/"
@@ -182,7 +182,7 @@ const InvoiceList = ({
               </span>
             </span>
           </a>
-        </div>
+        </div> */}
         <div className="hk-sidebar-togglable"></div>
       </header>
       <div className="invoice-body">
@@ -191,7 +191,7 @@ const InvoiceList = ({
             <table id="datable_1" className="table nowrap w-100 mb-5">
               <thead>
                 <tr>
-                  <th>
+                  {/* <th>
                     <span className="form-check mb-0">
                       <input
                         type="checkbox"
@@ -203,7 +203,7 @@ const InvoiceList = ({
                         for="customCheck1"
                       ></label>
                     </span>
-                  </th>
+                  </th> */}
                   <th>Invoice #</th>
                   <th>Date</th>
                   <th>Reciplent</th>
@@ -217,7 +217,7 @@ const InvoiceList = ({
                 {invoiceData?.length > 0 &&
                   invoiceData?.map((invoice, index) => (
                     <tr key={index}>
-                      <td></td>
+                      {/* <td></td> */}
                       <td>
                         <a
                           onClick={() => handleLinkClick(invoice?.id)}
@@ -266,30 +266,6 @@ const InvoiceList = ({
                       <td>$ {invoice?.total} USD</td>
                       <td>
                         <div className="d-flex align-items-center">
-                          <div className="btn-group selectable-split-dropdown">
-                            <button
-                              type="button"
-                              className="btn btn-outline-light btn-dyn-text w-100p"
-                            >
-                              Edit
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn-outline-light dropdown-toggle dropdown-toggle-split me-3"
-                              data-bs-toggle="dropdown"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                            >
-                              <span className="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <a className="dropdown-item">Remind</a>
-                              <a className="dropdown-item">Sent</a>
-                              <a className="dropdown-item">Active</a>
-                              <div className="dropdown-divider"></div>
-                              <a className="dropdown-item">Edit</a>
-                            </div>
-                          </div>
                           <div className="d-flex">
                             <a
                               className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"

@@ -4,6 +4,7 @@ import {
   FaArrowRight,
   FaPhone,
   FaPhoneSlash,
+  FaPlus,
   FaSpeakerDeck,
 } from "react-icons/fa";
 
@@ -32,6 +33,8 @@ import _ from "lodash";
 import { TbRecordMailOff } from "react-icons/tb";
 import { AiOutlineAudioMuted } from "react-icons/ai";
 import { FaMicrophoneLines } from "react-icons/fa6";
+import { Tooltip as ReactTooltip } from "react-tooltip";
+import { FcCallTransfer } from "react-icons/fc";
 
 //Helpers
 const Timer = () => {
@@ -75,15 +78,31 @@ const Dialer = () => {
   const [showCall, setShowCall] = useState(false);
   const [connection, setConnection] = useState(false);
   const [activeCall, setActiveCall] = useState(null);
+  const [activeCallSid, setActiveCallSid] = useState(null);
   const [active, setActive] = useState(true);
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [agents, setAgents] = useState([]);
   const dispatch = useDispatch();
   const { token, user, accountSid, accountAuthToken } = useSelector(
     (state) => state.auth
   );
   const { claimedNumbers } = useSelector((state) => state.calling);
   const { contacts } = useSelector((state) => state.contact);
+  const { users } = useSelector((state) => state.user);
   const backendURL = process.env.REACT_APP_BACKEND_URL_PRODUCTION;
-
+  useEffect(() => {
+    if (users?.length > 0 && user?.role === "USER") {
+      const data = users?.filter(
+        (usr) => _.toInteger(usr.client_id) === user?.id
+      );
+      setAgents(data);
+    } else if (users?.length > 0 && user?.role === "AGENT") {
+      const data = users?.filter(
+        (usr) => _.toInteger(usr.client_id) === _.toInteger(user?.client_id)
+      );
+      setAgents(data);
+    }
+  }, [users, user]);
   const selectedNumberWatcher = watch("my_numbers");
   useEffect(() => {
     setIsLoading(true);
@@ -171,6 +190,9 @@ const Dialer = () => {
       setShowContacts(false);
       setCallStatus("STARTED");
       console.log("Call accepted");
+      // Capture callSid from the accepted call
+      const callSid = call.parameters.CallSid;
+      setActiveCallSid(callSid);
     });
 
     outgoingCall.on("reject", () => {
@@ -253,36 +275,41 @@ const Dialer = () => {
   // Function to mute the call
   const muteCall = () => {
     if (connection) {
+      setAlertMessage("Call Muted");
       connection.mute(!connection.isMuted());
     }
   };
   // Function to pause recording
   const pauseRecording = () => {
     if (connection) {
+      setAlertMessage("Call Recording paused.");
       connection.mediaStream?.pauseRecording();
     }
   };
-  const transferCall = (target) => {
-    // Initiate a new connection to the target
-    const newConnection = twilioDevice.connect({ To: target });
-
-    // Disconnect the existing connection
-    if (connection) {
-      connection.disconnect();
-    }
+  const callTransfer = (targetClient) => {
+    console.log("🚀 ~ callTransfer ~ targetClient:", targetClient);
+    dispatch(
+      transferCall(token, {
+        accountSid: accountSid,
+        authToken: accountAuthToken,
+        callSid: activeCallSid,
+        targetClient: targetClient,
+      })
+    );
   };
   // Function to unmute the call
   const unmuteCall = () => {
     if (connection) {
       connection.mute(false);
+      setAlertMessage("Call UnMuted");
     }
   };
   const resumeRecording = () => {
     if (connection && connection.mediaStream) {
       connection.mediaStream.resumeRecording();
+      setAlertMessage("Call recording resumed.");
     }
   };
-
   return (
     <div
       className=" d-flex justify-content-end btn btn-icon btn-floating btn-primary btn-lg btn-rounded btn-popup-open"
@@ -538,53 +565,175 @@ const Dialer = () => {
           )}
           {userState === "ON_CALL" && showCall && (
             <div style={{ height: "450px" }}>
-              {/* <button
-              className="btn  btn-icon btn-light btn-rounded"
-              onClick={transferCall}
-            > size={24}
-              <FaArrowRight />
-            </button> */}
-
-              <div className="rounded-circle mb-5">
-                <div className="m-auto w-50">
+              <div className="w-100 py-2">
+                {alertMessage !== null && (
+                  <p className="badge w-100 bg-warning">Call Muted</p>
+                )}
+              </div>
+              <div>
+                <div>
                   <img
                     src="https://static.vecteezy.com/system/resources/previews/026/619/142/non_2x/default-avatar-profile-icon-of-social-media-user-photo-image-vector.jpg"
                     alt="new"
-                    width={150}
+                    width={90}
                   />
-                  <p>{activeCall?.parameters?.From}</p>
+                  <span>
+                    {activeCall?.parameters?.From ||
+                      activeCall?.parameters?.To ||
+                      "0343094394093"}
+                  </span>
                 </div>
               </div>
               {callStatus === "STARTED" && (
-                <div className="my-5 text-center">
+                <div className="my-3 text-center">
                   <Timer />
                 </div>
               )}
-              <div className="d-flex justify-content-center gap-3">
+
+              <div
+                className="d-flex justify-content-center flex-wrap gap-5
+            "
+              >
+                <ReactTooltip
+                  id="on_mic"
+                  place="bottom"
+                  content="Turn on microphone"
+                />
+                <ReactTooltip
+                  id="off_mic"
+                  place="bottom"
+                  content="Turn off microphone"
+                />
+                <ReactTooltip
+                  id="on_record"
+                  place="bottom"
+                  content="Turn on recording"
+                />
+                <ReactTooltip
+                  id="off_record"
+                  place="bottom"
+                  content="Turn off recording"
+                />
+                <ReactTooltip
+                  id="call_transfer"
+                  place="bottom"
+                  content="Transfer Call"
+                />
+                <ReactTooltip
+                  id="add_call"
+                  place="bottom"
+                  content="Add Person in the call"
+                />
                 <button
-                  className="btn  btn-icon btn-light btn-rounded"
+                  className="btn p-3 btn-light rounded-circle"
+                  data-tooltip-id="off_mic"
                   onClick={muteCall}
                 >
-                  <AiOutlineAudioMuted size={24} />
+                  <AiOutlineAudioMuted size={22} />
                 </button>
                 <button
-                  className="btn  btn-icon btn-light btn-rounded"
+                  className="btn p-3 btn-light rounded-circle"
+                  onClick={unmuteCall}
+                  data-tooltip-id="on_mic"
+                >
+                  <MdMicNone size={22} />
+                </button>
+                <button
+                  className="btn p-3 btn-light rounded-circle"
+                  data-tooltip-id="off_record"
                   onClick={pauseRecording}
                 >
-                  <TbRecordMailOff size={24} />
+                  <TbRecordMailOff size={22} />
                 </button>
                 <button
-                  className="btn  btn-icon btn-light btn-rounded"
+                  className="btn p-3 btn-light rounded-circle"
+                  data-tooltip-id="on_record"
                   onClick={resumeRecording}
                 >
-                  <IoIosRecording size={24} />
+                  <IoIosRecording size={22} />
                 </button>
                 <button
-                  className="btn  btn-icon btn-light btn-rounded"
-                  onClick={unmuteCall}
+                  className="btn p-3 btn-light rounded-circle disabled"
+                  data-tooltip-id="add_call"
+                  // onClick={resumeRecording}
                 >
-                  <MdMicNone size={24} />
+                  <FaPlus size={22} />
                 </button>
+                <div class="dropdown" data-tooltip-id="call_transfer">
+                  <button
+                    aria-expanded="false"
+                    data-bs-toggle="dropdown"
+                    className="btn p-3 btn-light rounded-circle dropdown-toggle"
+                    type="button"
+                  >
+                    <FcCallTransfer size={15} />
+                  </button>
+                  <div role="menu" class="dropdown-menu">
+                    {agents?.length > 0 ? (
+                      agents?.map((agent, index) => (
+                        <a
+                          key={index}
+                          class="dropdown-item"
+                          href="#"
+                          onClick={() => callTransfer(agent.username)}
+                        >
+                          {agent.name}({agent.username})
+                        </a>
+                      ))
+                    ) : (
+                      <li>No Agents data found.</li>
+                    )}
+                  </div>
+                </div>
+                {/* <Popup
+                  trigger={
+                    <button
+                      className="btn btn-light rounded-circle"
+                      id="transfer_button"
+                    >
+                      {" "}
+                      {<FcCallTransfer size={22} />}
+                    </button>
+                  }
+                  position="top right"
+                >
+                  <div className="">
+                    <h5 className="bg-primary text-white rounded px-3 py-2">
+                      Transfer To
+                    </h5>
+                    <ul
+                      className="p-0 row gap-2"
+                      style={{
+                        maxHeight: "200px",
+                        overflow: "scroll",
+                        textDecoration: "none",
+                      }}
+                    >
+                      {agents?.length > 0 ? (
+                        agents?.map((agent, index) => (
+                          <li
+                            className="px-5"
+                            key={index}
+                            onClick={() => callTransfer(agent.username)}
+                          >
+                            <a className="" style={{ cursor: "pointer" }}>
+                              {agent.name}({agent.username})
+                            </a>
+                          </li>
+                        ))
+                      ) : (
+                        <li>No Agents data found.</li>
+                      )}
+                    </ul>
+                  </div>
+                </Popup> */}
+                {/* <button
+                className="btn p-3 btn-light rounded-circle"
+                data-tooltip-id="call_transfer"
+                onClick={callTransfer}
+              >
+                <FcCallTransfer size={22} />
+              </button> */}
               </div>
               <div className="d-flex justify-content-around ">
                 {/* {callStatus === "INCOMING" && ( */}

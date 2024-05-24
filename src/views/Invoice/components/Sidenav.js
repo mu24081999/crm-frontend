@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaArchive, FaRegEdit, FaStar, FaTrash, FaUsers } from "react-icons/fa";
+import { invoiceDetials } from "../../../redux/slices/invoice";
 
 const Sidenav = ({
   onShowCreateDataFromChild,
@@ -7,12 +8,14 @@ const Sidenav = ({
   onShowDetailsDataFromChild,
   onFilterDataFromChild,
   invoiceData,
+  dispatch,
 }) => {
   const [activeBar, setActiveBar] = useState("all");
   const handleCreateClick = () => {
     onShowCreateDataFromChild(true);
     onShowListDataFromChild(false);
     onShowDetailsDataFromChild(false);
+    dispatch(invoiceDetials({}));
   };
   const handleAllClick = () => {
     const data = invoiceData?.filter(
@@ -66,24 +69,13 @@ const Sidenav = ({
         <div className="menu-content-wrap">
           <button
             type="button"
-            aria-expanded="false"
-            data-bs-toggle="dropdown"
+            // aria-expanded="false"
+            // data-bs-toggle="dropdown"
             className="btn btn-primary btn-rounded btn-block mb-4 dropdown-toggle"
+            onClick={handleCreateClick}
           >
             Create
           </button>
-          <div role="menu" className="dropdown-menu">
-            <a
-              className="dropdown-item"
-              // href="create-invoice.html"
-              onClick={handleCreateClick}
-            >
-              Create Invoice
-            </a>
-            {/* <a className="dropdown-item" href="/">
-              Create Estimate
-            </a> */}
-          </div>
           <div className="menu-group">
             <ul className="nav nav-light navbar-nav flex-column">
               <li className={`nav-item ${activeBar === "all" ? "active" : ""}`}>
