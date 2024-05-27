@@ -471,11 +471,11 @@ const VerticalNavbar = () => {
                               <span className="nav-link-text">Emails</span>
                             </Link>
                           </li>
-                          <li className="nav-item">
+                          {/* <li className="nav-item">
                             <Link className="nav-link" to="/bulk-emails">
                               <span className="nav-link-text">Bulk Emails</span>
                             </Link>
-                          </li>
+                          </li> */}
                         </ul>
                       </li>
                     </ul>
