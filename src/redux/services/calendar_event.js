@@ -20,17 +20,19 @@ export const storeEvent = (token, data) => async (dispatch) => {
         "x-access-token": token,
       },
     };
-    await axios
+    const store_event = await axios
       .post(`${backendURL}/user/calendar/add-event`, data, config)
-      .then((response) => {
+      .then(async (response) => {
         if (response?.data?.statusCode !== 200) {
           toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
-        dispatch(addEvent(response.data.message));
+        await dispatch(addEvent(response.data.message));
         toast.success(response.data.message);
-        dispatch(getEventsList(token));
+        await dispatch(getEventsList(token));
+        return true;
       });
+    return store_event;
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }

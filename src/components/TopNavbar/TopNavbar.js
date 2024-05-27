@@ -15,16 +15,19 @@ import { getUserSubAccountsList } from "../../redux/services/calling";
 import { setAccount } from "../../redux/slices/auth";
 import { getUsers } from "../../redux/services/users";
 import { Link, useNavigate } from "react-router-dom";
+import moment from "moment";
 
-const TopNavbar = ({}) => {
+const TopNavbar = ({ notificationsData }) => {
   const redirectTo = useNavigate();
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
+
   const [selectedAccount, setSelectedAccount] = useState(user);
   const [parentAccount, setParentAccount] = useState(user);
   const [subAccounts, setSubAccounts] = useState([]);
   const [userAgents, setUserAgents] = useState([]);
+
   useEffect(() => {
     if (selectedAccount?.parent_id) {
       const parent = users?.filter(
@@ -66,6 +69,7 @@ const TopNavbar = ({}) => {
       setUserAgents(data);
     }
   }, [user, users]);
+
   return (
     <nav className="hk-navbar navbar navbar-expand-xl navbar-light fixed-top">
       <div className="container-fluid">
@@ -322,50 +326,43 @@ const TopNavbar = ({}) => {
                 </a>
 
                 <div className="dropdown-menu dropdown-menu-end p-0">
-                  <h6 className="dropdown-header px-4 fs-6">
-                    Notifications
-                    <a
-                      href=""
-                      className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                    >
-                      <span className="icon">
-                        <span className="feather-icon">
-                          <i data-feather="settings"></i>
-                        </span>
-                      </span>
-                    </a>
-                  </h6>
-                  <div data-simplebar className="dropdown-body  p-2">
-                    {/* <a href="" className="dropdown-item">
-                      <div className="media">
-                        <div className="media-head">
-                          <div className="avatar avatar-rounded avatar-sm">
-                            <img
-                              src="dist/img/avatar2.jpg"
-                              alt="user"
-                              className="avatar-img"
-                            />
-                          </div>
-                        </div>
-                        <div className="media-body">
-                          <div>
-                            <div className="notifications-text">
-                              Morgan Freeman accepted your invitation to join
-                              the team
-                            </div>
-                            <div className="notifications-info">
-                              <span className="badge badge-soft-success">
-                                Collaboration
-                              </span>
-                              <div className="notifications-time">
-                                Today, 10:14 PM
+                  <h6 className="dropdown-header px-4 fs-6">Notifications</h6>
+                  <div
+                    className="  p-2"
+                    style={{ overflow: "scroll", maxHeight: "428px" }}
+                  >
+                    {notificationsData?.length > 0 &&
+                      notificationsData?.map((notification, index) => (
+                        <a href="" className="dropdown-item" key={index}>
+                          <div className="media">
+                            {/* <div className="media-head">
+                              <div className="avatar avatar-rounded avatar-sm">
+                                <img
+                                  src="dist/img/avatar2.jpg"
+                                  alt="user"
+                                  className="avatar-img"
+                                />
+                              </div>
+                            </div> */}
+                            <div className="media-body">
+                              <div>
+                                <div className="notifications-text">
+                                  {notification?.notification}
+                                </div>
+                                <div className="notifications-info float-end">
+                                  <div className="notifications-time">
+                                    {moment(notification.created_at).format(
+                                      "DD MMM, YYYY"
+                                    )}
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    </a>
-                    <a href="" className="dropdown-item">
+                        </a>
+                      ))}
+
+                    {/* <a href="" className="dropdown-item">
                       <div className="media">
                         <div className="media-head">
                           <div className="avatar  avatar-icon avatar-sm avatar-success avatar-rounded">

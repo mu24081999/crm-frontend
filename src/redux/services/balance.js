@@ -18,17 +18,19 @@ export const addBalanceRec = (token, data) => async (dispatch) => {
         "x-access-token": token,
       },
     };
-    await axios
+    const is_added = await axios
       .post(`${backendURL}/user/balance/add-balance`, data, config)
-      .then((response) => {
+      .then(async (response) => {
         if (response?.data?.statusCode !== 200) {
           toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
-        dispatch(addBalance(response.data.message));
+        await dispatch(addBalance(response.data.message));
         toast.success(response.data.message);
-        dispatch(getBalance(token));
+        await dispatch(getBalance(token));
+        return true;
       });
+    return is_added;
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }

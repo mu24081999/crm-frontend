@@ -1,29 +1,26 @@
 import React, { useState } from "react";
-import {
-  FaArrowAltCircleRight,
-  FaArrowRight,
-  FaPhone,
-  FaPhoneSlash,
-  FaPlus,
-  FaSpeakerDeck,
-} from "react-icons/fa";
+import { FaPhone, FaPlus } from "react-icons/fa";
 
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import "./dialer.css";
 import InputField from "../FormFields/InputField";
 import { useForm } from "react-hook-form";
-import { IoIosKeypad, IoIosRecording } from "react-icons/io";
-import { MdMicExternalOff, MdMicNone, MdOutlineContacts } from "react-icons/md";
+import { IoIosKeypad } from "react-icons/io";
+import { MdOutlineContacts } from "react-icons/md";
+import { CiMicrophoneOff, CiMicrophoneOn } from "react-icons/ci";
+
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Device } from "twilio-client";
 import {
   getAllClaimedNumbers,
-  transferCall,
+  pauseCallRecording,
+  resumeCallRecording,
   updateBalanceAfterCall,
 } from "../../redux/services/calling";
+import { PiRecordLight } from "react-icons/pi";
 
 import axios from "axios";
 import { getContactsList } from "../../redux/services/contact";
@@ -31,8 +28,6 @@ import ReactSelectField from "../FormFields/reactSelectField";
 import { BiLoaderCircle } from "react-icons/bi";
 import _ from "lodash";
 import { TbRecordMailOff } from "react-icons/tb";
-import { AiOutlineAudioMuted } from "react-icons/ai";
-import { FaMicrophoneLines } from "react-icons/fa6";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { FcCallTransfer } from "react-icons/fc";
 
@@ -89,6 +84,8 @@ const Dialer = () => {
   const { claimedNumbers } = useSelector((state) => state.calling);
   const { contacts } = useSelector((state) => state.contact);
   const { users } = useSelector((state) => state.user);
+  // const [activeRecordingSid, setActiveRecordingSid] = useState(null);
+
   const backendURL = process.env.REACT_APP_BACKEND_URL_PRODUCTION;
   useEffect(() => {
     if (users?.length > 0 && user?.role === "USER") {
@@ -274,26 +271,32 @@ const Dialer = () => {
   };
   // Function to mute the call
   const muteCall = () => {
+    setAlertMessage("Call Muted");
     if (connection) {
-      setAlertMessage("Call Muted");
       connection.mute(!connection.isMuted());
     }
   };
   // Function to pause recording
   const pauseRecording = () => {
-    if (connection) {
-      setAlertMessage("Call Recording paused.");
-      connection.mediaStream?.pauseRecording();
+    setAlertMessage("Call Recording paused.");
+    if (activeCallSid) {
+      // connection.mediaStream?.pauseRecording();
+      dispatch(
+        pauseCallRecording(token, {
+          callSid: activeCallSid,
+          accountSid: accountSid,
+          authToken: accountAuthToken,
+        })
+      );
     }
   };
   const callTransfer = (targetClient) => {
     console.log("🚀 ~ callTransfer ~ targetClient:", targetClient);
     dispatch(
-      transferCall(token, {
+      resumeCallRecording(token, {
+        callSid: activeCallSid,
         accountSid: accountSid,
         authToken: accountAuthToken,
-        callSid: activeCallSid,
-        targetClient: targetClient,
       })
     );
   };
@@ -301,14 +304,14 @@ const Dialer = () => {
   const unmuteCall = () => {
     if (connection) {
       connection.mute(false);
-      setAlertMessage("Call UnMuted");
     }
+    setAlertMessage("Call UnMuted");
   };
   const resumeRecording = () => {
     if (connection && connection.mediaStream) {
       connection.mediaStream.resumeRecording();
-      setAlertMessage("Call recording resumed.");
     }
+    setAlertMessage("Call recording resumed.");
   };
   return (
     <div
@@ -338,17 +341,31 @@ const Dialer = () => {
           {isDial && (
             <table id="dialer_table">
               <tr style={{ height: "50px" }}>
-                <div className="w-100 px-2">
-                  <InputField
-                    style={{ height: "50px", fontSize: "18px" }}
-                    name="subject"
-                    mb={true}
-                    placeholder="Phone Number"
-                    control={control}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    errors={errors}
-                    value={inputValue}
-                  />
+                <div className="w-100 px-2 d-flex">
+                  <div className="col-12">
+                    <InputField
+                      style={{ height: "50px", fontSize: "18px" }}
+                      name="subject"
+                      mb={true}
+                      placeholder="Phone Number"
+                      control={control}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      errors={errors}
+                      value={inputValue}
+                    />
+                  </div>
+                  <td
+                    class="dialer_del_td position-absolute bg-light px-1"
+                    style={{ right: "5%", width: "max-content" }}
+                  >
+                    <img
+                      alt="delete"
+                      onClick={() => dialerClick("delete", "delete")}
+                      src="data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhciIgZGF0YS1pY29uPSJiYWNrc3BhY2UiIHJvbGU9ImltZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNjQwIDUxMiIgY2xhc3M9InN2Zy1pbmxpbmUtLWZhIGZhLWJhY2tzcGFjZSBmYS13LTIwIGZhLTd4Ij48cGF0aCBmaWxsPSIjREMxQTU5IiBkPSJNNDY5LjY1IDE4MS42NWwtMTEuMzEtMTEuMzFjLTYuMjUtNi4yNS0xNi4zOC02LjI1LTIyLjYzIDBMMzg0IDIyMi4wNmwtNTEuNzItNTEuNzJjLTYuMjUtNi4yNS0xNi4zOC02LjI1LTIyLjYzIDBsLTExLjMxIDExLjMxYy02LjI1IDYuMjUtNi4yNSAxNi4zOCAwIDIyLjYzTDM1MC4wNiAyNTZsLTUxLjcyIDUxLjcyYy02LjI1IDYuMjUtNi4yNSAxNi4zOCAwIDIyLjYzbDExLjMxIDExLjMxYzYuMjUgNi4yNSAxNi4zOCA2LjI1IDIyLjYzIDBMMzg0IDI4OS45NGw1MS43MiA1MS43MmM2LjI1IDYuMjUgMTYuMzggNi4yNSAyMi42MyAwbDExLjMxLTExLjMxYzYuMjUtNi4yNSA2LjI1LTE2LjM4IDAtMjIuNjNMNDE3Ljk0IDI1Nmw1MS43Mi01MS43MmM2LjI0LTYuMjUgNi4yNC0xNi4zOC0uMDEtMjIuNjN6TTU3NiA2NEgyMDUuMjZDMTg4LjI4IDY0IDE3MiA3MC43NCAxNjAgODIuNzRMOS4zNyAyMzMuMzdjLTEyLjUgMTIuNS0xMi41IDMyLjc2IDAgNDUuMjVMMTYwIDQyOS4yNWMxMiAxMiAyOC4yOCAxOC43NSA0NS4yNSAxOC43NUg1NzZjMzUuMzUgMCA2NC0yOC42NSA2NC02NFYxMjhjMC0zNS4zNS0yOC42NS02NC02NC02NHptMTYgMzIwYzAgOC44Mi03LjE4IDE2LTE2IDE2SDIwNS4yNmMtNC4yNyAwLTguMjktMS42Ni0xMS4zMS00LjY5TDU0LjYzIDI1NmwxMzkuMzEtMTM5LjMxYzMuMDItMy4wMiA3LjA0LTQuNjkgMTEuMzEtNC42OUg1NzZjOC44MiAwIDE2IDcuMTggMTYgMTZ2MjU2eiIgY2xhc3M9IiI+PC9wYXRoPjwvc3ZnPg=="
+                      width="25px"
+                      title="Delete"
+                    />
+                  </td>
                 </div>
               </tr>
               <tr class="dialer_num_tr">
@@ -440,14 +457,9 @@ const Dialer = () => {
                 <td class="dialer_num" onClick={() => dialerClick("dial", 0)}>
                   0<span className="px-3"></span>
                 </td>
-                <td class="dialer_del_td">
-                  <img
-                    alt="delete"
-                    onClick={() => dialerClick("delete", "delete")}
-                    src="data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhciIgZGF0YS1pY29uPSJiYWNrc3BhY2UiIHJvbGU9ImltZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNjQwIDUxMiIgY2xhc3M9InN2Zy1pbmxpbmUtLWZhIGZhLWJhY2tzcGFjZSBmYS13LTIwIGZhLTd4Ij48cGF0aCBmaWxsPSIjREMxQTU5IiBkPSJNNDY5LjY1IDE4MS42NWwtMTEuMzEtMTEuMzFjLTYuMjUtNi4yNS0xNi4zOC02LjI1LTIyLjYzIDBMMzg0IDIyMi4wNmwtNTEuNzItNTEuNzJjLTYuMjUtNi4yNS0xNi4zOC02LjI1LTIyLjYzIDBsLTExLjMxIDExLjMxYy02LjI1IDYuMjUtNi4yNSAxNi4zOCAwIDIyLjYzTDM1MC4wNiAyNTZsLTUxLjcyIDUxLjcyYy02LjI1IDYuMjUtNi4yNSAxNi4zOCAwIDIyLjYzbDExLjMxIDExLjMxYzYuMjUgNi4yNSAxNi4zOCA2LjI1IDIyLjYzIDBMMzg0IDI4OS45NGw1MS43MiA1MS43MmM2LjI1IDYuMjUgMTYuMzggNi4yNSAyMi42MyAwbDExLjMxLTExLjMxYzYuMjUtNi4yNSA2LjI1LTE2LjM4IDAtMjIuNjNMNDE3Ljk0IDI1Nmw1MS43Mi01MS43MmM2LjI0LTYuMjUgNi4yNC0xNi4zOC0uMDEtMjIuNjN6TTU3NiA2NEgyMDUuMjZDMTg4LjI4IDY0IDE3MiA3MC43NCAxNjAgODIuNzRMOS4zNyAyMzMuMzdjLTEyLjUgMTIuNS0xMi41IDMyLjc2IDAgNDUuMjVMMTYwIDQyOS4yNWMxMiAxMiAyOC4yOCAxOC43NSA0NS4yNSAxOC43NUg1NzZjMzUuMzUgMCA2NC0yOC42NSA2NC02NFYxMjhjMC0zNS4zNS0yOC42NS02NC02NC02NHptMTYgMzIwYzAgOC44Mi03LjE4IDE2LTE2IDE2SDIwNS4yNmMtNC4yNyAwLTguMjktMS42Ni0xMS4zMS00LjY5TDU0LjYzIDI1NmwxMzkuMzEtMTM5LjMxYzMuMDItMy4wMiA3LjA0LTQuNjkgMTEuMzEtNC42OUg1NzZjOC44MiAwIDE2IDcuMTggMTYgMTZ2MjU2eiIgY2xhc3M9IiI+PC9wYXRoPjwvc3ZnPg=="
-                    width="25px"
-                    title="Delete"
-                  />
+                <td class="dialer_num" onClick={() => dialerClick("dial", "*")}>
+                  <span className="fs-2">*</span>
+                  <span className="px-3"></span>
                 </td>
               </tr>
               <tr className="mt-5 p-0">
@@ -567,7 +579,7 @@ const Dialer = () => {
             <div style={{ height: "450px" }}>
               <div className="w-100 py-2">
                 {alertMessage !== null && (
-                  <p className="badge w-100 bg-warning">Call Muted</p>
+                  <p className="badge w-100 bg-warning">{alertMessage}</p>
                 )}
               </div>
               <div>
@@ -580,7 +592,7 @@ const Dialer = () => {
                   <span>
                     {activeCall?.parameters?.From ||
                       activeCall?.parameters?.To ||
-                      "0343094394093"}
+                      inputValue}
                   </span>
                 </div>
               </div>
@@ -625,48 +637,67 @@ const Dialer = () => {
                   content="Add Person in the call"
                 />
                 <button
-                  className="btn p-3 btn-light rounded-circle"
+                  className="btn p-2 btn-light rounded-circle"
                   data-tooltip-id="off_mic"
                   onClick={muteCall}
                 >
-                  <AiOutlineAudioMuted size={22} />
+                  <CiMicrophoneOff size={45} />
                 </button>
                 <button
-                  className="btn p-3 btn-light rounded-circle"
+                  className="btn p-2 btn-light rounded-circle"
                   onClick={unmuteCall}
                   data-tooltip-id="on_mic"
                 >
-                  <MdMicNone size={22} />
+                  <CiMicrophoneOn size={45} />
                 </button>
                 <button
                   className="btn p-3 btn-light rounded-circle"
                   data-tooltip-id="off_record"
                   onClick={pauseRecording}
                 >
-                  <TbRecordMailOff size={22} />
+                  <TbRecordMailOff size={30} />
                 </button>
                 <button
-                  className="btn p-3 btn-light rounded-circle"
+                  className="btn p-2 btn-light rounded-circle"
                   data-tooltip-id="on_record"
                   onClick={resumeRecording}
                 >
-                  <IoIosRecording size={22} />
+                  <PiRecordLight size={40} />
                 </button>
-                <button
-                  className="btn p-3 btn-light rounded-circle disabled"
-                  data-tooltip-id="add_call"
-                  // onClick={resumeRecording}
-                >
-                  <FaPlus size={22} />
-                </button>
+                <div class="dropdown" data-tooltip-id="add_call">
+                  <button
+                    aria-expanded="false"
+                    data-bs-toggle="dropdown"
+                    className="btn p-3 btn-light rounded-circle "
+                    type="button"
+                  >
+                    <FaPlus size={25} />
+                  </button>
+                  <div role="menu" class="dropdown-menu">
+                    {agents?.length > 0 ? (
+                      agents?.map((agent, index) => (
+                        <a
+                          key={index}
+                          class="dropdown-item"
+                          href="#"
+                          onClick={() => callTransfer(agent.username)}
+                        >
+                          {agent.name}({agent.username})
+                        </a>
+                      ))
+                    ) : (
+                      <li>No Agents data found.</li>
+                    )}
+                  </div>
+                </div>
                 <div class="dropdown" data-tooltip-id="call_transfer">
                   <button
                     aria-expanded="false"
                     data-bs-toggle="dropdown"
-                    className="btn p-3 btn-light rounded-circle dropdown-toggle"
+                    className="btn p-3 btn-light rounded-circle "
                     type="button"
                   >
-                    <FcCallTransfer size={15} />
+                    <FcCallTransfer size={28} />
                   </button>
                   <div role="menu" class="dropdown-menu">
                     {agents?.length > 0 ? (

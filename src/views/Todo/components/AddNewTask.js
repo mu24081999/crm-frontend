@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import InputField from "../../../components/FormFields/InputField";
 import TextAreaField from "../../../components/FormFields/textAreaField";
@@ -8,8 +8,9 @@ import { useDispatch } from "react-redux";
 import { getUsers } from "../../../redux/services/users";
 import { storeTodo } from "../../../redux/services/todo";
 import TagInput from "../../../components/FormFields/reactTagInputComponent";
+import { SocketContext } from "../../../Context";
 
-const AddNewTask = ({ token, usersData }) => {
+const AddNewTask = ({ token, usersData, user }) => {
   const {
     handleSubmit,
     // watch,
@@ -18,18 +19,37 @@ const AddNewTask = ({ token, usersData }) => {
     formState: { errors },
   } = useForm({});
   const dispatch = useDispatch();
+  const { pushNotification } = useContext(SocketContext);
   useEffect(() => {
     dispatch(getUsers(token));
   }, [token, dispatch]);
-  const handleAddTask = (data) => {
+  const handleAddTask = async (data) => {
     const formData = {
       ...data,
       priority: data?.priority?.value,
       status: data?.status?.value,
       category_id: data?.category_id?.value,
     };
-    dispatch(storeTodo(token, formData));
-    console.log("formData: ", formData);
+    const is_added = await dispatch(storeTodo(token, formData));
+    if (is_added === true) {
+      const memberNames = [];
+      for (let i = 0; i < data?.asign_to.length; i++) {
+        const element = data?.asign_to[i];
+        memberNames.push(element.name);
+        const notificationData = {
+          user_id: element.id,
+          notification: `You have been added in a todo created by  ${user.name}`,
+          type: "todo_added",
+        };
+        pushNotification(notificationData);
+      }
+      const notificationData = {
+        user_id: user.id,
+        notification: `You have added todo including members ${memberNames}`,
+        type: "todo_added",
+      };
+      pushNotification(notificationData);
+    }
   };
   return (
     <div

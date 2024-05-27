@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import InputField from "../../../components/FormFields/InputField";
 import TextAreaField from "../../../components/FormFields/textAreaField";
@@ -6,6 +6,7 @@ import DatePickerFeild from "../../../components/FormFields/datePickerField";
 import ReactSelectField from "../../../components/FormFields/reactSelectField";
 import ReactColorInput from "../../../components/FormFields/reactColorInput";
 import { storeEvent } from "../../../redux/services/calendar_event";
+import { SocketContext } from "../../../Context";
 
 const AddEventForm = ({
   dispatch,
@@ -24,8 +25,9 @@ const AddEventForm = ({
   } = useForm({});
   const [formType, setFormType] = useState(null);
   const typeWatcher = watch("type");
+  const { pushNotification } = useContext(SocketContext);
 
-  const handleAddEvent = (data) => {
+  const handleAddEvent = async (data) => {
     const formData = {
       ...data,
       type: data?.type?.value,
@@ -35,7 +37,46 @@ const AddEventForm = ({
       user_image: authUser?.avatar,
       user_name: authUser?.name,
     };
-    dispatch(storeEvent(token, formData));
+    const is_added = await dispatch(storeEvent(token, formData));
+    switch (is_added) {
+      case true:
+        switch (data?.type?.value) {
+          case "event":
+            const members = [];
+
+            for (let i = 0; i < data?.team_members.length; i++) {
+              const element = data?.team_members[i];
+              members.push(element.name);
+              const eventNot = {
+                user_id: element.id,
+                notification: `You have been added in an event created by ${authUser.name}.`,
+                type: "reminder_added",
+              };
+              pushNotification(eventNot);
+            }
+            const eventData = {
+              user_id: authUser.id,
+              notification: `You added an event including members ${members}.`,
+              type: "reminder_added",
+            };
+            pushNotification(eventData);
+            break;
+          case "reminder":
+            const notificationData = {
+              user_id: authUser.id,
+              notification: "You added a reminder.",
+              type: "reminder_added",
+            };
+            pushNotification(notificationData);
+            break;
+          default:
+            break;
+        }
+        break;
+
+      default:
+        break;
+    }
     reset();
     onDataFromChild();
     return {};
@@ -54,26 +95,28 @@ const AddEventForm = ({
       aria-hidden="true"
     >
       <div
-        className="modal-dialog modal-lg modal-dialog-centered"
+        className="modal-dialog modal-md modal-dialog-centered"
         role="document"
       >
         <div className="modal-content">
-          <div className="modal-body">
+          <div className="modal-header bg-primary">
+            <h5 className=" nodal-title text-white">Create Event/Reminder</h5>
+
             <button
               type="button"
-              className="btn-close"
+              className="btn-close btn-light"
               data-bs-dismiss="modal"
               aria-label="Close"
             >
               <span aria-hidden="true">×</span>
             </button>
-            <h5 className="mb-4">Create New Event</h5>
+          </div>
+          <div className="modal-body">
             <form onSubmit={handleSubmit(handleAddEvent)}>
               <div>
                 <ReactSelectField
                   name="type"
-                  placeholder="Select "
-                  label="Type"
+                  placeholder="Type "
                   control={control}
                   rules={{
                     required: {
@@ -95,14 +138,9 @@ const AddEventForm = ({
                 />
               </div>
               <div className="row gx-3">
-                {/* <div className="col-sm-12 form-group">
-                  <label className="form-label">Name</label>
-                  <input className="form-control  cal-event-name" type="text" />
-                </div> */}
                 <InputField
                   name="name"
                   placeholder="Enter event name"
-                  label="Name"
                   control={control}
                   rules={{
                     required: {
@@ -114,17 +152,9 @@ const AddEventForm = ({
                 />
               </div>
               <div className="row gx-3">
-                {/* <div className="col-sm-12 form-group">
-                  <div className="form-label-group">
-                    <label>Note/Description</label>
-                    <small className="text-muted">200</small>
-                  </div>
-                  <textarea className="form-control" rows="3"></textarea>
-                </div> */}
                 <TextAreaField
                   name="description"
-                  placeholder="Description"
-                  label="Note/Description"
+                  placeholder="Description/Note"
                   rows={5}
                   control={control}
                   rules={{
@@ -138,18 +168,9 @@ const AddEventForm = ({
               </div>
               <div className="row gx-3 my-3">
                 <div className="col-sm-6">
-                  {/* <div className="form-group">
-                    <label className="form-label">Start Date</label>
-                    <input
-                      className="form-control cal-event-date-start"
-                      name="single-date-pick"
-                      type="text"
-                    />
-                  </div> */}
                   <DatePickerFeild
                     name="start_date"
                     placeholder="Start date"
-                    label="Start Date"
                     control={control}
                     showTimeSelect={false}
                     rules={{
@@ -162,18 +183,9 @@ const AddEventForm = ({
                   />
                 </div>
                 <div className="col-sm-6">
-                  {/* <div className="form-group">
-                    <label className="form-label">Start Time</label>
-                    <input
-                      className="form-control input-single-timepicker"
-                      name="input-timepicker"
-                      type="text"
-                    />
-                  </div> */}
                   <DatePickerFeild
                     name="start_time"
                     placeholder="Start time"
-                    label="Start time"
                     control={control}
                     showTimeSelect={true}
                     showTimeSelectOnly={true}
@@ -194,7 +206,6 @@ const AddEventForm = ({
                       <DatePickerFeild
                         name="end_date"
                         placeholder="End date"
-                        label="End Date"
                         control={control}
                         showTimeSelect={false}
                         errors={errors}
@@ -204,7 +215,6 @@ const AddEventForm = ({
                       <DatePickerFeild
                         name="end_time"
                         placeholder="End time"
-                        label="End time"
                         control={control}
                         showTimeSelect={true}
                         showTimeSelectOnly={true}
@@ -217,7 +227,6 @@ const AddEventForm = ({
                       name="location"
                       type="text"
                       placeholder="Location"
-                      label="Location"
                       control={control}
                       errors={errors}
                     />
@@ -226,7 +235,6 @@ const AddEventForm = ({
                     <InputField
                       name="category"
                       placeholder="Category"
-                      label="Category"
                       control={control}
                       errors={errors}
                     />
@@ -234,7 +242,6 @@ const AddEventForm = ({
                       <ReactSelectField
                         name="visibility"
                         placeholder="Select visibility"
-                        label="Visibility"
                         control={control}
                         options={[
                           {
@@ -249,10 +256,9 @@ const AddEventForm = ({
                         errors={errors}
                       />
                     </div>
-                    <div className="col-sm-3">
+                    <div className="col-sm-5">
                       <ReactColorInput
                         name="event_color"
-                        label="Event Color"
                         control={control}
                         errors={errors}
                       />
@@ -262,7 +268,6 @@ const AddEventForm = ({
                     <ReactSelectField
                       name="team_members"
                       placeholder="Select members..."
-                      label="Team Members"
                       control={control}
                       isMulti={true}
                       options={
@@ -283,7 +288,6 @@ const AddEventForm = ({
                       <ReactSelectField
                         name="priority"
                         placeholder="Select priority"
-                        label="Priority"
                         control={control}
                         options={[
                           {

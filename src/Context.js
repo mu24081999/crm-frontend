@@ -26,6 +26,7 @@ const ContextProvider = ({ children }) => {
   const [name, setName] = useState("");
   const [call, setCall] = useState({});
   const [messagesArray, setMessagesArray] = useState([]);
+  const [notificationsArray, setNotificationsArray] = useState([]);
   const [me, setMe] = useState("");
   const myVideo = useRef();
   const userVideo = useRef();
@@ -35,6 +36,11 @@ const ContextProvider = ({ children }) => {
 
   const sendTextMessage = (data) => {
     socket.emit("send-message", data);
+  };
+  const pushNotification = (data) => {
+    const { user_id, notification, type } = data;
+    console.log("🚀 ~ pushNotification ~ data:", data);
+    socket.emit("push-notification", { user_id, notification, type });
   };
   const handleToggleShowLeadDetail = (value, contact_id, token) => {
     if (contact_id && token) {
@@ -121,6 +127,9 @@ const ContextProvider = ({ children }) => {
       //       myVideo.current.srcObject = currentStream;
       //     }
       //   });
+      socket.on("trigger_notification", (notifications) => {
+        setNotificationsArray(notifications);
+      });
       socket.on("message_error", (err) => {
         toast.error(err);
       });
@@ -293,6 +302,7 @@ const ContextProvider = ({ children }) => {
         showLeadDetails,
         showUserDetails,
         messageError,
+        notificationsArray,
         calling,
         readyForCall,
         readyForAudioCall,
@@ -303,6 +313,7 @@ const ContextProvider = ({ children }) => {
         sendTextMessage,
         handleToggleShowLeadDetail,
         handleToggleShowUserDetail,
+        pushNotification,
       }}
     >
       {children}

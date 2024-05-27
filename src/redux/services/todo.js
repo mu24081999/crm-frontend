@@ -21,17 +21,19 @@ export const storeTodo = (token, data) => async (dispatch) => {
         "x-access-token": token,
       },
     };
-    await axios
+    const is_added = await axios
       .post(`${backendURL}/user/todos/post-todo`, data, config)
-      .then((response) => {
+      .then(async (response) => {
         if (response?.data?.statusCode !== 200) {
           toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
-        dispatch(addTodo(response.data.message));
+        await dispatch(addTodo(response.data.message));
         toast.success(response.data.message);
-        dispatch(getTodosList(token));
+        await dispatch(getTodosList(token));
+        return true;
       });
+    return is_added;
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }

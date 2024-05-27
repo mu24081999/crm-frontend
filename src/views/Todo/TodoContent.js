@@ -92,7 +92,7 @@ const TodoContent = () => {
               )}
             </div>
             {/* <!-- Edit Info --> */}
-            <AddNewTask token={token} usersData={usersData} />
+            <AddNewTask token={token} usersData={usersData} user={user} />
             {/* <!-- /Edit Info --> */}
           </div>
         </div>

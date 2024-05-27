@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Payment from "../../components/PaymentCard/Payment";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,8 +10,10 @@ import { FiDollarSign } from "react-icons/fi";
 import { addBalanceRec, getBalance } from "../../redux/services/balance";
 import moment from "moment/moment";
 import { Link } from "react-router-dom";
+import { SocketContext } from "../../Context";
 
 const BalanceContent = () => {
+  const { pushNotification } = useContext(SocketContext);
   const { user, token } = useSelector((state) => state.auth);
   const { balanceDetails } = useSelector((state) => state.balance);
   const { payments } = useSelector((state) => state.payment);
@@ -21,12 +23,21 @@ const BalanceContent = () => {
     dispatch(getBalance(token));
     dispatch(getUserAllPayments(token));
   }, [token, dispatch]);
-  const afterPayment = () => {
+  const afterPayment = async () => {
     const formData = {
       user_id: user.id,
       credit: amount * 100,
     };
-    dispatch(addBalanceRec(token, formData));
+    const is_added = await dispatch(addBalanceRec(token, formData));
+    console.log("🚀 ~ afterPayment ~ is_added:", is_added);
+    if (is_added === true) {
+      const data = {
+        user_id: user.id,
+        notification: `Your account balance has been credited with amount $${amount}`,
+        type: "balance_credit",
+      };
+      pushNotification(data);
+    }
   };
   const onAddClick = () => {
     dispatch(

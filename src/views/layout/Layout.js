@@ -12,8 +12,13 @@ import { addUserRec, getUsers } from "../../redux/services/users";
 import _ from "lodash";
 import Ticket from "./Ticket";
 import SubaccountForm from "./SubaccountForm";
+import { getUserNotificationsList } from "../../redux/services/notification";
+import { SocketContext } from "../../Context";
 // import Dialer from "../../components/PhoneDialer/Dialer";
 const Layout = ({ component }) => {
+  const { notificationsArray } = useContext(SocketContext);
+  const { notifications } = useSelector((state) => state.notification);
+  const [notificationsData, setNotificationsData] = useState([]);
   const { isAuthenticated, token, accountSid, accountAuthToken, user } =
     useSelector((state) => state.auth);
   const { isLoading, subAccounts } = useSelector((state) => state.calling);
@@ -24,13 +29,19 @@ const Layout = ({ component }) => {
   useEffect(() => {
     dispatch(getUserSubAccountsList(token));
     dispatch(getUsers(token));
-  }, [token, dispatch]);
+    dispatch(getUserNotificationsList(token, user.id));
+  }, [token, dispatch, user]);
   useEffect(() => {
     if (!isAuthenticated) {
       redirectTo("/sign-in");
     }
   }, [isAuthenticated, redirectTo]);
-
+  useEffect(() => {
+    setNotificationsData(notifications);
+  }, [notifications]);
+  useEffect(() => {
+    setNotificationsData(notificationsArray);
+  }, [notificationsArray]);
   return (
     <div
       class="hk-wrapper"
@@ -40,7 +51,10 @@ const Layout = ({ component }) => {
       data-footer="simple"
       data-hover="active"
     >
-      <TopNavbar subAccounts={subAccounts} />
+      <TopNavbar
+        subAccounts={subAccounts}
+        notificationsData={notificationsData}
+      />
       <VerticalNavbar />
       <div id="hk_menu_backdrop" className="hk-menu-backdrop"></div>
       {/* <button
