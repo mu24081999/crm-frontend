@@ -8,10 +8,13 @@ import {
 
 const NumbersContent = () => {
   const { dashboardData } = useSelector((state) => state.dashboard);
-  const { token, accountAuthToken, accountSid } = useSelector(
+  const { token, accountAuthToken, accountSid, user } = useSelector(
     (state) => state.auth
   );
+  console.log(user?.twilio_numbers?.numbers);
   const { claimedNumbers, isLoading } = useSelector((state) => state.calling);
+  const active_numbers =
+    user?.role === "AGENT" ? user?.twilio_numbers?.numbers : claimedNumbers;
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -53,7 +56,7 @@ const NumbersContent = () => {
                 </thead>
 
                 <tbody>
-                  {claimedNumbers?.map((number, index) => (
+                  {active_numbers?.map((number, index) => (
                     <tr key={index}>
                       <td>{number?.phoneNumber}</td>
                       <td>Local</td>

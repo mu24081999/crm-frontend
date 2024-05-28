@@ -6,8 +6,12 @@ import "reactjs-popup/dist/index.css";
 import "./dialer.css";
 import InputField from "../FormFields/InputField";
 import { useForm } from "react-hook-form";
-import { IoIosKeypad } from "react-icons/io";
-import { MdOutlineContacts } from "react-icons/md";
+import { IoIosKeypad, IoIosRecording } from "react-icons/io";
+import {
+  MdOutlineContacts,
+  MdOutlineRecordVoiceOver,
+  MdOutlineVoiceOverOff,
+} from "react-icons/md";
 import { CiMicrophoneOff, CiMicrophoneOn } from "react-icons/ci";
 
 import { useDispatch } from "react-redux";
@@ -77,6 +81,8 @@ const Dialer = () => {
   const [active, setActive] = useState(true);
   const [alertMessage, setAlertMessage] = useState(null);
   const [agents, setAgents] = useState([]);
+  const [callMuted, setCallMuted] = useState(false);
+  const [recording, setRecording] = useState(false);
   const dispatch = useDispatch();
   const { token, user, accountSid, accountAuthToken } = useSelector(
     (state) => state.auth
@@ -272,6 +278,7 @@ const Dialer = () => {
   // Function to mute the call
   const muteCall = () => {
     setAlertMessage("Call Muted");
+    setCallMuted(true);
     if (connection) {
       connection.mute(!connection.isMuted());
     }
@@ -279,6 +286,7 @@ const Dialer = () => {
   // Function to pause recording
   const pauseRecording = () => {
     setAlertMessage("Call Recording paused.");
+    setRecording(false);
     if (activeCallSid) {
       // connection.mediaStream?.pauseRecording();
       dispatch(
@@ -292,6 +300,7 @@ const Dialer = () => {
   };
   const callTransfer = (targetClient) => {
     console.log("🚀 ~ callTransfer ~ targetClient:", targetClient);
+
     dispatch(
       resumeCallRecording(token, {
         callSid: activeCallSid,
@@ -302,15 +311,17 @@ const Dialer = () => {
   };
   // Function to unmute the call
   const unmuteCall = () => {
+    setCallMuted(false);
     if (connection) {
       connection.mute(false);
     }
     setAlertMessage("Call UnMuted");
   };
   const resumeRecording = () => {
-    if (connection && connection.mediaStream) {
-      connection.mediaStream.resumeRecording();
-    }
+    setRecording(true);
+    // if (connection && connection?.mediaStream) {
+    //   connection?.mediaStream?.resumeRecording();
+    // }
     setAlertMessage("Call recording resumed.");
   };
   return (
@@ -337,11 +348,11 @@ const Dialer = () => {
         }
         position="top right"
       >
-        <div style={{ padding: "1%", width: "290px" }}>
+        <div style={{ padding: "1%", width: "290px", height: "450px" }}>
           {isDial && (
             <table id="dialer_table">
               <tr style={{ height: "50px" }}>
-                <div className="w-100 px-2 d-flex">
+                <div className="w-100 px-2 pt-1 d-flex">
                   <div className="col-12">
                     <InputField
                       style={{ height: "50px", fontSize: "18px" }}
@@ -354,9 +365,12 @@ const Dialer = () => {
                       value={inputValue}
                     />
                   </div>
-                  <td
-                    class="dialer_del_td position-absolute bg-light px-1"
-                    style={{ right: "5%", width: "max-content" }}
+                  <div
+                    className="position-absolute px-1"
+                    style={{
+                      right: "7%",
+                      width: "max-content",
+                    }}
                   >
                     <img
                       alt="delete"
@@ -365,7 +379,7 @@ const Dialer = () => {
                       width="25px"
                       title="Delete"
                     />
-                  </td>
+                  </div>
                 </div>
               </tr>
               <tr class="dialer_num_tr">
@@ -576,8 +590,8 @@ const Dialer = () => {
             </>
           )}
           {userState === "ON_CALL" && showCall && (
-            <div style={{ height: "450px" }}>
-              <div className="w-100 py-2">
+            <div style={{ height: "407px" }}>
+              <div className="w-100 pb-2">
                 {alertMessage !== null && (
                   <p className="badge w-100 bg-warning">{alertMessage}</p>
                 )}
@@ -597,7 +611,7 @@ const Dialer = () => {
                 </div>
               </div>
               {callStatus === "STARTED" && (
-                <div className="my-3 text-center">
+                <div className="my-1 text-center">
                   <Timer />
                 </div>
               )}
@@ -636,34 +650,42 @@ const Dialer = () => {
                   place="bottom"
                   content="Add Person in the call"
                 />
-                <button
-                  className="btn p-2 btn-light rounded-circle"
-                  data-tooltip-id="off_mic"
-                  onClick={muteCall}
-                >
-                  <CiMicrophoneOff size={45} />
-                </button>
-                <button
-                  className="btn p-2 btn-light rounded-circle"
-                  onClick={unmuteCall}
-                  data-tooltip-id="on_mic"
-                >
-                  <CiMicrophoneOn size={45} />
-                </button>
-                <button
-                  className="btn p-3 btn-light rounded-circle"
-                  data-tooltip-id="off_record"
-                  onClick={pauseRecording}
-                >
-                  <TbRecordMailOff size={30} />
-                </button>
-                <button
-                  className="btn p-2 btn-light rounded-circle"
-                  data-tooltip-id="on_record"
-                  onClick={resumeRecording}
-                >
-                  <PiRecordLight size={40} />
-                </button>
+                {callMuted === false ? (
+                  <button
+                    className="btn p-2 btn-light rounded-circle"
+                    data-tooltip-id="off_mic"
+                    onClick={muteCall}
+                  >
+                    <CiMicrophoneOff size={40} />
+                  </button>
+                ) : (
+                  <button
+                    className="btn p-2 btn-light rounded-circle"
+                    onClick={unmuteCall}
+                    data-tooltip-id="on_mic"
+                  >
+                    <CiMicrophoneOn size={40} />
+                  </button>
+                )}
+                {recording === true ? (
+                  <button
+                    className="btn p-2 btn-light rounded-circle"
+                    data-tooltip-id="off_record"
+                    onClick={pauseRecording}
+                  >
+                    <MdOutlineVoiceOverOff size={40} />
+                  </button>
+                ) : (
+                  <button
+                    className="btn p-2 btn-light rounded-circle"
+                    data-tooltip-id="on_record"
+                    onClick={resumeRecording}
+                  >
+                    {" "}
+                    <MdOutlineRecordVoiceOver size={40} />
+                  </button>
+                )}
+
                 <div class="dropdown" data-tooltip-id="add_call">
                   <button
                     aria-expanded="false"
@@ -768,22 +790,22 @@ const Dialer = () => {
               </div>
               <div className="d-flex justify-content-around ">
                 {/* {callStatus === "INCOMING" && ( */}
-                <div className="d-flex justify-content-center my-5 mx-1">
+                <div className="d-flex justify-content-center mt-4 mb-2 mx-1">
                   <button
                     className="btn btn-danger rounded-circle p-3"
                     onClick={handleDisconnectCall}
                   >
-                    <FaPhone size={22} />
+                    <FaPhone size={27} />
                   </button>
                 </div>
                 {/* )} */}
                 {callStatus === "INCOMING" && (
-                  <div className="d-flex justify-content-center my-5 mx-1">
+                  <div className="d-flex justify-content-center mt-4 mb-2 mx-1">
                     <button
                       className="btn btn-success rounded-circle p-3"
                       onClick={handleAcceptCall}
                     >
-                      <FaPhone size={22} />
+                      <FaPhone size={27} />
                     </button>
                   </div>
                 )}
@@ -792,11 +814,11 @@ const Dialer = () => {
           )}
 
           {/* {userState !== "ON_CALL" && ( */}
-          <footer className="w-100 d-flex justify-content-between p-1 gap-1">
+          <footer className="w-100 d-flex justify-content-between">
             {userState !== "ON_CALL" && (
               <button
                 type="button"
-                class="btn btn-primary btn-md "
+                class="btn btn-primary btn-md w-50 "
                 onClick={() => {
                   setIsDial(false);
                   setShowCall(false);

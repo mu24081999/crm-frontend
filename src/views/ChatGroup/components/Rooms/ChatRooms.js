@@ -98,7 +98,7 @@ const ChatRooms = ({
                       {/* <div class="badge badge-primary badge-sm badge-pill">
                         15
                       </div> */}
-                      <div class="dropdown action-drp">
+                      {/* <div class="dropdown action-drp">
                         <a
                           href="/"
                           class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
@@ -106,7 +106,6 @@ const ChatRooms = ({
                         >
                           <span class="icon">
                             <span class="feather-icon">
-                              {/* <i data-feather="more-horizontal"></i> */}
                               <CiMenuKebab />
                             </span>
                           </span>
@@ -128,7 +127,7 @@ const ChatRooms = ({
                             Block
                           </a>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

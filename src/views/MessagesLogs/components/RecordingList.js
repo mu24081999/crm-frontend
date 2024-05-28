@@ -68,7 +68,7 @@ const RecordingList = ({ isEdit, recordingsData }) => {
                   <th>From</th>
                   <th>To</th>
                   <th>Status</th>
-                  <th>Body</th>
+                  <th>Text</th>
                   <th>Direction</th>
                   <th>Error Message</th>
                 </tr>
@@ -91,12 +91,11 @@ const RecordingList = ({ isEdit, recordingsData }) => {
                           // open={isDialerOpen}
                           trigger={
                             <button
-                              className="btn btn-icon btn-floating btn-secondary btn-sm btn-rounded shadow-lg"
+                              className="btn btn-icon btn-floating btn-light btn-sm btn-rounded shadow-lg"
                               id="dialer_button"
                             >
                               <FaEye
-                                color="red"
-                                // size={"24"}
+                                size={"18"}
                                 style={{ marginTop: "-15%" }}
                               />
                             </button>
@@ -113,12 +112,12 @@ const RecordingList = ({ isEdit, recordingsData }) => {
                             // open={isDialerOpen}
                             trigger={
                               <button
-                                className="btn btn-icon btn-floating btn-secondary btn-sm btn-rounded shadow-lg"
+                                className="btn btn-icon btn-floating btn-light btn-sm btn-rounded shadow-lg"
                                 id="dialer_button"
                               >
                                 <FaEye
                                   color="red"
-                                  // size={"24"}
+                                  size={"18"}
                                   style={{ marginTop: "-15%" }}
                                 />
                               </button>

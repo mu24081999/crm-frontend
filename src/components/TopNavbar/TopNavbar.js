@@ -16,6 +16,9 @@ import { setAccount } from "../../redux/slices/auth";
 import { getUsers } from "../../redux/services/users";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
+import { LuBadgeDollarSign } from "react-icons/lu";
+import { MdEventAvailable, MdOutlineAddTask } from "react-icons/md";
+import { IoCallOutline } from "react-icons/io5";
 
 const TopNavbar = ({ notificationsData }) => {
   const redirectTo = useNavigate();
@@ -333,17 +336,24 @@ const TopNavbar = ({ notificationsData }) => {
                   >
                     {notificationsData?.length > 0 &&
                       notificationsData?.map((notification, index) => (
-                        <a href="" className="dropdown-item" key={index}>
+                        <a href="#" className="dropdown-item" key={index}>
                           <div className="media">
-                            {/* <div className="media-head">
-                              <div className="avatar avatar-rounded avatar-sm">
-                                <img
-                                  src="dist/img/avatar2.jpg"
-                                  alt="user"
-                                  className="avatar-img"
-                                />
+                            <div className="media-head">
+                              <div className="rounded-circle avatar avatar-sm bg-primary text-center pt-2">
+                                {notification.type === "balance_credit" && (
+                                  <LuBadgeDollarSign size={27} color="white" />
+                                )}
+                                {notification.type === "todo_added" && (
+                                  <MdOutlineAddTask size={27} color="white" />
+                                )}
+                                {notification.type === "reminder_added" && (
+                                  <MdEventAvailable size={27} color="white" />
+                                )}
+                                {notification.type === "incoming_call" && (
+                                  <IoCallOutline size={27} color="white" />
+                                )}
                               </div>
-                            </div> */}
+                            </div>
                             <div className="media-body">
                               <div>
                                 <div className="notifications-text">
