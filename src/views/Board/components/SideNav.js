@@ -50,7 +50,7 @@ const SideNav = ({
     onDataFromChild(data);
   };
   const handleAddBoard = () => {
-    dispatch(addBoardHelper({}));
+    dispatch(addBoardHelper(null));
   };
   return (
     <nav className="taskboardapp-sidebar">
@@ -62,7 +62,7 @@ const SideNav = ({
             data-bs-target="#add_new_board"
             onClick={handleAddBoard}
           >
-            Add New Board
+            Add New Pipeline
           </button>
           <div className="menu-group">
             <ul className="nav nav-light navbar-nav flex-column">

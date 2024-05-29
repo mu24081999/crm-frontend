@@ -9,7 +9,7 @@ const TaskHeader = () => {
         <div className="d-flex">
           <a className="taskboardapp-title link-dark" href="/">
             <h1>
-              {boardDetails.name}
+              {boardDetails?.name}
               {/* <span className="task-star marked">
                 <span className="feather-icon">
                   <i data-feather="star"></i>

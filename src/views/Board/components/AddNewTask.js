@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import InputField from "../../../components/FormFields/InputField";
 import ReactSelectField from "../../../components/FormFields/reactSelectField";
 
@@ -7,11 +7,12 @@ import ReactColorInput from "../../../components/FormFields/reactColorInput";
 import FileField from "../../../components/FormFields/fileField";
 import { useDispatch, useSelector } from "react-redux";
 import { storeBoard, updateBoardRec } from "../../../redux/services/board";
+import { FaPlus, FaTrash } from "react-icons/fa";
 
 const AddNewTask = ({ agents, boardDetails }) => {
   const {
     handleSubmit,
-    // watch,
+    watch,
     control,
     setValue,
     reset,
@@ -19,8 +20,25 @@ const AddNewTask = ({ agents, boardDetails }) => {
   } = useForm({});
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
+  const [statusArray, setStatusArray] = useState([
+    {
+      id: 1,
+    },
+  ]);
+  const handleAddStatus = () => {
+    const newObject = {
+      id: statusArray.length + 1, // Example id, adjust as needed
+      // Add more properties here
+    };
+    setStatusArray((prevStatusArray) => [...prevStatusArray, newObject]);
+  };
+  const removeObjectFromArray = (id) => {
+    setStatusArray((prevStatusArray) =>
+      prevStatusArray?.filter((status) => status.id !== id)
+    );
+  };
   useEffect(() => {
-    if (boardDetails) {
+    if (boardDetails?.name) {
       setValue("name", boardDetails?.name);
       setValue("visibility", {
         label: boardDetails?.visibility,
@@ -34,7 +52,7 @@ const AddNewTask = ({ agents, boardDetails }) => {
       setValue("team_members", boardDetails?.team_members?.team);
     }
   }, [boardDetails, setValue]);
-  const handleAddBoard = (data) => {
+  const handleAddBoard = async (data) => {
     console.log("🚀 ~ handleAddBoard ~ data:", boardDetails);
     const newData = {
       name: data.name,
@@ -44,23 +62,32 @@ const AddNewTask = ({ agents, boardDetails }) => {
       avatar_color: data.avatar_color,
       team_members: data.team_members,
     };
-    const formData = new FormData();
-    formData.append("name", newData.name);
-    formData.append("image", newData.image);
-    formData.append("visibility", newData.visibility);
-    formData.append("avatar_text", newData.avatar_text);
-    formData.append("avatar_color", newData.avatar_color);
-    formData.append("team_members", JSON.stringify(newData.team_members));
-
-    if (boardDetails.id) {
+    const pipeline_status_array = [];
+    // const formData = new FormData();
+    // formData.append("name", newData.name);
+    // formData.append("image", newData.image);
+    // formData.append("visibility", newData.visibility);
+    // formData.append("avatar_text", newData.avatar_text);
+    // formData.append("avatar_color", newData.avatar_color);
+    // formData.append("team_members", JSON.stringify(newData.team_members));
+    for (let i = 0; i < statusArray.length; i++) {
+      const element = statusArray[i];
+      console.log("🚀 ~ handleAddBoard ~ element:", element);
+      const status_ = watch(`status-${element.id}`);
+      pipeline_status_array.push(status_);
+    }
+    console.log(pipeline_status_array);
+    const formData = {
+      ...newData,
+      pipeline_status_array,
+    };
+    if (boardDetails?.id) {
       console.log("update");
       dispatch(updateBoardRec(token, boardDetails?.id, formData));
     } else {
-      console.log("store");
-
-      dispatch(storeBoard(token, formData));
+      await dispatch(storeBoard(token, formData));
     }
-    return reset();
+    // return reset();
   };
   return (
     <div
@@ -74,7 +101,7 @@ const AddNewTask = ({ agents, boardDetails }) => {
         <div className="modal-content">
           <div className="modal-header bg-primary">
             <h5 className="modal-title" style={{ color: "white" }}>
-              Add New Board
+              Add New Pipeline
             </h5>
             <button
               type="button"
@@ -87,6 +114,9 @@ const AddNewTask = ({ agents, boardDetails }) => {
           </div>
           <div className="modal-body">
             <form onSubmit={handleSubmit(handleAddBoard)}>
+              <div className="title title-xs title-wth-divider text-primary text-uppercase my-4">
+                <span>Pipeline Details</span>
+              </div>
               <div className="row gx-3">
                 <div className="col-sm-12">
                   <InputField
@@ -105,23 +135,7 @@ const AddNewTask = ({ agents, boardDetails }) => {
                 </div>
 
                 <div className="row">
-                  <div className="col-sm-6 pt-1">
-                    <ReactColorInput
-                      name="avatar_color"
-                      placeholder="Avatar Color"
-                      // label="Avatar Color"
-                      mb={true}
-                      control={control}
-                      rules={{
-                        required: {
-                          value: true,
-                          message: "Field required!",
-                        },
-                      }}
-                      errors={errors}
-                    />
-                  </div>
-                  <div className="col-sm-6">
+                  <div className="col-sm-7 ps-2">
                     <ReactSelectField
                       name="visibility"
                       placeholder="Visibility"
@@ -131,6 +145,22 @@ const AddNewTask = ({ agents, boardDetails }) => {
                         { label: "Public", value: "public" },
                         { label: "Private", value: "private" },
                       ]}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
+                      errors={errors}
+                    />
+                  </div>
+                  <div className="col-sm-5 pt-1">
+                    <ReactColorInput
+                      name="avatar_color"
+                      placeholder="Avatar Color"
+                      // label="Avatar Color"
+                      mb={true}
+                      control={control}
                       rules={{
                         required: {
                           value: true,
@@ -212,7 +242,7 @@ const AddNewTask = ({ agents, boardDetails }) => {
                   errors={errors}
                 />
               </div>
-              <div className="col-sm-12">
+              {/* <div className="col-sm-12">
                 <div className="col-sm-12">
                   {!boardDetails && (
                     <FileField
@@ -230,8 +260,51 @@ const AddNewTask = ({ agents, boardDetails }) => {
                     />
                   )}
                 </div>
+              </div> */}
+              <div className="title title-xs title-wth-divider text-primary text-uppercase my-4">
+                <span>Pipeline Status</span>
               </div>
-
+              <div className="">
+                <button
+                  onClick={handleAddStatus}
+                  type="button"
+                  className="btn btn-icon btn-light float-end mb-2"
+                >
+                  <FaPlus />
+                </button>
+              </div>
+              <div>
+                {statusArray?.length > 0 ? (
+                  statusArray?.map((status, index) => (
+                    <div className="col-12 d-flex gap-2" key={index}>
+                      <div className="col-11">
+                        <InputField
+                          name={`status-${status?.id}`}
+                          placeholder="Name"
+                          // label="Name"
+                          mb={true}
+                          control={control}
+                          rules={{
+                            required: {
+                              value: true,
+                              message: "Field required!",
+                            },
+                          }}
+                          errors={errors}
+                        />
+                      </div>
+                      <span
+                        className="col-1 p-2 btn btn-icon btn-sm mt-1 btn-danger"
+                        onClick={() => removeObjectFromArray(status.id)}
+                      >
+                        <FaTrash className="mb-2" />
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <p>No status added</p>
+                )}
+              </div>
               <div className="modal-footer">
                 <button
                   type="button"

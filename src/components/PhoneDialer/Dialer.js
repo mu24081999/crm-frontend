@@ -24,12 +24,12 @@ import {
   resumeCallRecording,
   updateBalanceAfterCall,
 } from "../../redux/services/calling";
-import { PiRecordLight } from "react-icons/pi";
+import { PiRecordFill, PiRecordLight } from "react-icons/pi";
 
 import axios from "axios";
 import { getContactsList } from "../../redux/services/contact";
 import ReactSelectField from "../FormFields/reactSelectField";
-import { BiLoaderCircle } from "react-icons/bi";
+import { BiDialpad, BiLoaderCircle, BiTransferAlt } from "react-icons/bi";
 import _ from "lodash";
 import { TbRecordMailOff } from "react-icons/tb";
 import { Tooltip as ReactTooltip } from "react-tooltip";
@@ -289,13 +289,13 @@ const Dialer = () => {
     setRecording(false);
     if (activeCallSid) {
       // connection.mediaStream?.pauseRecording();
-      dispatch(
-        pauseCallRecording(token, {
-          callSid: activeCallSid,
-          accountSid: accountSid,
-          authToken: accountAuthToken,
-        })
-      );
+      // dispatch(
+      //   pauseCallRecording(token, {
+      //     callSid: activeCallSid,
+      //     accountSid: accountSid,
+      //     authToken: accountAuthToken,
+      //   })
+      // );
     }
   };
   const callTransfer = (targetClient) => {
@@ -326,7 +326,8 @@ const Dialer = () => {
   };
   return (
     <div
-      className=" d-flex justify-content-end btn btn-icon btn-floating btn-primary btn-lg btn-rounded btn-popup-open"
+      // className=" d-flex justify-content-end btn btn-icon btn-floating btn-primary btn-lg btn-rounded " //btn-popup-open
+      className=" d-flex justify-content-end btn btn-icon btn-floating btn-primary btn-md btn-rounded " //btn-popup-open
       // style={{
       //   bottom: "80px",
       //   position: "absolute",
@@ -339,14 +340,14 @@ const Dialer = () => {
         open={isDialerOpen}
         trigger={
           <button
-            className="btn btn-icon btn-floating btn-primary btn-lg btn-rounded shadow-lg"
+            className="btn btn-icon btn-floating btn-primary btn-md btn-rounded shadow-lg"
             id="dialer_button"
           >
             {" "}
-            {<FaPhone />}
+            {<FaPhone className="pb-1" />}
           </button>
         }
-        position="top right"
+        position="bottom right"
       >
         <div style={{ padding: "1%", width: "290px", height: "450px" }}>
           {isDial && (
@@ -376,7 +377,7 @@ const Dialer = () => {
                       alt="delete"
                       onClick={() => dialerClick("delete", "delete")}
                       src="data:image/svg+xml;base64,PHN2ZyBhcmlhLWhpZGRlbj0idHJ1ZSIgZm9jdXNhYmxlPSJmYWxzZSIgZGF0YS1wcmVmaXg9ImZhciIgZGF0YS1pY29uPSJiYWNrc3BhY2UiIHJvbGU9ImltZyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNjQwIDUxMiIgY2xhc3M9InN2Zy1pbmxpbmUtLWZhIGZhLWJhY2tzcGFjZSBmYS13LTIwIGZhLTd4Ij48cGF0aCBmaWxsPSIjREMxQTU5IiBkPSJNNDY5LjY1IDE4MS42NWwtMTEuMzEtMTEuMzFjLTYuMjUtNi4yNS0xNi4zOC02LjI1LTIyLjYzIDBMMzg0IDIyMi4wNmwtNTEuNzItNTEuNzJjLTYuMjUtNi4yNS0xNi4zOC02LjI1LTIyLjYzIDBsLTExLjMxIDExLjMxYy02LjI1IDYuMjUtNi4yNSAxNi4zOCAwIDIyLjYzTDM1MC4wNiAyNTZsLTUxLjcyIDUxLjcyYy02LjI1IDYuMjUtNi4yNSAxNi4zOCAwIDIyLjYzbDExLjMxIDExLjMxYzYuMjUgNi4yNSAxNi4zOCA2LjI1IDIyLjYzIDBMMzg0IDI4OS45NGw1MS43MiA1MS43MmM2LjI1IDYuMjUgMTYuMzggNi4yNSAyMi42MyAwbDExLjMxLTExLjMxYzYuMjUtNi4yNSA2LjI1LTE2LjM4IDAtMjIuNjNMNDE3Ljk0IDI1Nmw1MS43Mi01MS43MmM2LjI0LTYuMjUgNi4yNC0xNi4zOC0uMDEtMjIuNjN6TTU3NiA2NEgyMDUuMjZDMTg4LjI4IDY0IDE3MiA3MC43NCAxNjAgODIuNzRMOS4zNyAyMzMuMzdjLTEyLjUgMTIuNS0xMi41IDMyLjc2IDAgNDUuMjVMMTYwIDQyOS4yNWMxMiAxMiAyOC4yOCAxOC43NSA0NS4yNSAxOC43NUg1NzZjMzUuMzUgMCA2NC0yOC42NSA2NC02NFYxMjhjMC0zNS4zNS0yOC42NS02NC02NC02NHptMTYgMzIwYzAgOC44Mi03LjE4IDE2LTE2IDE2SDIwNS4yNmMtNC4yNyAwLTguMjktMS42Ni0xMS4zMS00LjY5TDU0LjYzIDI1NmwxMzkuMzEtMTM5LjMxYzMuMDItMy4wMiA3LjA0LTQuNjkgMTEuMzEtNC42OUg1NzZjOC44MiAwIDE2IDcuMTggMTYgMTZ2MjU2eiIgY2xhc3M9IiI+PC9wYXRoPjwvc3ZnPg=="
-                      width="25px"
+                      width="2px"
                       title="Delete"
                     />
                   </div>
@@ -650,41 +651,55 @@ const Dialer = () => {
                   place="bottom"
                   content="Add Person in the call"
                 />
+                <ReactTooltip id="dialpad" place="bottom" content="Dialpad" />
                 {callMuted === false ? (
                   <button
-                    className="btn p-2 btn-light rounded-circle"
+                    className="btn p-3 btn-light rounded-circle"
                     data-tooltip-id="off_mic"
                     onClick={muteCall}
                   >
-                    <CiMicrophoneOff size={40} />
+                    <CiMicrophoneOff size={28} />
                   </button>
                 ) : (
                   <button
-                    className="btn p-2 btn-light rounded-circle"
+                    className="btn p-3 btn-light rounded-circle"
                     onClick={unmuteCall}
                     data-tooltip-id="on_mic"
                   >
-                    <CiMicrophoneOn size={40} />
+                    <CiMicrophoneOn size={28} />
                   </button>
                 )}
                 {recording === true ? (
                   <button
-                    className="btn p-2 btn-light rounded-circle"
+                    className="btn p-3 btn-light rounded-circle"
                     data-tooltip-id="off_record"
                     onClick={pauseRecording}
                   >
-                    <MdOutlineVoiceOverOff size={40} />
+                    <PiRecordFill size={28} />
                   </button>
                 ) : (
                   <button
-                    className="btn p-2 btn-light rounded-circle"
+                    className="btn p-3 btn-light rounded-circle"
                     data-tooltip-id="on_record"
                     onClick={resumeRecording}
                   >
                     {" "}
-                    <MdOutlineRecordVoiceOver size={40} />
+                    <PiRecordFill size={28} />
                   </button>
                 )}
+                <button
+                  className="btn p-3 btn-light rounded-circle"
+                  data-tooltip-id="dialpad"
+                  onClick={() => {
+                    setIsDial(true);
+                    setShowCall(false);
+                    setShowContacts(false);
+                    // setUserState("READY");
+                  }}
+                >
+                  {" "}
+                  <BiDialpad size={24} />
+                </button>
 
                 <div class="dropdown" data-tooltip-id="add_call">
                   <button
@@ -693,7 +708,7 @@ const Dialer = () => {
                     className="btn p-3 btn-light rounded-circle "
                     type="button"
                   >
-                    <FaPlus size={25} />
+                    <FaPlus size={22} />
                   </button>
                   <div role="menu" class="dropdown-menu">
                     {agents?.length > 0 ? (
@@ -719,7 +734,7 @@ const Dialer = () => {
                     className="btn p-3 btn-light rounded-circle "
                     type="button"
                   >
-                    <FcCallTransfer size={28} />
+                    <BiTransferAlt size={28} />
                   </button>
                   <div role="menu" class="dropdown-menu">
                     {agents?.length > 0 ? (
@@ -795,7 +810,7 @@ const Dialer = () => {
                     className="btn btn-danger rounded-circle p-3"
                     onClick={handleDisconnectCall}
                   >
-                    <FaPhone size={27} />
+                    <FaPhone size={24} />
                   </button>
                 </div>
                 {/* )} */}
@@ -805,7 +820,7 @@ const Dialer = () => {
                       className="btn btn-success rounded-circle p-3"
                       onClick={handleAcceptCall}
                     >
-                      <FaPhone size={27} />
+                      <FaPhone size={24} />
                     </button>
                   </div>
                 )}

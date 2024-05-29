@@ -220,7 +220,7 @@ const Layout = ({ component }) => {
       >
         Compose email
       </button> */}
-      <ChatPopup />
+      {/* <ChatPopup /> */}
       {component}
       <div>
         {" "}

@@ -17,7 +17,7 @@ export const storeBoard = (token, data) => async (dispatch) => {
     dispatch(boardRequestLoading());
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         "x-access-token": token,
       },
     };

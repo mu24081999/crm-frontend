@@ -17,6 +17,47 @@ import { getTaskDetails } from "../../redux/services/project-task";
 import { updateContactRec } from "../../redux/services/contact";
 import { Link } from "react-router-dom";
 import { SocketContext } from "../../Context";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
+const initialItems = [
+  { id: "1", content: "First task" },
+  { id: "2", content: "Second task" },
+  { id: "3", content: "Third task" },
+];
+const SortableItem = ({ id, content }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    padding: "16px",
+    margin: "0 0 8px 0",
+    backgroundColor: "#fff",
+    border: "1px solid lightgrey",
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      {content}
+    </div>
+  );
+};
 const TasksContent = ({ tasksData, token, contactsData, boardDetails }) => {
   const { handleToggleShowLeadDetail } = useContext(SocketContext);
   const [updateTaskData, setUpdateTaskData] = useState({});
@@ -24,6 +65,31 @@ const TasksContent = ({ tasksData, token, contactsData, boardDetails }) => {
   const [pendingData, setPendingData] = useState();
   const [inProgressData, setInProgressData] = useState();
   const [completedData, setCompletedData] = useState();
+  const [statusArray, setStatusArray] = useState();
+  const [items, setItems] = useState(initialItems);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setItems((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
+  useEffect(() => {
+    const array = boardDetails?.pipeline_status_array?.status_array;
+    setStatusArray(array);
+  }, [boardDetails]);
   useEffect(() => {
     const pending = contactsData?.filter(
       (task) =>
@@ -42,25 +108,6 @@ const TasksContent = ({ tasksData, token, contactsData, boardDetails }) => {
     );
     setCompletedData(completed);
   }, [contactsData, boardDetails]);
-  // const pendingData =
-  //   contactsData?.length > 0 &&
-  //   contactsData?.filter(
-  //     (task) =>
-  //       task.board_status === "pending" && task.board_id === boardDetails?.id
-  //   );
-  // const inProgressData =
-  //   contactsData?.length > 0 &&
-  //   contactsData?.filter(
-  //     (task) =>
-  //       task.board_status === "in-progress" &&
-  //       task.board_id === boardDetails?.id
-  //   );
-  // const completedData =
-  //   contactsData?.length > 0 &&
-  //   contactsData?.filter(
-  //     (task) =>
-  //       task.board_status === "completed" && task.board_id === boardDetails?.id
-  //   );
   const handleUpdateTask = (id) => {
     dispatch(getTaskDetails(token, id));
   };
@@ -77,6 +124,7 @@ const TasksContent = ({ tasksData, token, contactsData, boardDetails }) => {
     );
     setUpdateTaskData({});
   };
+
   return (
     <div>
       {/* <div className="taskboardapp-detail-wrap"> */}
@@ -84,683 +132,27 @@ const TasksContent = ({ tasksData, token, contactsData, boardDetails }) => {
         <TaskHeader />
         <div className="taskboard-body">
           <div>
-            {/* <TaskHeading /> */}
-            {/* <Kanban /> */}
             <div id="kb_scroll" className="tasklist-scroll position-relative">
-              <div id="tasklist_wrap" className="tasklist-wrap">
-                {/* <div className="card card-simple card-border tasklist">
-                  <div className="card-header  bg-primary  d-flex">
-                    <h6 className="text-uppercase fw-bold mb-0 d-flex justify-content-between w-100">
-                      <span className="" style={{ color: "white" }}>
-                        All Modules
-                      </span>
-                      <span className="badge badge-pill badge-soft-violet">
-                        {contactsData?.length}
-                      </span>
-                    </h6>
-                  </div>
-                  <div data-simplebar className="card-body">
-                    <div style={{ height: "500px", overflow: "scroll" }}>
-                      {contactsData?.length > 0 &&
-                        contactsData.map((task, index) => (
-                          <Link
-                            className="card card-border card-simple tasklist-card"
-                            key={index}
-                            to={"/contacts"}
-                            onClick={() =>
-                              handleToggleShowLeadDetail(true, task.id, token)
-                            }
-                          >
-                            <div className="card-header card-header-action">
-                              <h6 className="fw-bold">
-                                {task?.firstname +
-                                  " " +
-                                  task?.middlename +
-                                  "" +
-                                  task?.lastname}
-                              </h6>
-                              <div className="card-action-wrap">
-                                <a
-                                  className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                                  href="/"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <span className="icon">
-                                    <span className="feather-icon">
-                                      <CiMenuKebab />
-                                    </span>
-                                  </span>
-                                </a>
-                                <div className="dropdown-menu dropdown-menu-end">
-                                  <button
-                                    className="dropdown-item"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#edit_project_task"
-                                    onClick={() => handleUpdateTask(task?.id)}
-                                  >
-                                    <span className="feather-icon dropdown-icon">
-                                      <FaEdit />
-                                    </span>
-                                    <span>Edit</span>
-                                  </button>
-
-                                  <a
-                                    className="dropdown-item delete-task"
-                                    href="/"
-                                  >
-                                    <span className="feather-icon dropdown-icon">
-                                      <FaTrash />
-                                    </span>
-                                    <span>Delete</span>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="card-body">
-                              <div className="">
-                                {task?.biography?.slice(0, 150)}...
-                              </div>
-
-                              <div className="d-flex justify-content-end">
-                                {task?.social_links?.map((link, index) => (
-                                  <div key={index}>
-                                    {link?.name === "facebook" && (
-                                      <a
-                                        href={link?.link}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaFacebook size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "linkedin" && (
-                                      <a
-                                        href={link?.linkedin}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaLinkedin size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "gmail" && (
-                                      <a
-                                        href={link?.link}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaGoogle size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "linkedin" && (
-                                      <a
-                                        href={link?.linkedin}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaTwitter size={20} />
-                                      </a>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
-                               <div className="avatar-group avatar-group-overlapped">
-                                {task.asign_to?.members?.map(
-                                  (member, index) => (
-                                    <div
-                                      key={index}
-                                      className="avatar avatar-rounded"
-                                      data-bs-toggle="tooltip"
-                                      data-bs-placement="top"
-                                      title=""
-                                      data-bs-original-title="Dean"
-                                    >
-                                      <img
-                                        src={member.image}
-                                        alt="user"
-                                        className="avatar-img"
-                                      />
-                                    </div>
-                                  )
-                                )}
-                              </div> 
-                            </div>
-                            <div className="card-footer text-muted justify-content-between">
-                              <div>
-                                <span className="task-counter">
-                                  <span>
-                                    <i className="ri-checkbox-line"></i>
-                                  </span>
-                                  <span>4/8</span>
-                                </span>
-                                <span className="task-discuss">
-                                  <span>
-                                    <i className="ri-message-3-line"></i>
-                                  </span>
-                                  <span>24</span>
-                                </span>
-                              </div>
-                              <div>
-                                <span className="task-deadline">
-                                  {moment(task?.created_at).format(
-                                    "DD MMM YYYY"
-                                  )}
-                                </span>
-                              </div>
-                            </div>
-                          </Link>
-                        ))}
-                    </div>
-                  </div>
-                </div> */}
-                <div
-                  className="card card-simple card-border tasklist"
-                  onDrop={(event) => handleDrop(event, "pending")}
-                  onDragOver={(event) => event.preventDefault()}
-                >
-                  <div className="card-header  bg-primary  d-flex">
-                    <h6 className="text-uppercase fw-bold mb-0 d-flex justify-content-between w-100">
-                      <span className="" style={{ color: "white" }}>
-                        Pending
-                      </span>
-                      <span className="badge badge-pill badge-soft-violet">
-                        {pendingData?.length}
-                      </span>
-                    </h6>
-                  </div>
-                  <div data-simplebar className="card-body">
-                    <div style={{ height: "500px", overflow: "scroll" }}>
-                      {pendingData?.length > 0 &&
-                        pendingData.map((task, index) => (
-                          <Link
-                            className="card card-border card-simple tasklist-card"
-                            id="boardTaskList"
-                            key={index}
-                            draggable
-                            to={"/contacts"}
-                            onClick={() =>
-                              handleToggleShowLeadDetail(true, task.id, token)
-                            }
-                            onDragStart={(event) =>
-                              handleDragStart(event, task.id)
-                            }
-                            // onDragStart={(e) => onDragStart(e, task.id)}
-                            // onDragEnd={(e) => onDragEnd(e)}
-                          >
-                            <div className="card-header card-header-action">
-                              <h6 className="fw-bold">
-                                {task?.firstname +
-                                  " " +
-                                  task?.middlename +
-                                  "" +
-                                  task?.lastname}
-                              </h6>{" "}
-                              <div className="card-action-wrap">
-                                <a
-                                  className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                                  href="/"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <span className="icon">
-                                    <span className="feather-icon">
-                                      {/* <i data-feather="more-vertical"></i> */}
-                                      <CiMenuKebab />
-                                    </span>
-                                  </span>
-                                </a>
-                                <div className="dropdown-menu dropdown-menu-end">
-                                  <button
-                                    className="dropdown-item"
-                                    // data-bs-toggle="modal"
-                                    // data-bs-target="#edit_project_task"
-                                    onClick={() => handleUpdateTask(task.id)}
-                                  >
-                                    <span className="feather-icon dropdown-icon">
-                                      {/* <i data-feather="edit-2"></i> */}
-                                      <FaEdit />
-                                    </span>
-                                    <span>Edit</span>
-                                  </button>
-
-                                  <a
-                                    className="dropdown-item delete-task"
-                                    href="/"
-                                  >
-                                    <span className="feather-icon dropdown-icon">
-                                      {/* <i data-feather="trash-2"></i> */}
-                                      <FaTrash />
-                                    </span>
-                                    <span>Delete</span>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="card-body">
-                              <div className="avatar-group avatar-group-overlapped">
-                                {task.asign_to?.members?.map(
-                                  (member, index) => (
-                                    <div
-                                      key={index}
-                                      className="avatar avatar-rounded"
-                                      data-bs-toggle="tooltip"
-                                      data-bs-placement="top"
-                                      title=""
-                                      data-bs-original-title="Dean"
-                                    >
-                                      <img
-                                        src={member.image}
-                                        alt="user"
-                                        className="avatar-img"
-                                      />
-                                    </div>
-                                  )
-                                )}
-                              </div>
-                              <div>{task?.biography?.slice(0, 150)}...</div>
-                              <div className="d-flex justify-content-end">
-                                {task?.social_links?.map((link, index) => (
-                                  <div key={index}>
-                                    {link?.name === "facebook" && (
-                                      <a
-                                        href={link?.link}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaFacebook size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "linkedin" && (
-                                      <a
-                                        href={link?.linkedin}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaLinkedin size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "gmail" && (
-                                      <a
-                                        href={link?.link}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaGoogle size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "linkedin" && (
-                                      <a
-                                        href={link?.linkedin}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaTwitter size={20} />
-                                      </a>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                            <div className="card-footer text-muted justify-content-between">
-                              <div>
-                                <span className="task-counter">
-                                  <span>
-                                    <i className="ri-checkbox-line"></i>
-                                  </span>
-                                  <span>4/8</span>
-                                </span>
-                                <span className="task-discuss">
-                                  <span>
-                                    <i className="ri-message-3-line"></i>
-                                  </span>
-                                  <span>24</span>
-                                </span>
-                              </div>
-                              <div>
-                                <span className="task-deadline">
-                                  {moment(task.created_at).format(
-                                    "DD MMM YYYY"
-                                  )}
-                                </span>
-                              </div>
-                            </div>
-                          </Link>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="card card-simple card-border tasklist"
-                  onDrop={(event) => handleDrop(event, "in-progress")}
-                  onDragOver={(event) => event.preventDefault()}
-                >
-                  <div className="card-header  bg-primary  d-flex">
-                    <h6 className="text-uppercase fw-bold mb-0 d-flex justify-content-between w-100">
-                      <span className="" style={{ color: "white" }}>
-                        In Progress{" "}
-                      </span>
-                      <span className="badge badge-pill badge-soft-violet">
-                        {inProgressData?.length}
-                      </span>
-                    </h6>
-                  </div>
-                  <div data-simplebar className="card-body">
-                    <div style={{ height: "500px", overflow: "scroll" }}>
-                      {inProgressData?.length > 0 &&
-                        inProgressData.map((task, index) => (
-                          <Link
-                            className="card card-border card-simple tasklist-card"
-                            id="boardTaskList"
-                            key={index}
-                            draggable
-                            onDragStart={(event) =>
-                              handleDragStart(event, task.id)
-                            }
-                            to={"/contacts"}
-                            onClick={() =>
-                              handleToggleShowLeadDetail(true, task.id, token)
-                            }
-
-                            // onDragStart={(e) => onDragStart(e, task.id)}
-                            // onDragEnd={(e) => onDragEnd(e)}
-                          >
-                            <div className="card-header card-header-action">
-                              <h6 className="fw-bold">
-                                {task?.firstname +
-                                  " " +
-                                  task?.middlename +
-                                  "" +
-                                  task?.lastname}
-                              </h6>{" "}
-                              <div className="card-action-wrap">
-                                <a
-                                  className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                                  href="/"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <span className="icon">
-                                    <span className="feather-icon">
-                                      {/* <i data-feather="more-vertical"></i> */}
-                                      <CiMenuKebab />
-                                    </span>
-                                  </span>
-                                </a>
-                                <div className="dropdown-menu dropdown-menu-end">
-                                  <button
-                                    className="dropdown-item"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#edit_project_task"
-                                    onClick={() => handleUpdateTask(task.id)}
-                                  >
-                                    <span className="feather-icon dropdown-icon">
-                                      {/* <i data-feather="edit-2"></i> */}
-                                      <FaEdit />
-                                    </span>
-                                    <span>Edit</span>
-                                  </button>
-
-                                  <a
-                                    className="dropdown-item delete-task"
-                                    href="/"
-                                  >
-                                    <span className="feather-icon dropdown-icon">
-                                      {/* <i data-feather="trash-2"></i> */}
-                                      <FaTrash />
-                                    </span>
-                                    <span>Delete</span>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="card-body">
-                              <div className="avatar-group avatar-group-overlapped">
-                                {task.asign_to?.members?.map(
-                                  (member, index) => (
-                                    <div
-                                      key={index}
-                                      className="avatar avatar-rounded"
-                                      data-bs-toggle="tooltip"
-                                      data-bs-placement="top"
-                                      title=""
-                                      data-bs-original-title="Dean"
-                                    >
-                                      <img
-                                        src={member.image}
-                                        alt="user"
-                                        className="avatar-img"
-                                      />
-                                    </div>
-                                  )
-                                )}
-                              </div>
-                              <div>{task?.biography?.slice(0, 150)}...</div>
-                              <div className="d-flex justify-content-end">
-                                {task?.social_links?.map((link, index) => (
-                                  <div key={index}>
-                                    {link?.name === "facebook" && (
-                                      <a
-                                        href={link?.link}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaFacebook size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "linkedin" && (
-                                      <a
-                                        href={link?.linkedin}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaLinkedin size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "gmail" && (
-                                      <a
-                                        href={link?.link}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaGoogle size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "linkedin" && (
-                                      <a
-                                        href={link?.linkedin}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaTwitter size={20} />
-                                      </a>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                            <div className="card-footer text-muted justify-content-between">
-                              <div>
-                                <span className="task-counter">
-                                  <span>
-                                    <i className="ri-checkbox-line"></i>
-                                  </span>
-                                  <span>4/8</span>
-                                </span>
-                                <span className="task-discuss">
-                                  <span>
-                                    <i className="ri-message-3-line"></i>
-                                  </span>
-                                  <span>24</span>
-                                </span>
-                              </div>
-                              <div>
-                                <span className="task-deadline">
-                                  {moment(task.created_at).format(
-                                    "DD MMM YYYY"
-                                  )}
-                                </span>
-                              </div>
-                            </div>
-                          </Link>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="card card-simple card-border tasklist"
-                  onDrop={(event) => handleDrop(event, "completed")}
-                  onDragOver={(event) => event.preventDefault()}
-                >
-                  <div className="card-header  bg-primary  d-flex">
-                    <h6 className="text-uppercase fw-bold mb-0 d-flex justify-content-between w-100">
-                      <span className="" style={{ color: "white" }}>
-                        Completed
-                      </span>
-                      <span className="badge badge-pill badge-soft-violet">
-                        {completedData?.length}
-                      </span>
-                    </h6>
-                  </div>
-                  <div data-simplebar className="card-body">
-                    <div style={{ height: "500px", overflow: "scroll" }}>
-                      {completedData?.length > 0 &&
-                        completedData.map((task, index) => (
-                          <Link
-                            className="card card-border card-simple tasklist-card"
-                            id="boardTaskList"
-                            key={index}
-                            draggable
-                            onDragStart={(event) =>
-                              handleDragStart(event, task.id)
-                            }
-                            to={"/contacts"}
-                            onClick={() =>
-                              handleToggleShowLeadDetail(true, task.id, token)
-                            }
-                            // onDragStart={(e) => onDragStart(e, task.id)}
-                            // onDragEnd={(e) => onDragEnd(e)}
-                          >
-                            <div className="card-header card-header-action">
-                              <h6 className="fw-bold">
-                                {task?.firstname +
-                                  " " +
-                                  task?.middlename +
-                                  "" +
-                                  task?.lastname}
-                              </h6>{" "}
-                              <div className="card-action-wrap">
-                                <a
-                                  className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                                  href="/"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <span className="icon">
-                                    <span className="feather-icon">
-                                      {/* <i data-feather="more-vertical"></i> */}
-                                      <CiMenuKebab />
-                                    </span>
-                                  </span>
-                                </a>
-                                <div className="dropdown-menu dropdown-menu-end">
-                                  <button
-                                    className="dropdown-item"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#edit_project_task"
-                                    onClick={() => handleUpdateTask(task.id)}
-                                  >
-                                    <span className="feather-icon dropdown-icon">
-                                      {/* <i data-feather="edit-2"></i> */}
-                                      <FaEdit />
-                                    </span>
-                                    <span>Edit</span>
-                                  </button>
-
-                                  <a
-                                    className="dropdown-item delete-task"
-                                    href="/"
-                                  >
-                                    <span className="feather-icon dropdown-icon">
-                                      {/* <i data-feather="trash-2"></i> */}
-                                      <FaTrash />
-                                    </span>
-                                    <span>Delete</span>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="card-body">
-                              <div className="avatar-group avatar-group-overlapped">
-                                {task.asign_to?.members?.map(
-                                  (member, index) => (
-                                    <div
-                                      key={index}
-                                      className="avatar avatar-rounded"
-                                      data-bs-toggle="tooltip"
-                                      data-bs-placement="top"
-                                      title=""
-                                      data-bs-original-title="Dean"
-                                    >
-                                      <img
-                                        src={member.image}
-                                        alt="user"
-                                        className="avatar-img"
-                                      />
-                                    </div>
-                                  )
-                                )}
-                              </div>
-                              <div>{task?.biography?.slice(0, 150)}...</div>
-                              <div className="d-flex justify-content-end">
-                                {task?.social_links?.map((link, index) => (
-                                  <div key={index}>
-                                    {link?.name === "facebook" && (
-                                      <a
-                                        href={link?.link}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaFacebook size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "linkedin" && (
-                                      <a
-                                        href={link?.linkedin}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaLinkedin size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "gmail" && (
-                                      <a
-                                        href={link?.link}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaGoogle size={20} />
-                                      </a>
-                                    )}
-                                    {link?.name === "linkedin" && (
-                                      <a
-                                        href={link?.linkedin}
-                                        className="btn btn-icon btn-rounded"
-                                      >
-                                        <FaTwitter size={20} />
-                                      </a>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                            <div className="card-footer text-muted justify-content-between">
-                              <div>
-                                <span className="task-counter">
-                                  <span>
-                                    <i className="ri-checkbox-line"></i>
-                                  </span>
-                                  <span>4/8</span>
-                                </span>
-                                <span className="task-discuss">
-                                  <span>
-                                    <i className="ri-message-3-line"></i>
-                                  </span>
-                                  <span>24</span>
-                                </span>
-                              </div>
-                              <div>
-                                <span className="task-deadline">
-                                  {moment(task.created_at).format(
-                                    "DD MMM YYYY"
-                                  )}
-                                </span>
-                              </div>
-                            </div>
-                          </Link>
-                        ))}
-                    </div>
-                  </div>
+              <div id="tasklist_wrap" className="tasklist-wrap border">
+                <div className="d-flex">
+                  <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleDragEnd}
+                  >
+                    <SortableContext
+                      items={items}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      {items.map((item) => (
+                        <SortableItem
+                          key={item.id}
+                          id={item.id}
+                          content={item.content}
+                        />
+                      ))}
+                    </SortableContext>
+                  </DndContext>
                 </div>
               </div>
             </div>

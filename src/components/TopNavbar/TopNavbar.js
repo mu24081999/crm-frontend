@@ -304,14 +304,16 @@ const TopNavbar = ({ notificationsData }) => {
                 </span>
               </a>
             </li> */}
-            {/* <li className="nav-item">
-              <Dialer />
-            </li> */}
+            <li className="nav-item">
+              {(user?.parent_id !== null || user?.client_id !== null) && (
+                <Dialer />
+              )}
+            </li>
             <li className="nav-item">
               <div className="dropdown dropdown-notifications">
                 <a
                   href="#"
-                  className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover dropdown-toggle no-caret"
+                  className="btn btn-icon btn-rounded  dropdown-toggle btn-primary ms-2 shadow-lg"
                   data-bs-toggle="dropdown"
                   data-dropdown-animation
                   role="button"
@@ -514,6 +516,7 @@ const TopNavbar = ({ notificationsData }) => {
                 </div>
               </div>
             </li>
+
             <li className="nav-item">
               <div className="dropdown ps-2">
                 <a
@@ -526,8 +529,14 @@ const TopNavbar = ({ notificationsData }) => {
                   data-bs-auto-close="outside"
                   aria-expanded="false"
                 >
-                  <div className="avatar avatar-primary avatar-xs avatar-rounded">
-                    <span className="initial-wrap">
+                  <div
+                    // className="avatar avatar-primary avatar-sm avatar-rounded"
+                    className="btn btn-primary btn-sm py-2 btn-rounded shadow-lg"
+                  >
+                    <span
+                      className="initial-wrap fw-bolder"
+                      style={{ fontSize: "14px" }}
+                    >
                       {_.toUpper(selectedAccount?.username?.slice(0, 1)) ||
                         _.toUpper(selectedAccount?.friendlyName?.slice(0, 1))}
                     </span>
