@@ -50,6 +50,17 @@ const AddNewTask = ({ agents, boardDetails }) => {
       });
       setValue("avatar_color", boardDetails?.avatar_color);
       setValue("team_members", boardDetails?.team_members?.team);
+      const stages = [];
+      boardDetails?.pipeline_status_array?.status_array?.map(
+        (status, index) => {
+          return stages?.push({ id: index + 1, value: status });
+        }
+      );
+      console.log("🚀 ~ useEffect ~ stages:", stages);
+      setStatusArray(stages);
+      stages?.forEach((stage) => {
+        setValue(`status-${stage?.id}`, stage?.value);
+      });
     }
   }, [boardDetails, setValue]);
   const handleAddBoard = async (data) => {
@@ -101,7 +112,7 @@ const AddNewTask = ({ agents, boardDetails }) => {
         <div className="modal-content">
           <div className="modal-header bg-primary">
             <h5 className="modal-title" style={{ color: "white" }}>
-              Add New Pipeline
+              Pipeline Form
             </h5>
             <button
               type="button"
@@ -118,23 +129,23 @@ const AddNewTask = ({ agents, boardDetails }) => {
                 <span>Pipeline Details</span>
               </div>
               <div className="row gx-3">
-                <div className="col-sm-12">
-                  <InputField
-                    name="name"
-                    placeholder="Name"
-                    // label="Name"
-                    control={control}
-                    rules={{
-                      required: {
-                        value: true,
-                        message: "Field required!",
-                      },
-                    }}
-                    errors={errors}
-                  />
-                </div>
-
                 <div className="row">
+                  <div className="col-sm-5 pt-1">
+                    <ReactColorInput
+                      name="avatar_color"
+                      placeholder="Avatar Color"
+                      // label="Avatar Color"
+                      mb={true}
+                      control={control}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
+                      errors={errors}
+                    />
+                  </div>
                   <div className="col-sm-7 ps-2">
                     <ReactSelectField
                       name="visibility"
@@ -154,23 +165,23 @@ const AddNewTask = ({ agents, boardDetails }) => {
                       errors={errors}
                     />
                   </div>
-                  <div className="col-sm-5 pt-1">
-                    <ReactColorInput
-                      name="avatar_color"
-                      placeholder="Avatar Color"
-                      // label="Avatar Color"
-                      mb={true}
-                      control={control}
-                      rules={{
-                        required: {
-                          value: true,
-                          message: "Field required!",
-                        },
-                      }}
-                      errors={errors}
-                    />
-                  </div>
                 </div>
+                <div className="col-sm-12">
+                  <InputField
+                    name="name"
+                    placeholder="Name"
+                    // label="Name"
+                    control={control}
+                    rules={{
+                      required: {
+                        value: true,
+                        message: "Field required!",
+                      },
+                    }}
+                    errors={errors}
+                  />
+                </div>
+
                 <div className="col-sm-12">
                   <ReactSelectField
                     name="team_members"
@@ -262,22 +273,14 @@ const AddNewTask = ({ agents, boardDetails }) => {
                 </div>
               </div> */}
               <div className="title title-xs title-wth-divider text-primary text-uppercase my-4">
-                <span>Pipeline Status</span>
+                <span>Pipeline Stages</span>
               </div>
+
               <div className="">
-                <button
-                  onClick={handleAddStatus}
-                  type="button"
-                  className="btn btn-icon btn-light float-end mb-2"
-                >
-                  <FaPlus />
-                </button>
-              </div>
-              <div>
                 {statusArray?.length > 0 ? (
                   statusArray?.map((status, index) => (
                     <div className="col-12 d-flex gap-2" key={index}>
-                      <div className="col-11">
+                      <div className="col-11 py-2">
                         <InputField
                           name={`status-${status?.id}`}
                           placeholder="Name"
@@ -294,7 +297,7 @@ const AddNewTask = ({ agents, boardDetails }) => {
                         />
                       </div>
                       <span
-                        className="col-1 p-2 btn btn-icon btn-sm mt-1 btn-danger"
+                        className="col-1 p-2 btn btn-icon btn-sm mt-2 btn-danger"
                         onClick={() => removeObjectFromArray(status.id)}
                       >
                         <FaTrash className="mb-2" />
@@ -302,8 +305,23 @@ const AddNewTask = ({ agents, boardDetails }) => {
                     </div>
                   ))
                 ) : (
-                  <p>No status added</p>
+                  <p>No stage added</p>
                 )}
+              </div>
+              <div className=" py-2">
+                <button
+                  onClick={handleAddStatus}
+                  type="button"
+                  className="btn btn-icon btn-primary btn-xs mb-2"
+                >
+                  <span>
+                    <FaPlus />
+                  </span>{" "}
+                </button>
+                <span className="text-primary" style={{ fontSize: "13px" }}>
+                  {" "}
+                  Add Stage
+                </span>
               </div>
               <div className="modal-footer">
                 <button

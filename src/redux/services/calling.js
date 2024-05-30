@@ -154,6 +154,28 @@ export const transferCall = (token, data) => async (dispatch) => {
   }
 };
 
+export const addConfressCall = (token, data) => async (dispatch) => {
+  try {
+    dispatch(callingRequestLoading());
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    };
+    await axios
+      .post(`${backendURL}/user/calling/add-confress-call`, data, config)
+      .then((response) => {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          return dispatch(invalidRequest(response.data.message));
+        }
+        // dispatch(getCallLogs(response.data.data.callsData));
+      });
+  } catch (e) {
+    dispatch(invalidRequest(e.message));
+  }
+};
 export const pauseCallRecording = (token, data) => async (dispatch) => {
   try {
     dispatch(callingRequestLoading());

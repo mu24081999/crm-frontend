@@ -41,7 +41,7 @@ const Boards = ({ boardsData, onDataFromChild }) => {
   const FrequentBoards = boardsData?.slice(-3);
   return (
     <div className="tab-pane fade show active" id="tab_boards">
-      <h5 className="mb-5">Frequent Boards</h5>
+      <h5 className="mb-5">Frequent Pipelines</h5>
       <div className="row">
         {FrequentBoards?.length > 0 &&
           FrequentBoards?.map((board, index) => (
@@ -277,7 +277,7 @@ const Boards = ({ boardsData, onDataFromChild }) => {
         </div> */}
       </div>
       <div className="d-flex justify-content-between align-items-center mb-5">
-        <h5 className="mb-0">All Boards</h5>
+        <h5 className="mb-0">All Pipelines</h5>
         <button
           className="btn btn-light btn-icon"
           data-bs-toggle="modal"

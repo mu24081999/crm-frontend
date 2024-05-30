@@ -44,9 +44,9 @@ const ReactColorInput = React.forwardRef((props, ref) => {
                 {label}
               </label>
             )}
-            <div>
+            <div className="">
               <InputColor
-                initialValue="#5e72e4"
+                initialValue=""
                 onChange={handleOnChange}
                 placement="bottom"
                 name={field.name}
@@ -65,6 +65,7 @@ const ReactColorInput = React.forwardRef((props, ref) => {
                 className="form-control"
                 style={{ paddingLeft: "70px" }}
                 type="text"
+                placeholder=" Color"
                 name={field.name}
                 value={color.hex}
               />

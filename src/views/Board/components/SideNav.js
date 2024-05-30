@@ -74,7 +74,7 @@ const SideNav = ({
                       <FaLayerGroup />
                     </span>
                   </span>
-                  <span className="nav-link-text">All Boards</span>
+                  <span className="nav-link-text">All</span>
                 </button>
               </li>
               <li
@@ -87,7 +87,7 @@ const SideNav = ({
                       <FaStar />
                     </span>
                   </span>
-                  <span className="nav-link-text">Stared Boards</span>
+                  <span className="nav-link-text">Stared</span>
                 </button>
               </li>
               <li
@@ -102,7 +102,7 @@ const SideNav = ({
                       <FaLock />
                     </span>
                   </span>
-                  <span className="nav-link-text">Private Boards</span>
+                  <span className="nav-link-text">Private</span>
                 </button>
               </li>
               <li
@@ -115,7 +115,7 @@ const SideNav = ({
                       <FaUserCheck />
                     </span>
                   </span>
-                  <span className="nav-link-text">Public Boards</span>
+                  <span className="nav-link-text">Public</span>
                 </button>
               </li>
               <li
@@ -137,7 +137,7 @@ const SideNav = ({
           </div>
           <div className="separator separator-light"></div>
           {/* <div className="d-flex align-items-center justify-content-between mb-2">
-            <div className="title-sm text-primary mb-0">Favourite Boards</div>
+            <div className="title-sm text-primary mb-0">Favourite</div>
             <a
               href="/"
               className="btn btn-xs btn-icon btn-rounded btn-light"

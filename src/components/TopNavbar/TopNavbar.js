@@ -320,12 +320,12 @@ const TopNavbar = ({ notificationsData }) => {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <span className="icon">
+                  <span className="icon pb-1">
                     <span className="position-relative">
                       <span className="feather-icon">
                         <FaBell />
                       </span>
-                      <span className="badge badge-success badge-indicator position-top-end-overflow-1"></span>
+                      {/* <span className="badge badge-success badge-indicator position-top-end-overflow-1"></span> */}
                     </span>
                   </span>
                 </a>
@@ -509,9 +509,7 @@ const TopNavbar = ({ notificationsData }) => {
                     </a> */}
                   </div>
                   <div className="dropdown-footer">
-                    <a href="">
-                      <u>View all notifications</u>
-                    </a>
+                    <a href="#">{/* <u>View all notifications</u> */}</a>
                   </div>
                 </div>
               </div>
