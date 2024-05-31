@@ -11,7 +11,7 @@ const BoardHeader = ({ onToggle }) => {
             // href="/tab_boards"
             onClick={() => onToggle("board")}
           >
-            <span className="nav-link-text">Pipelines</span>
+            <span className="nav-link-text">All Pipelines</span>
           </button>
         </li>
         {/* <li className="nav-item">

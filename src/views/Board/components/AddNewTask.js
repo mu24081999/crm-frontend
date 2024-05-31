@@ -6,7 +6,11 @@ import { useForm } from "react-hook-form";
 import ReactColorInput from "../../../components/FormFields/reactColorInput";
 import FileField from "../../../components/FormFields/fileField";
 import { useDispatch, useSelector } from "react-redux";
-import { storeBoard, updateBoardRec } from "../../../redux/services/board";
+import {
+  getBoardDetails,
+  storeBoard,
+  updateBoardRec,
+} from "../../../redux/services/board";
 import { FaPlus, FaTrash } from "react-icons/fa";
 
 const AddNewTask = ({ agents, boardDetails }) => {
@@ -87,18 +91,17 @@ const AddNewTask = ({ agents, boardDetails }) => {
       const status_ = watch(`status-${element.id}`);
       pipeline_status_array.push(status_);
     }
-    console.log(pipeline_status_array);
     const formData = {
       ...newData,
       pipeline_status_array,
     };
     if (boardDetails?.id) {
-      console.log("update");
-      dispatch(updateBoardRec(token, boardDetails?.id, formData));
+      await dispatch(updateBoardRec(token, boardDetails?.id, formData));
+      await dispatch(getBoardDetails(token, boardDetails?.id));
     } else {
       await dispatch(storeBoard(token, formData));
     }
-    // return reset();
+    return reset();
   };
   return (
     <div

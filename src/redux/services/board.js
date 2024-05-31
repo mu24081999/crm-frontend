@@ -102,7 +102,7 @@ export const updateBoardRec = (token, board_id, data) => async (dispatch) => {
         }
         dispatch(updateBoard(response.data.message));
         dispatch(getBoardList(token));
-        toast.success(response.data.message);
+        // toast.success(response.data.message);
       });
   } catch (e) {
     dispatch(invalidRequest(e.message));

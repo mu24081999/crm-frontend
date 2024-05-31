@@ -7,17 +7,37 @@ import {
   updateContactRec,
 } from "../../../redux/services/contact";
 import Loader from "../../../components/Loader/Loader";
-import { FaArchive, FaEdit, FaRegStar, FaStar, FaTrash } from "react-icons/fa";
+import {
+  FaArchive,
+  FaEdit,
+  FaRegStar,
+  FaSms,
+  FaStar,
+  FaTrash,
+} from "react-icons/fa";
 import moment from "moment";
 import { SocketContext } from "../../../Context";
 import { ImBlocked } from "react-icons/im";
+import Checkbox from "../../../components/FormFields/checkboxField";
+import { useForm } from "react-hook-form";
+import { FaGripLinesVertical } from "react-icons/fa6";
+import { MdOutlineAttachEmail } from "react-icons/md";
+import { CiExport, CiImport } from "react-icons/ci";
+import InputField from "../../../components/FormFields/InputField";
 
 const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
-  const { handleToggleShowLeadDetail, showLeadDetails } =
-    useContext(SocketContext);
+  const {
+    handleSubmit,
+    watch,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm({});
+  const { handleToggleShowLeadDetail } = useContext(SocketContext);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { isLoading } = useSelector((state) => state.contact);
+  const [updatedContacts, setContactsData] = useState([]);
   useEffect(() => {
     if (token) {
       dispatch(getContactsList(token));
@@ -39,9 +59,69 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
     dispatch(permanentDeleteContactRec(token, contact_id));
     onToggleEdit(false);
   };
+  const handleBulkChange = (event) => {
+    if (event.target.checked) {
+      contactsData?.map((contact) => {
+        return setValue(`contact-${contact.id}`, true);
+      });
+    } else {
+      contactsData?.map((contact) => {
+        return setValue(`contact-${contact.id}`, false);
+      });
+    }
+  };
+  const handleSingleChange = (event, contact) => {};
 
   return (
     <div className="contact-list-view">
+      <div className="">
+        <div className="p-2">
+          <div
+            class="btn-toolbar"
+            role="toolbar"
+            aria-label="Toolbar with button groups"
+          >
+            <div className="d-flex justify-content-between w-100">
+              <div className="d-flex gap-2 w-50">
+                <button type="button" class="btn btn-light btn-sm">
+                  <FaGripLinesVertical />
+                </button>
+                <button type="button" class="btn btn-light btn-sm">
+                  <FaStar />
+                </button>
+                <button type="button" class="btn btn-light btn-sm">
+                  <FaSms />
+                </button>
+                <button type="button" class="btn btn-light btn-sm">
+                  <MdOutlineAttachEmail />
+                </button>
+                <button type="button" class="btn btn-light btn-sm">
+                  <CiImport />
+                </button>
+                <button type="button" class="btn btn-light btn-sm">
+                  <CiExport />
+                </button>
+              </div>
+              <div>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search Contact"
+                    aria-label="Recipient's username"
+                    aria-describedby="basic-addon2"
+                  />
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button">
+                      Search
+                    </button>
+                  </div>
+                </div>{" "}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       {!isEdit && (
         <>
           {isLoading ? (
@@ -50,7 +130,16 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
             <table className="table w-100 mb-5">
               <thead>
                 <tr>
-                  <td></td>
+                  <th className="">
+                    <div className="px-2">
+                      <Checkbox
+                        name={`bulk`}
+                        control={control}
+                        errors={errors}
+                        onChange={handleBulkChange}
+                      />
+                    </div>
+                  </th>
                   <th>Name</th>
                   <th>Email Address</th>
                   <th>Phone</th>
@@ -64,10 +153,19 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                   contactsData?.map((contact) => (
                     <tr>
                       <td>
+                        <div className="px-2">
+                          <Checkbox
+                            name={`contact-${contact.id}`}
+                            control={control}
+                            errors={errors}
+                            onChange={(e) => handleSingleChange(e, contact)}
+                          />
+                        </div>
+                      </td>
+                      {/* <td>
                         <div className="d-flex align-items-center">
                           <span className="contact-star marked">
                             <span className="feather-icon">
-                              {/* <i data-feather="star"></i> */}
                               {contact?.status === "important" ? (
                                 <FaStar
                                   onClick={() =>
@@ -84,7 +182,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                             </span>
                           </span>
                         </div>
-                      </td>
+                      </td> */}
                       <td className="d-flex">
                         <div className="media align-items-center">
                           <div className="media-head me-2">

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import TaskHeader from "./components/TaskHeader";
 import {
   DndContext,
@@ -7,6 +7,7 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  useDroppable,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -24,6 +25,7 @@ import { FaBell, FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import moment from "moment";
 import { MdAlternateEmail, MdOutlineSms } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
+import { first } from "lodash";
 
 const initialItems = {
   pending: [
@@ -52,6 +54,11 @@ const initialItems = {
   ],
 };
 
+const Droppable = ({ id, children }) => {
+  const { setNodeRef } = useDroppable({ id });
+
+  return <div ref={setNodeRef}>{children}</div>;
+};
 const SortableItem = ({ id, content, containerId }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
@@ -59,10 +66,6 @@ const SortableItem = ({ id, content, containerId }) => {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    // padding: "16px",
-    // margin: "0 0 8px 0",
-    // backgroundColor: "#fff",
-    // border: "1px solid lightgrey",
   };
 
   return (
@@ -116,57 +119,80 @@ const SortableItem = ({ id, content, containerId }) => {
   );
 };
 
+const DropZone = ({ containerId }) => {
+  return (
+    <div
+      style={{
+        minHeight: "50px",
+        border: "2px dashed lightgrey",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      data-container-id={containerId}
+    >
+      Drop here
+    </div>
+  );
+};
 const Column = ({ id, items }) => {
+  const [color, setColor] = useState(null);
   function getRandomColorFromList(colorList) {
     const randomIndex = Math.floor(Math.random() * colorList.length);
     return colorList[randomIndex];
   }
-  const colors = [
-    "red",
-    "green",
-    "blue",
-    "yellow",
-    "orange",
-    "purple",
-    "pink",
-    "teal",
-  ];
-  const randomColor = getRandomColorFromList(colors);
+
+  useMemo(() => {
+    const colors = [
+      "red",
+      "green",
+      "blue",
+      "yellow",
+      "orange",
+      "purple",
+      "pink",
+      "teal",
+    ];
+    const randomColor = getRandomColorFromList(colors);
+    setColor(randomColor);
+  }, []);
   return (
     <div className="col-md-3 shadow">
       <div
         className="card shadow mb-5"
-        style={{ borderTop: `5px solid ${randomColor}` }}
+        style={{ borderTop: `5px solid ${color}` }}
       >
         <div className="card-body">
           <h5 className="text-center ">{id}</h5>
         </div>
       </div>
-      {/* <h2>{id}</h2> */}
-      {items?.length > 0 && (
-        <SortableContext
-          items={items?.map((item) => item.id)}
-          strategy={verticalListSortingStrategy}
-        >
-          {items?.map((item) => (
-            <SortableItem
-              key={item?.id}
-              id={item?.id}
-              content={item}
-              containerId={id}
-            />
-          ))}
-        </SortableContext>
-      )}
+      <div style={{ minHeight: "150px" }}>
+        <Droppable id={id}>
+          <SortableContext
+            items={items?.map((item) => item.id) || []}
+            strategy={verticalListSortingStrategy}
+            id={id}
+          >
+            {items?.map((item) => (
+              <SortableItem
+                key={item?.id}
+                id={item?.id}
+                content={item}
+                containerId={id}
+              />
+            ))}
+            {/* {items.length === 0 && <DropZone id={id} />} */}
+          </SortableContext>
+        </Droppable>
+      </div>
     </div>
   );
 };
 
-const TasksContent = ({ token, contactsData, boardDetails }) => {
+const TasksContent = ({ token, contactsData, boardDetails, boardsData }) => {
   const [items, setItems] = useState(initialItems);
   const [data, setData] = useState({});
-  console.log("🚀 ~ TasksContent ~ data:", data);
-  const [contacts, setContacts] = useState();
+  const [contacts, setContacts] = useState(contactsData);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -180,9 +206,8 @@ const TasksContent = ({ token, contactsData, boardDetails }) => {
     const statusArray = boardDetails?.pipeline_status_array?.status_array;
     statusArray?.length > 0 &&
       statusArray?.map((status) => {
-        dataObj[status] = contacts?.filter(
-          (contact) => contact?.board_status === status
-        );
+        dataObj[status] =
+          contacts?.filter((contact) => contact?.board_status === status) || [];
       });
     setData(dataObj);
   }, [boardDetails, contacts]);
@@ -195,17 +220,8 @@ const TasksContent = ({ token, contactsData, boardDetails }) => {
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over) return;
-
-    // const source = Object.keys(data).find((key) =>
-    //   data[key].some((item) => item.id === active.id)
-    // );
-    // const destination = Object.keys(data).find((key) =>
-    //   data[key].some((item) => item.id === over.id)
-    // );
     const source = active.data.current.sortable.containerId;
-    console.log("🚀 ~ handleDragEnd ~ source:", source);
-    const destination = over.data.current.sortable.containerId;
-    console.log("🚀 ~ handleDragEnd ~ destination:", destination);
+    const destination = over.data.current?.sortable?.containerId || over.id;
     if (source === destination) {
       setData((data) => {
         const updatedItems = {
@@ -224,12 +240,12 @@ const TasksContent = ({ token, contactsData, boardDetails }) => {
         const destinationItems = [...data[destination]];
 
         const [movedItem] = sourceItems.splice(
-          sourceItems.findIndex((item) => item.id === active.id),
+          sourceItems?.findIndex((item) => item.id === active.id),
           1
         );
 
         destinationItems.splice(
-          destinationItems.findIndex((item) => item.id === over.id),
+          destinationItems?.findIndex((item) => item.id === over.id),
           0,
           movedItem
         );
@@ -241,15 +257,15 @@ const TasksContent = ({ token, contactsData, boardDetails }) => {
         };
       });
 
-      // dispatch(
-      //   updateContactRec(token, active.id, { board_status: destination })
-      // );
+      dispatch(
+        updateContactRec(token, active.id, { board_status: destination })
+      );
     }
   };
 
   return (
     <div>
-      <TaskHeader />
+      <TaskHeader boardsData={boardsData} />
       <div className="taskboard-body">
         <DndContext
           sensors={sensors}
@@ -257,7 +273,7 @@ const TasksContent = ({ token, contactsData, boardDetails }) => {
           onDragEnd={handleDragEnd}
         >
           <div
-            className="d-flex gap-5 bg-light p-3 card"
+            className="d-flex gap-5 p-3 card-body"
             style={{
               overflow: "scroll",
               scrollBehavior: "smooth",

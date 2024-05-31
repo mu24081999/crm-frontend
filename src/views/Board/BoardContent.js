@@ -14,7 +14,10 @@ import AddNewProjectTask from "./components/AddNewProjectTask";
 import { getTasksList } from "../../redux/services/project-task";
 import EditProjectTask from "./components/EditProjectTask";
 import Kanban from "./Kanban";
-import { getContactsList } from "../../redux/services/contact";
+import {
+  getContactsList,
+  getContactsListByBoard,
+} from "../../redux/services/contact";
 import { getUsers } from "../../redux/services/users";
 import _ from "lodash";
 
@@ -45,12 +48,11 @@ const BoardContent = () => {
     dispatch(getTasksList(token));
     dispatch(getContactsList(token));
     // dispatch(getContactsListByBoard(token, boardDetails?.id));
-  }, [token, dispatch]);
+  }, [token, dispatch, boardDetails]);
   useEffect(() => {
     const agentsData = users?.filter(
       (ur) => _.toInteger(ur.client_id) === user.id
     );
-    console.log(agentsData);
     setAgents(agentsData);
   }, [users, user]);
   useEffect(() => {
@@ -98,6 +100,7 @@ const BoardContent = () => {
                     tasksData={tasksData}
                     contactsData={contactsData}
                     boardDetails={boardDetails}
+                    boardsData={boardsData}
                     token={token}
                   />
                   // <Kanban />
@@ -105,11 +108,11 @@ const BoardContent = () => {
                 {!isShowTask && (
                   <>
                     <BoardHeader onToggle={handleToggleChange} />
-                    <div className="taskboard-body">
+                    <div className="">
                       <div data-simplebar className="nicescroll-bar">
-                        <div className="container-fluid">
+                        <div className="">
                           <div className="row justify-content-center board-team-wrap">
-                            <div className="col-md-8 col-sm-12">
+                            <div className="col-md-11 col-sm-12">
                               <BoardList
                                 toggleType={toggleType}
                                 boardsData={boardsData}

@@ -27,7 +27,7 @@ const Checkbox = React.forwardRef((props, ref) => {
         rules={props?.rules}
         defaultValue={defaultValue}
         render={({ field: { onChange, value } }) => (
-          <div className=" form-check form-check-sm mb-3 p-0">
+          <div className=" form-check form-check-md ">
             <label className="form-check-lable">{label}</label>
 
             <input
