@@ -27,6 +27,7 @@ const ContextProvider = ({ children }) => {
   const [call, setCall] = useState({});
   const [messagesArray, setMessagesArray] = useState([]);
   const [notificationsArray, setNotificationsArray] = useState([]);
+  const [contactsToModify, setContactsToModify] = useState([]);
   const [me, setMe] = useState("");
   const myVideo = useRef();
   const userVideo = useRef();
@@ -303,6 +304,7 @@ const ContextProvider = ({ children }) => {
         showUserDetails,
         messageError,
         notificationsArray,
+        contactsToModify,
         calling,
         readyForCall,
         readyForAudioCall,
@@ -314,6 +316,7 @@ const ContextProvider = ({ children }) => {
         handleToggleShowLeadDetail,
         handleToggleShowUserDetail,
         pushNotification,
+        setContactsToModify,
       }}
     >
       {children}

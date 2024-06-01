@@ -37,6 +37,31 @@ export const addContact = (token, data) => async (dispatch) => {
     dispatch(invalidRequest(e.message));
   }
 };
+export const addBulkContact = (token, data) => async (dispatch) => {
+  try {
+    dispatch(contactRequestLoading());
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    };
+    await axios
+      .post(`${backendURL}/user/contact/post-bulk-contacts`, data, config)
+      .then((response) => {
+        console.log("🚀 ~ .then ~ response:", response);
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          return dispatch(invalidRequest(response.data.message));
+        }
+        dispatch(postContact(response.data.message));
+        toast.success(response.data.message);
+        dispatch(getContactsList(token));
+      });
+  } catch (e) {
+    dispatch(invalidRequest(e.message));
+  }
+};
 export const getContactsListByBoard = (token, board_id) => async (dispatch) => {
   try {
     dispatch(contactRequestLoading());
@@ -135,12 +160,38 @@ export const updateContactRec =
           }
           dispatch(updateContact(response.data.message));
           dispatch(getContactsList(token));
-          toast.success(response.data.message);
+          // toast.success(response.data.message);
         });
     } catch (e) {
       dispatch(invalidRequest(e.message));
     }
   };
+export const updateBulkContactRec = (token, data) => async (dispatch) => {
+  console.log("🚀 ~ token, contact_id, data:", token, data);
+  try {
+    dispatch(contactRequestLoading());
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    };
+    await axios
+      .put(`${backendURL}/user/contact/contact-bulk-update`, data, config)
+      .then((response) => {
+        console.log("🚀 ~ .then ~ response:", response);
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          return dispatch(invalidRequest(response.data.message));
+        }
+        dispatch(updateContact(response.data.message));
+        dispatch(getContactsList(token));
+        toast.success(response.data.message);
+      });
+  } catch (e) {
+    dispatch(invalidRequest(e.message));
+  }
+};
 export const deleteContactRec = (token, contact_id) => async (dispatch) => {
   try {
     dispatch(contactRequestLoading());

@@ -4,26 +4,24 @@ import {
   deleteContactRec,
   getContactsList,
   permanentDeleteContactRec,
+  updateBulkContactRec,
   updateContactRec,
 } from "../../../redux/services/contact";
 import Loader from "../../../components/Loader/Loader";
-import {
-  FaArchive,
-  FaEdit,
-  FaRegStar,
-  FaSms,
-  FaStar,
-  FaTrash,
-} from "react-icons/fa";
+import { FaArchive, FaEdit, FaRegStar, FaTrash } from "react-icons/fa";
 import moment from "moment";
 import { SocketContext } from "../../../Context";
 import { ImBlocked } from "react-icons/im";
 import Checkbox from "../../../components/FormFields/checkboxField";
 import { useForm } from "react-hook-form";
-import { FaGripLinesVertical } from "react-icons/fa6";
 import { MdOutlineAttachEmail } from "react-icons/md";
-import { CiExport, CiImport } from "react-icons/ci";
-import InputField from "../../../components/FormFields/InputField";
+import { CiExport, CiFilter, CiImport } from "react-icons/ci";
+import { toast } from "react-toastify";
+import exportToCSV from "../../../components/Papaparse/exportCSV";
+import { HiOutlineQueueList } from "react-icons/hi2";
+import { LuArchive } from "react-icons/lu";
+import { LiaSmsSolid } from "react-icons/lia";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
   const {
@@ -33,16 +31,19 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
     setValue,
     formState: { errors },
   } = useForm({});
-  const { handleToggleShowLeadDetail } = useContext(SocketContext);
+  const { handleToggleShowLeadDetail, setContactsToModify, contactsToModify } =
+    useContext(SocketContext);
+  console.log("🚀 ~ ContactList ~ contactsToModify:", contactsToModify);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { isLoading } = useSelector((state) => state.contact);
-  const [updatedContacts, setContactsData] = useState([]);
+  const [searchInput, setSearchInput] = useState(null);
+  const [contacts, setContacts] = useState();
   useEffect(() => {
-    if (token) {
-      dispatch(getContactsList(token));
+    if (contactsData.length > 0) {
+      setContacts(contactsData);
     }
-  }, [dispatch, token]);
+  }, [contactsData]);
   const handleDeleteContact = (contact_id) => {
     dispatch(deleteContactRec(token, contact_id));
     onToggleEdit(false);
@@ -64,42 +65,167 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
       contactsData?.map((contact) => {
         return setValue(`contact-${contact.id}`, true);
       });
+      setContactsToModify(contactsData);
     } else {
       contactsData?.map((contact) => {
         return setValue(`contact-${contact.id}`, false);
       });
+      setContactsToModify([]);
     }
   };
-  const handleSingleChange = (event, contact) => {};
+  const handleSingleChange = (event, contact) => {
+    if (event.target.checked === true) {
+      setContactsToModify((prevArray) => [...prevArray, contact]);
+    } else {
+      setContactsToModify((prevArray) =>
+        prevArray.filter((cnt) => cnt.id !== contact.id)
+      );
+    }
+  };
+  const handleBulkImportant = () => {
+    if (contactsToModify?.length > 0) {
+      const modifiedArray = [];
 
+      contactsToModify?.map((contact) => {
+        modifiedArray.push({ ...contact, status: "important" });
+      });
+      const formData = {
+        updates: modifiedArray,
+        modify_key: "status",
+      };
+      dispatch(updateBulkContactRec(token, formData));
+    } else {
+      toast.error("Please select at least one contact.");
+    }
+  };
+  const handleBulkArchieved = () => {
+    if (contactsToModify?.length > 0) {
+      const modifiedArray = [];
+
+      contactsToModify?.map((contact) => {
+        modifiedArray.push({ ...contact, status: "archieved" });
+      });
+      const formData = {
+        updates: modifiedArray,
+        modify_key: "status",
+      };
+      dispatch(updateBulkContactRec(token, formData));
+    } else {
+      toast.error("Please select at least one contact.");
+    }
+  };
+  const handleFileExport = () => {
+    exportToCSV(contactsData, "contacts.csv");
+  };
+  const handleSearchInputChange = (event) => {
+    setSearchInput(event.target.value);
+  };
+  const handleSearchContact = () => {
+    const filterData = contactsData?.filter((contact) =>
+      contact.firstname.includes(searchInput)
+    );
+    console.log("🚀 ~ handleSearchContact ~ filterData:", filterData);
+    setContacts(filterData);
+  };
   return (
     <div className="contact-list-view">
       <div className="">
         <div className="p-2">
-          <div
-            class="btn-toolbar"
-            role="toolbar"
-            aria-label="Toolbar with button groups"
-          >
+          <div class="btn-toolbar" role="toolbar" aria-label="Add to pipeline">
+            <ReactTooltip
+              id="add_to_pipeline"
+              place="bottom"
+              content="Add to pipeline"
+            />
+            <ReactTooltip
+              id="add_to_important"
+              place="bottom"
+              content="Add to important"
+            />
+            <ReactTooltip
+              id="add_to_archive"
+              place="bottom"
+              content="Add to archive"
+            />{" "}
+            <ReactTooltip
+              id="send_sms_bulk"
+              place="bottom"
+              content="Send sms bulk"
+            />
+            <ReactTooltip
+              id="send_bulk_email"
+              place="bottom"
+              content="Send email bulk"
+            />
+            <ReactTooltip
+              id="import"
+              place="bottom"
+              content="Import contacts"
+            />
+            <ReactTooltip
+              id="export"
+              place="bottom"
+              content="Export contacts"
+            />
             <div className="d-flex justify-content-between w-100">
               <div className="d-flex gap-2 w-50">
-                <button type="button" class="btn btn-light btn-sm">
-                  <FaGripLinesVertical />
+                <button
+                  type="button"
+                  data-tooltip-id="add_to_pipeline"
+                  class="btn btn-light btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#edit-bulk-contact"
+                >
+                  <CiFilter size={15} />
                 </button>
-                <button type="button" class="btn btn-light btn-sm">
-                  <FaStar />
+                <button
+                  type="button"
+                  class="btn btn-light btn-sm"
+                  data-tooltip-id="add_to_important"
+                  onClick={handleBulkImportant}
+                >
+                  <FaRegStar size={14} />
                 </button>
-                <button type="button" class="btn btn-light btn-sm">
-                  <FaSms />
+                <button
+                  type="button"
+                  data-tooltip-id="add_to_archive"
+                  class="btn btn-light btn-sm"
+                  onClick={handleBulkArchieved}
+                >
+                  <LuArchive size={14} />
                 </button>
-                <button type="button" class="btn btn-light btn-sm">
-                  <MdOutlineAttachEmail />
+                <button
+                  type="button"
+                  class="btn btn-light btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#send-sms-bulk"
+                  data-tooltip-id="send_sms_bulk"
+                >
+                  <LiaSmsSolid size={14} />
                 </button>
-                <button type="button" class="btn btn-light btn-sm">
-                  <CiImport />
+                <button
+                  type="button"
+                  class="btn btn-light btn-sm"
+                  data-tooltip-id="send_bulk_email"
+                >
+                  <MdOutlineAttachEmail size={14} />
                 </button>
-                <button type="button" class="btn btn-light btn-sm">
-                  <CiExport />
+                <button
+                  type="button"
+                  data-tooltip-id="import"
+                  data-bs-toggle="modal"
+                  data-bs-target="#upload_contact_csv"
+                  class="btn btn-light btn-sm"
+                >
+                  <CiImport size={14} />
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-light btn-sm"
+                  data-tooltip-id="export"
+                  onClick={handleFileExport}
+                >
+                  <CiExport size={14} />
                 </button>
               </div>
               <div>
@@ -110,9 +236,14 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                     placeholder="Search Contact"
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon2"
+                    onChange={handleSearchInputChange}
                   />
                   <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="button">
+                    <button
+                      class="btn btn-outline-primary"
+                      type="button"
+                      onClick={handleSearchContact}
+                    >
                       Search
                     </button>
                   </div>
@@ -149,8 +280,8 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
               </thead>
 
               <tbody>
-                {contactsData?.length > 0 &&
-                  contactsData?.map((contact) => (
+                {contacts?.length > 0 &&
+                  contacts?.map((contact) => (
                     <tr>
                       <td>
                         <div className="px-2">
