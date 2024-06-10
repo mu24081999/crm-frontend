@@ -10,6 +10,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { TbCirclesRelation } from "react-icons/tb";
 import logo from "./../../assets/3.png";
 import Loader from "../../components/Loader/Loader";
+import { FaGoogle } from "react-icons/fa";
+import GoogleLoginButton from "../../components/Auth/GoogleAuth";
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -17,6 +19,15 @@ const SignIn = () => {
   const { isAuthenticated, isLoading, user } = useSelector(
     (state) => state.auth
   );
+  const handleSuccess = (response) => {
+    // Handle successful sign-in
+    console.log("Logged in successfully!", response);
+  };
+
+  const handleFailure = (error) => {
+    // Handle sign-in failure
+    console.error("Login failed:", error);
+  };
   const {
     handleSubmit,
     // watch,
@@ -83,6 +94,22 @@ const SignIn = () => {
                               <h4 className="mb-4 text-center">
                                 Sign in to your account
                               </h4>
+                              <div>
+                                <a
+                                  href="https://desktopcrm.com:51/v1/auth/google"
+                                  className="btn btn-outline-primary "
+                                >
+                                  <FaGoogle />
+                                </a>
+                              </div>
+                              <div>
+                                <h1>Welcome to My App</h1>
+                                <GoogleLoginButton
+                                  onSuccess={handleSuccess}
+                                  onFailure={handleFailure}
+                                />
+                              </div>
+
                               {isLoading === true ? (
                                 <Loader />
                               ) : (

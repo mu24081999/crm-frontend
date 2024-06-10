@@ -416,10 +416,6 @@ const Boards = ({ boardsData, onDataFromChild }) => {
                           <FaEdit />
                           Edit
                         </button>
-                        <a className="dropdown-item" href="/">
-                          <FaCopy />
-                          Copy Link
-                        </a>
                         <a
                           className="dropdown-item"
                           onClick={() => handleDelete(board.id)}

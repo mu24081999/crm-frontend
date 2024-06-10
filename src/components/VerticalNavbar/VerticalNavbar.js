@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import brand from "../../assets/2.png";
 import { Link, useLocation } from "react-router-dom";
 import { FaRegEnvelope, FaRegUser, FaWallet } from "react-icons/fa";
@@ -8,20 +8,54 @@ import { CiMenuFries, CiWallet } from "react-icons/ci";
 import { SiGmail } from "react-icons/si";
 import logo from "./../../assets/4.png";
 import { MdOutlineSubscriptions } from "react-icons/md";
-import { LuPhone, LuUsers } from "react-icons/lu";
+import { LuArrowRightToLine, LuPhone, LuUsers } from "react-icons/lu";
 import { RiContactsBook2Line, RiTodoLine } from "react-icons/ri";
 import { GoFileDirectory } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
 import { FaRegNoteSticky } from "react-icons/fa6";
 import { GrCheckboxSelected } from "react-icons/gr";
-import { PiUsersLight } from "react-icons/pi";
+import { BsApp } from "react-icons/bs";
 import { TbUsers } from "react-icons/tb";
-import { IoIosRecording } from "react-icons/io";
-import { TbListCheck } from "react-icons/tb";
+import { LuContact } from "react-icons/lu";
+import { SlPhone } from "react-icons/sl";
+import { LiaSmsSolid } from "react-icons/lia";
+import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
+import { TfiEmail } from "react-icons/tfi";
 
 const VerticalNavbar = () => {
   const { user } = useSelector((state) => state.auth);
+  const [verticalClick, setVerticalClick] = useState(false);
   const location = useLocation();
+  const handleMenuClick = () => {
+    setVerticalClick(true);
+    var hkMenu = document.getElementsByClassName("hk-menu")[0];
+    var navbarBrand = document.getElementsByClassName("navbar-brand")[0];
+    navbarBrand.style.visibility = "visible";
+    var navLink = document.getElementsByClassName("nav-link-text");
+    hkMenu.style.width = "270px";
+    navLink?.forEach((element) => {
+      element.style.visibility = "visible";
+    });
+    var hkWrapper = document.getElementsByClassName("hk-wrapper")[0];
+    hkWrapper.style.left = "200px";
+    var pageDiv = document.getElementsByClassName("hk-pg-wrapper")[0];
+    pageDiv.style.width = "80%";
+  };
+  const handleMenuClickAgain = () => {
+    setVerticalClick(false);
+    var hkMenu = document.getElementsByClassName("hk-menu")[0];
+    var navbarBrand = document.getElementsByClassName("navbar-brand")[0];
+    navbarBrand.style.visibility = "hidden";
+    var navLink = document.getElementsByClassName("nav-link-text");
+    hkMenu.style.width = "80px";
+    navLink?.forEach((element) => {
+      element.style.visibility = "hidden";
+    });
+    var hkWrapper = document.getElementsByClassName("hk-wrapper")[0];
+    hkWrapper.style.left = "100px";
+    var pageDiv = document.getElementsByClassName("hk-pg-wrapper")[0];
+    pageDiv.style.width = "90%";
+  };
   return (
     <div className="hk-menu">
       {/* <!-- Brand --> */}
@@ -41,7 +75,18 @@ const VerticalNavbar = () => {
               alt="brand"
             />
           </Link>
-          <button className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle">
+          {/* {verticalClick ? (
+            <button
+              className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle"
+              onClick={handleMenuClickAgain}
+            >
+              <LuArrowRightToLine />
+            </button>
+          ) : ( */}
+          <button
+            className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle"
+            onClick={handleMenuClick}
+          >
             <span className="icon">
               <span className="svg-icon fs-5">
                 <svg
@@ -65,6 +110,7 @@ const VerticalNavbar = () => {
               </span>
             </span>
           </button>
+          {/* )} */}
         </span>
       </div>
       {/* <!-- /Brand --> */}
@@ -437,6 +483,21 @@ const VerticalNavbar = () => {
                       <span className="nav-link-text">Contacts</span>
                     </Link>
                   </li>
+
+                  <li
+                    className={`nav-item ${
+                      location?.pathname === "/agents" && "active"
+                    }`}
+                  >
+                    <Link className="nav-link" to="/agents">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <MdSupportAgent />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Agents</span>
+                    </Link>
+                  </li>
                   <li
                     className={`nav-item ${
                       (location?.pathname === "/emails" ||
@@ -455,7 +516,7 @@ const VerticalNavbar = () => {
                           3
                         </span> */}
                         <span className="svg-icon">
-                          <SiGmail />
+                          <TfiEmail />
                         </span>
                       </span>
                       <span className="nav-link-text">Email</span>
@@ -471,42 +532,14 @@ const VerticalNavbar = () => {
                               <span className="nav-link-text">Emails</span>
                             </Link>
                           </li>
-                          {/* <li className="nav-item">
+                          <li className="nav-item">
                             <Link className="nav-link" to="/bulk-emails">
                               <span className="nav-link-text">Bulk Emails</span>
                             </Link>
-                          </li> */}
+                          </li>
                         </ul>
                       </li>
                     </ul>
-                  </li>
-                  <li
-                    className={`nav-item ${
-                      location?.pathname === "/agents" && "active"
-                    }`}
-                  >
-                    <Link className="nav-link" to="/agents">
-                      <span className="nav-icon-wrap">
-                        <span className="svg-icon">
-                          <MdSupportAgent />
-                        </span>
-                      </span>
-                      <span className="nav-link-text">Agents</span>
-                    </Link>
-                  </li>
-                  <li
-                    className={`nav-item ${
-                      location?.pathname === "/recordings" && "active"
-                    }`}
-                  >
-                    <Link className="nav-link" to="/recordings">
-                      <span className="nav-icon-wrap">
-                        <span className="svg-icon">
-                          <IoIosRecording />
-                        </span>
-                      </span>
-                      <span className="nav-link-text"> Recordings</span>
-                    </Link>
                   </li>
                   <li
                     className={`nav-item ${
@@ -530,24 +563,10 @@ const VerticalNavbar = () => {
                     <Link className="nav-link" to="/shop">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
-                          <LuPhone />
+                          <LuContact />
                         </span>
                       </span>
                       <span className="nav-link-text">Phone Numbers</span>
-                    </Link>
-                  </li>
-                  <li
-                    className={`nav-item ${
-                      location?.pathname === "/active-numbers" && "active"
-                    }`}
-                  >
-                    <Link className="nav-link" to="/active-numbers">
-                      <span className="nav-icon-wrap">
-                        <span className="svg-icon">
-                          <RiContactsBook2Line />
-                        </span>
-                      </span>
-                      <span className="nav-link-text">Active Numbers</span>
                     </Link>
                   </li>
                   <li
@@ -566,6 +585,223 @@ const VerticalNavbar = () => {
                   </li>
                   <li
                     className={`nav-item ${
+                      location?.pathname === "/invoices" && "active"
+                    }`}
+                  >
+                    <a
+                      className="nav-link"
+                      href="/"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#dash_invoice"
+                    >
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <LiaFileInvoiceDollarSolid />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Invoices</span>
+                    </a>
+                    <ul
+                      id="dash_invoice"
+                      className="nav flex-column collapse  nav-children"
+                    >
+                      <li className="nav-item">
+                        <ul className="nav flex-column">
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/invoices">
+                              <span className="nav-link-text">
+                                Invoice List
+                              </span>
+                            </Link>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    className={`nav-item ${
+                      (location?.pathname === "/recordings" ||
+                        location?.pathname === "/call-history" ||
+                        location?.pathname === "/active-numbers") &&
+                      "active"
+                    }`}
+                  >
+                    <a
+                      className="nav-link"
+                      href="/"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#voice_section"
+                    >
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <SlPhone />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Voice</span>
+                    </a>
+                    <ul
+                      id="voice_section"
+                      className="nav flex-column collapse  nav-children"
+                    >
+                      <li className="nav-item">
+                        <ul className="nav flex-column">
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/recordings">
+                              <span className="nav-link-text">
+                                Call Recordings
+                              </span>
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/call-history">
+                              <span className="nav-link-text">
+                                Call History
+                              </span>
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/active-numbers">
+                              <span className="nav-link-text">
+                                Active Numbers
+                              </span>
+                            </Link>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    className={`nav-item ${
+                      (location?.pathname === "/messages" ||
+                        location?.pathname === "/messages-bulk" ||
+                        location?.pathname === "/messages-logs") &&
+                      "active"
+                    }`}
+                  >
+                    <a
+                      className="nav-link"
+                      href="/"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#message_section"
+                    >
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <LiaSmsSolid />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Messages</span>
+                    </a>
+                    <ul
+                      id="message_section"
+                      className="nav flex-column collapse  nav-children"
+                    >
+                      <li className="nav-item">
+                        <ul className="nav flex-column">
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/messages">
+                              <span className="nav-link-text">
+                                Send Message
+                              </span>
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/messages-bulk">
+                              <span className="nav-link-text">
+                                Send Bulk Messages
+                              </span>
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/messages-logs">
+                              <span className="nav-link-text">
+                                Messages Logs
+                              </span>
+                            </Link>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    className={`nav-item ${
+                      (location?.pathname === "/calendar" ||
+                        location?.pathname === "/todos" ||
+                        location?.pathname === "/file-manager") &&
+                      "active"
+                    }`}
+                  >
+                    <a
+                      className="nav-link"
+                      href="/"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#other_section"
+                    >
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <BsApp />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Others</span>
+                    </a>
+                    <ul
+                      id="other_section"
+                      className="nav flex-column collapse  nav-children"
+                    >
+                      <li className="nav-item">
+                        <ul className="nav flex-column">
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/calendar">
+                              <span className="nav-link-text">Calendar</span>
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/todos">
+                              <span className="nav-link-text">Todos</span>
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link className="nav-link" to="/file-manager">
+                              <span className="nav-link-text">
+                                File Manager
+                              </span>
+                            </Link>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  {/* <li
+                    className={`nav-item ${
+                      location?.pathname === "/recordings" && "active"
+                    }`}
+                  >
+                    <Link className="nav-link" to="/recordings">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <IoIosRecording />
+                        </span>
+                      </span>
+                      <span className="nav-link-text"> Recordings</span>
+                    </Link>
+                  </li> */}
+
+                  {/* <li
+                    className={`nav-item ${
+                      location?.pathname === "/active-numbers" && "active"
+                    }`}
+                  >
+                    <Link className="nav-link" to="/active-numbers">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <RiContactsBook2Line />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Active Numbers</span>
+                    </Link>
+                  </li> */}
+
+                  {/* <li
+                    className={`nav-item ${
                       location?.pathname === "/messages-logs" && "active"
                     }`}
                   >
@@ -577,8 +813,8 @@ const VerticalNavbar = () => {
                       </span>
                       <span className="nav-link-text">Messages Logs</span>
                     </Link>
-                  </li>
-                  <li
+                  </li> */}
+                  {/* <li
                     className={`nav-item ${
                       (location?.pathname === "/messages" ||
                         location?.pathname === "/messages-bulk") &&
@@ -617,8 +853,8 @@ const VerticalNavbar = () => {
                         </ul>
                       </li>
                     </ul>
-                  </li>
-                  <li
+                  </li> */}
+                  {/* <li
                     className={`nav-item ${
                       location?.pathname === "/calendar" && "active"
                     }`}
@@ -650,8 +886,8 @@ const VerticalNavbar = () => {
                       </span>
                       <span className="nav-link-text">Calendar</span>
                     </Link>
-                  </li>
-                  <li
+                  </li> */}
+                  {/* <li
                     className={`nav-item ${
                       location?.pathname === "/todos" && "active"
                     }`}
@@ -678,60 +914,9 @@ const VerticalNavbar = () => {
                       </span>
                       <span className="nav-link-text">File Manager</span>
                     </Link>
-                  </li>
-                  <li
-                    className={`nav-item ${
-                      location?.pathname === "/invoices" && "active"
-                    }`}
-                  >
-                    <a
-                      className="nav-link"
-                      href="/"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#dash_invoice"
-                    >
-                      <span className="nav-icon-wrap">
-                        <span className="svg-icon">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="icon icon-tabler icon-tabler-file-digit"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            strokeWidth="2"
-                            stroke="currentColor"
-                            fill="none"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                            <rect x="9" y="12" width="3" height="5" rx="1" />
-                            <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-                            <path d="M15 12v5" />
-                          </svg>
-                        </span>
-                      </span>
-                      <span className="nav-link-text">Invoices</span>
-                    </a>
-                    <ul
-                      id="dash_invoice"
-                      className="nav flex-column collapse  nav-children"
-                    >
-                      <li className="nav-item">
-                        <ul className="nav flex-column">
-                          <li className="nav-item">
-                            <Link className="nav-link" to="/invoices">
-                              <span className="nav-link-text">
-                                Invoice List
-                              </span>
-                            </Link>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-                  <li
+                  </li> */}
+
+                  {/* <li
                     className={`nav-item ${
                       location?.pathname === "/call-history" && "active"
                     }`}
@@ -744,7 +929,7 @@ const VerticalNavbar = () => {
                       </span>
                       <span className="nav-link-text">Call History</span>
                     </Link>
-                  </li>
+                  </li> */}
                 </>
               )}
               {/* For Agents */}
@@ -979,7 +1164,7 @@ const VerticalNavbar = () => {
                       <IoSettingsOutline />
                     </span>
                   </span>
-                  <span className="nav-link-text">Account Settings</span>
+                  <span className="nav-link-text">Settings</span>
                 </Link>
               </li>
             </ul>

@@ -534,7 +534,7 @@ const TopNavbar = ({ notificationsData }) => {
                   >
                     <span
                       className="initial-wrap fw-bolder"
-                      style={{ fontSize: "14px" }}
+                      style={{ fontSize: "14px", width: "11px" }}
                     >
                       {_.toUpper(selectedAccount?.username?.slice(0, 1)) ||
                         _.toUpper(selectedAccount?.friendlyName?.slice(0, 1))}
