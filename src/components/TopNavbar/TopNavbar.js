@@ -309,6 +309,7 @@ const TopNavbar = ({ notificationsData }) => {
                 <Dialer />
               )}
             </li>
+
             <li className="nav-item">
               <div className="dropdown dropdown-notifications">
                 <a

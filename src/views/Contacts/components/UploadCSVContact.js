@@ -18,8 +18,7 @@ export const UploadCSVContact = ({ token, dispatch, authUser }) => {
   } = useForm({});
   const { contactsToModify } = useContext(SocketContext);
   const [data, setData] = useState([]);
-  console.log("🚀 ~ UploadCSVContact ~ data:", data);
-
+  const [file, setFile] = useState(null);
   const handleUploadCSV = () => {
     if (data?.length > 0) {
       dispatch(
@@ -31,10 +30,10 @@ export const UploadCSVContact = ({ token, dispatch, authUser }) => {
   };
   const handleFileChange = (event) => {
     const file = event.currentTarget.files[0];
-    console.log(file);
     if (file.type !== "text/csv") {
       return toast.error("Please select a CSV file.");
     }
+    setFile(file);
     Papa.parse(file, {
       header: true,
       complete: (results) => {
@@ -55,12 +54,16 @@ export const UploadCSVContact = ({ token, dispatch, authUser }) => {
         <div className="m-5">
           <div class="mb-4 d-flex justify-content-center p-5 border border-primary border-2 rounded-5">
             <div className="text-center">
-              <img
-                id="selectedImage"
-                src="https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118928_960_720.png"
-                alt="example placeholder"
-                style={{ width: "50px" }}
-              />
+              {file !== null ? (
+                <p>{file.name}</p>
+              ) : (
+                <img
+                  id="selectedImage"
+                  src="https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118928_960_720.png"
+                  alt="example placeholder"
+                  style={{ width: "50px" }}
+                />
+              )}
               <br />
               <br />
               <span>Upload CSV file</span>
@@ -77,6 +80,7 @@ export const UploadCSVContact = ({ token, dispatch, authUser }) => {
               <label class="form-label text-white m-1" for="customFile1">
                 Choose file
               </label>
+
               <input
                 type="file"
                 class="form-control d-none"

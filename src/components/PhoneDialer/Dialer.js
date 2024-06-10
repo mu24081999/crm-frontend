@@ -29,8 +29,7 @@ import ReactSelectField from "../FormFields/reactSelectField";
 import { BiDialpad, BiLoaderCircle, BiTransferAlt } from "react-icons/bi";
 import _ from "lodash";
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import { GoPlus } from "react-icons/go";
-
+import Loader from "../Loader/Loader";
 //Helpers
 const Timer = () => {
   const [timer, setTimer] = useState({ mins: 0, sec: 0 });
@@ -358,11 +357,12 @@ const Dialer = () => {
         }
         position="bottom right"
       >
+        {/* <div className="dropdown-menu dropdown-menu-end p-0"> */}
         <div style={{ padding: "1%", width: "290px", height: "450px" }}>
           {isDial && (
             <table id="dialer_table">
               <tr style={{ height: "50px" }}>
-                <div className="w-100 px-2 pt-1 d-flex">
+                <div className="w-100 px-2 pt-2 d-flex">
                   <div className="col-12">
                     <InputField
                       style={{ height: "50px", fontSize: "18px" }}
@@ -380,20 +380,26 @@ const Dialer = () => {
                     onClick={() => dialerClick("delete", "delete")}
                     style={{
                       right: "5%",
-                      top: "3%",
+                      top: "4%",
                       width: "max-content",
                     }}
                   >
-                    <LuDelete color="red" />
+                    <LuDelete color="teal" />
                   </div>
                 </div>
               </tr>
-              <tr class="dialer_num_tr">
-                <td class="dialer_num" onClick={() => dialerClick("dial", 1)}>
+              <tr className="dialer_num_tr pt-2">
+                <td
+                  className="dialer_num"
+                  onClick={() => dialerClick("dial", 1)}
+                >
                   <span>1</span>
                   <span className="fs-6 px-3"></span>
                 </td>
-                <td class="dialer_num" onClick={() => dialerClick("dial", 2)}>
+                <td
+                  className="dialer_num"
+                  onClick={() => dialerClick("dial", 2)}
+                >
                   2
                   <span
                     className=" px-2 text-light"
@@ -402,7 +408,10 @@ const Dialer = () => {
                     ABC
                   </span>
                 </td>
-                <td class="dialer_num" onClick={() => dialerClick("dial", 3)}>
+                <td
+                  className="dialer_num"
+                  onClick={() => dialerClick("dial", 3)}
+                >
                   3
                   <span
                     className=" px-2 text-light"
@@ -412,8 +421,11 @@ const Dialer = () => {
                   </span>
                 </td>
               </tr>
-              <tr class="dialer_num_tr">
-                <td class="dialer_num" onClick={() => dialerClick("dial", 4)}>
+              <tr className="dialer_num_tr">
+                <td
+                  className="dialer_num"
+                  onClick={() => dialerClick("dial", 4)}
+                >
                   4
                   <span
                     className=" px-2 text-light"
@@ -422,7 +434,10 @@ const Dialer = () => {
                     GHI
                   </span>
                 </td>
-                <td class="dialer_num" onClick={() => dialerClick("dial", 5)}>
+                <td
+                  className="dialer_num"
+                  onClick={() => dialerClick("dial", 5)}
+                >
                   5
                   <span
                     className=" px-2 text-light"
@@ -431,7 +446,10 @@ const Dialer = () => {
                     JKL
                   </span>
                 </td>
-                <td class="dialer_num" onClick={() => dialerClick("dial", 6)}>
+                <td
+                  className="dialer_num"
+                  onClick={() => dialerClick("dial", 6)}
+                >
                   6
                   <span
                     className=" px-2 text-light"
@@ -441,8 +459,11 @@ const Dialer = () => {
                   </span>
                 </td>
               </tr>
-              <tr class="dialer_num_tr">
-                <td class="dialer_num" onClick={() => dialerClick("dial", 7)}>
+              <tr className="dialer_num_tr">
+                <td
+                  className="dialer_num"
+                  onClick={() => dialerClick("dial", 7)}
+                >
                   7
                   <span
                     className=" px-1 text-light"
@@ -451,7 +472,10 @@ const Dialer = () => {
                     PQRS
                   </span>
                 </td>
-                <td class="dialer_num" onClick={() => dialerClick("dial", 8)}>
+                <td
+                  className="dialer_num"
+                  onClick={() => dialerClick("dial", 8)}
+                >
                   8
                   <span
                     className=" px-2 text-light"
@@ -460,7 +484,10 @@ const Dialer = () => {
                     TUV
                   </span>
                 </td>
-                <td class="dialer_num" onClick={() => dialerClick("dial", 9)}>
+                <td
+                  className="dialer_num"
+                  onClick={() => dialerClick("dial", 9)}
+                >
                   9
                   <span
                     className=" px-1 text-light"
@@ -470,64 +497,77 @@ const Dialer = () => {
                   </span>
                 </td>
               </tr>
-              <tr class="dialer_num_tr">
-                <td class="dialer_num" onClick={() => dialerClick("dial", "+")}>
+              <tr className="dialer_num_tr">
+                <td
+                  className="dialer_num"
+                  onClick={() => dialerClick("dial", "+")}
+                >
                   +<span className="px-2">,.:</span>
                 </td>
-                <td class="dialer_num" onClick={() => dialerClick("dial", 0)}>
+                <td
+                  className="dialer_num"
+                  onClick={() => dialerClick("dial", 0)}
+                >
                   0<span className="px-3"></span>
                 </td>
-                <td class="dialer_num" onClick={() => dialerClick("dial", "*")}>
+                <td
+                  className="dialer_num"
+                  onClick={() => dialerClick("dial", "*")}
+                >
                   <span className="fs-2">*</span>
                   <span className="px-3"></span>
                 </td>
               </tr>
               <tr className="mt-5 p-0">
                 <td colspan="3">
-                  <div>
-                    {isLoading ? (
-                      <BiLoaderCircle />
-                    ) : (
-                      <button
-                        className="btn btn-primary rounded-pill btn-lg"
-                        onClick={makeCall}
-                      >
-                        Call
-                      </button>
-                    )}
+                  <div className="d-flex py-3">
+                    {/* {user?.parent_id !== null && user?.client_id === null && ( */}
+                    <div className="w-100 mt-2 mb-2 px-2">
+                      <ReactSelectField
+                        name="my_numbers"
+                        placeholder="Call From"
+                        control={control}
+                        errors={errors}
+                        mb={true}
+                        options={
+                          claimedNumbers?.length > 0 &&
+                          user?.role === "USER" &&
+                          user.parent_id !== null &&
+                          user?.client_id === null
+                            ? claimedNumbers?.map((key, index) => {
+                                return {
+                                  label: key?.friendlyName,
+                                  value: key?.phoneNumber,
+                                };
+                              })
+                            : user?.role === "AGENT" &&
+                              user?.twilio_numbers?.numbers?.length > 0
+                            ? user?.twilio_numbers?.numbers?.map(
+                                (key, index) => {
+                                  return {
+                                    label: key?.friendlyName,
+                                    value: key?.phoneNumber,
+                                  };
+                                }
+                              )
+                            : []
+                        }
+                      />
+                    </div>
+                    {/* )} */}
+                    <div className="mt-2 pe-2">
+                      {isLoading ? (
+                        <Loader />
+                      ) : (
+                        <button
+                          className="btn btn-primary rounded-pill btn-lg"
+                          onClick={makeCall}
+                        >
+                          Call
+                        </button>
+                      )}
+                    </div>
                   </div>
-                  {/* {user?.parent_id !== null && user?.client_id === null && ( */}
-                  <div className="w-100 mt-2 mb-2">
-                    <ReactSelectField
-                      name="my_numbers"
-                      placeholder="Call From"
-                      control={control}
-                      errors={errors}
-                      mb={true}
-                      options={
-                        claimedNumbers?.length > 0 &&
-                        user?.role === "USER" &&
-                        user.parent_id !== null &&
-                        user?.client_id === null
-                          ? claimedNumbers?.map((key, index) => {
-                              return {
-                                label: key?.phoneNumber,
-                                value: key?.phoneNumber,
-                              };
-                            })
-                          : user?.role === "AGENT" &&
-                            user?.twilio_numbers?.numbers?.length > 0
-                          ? user?.twilio_numbers?.numbers?.map((key, index) => {
-                              return {
-                                label: key?.phoneNumber,
-                                value: key?.phoneNumber,
-                              };
-                            })
-                          : []
-                      }
-                    />
-                  </div>
-                  {/* )} */}
                 </td>
               </tr>
             </table>
@@ -571,8 +611,8 @@ const Dialer = () => {
                       }}
                     >
                       <div className="d-flex w-100 justify-content-between">
-                        <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
-                          <span class="initial-wrap">
+                        <div className="avatar avatar-sm avatar-primary position-relative avatar-rounded">
+                          <span className="initial-wrap">
                             {extractCharactersFromArray(contact.firstname)
                               .firstCharacter +
                               extractCharactersFromArray(contact.lastname)
@@ -706,7 +746,7 @@ const Dialer = () => {
                   <BiDialpad size={25} />
                 </button>
                 {/* 
-                <div class="dropdown" data-tooltip-id="add_call">
+                <div className="dropdown" data-tooltip-id="add_call">
                   <button
                     aria-expanded="false"
                     data-bs-toggle="dropdown"
@@ -715,12 +755,12 @@ const Dialer = () => {
                   >
                     <GoPlus size={25} />
                   </button>
-                  <div role="menu" class="dropdown-menu">
+                  <div role="menu" className="dropdown-menu">
                     {agents?.length > 0 ? (
                       agents?.map((agent, index) => (
                         <a
                           key={index}
-                          class="dropdown-item"
+                          className="dropdown-item"
                           href="#"
                           onClick={() => addPersonToCall(agent.username)}
                         >
@@ -732,7 +772,7 @@ const Dialer = () => {
                     )}
                   </div>
                 </div> */}
-                <div class="dropdown" data-tooltip-id="call_transfer">
+                <div className="dropdown" data-tooltip-id="call_transfer">
                   <button
                     aria-expanded="false"
                     data-bs-toggle="dropdown"
@@ -741,12 +781,12 @@ const Dialer = () => {
                   >
                     <BiTransferAlt size={25} />
                   </button>
-                  <div role="menu" class="dropdown-menu">
+                  <div role="menu" className="dropdown-menu">
                     {agents?.length > 0 ? (
                       agents?.map((agent, index) => (
                         <a
                           key={index}
-                          class="dropdown-item"
+                          className="dropdown-item"
                           href="#"
                           onClick={() => callTransfer(agent.username)}
                         >
@@ -843,7 +883,7 @@ const Dialer = () => {
                     borderStartStartRadius: "5px",
                     borderBottomLeftRadius: "5px",
                   }}
-                  class=" py-1 border-none btn-primary btn-md  w-50 "
+                  className=" py-1 border-none btn-primary btn-md  w-50 "
                   onClick={() => {
                     setShowCall(!showCall);
                     setIsDial(false);
@@ -862,7 +902,7 @@ const Dialer = () => {
                   borderStartStartRadius: "5px",
                   borderBottomLeftRadius: "5px",
                 }}
-                class=" py-1 border-none btn-primary btn-md  w-50 "
+                className=" py-1 border-none btn-primary btn-md  w-50 "
                 onClick={() => {
                   setIsDial(false);
                   setShowCall(false);
@@ -880,7 +920,7 @@ const Dialer = () => {
                 borderTopRightRadius: "5px",
                 borderBottomRightRadius: "5px",
               }}
-              class="py-1 border-none btn-primary btn-md w-50"
+              className="py-1 border-none btn-primary btn-md w-50"
               onClick={() => {
                 setIsDial(true);
                 setShowCall(false);
@@ -894,6 +934,7 @@ const Dialer = () => {
           </footer>
           {/* )} */}
         </div>
+        {/* </div> */}
       </Popup>
     </div>
   );

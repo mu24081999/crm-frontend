@@ -27,7 +27,14 @@ const DashboardContent = () => {
   return (
     <div>
       {/* <!-- Main Content --> */}
-      <div class="hk-pg-wrapper">
+      <div
+        class="hk-pg-wrapper"
+        style={{
+          maxHeight: "100vh",
+          overflow: "scroll",
+          scrollBehavior: "smooth",
+        }}
+      >
         <div class="container-xxl">
           {/* <!-- Page Header --> */}
           <div class="hk-pg-header pg-header-wth-tab pt-7">
