@@ -25,9 +25,9 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 const sslOptionsSub = {
-  key: fs.readFileSync("desktopcrm.key"),
-  cert: fs.readFileSync("desktopcrm_com.crt"),
-  ca: fs.readFileSync("desktopcrm_com.ca-bundle"),
+  // key: fs.readFileSync("desktopcrm.key"),
+  // cert: fs.readFileSync("desktopcrm_com.crt"),
+  // ca: fs.readFileSync("desktopcrm_com.ca-bundle"),
 };
 // Start HTTPS server
 https.createServer(sslOptionsSub, app).listen(443, () => {
