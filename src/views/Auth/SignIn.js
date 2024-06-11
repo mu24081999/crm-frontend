@@ -94,21 +94,21 @@ const SignIn = () => {
                               <h4 className="mb-4 text-center">
                                 Sign in to your account
                               </h4>
-                              <div>
+                              <div className="d-flex justify-content-center">
                                 <a
-                                  href="https://localhost:7000/v1/auth/google"
+                                  href="https://desktopcrm.com:51/v1/auth/google"
                                   className="btn btn-outline-primary "
                                 >
                                   <FaGoogle />
                                 </a>
                               </div>
-                              <div>
+                              {/* <div>
                                 <h1>Welcome to My App</h1>
                                 <GoogleLoginButton
                                   onSuccess={handleSuccess}
                                   onFailure={handleFailure}
                                 />
-                              </div>
+                              </div> */}
 
                               {isLoading === true ? (
                                 <Loader />
