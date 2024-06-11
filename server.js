@@ -22,7 +22,11 @@ app.use((req, res, next) => {
 
 // Handle all other requests
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  if (req.hostname === "app.desktopcrm.com") {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+  } else if (req.hostname === "desktopcrm.com") {
+    res.sendFile(path.join(__dirname, "build2", "index.html"));
+  }
 });
 const sslOptionsSub = {
   key: fs.readFileSync("desktopcrm.key"),
