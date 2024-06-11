@@ -96,7 +96,7 @@ const SignIn = () => {
                               </h4>
                               <div>
                                 <a
-                                  href="https://desktopcrm.com:51/v1/auth/google"
+                                  href="https://localhost:7000/v1/auth/google"
                                   className="btn btn-outline-primary "
                                 >
                                   <FaGoogle />
