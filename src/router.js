@@ -52,6 +52,7 @@ import Terms from "./views/Terms/Terms";
 import Balance from "./views/Balance/Balance";
 import CallHistory from "./views/CallHistory/CallHistory";
 import MessagesLogs from "./views/MessagesLogs/MessagesLogs";
+import GoogleAuth from "./views/Auth/GoogleAuth";
 
 // Define allowed roles for each route
 const roles = {
@@ -111,6 +112,10 @@ const router = (user, subscribed) => {
     {
       path: "/test",
       element: <Test />,
+    },
+    {
+      path: "/auth/google/callback",
+      element: <GoogleAuth />,
     },
     {
       path: "/terms-conditions",
