@@ -33,6 +33,3 @@ const sslOptionsSub = {
 https.createServer(sslOptionsSub, app).listen(443, () => {
   console.log("Server running...");
 });
-http.createServer(app).listen(80, () => {
-  console.log("Server running...");
-});
