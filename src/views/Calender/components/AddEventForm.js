@@ -78,7 +78,7 @@ const AddEventForm = ({
         break;
     }
     reset();
-    onDataFromChild();
+    // onDataFromChild();
     return {};
   };
   useEffect(() => {

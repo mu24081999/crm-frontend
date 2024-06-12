@@ -26,7 +26,7 @@ const App = () => {
   }, [dispatch, token]);
   return (
     <>
-      <ToastContainer />
+      <ToastContainer autoClose={1500} />
       <RouterProvider router={router(user, is_subscribed)} />;
     </>
   );

@@ -14,13 +14,13 @@ const GoogleAuth = () => {
     const sendDataToBackend = async () => {
       try {
         const response = await fetch(
-          "https://desktopcrm.com:51/v1/auth/google/callback",
+          `https://desktopcrm.com:51/v1/auth/google/callback?code=${queryParams.code}&scope=${queryParams.scope}&`,
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(queryParams),
+            // body: JSON.stringify(queryParams),
           }
         );
 

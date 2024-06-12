@@ -38,9 +38,8 @@ const AgentContent = () => {
     if (users?.length > 0) {
       const filteredData = users?.filter(
         (usr) =>
-          usr.status === "active" &&
-          usr.role === "AGENT" &&
-          _.toInteger(usr.client_id) === user.id
+          // usr.status === "active" &&
+          usr.role === "AGENT" && _.toInteger(usr.client_id) === user.id
       );
       const parent = users?.filter(
         (usr) => usr.id === _.toInteger(user?.parent_id)

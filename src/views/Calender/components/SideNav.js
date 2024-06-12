@@ -13,7 +13,6 @@ const SideNav = ({
   token,
   dispatch,
 }) => {
-  console.log("🚀 ~ eventsData:", eventsData);
   return (
     <nav className="calendarapp-sidebar">
       <div data-simplebar className="nicescroll-bar">

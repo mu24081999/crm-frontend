@@ -1,26 +1,29 @@
 import React, { useState } from "react";
 import brand from "../../assets/2.png";
 import { Link, useLocation } from "react-router-dom";
-import { FaRegEnvelope, FaRegUser, FaWallet } from "react-icons/fa";
-import { MdHistory, MdSupportAgent, MdSwapCalls } from "react-icons/md";
+import { FaRegEnvelope, FaRegUser } from "react-icons/fa";
+import { MdAddRoad, MdOutlineEmail, MdSupportAgent } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { CiMenuFries, CiWallet } from "react-icons/ci";
-import { SiGmail } from "react-icons/si";
+import { CiMenuFries } from "react-icons/ci";
 import logo from "./../../assets/4.png";
 import { MdOutlineSubscriptions } from "react-icons/md";
-import { LuArrowRightToLine, LuPhone, LuUsers } from "react-icons/lu";
-import { RiContactsBook2Line, RiTodoLine } from "react-icons/ri";
+import { LuUsers } from "react-icons/lu";
+import {
+  RiContactsBook2Line,
+  RiFilterLine,
+  RiTodoLine,
+  RiVoiceprintLine,
+} from "react-icons/ri";
 import { GoFileDirectory } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
-import { FaRegNoteSticky } from "react-icons/fa6";
+import { FaRegMessage, FaRegNoteSticky } from "react-icons/fa6";
 import { GrCheckboxSelected } from "react-icons/gr";
 import { BsApp } from "react-icons/bs";
-import { TbUsers } from "react-icons/tb";
+import { TbFileInvoice, TbUsers } from "react-icons/tb";
 import { LuContact } from "react-icons/lu";
-import { SlPhone } from "react-icons/sl";
-import { LiaSmsSolid } from "react-icons/lia";
-import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
-import { TfiEmail } from "react-icons/tfi";
+import { BiWallet } from "react-icons/bi";
+import { TiCogOutline } from "react-icons/ti";
+import { SiJfrogpipelines } from "react-icons/si";
 
 const VerticalNavbar = () => {
   const { user } = useSelector((state) => state.auth);
@@ -116,7 +119,11 @@ const VerticalNavbar = () => {
       {/* <!-- /Brand --> */}
 
       {/* <!-- Main Menu --> */}
-      <div data-simplebar className="nicescroll-bar">
+      <div
+        data-simplebar
+        className="nicescroll-bar"
+        style={{ marginTop: "-19%" }}
+      >
         <div className="menu-content-wrap">
           <div className="menu-gap"></div>
           <div className="menu-group">
@@ -516,7 +523,7 @@ const VerticalNavbar = () => {
                           3
                         </span> */}
                         <span className="svg-icon">
-                          <TfiEmail />
+                          <MdOutlineEmail />
                         </span>
                       </span>
                       <span className="nav-link-text">Email</span>
@@ -548,8 +555,12 @@ const VerticalNavbar = () => {
                   >
                     <Link className="nav-link" to="/projects-board">
                       <span className="nav-icon-wrap">
-                        <span className="svg-icon">
-                          <CiMenuFries />
+                        <span
+                          className="svg-icon"
+                          style={{ fontWeight: "bold", fontSize: "25px" }}
+                        >
+                          {/* <CiMenuFries /> */}
+                          <RiFilterLine />
                         </span>
                       </span>
                       <span className="nav-link-text">Leads Management</span>
@@ -577,7 +588,7 @@ const VerticalNavbar = () => {
                     <Link className="nav-link" to="/balance">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
-                          <CiWallet />
+                          <BiWallet />
                         </span>
                       </span>
                       <span className="nav-link-text">Wallet</span>
@@ -596,7 +607,7 @@ const VerticalNavbar = () => {
                     >
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
-                          <LiaFileInvoiceDollarSolid />
+                          <TbFileInvoice />
                         </span>
                       </span>
                       <span className="nav-link-text">Invoices</span>
@@ -634,7 +645,7 @@ const VerticalNavbar = () => {
                     >
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
-                          <SlPhone />
+                          <RiVoiceprintLine />
                         </span>
                       </span>
                       <span className="nav-link-text">Voice</span>
@@ -645,17 +656,17 @@ const VerticalNavbar = () => {
                     >
                       <li className="nav-item">
                         <ul className="nav flex-column">
-                          <li className="nav-item">
+                          {/* <li className="nav-item">
                             <Link className="nav-link" to="/recordings">
                               <span className="nav-link-text">
                                 Call Recordings
                               </span>
                             </Link>
-                          </li>
+                          </li> */}
                           <li className="nav-item">
                             <Link className="nav-link" to="/call-history">
                               <span className="nav-link-text">
-                                Call History
+                                Call History and Recordings
                               </span>
                             </Link>
                           </li>
@@ -685,8 +696,14 @@ const VerticalNavbar = () => {
                       data-bs-target="#message_section"
                     >
                       <span className="nav-icon-wrap">
-                        <span className="svg-icon">
-                          <LiaSmsSolid />
+                        <span
+                          className="svg-icon"
+                          style={{
+                            fontSize: "20px",
+                            paddingInlineStart: "2px",
+                          }}
+                        >
+                          <FaRegMessage />
                         </span>
                       </span>
                       <span className="nav-link-text">Messages</span>
@@ -737,8 +754,14 @@ const VerticalNavbar = () => {
                       data-bs-target="#other_section"
                     >
                       <span className="nav-icon-wrap">
-                        <span className="svg-icon">
-                          <BsApp />
+                        <span
+                          className="svg-icon"
+                          style={{
+                            fontSize: "22px",
+                            paddingInlineStart: "1px",
+                          }}
+                        >
+                          <MdAddRoad />
                         </span>
                       </span>
                       <span className="nav-link-text">Others</span>
@@ -1161,7 +1184,7 @@ const VerticalNavbar = () => {
                 <Link className="nav-link" to="/account-settings">
                   <span className="nav-icon-wrap">
                     <span className="svg-icon">
-                      <IoSettingsOutline />
+                      <TiCogOutline />
                     </span>
                   </span>
                   <span className="nav-link-text">Settings</span>

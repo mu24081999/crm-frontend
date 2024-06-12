@@ -13,7 +13,7 @@ const Header = () => {
             // aria-haspopup="true"
             // aria-expanded="false"
           >
-            <h1>Call History</h1>
+            <h1>Call History and Recording</h1>
           </a>
         </div>
       </div>

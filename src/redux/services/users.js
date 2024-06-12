@@ -81,6 +81,30 @@ export const deleteUserRec = (token, user_id) => async (dispatch) => {
     dispatch(invalidRequest(e.message));
   }
 };
+export const permanentDeleteUserRec = (token, user_id) => async (dispatch) => {
+  try {
+    dispatch(userRequestLoading());
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    };
+    await axios
+      .delete(`${backendURL}/user/permanent-delete-user/${user_id}`, config)
+      .then((response) => {
+        console.log("🚀 ~ .then ~ response:", response);
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          return dispatch(invalidRequest(response.data.message));
+        }
+        dispatch(deleteUser(response.data.message));
+        dispatch(getUsers(token));
+      });
+  } catch (e) {
+    dispatch(invalidRequest(e.message));
+  }
+};
 export const addUserRec = (token, registerData) => async (dispatch) => {
   try {
     dispatch(userRequestLoading());

@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 import { Device } from "twilio-client";
 import {
   getAllClaimedNumbers,
-  resumeCallRecording,
   transferCall,
   addConfressCall,
   updateBalanceAfterCall,
@@ -248,6 +247,7 @@ const Dialer = () => {
       setIsDial(true);
       setShowContacts(false);
       setUserState("READY");
+      setAlertMessage(null);
     }
   };
   const handleAcceptCall = () => {
@@ -639,7 +639,9 @@ const Dialer = () => {
             <div style={{ height: "407px" }}>
               <div className="w-100 pb-2">
                 {alertMessage !== null && (
-                  <p className="badge w-100 bg-warning">{alertMessage}</p>
+                  <p className="badge w-100 bg-light text-dark">
+                    {alertMessage}
+                  </p>
                 )}
               </div>
               <div>
@@ -663,7 +665,7 @@ const Dialer = () => {
               )}
 
               <div
-                className="d-flex justify-content-center flex-wrap gap-5
+                className="
             "
               >
                 <ReactTooltip
@@ -697,54 +699,84 @@ const Dialer = () => {
                   content="Add Person in the call"
                 />
                 <ReactTooltip id="dialpad" place="bottom" content="Dialpad" />
-                {callMuted === false ? (
+                <div className="d-flex justify-content-center gap-3 pt-3">
+                  {callMuted === false ? (
+                    <button
+                      className="btn p-3 btn-light rounded"
+                      data-tooltip-id="off_mic"
+                      onClick={muteCall}
+                    >
+                      <CiMicrophoneOff size={28} />
+                    </button>
+                  ) : (
+                    <button
+                      className="btn p-3 btn-light rounded"
+                      onClick={unmuteCall}
+                      data-tooltip-id="on_mic"
+                    >
+                      <CiMicrophoneOn size={28} />
+                    </button>
+                  )}
+                  {recording === true ? (
+                    <button
+                      className="btn p-3 btn-light rounded"
+                      data-tooltip-id="off_record"
+                      onClick={pauseRecording}
+                    >
+                      <PiRecordFill size={25} />
+                    </button>
+                  ) : (
+                    <button
+                      className="btn p-3 btn-light rounded"
+                      data-tooltip-id="on_record"
+                      onClick={resumeRecording}
+                    >
+                      {" "}
+                      <PiRecordFill size={25} />
+                    </button>
+                  )}
+                </div>
+                <div className="d-flex justify-content-center gap-3 pt-3">
                   <button
-                    className="btn p-3 btn-light rounded-circle"
-                    data-tooltip-id="off_mic"
-                    onClick={muteCall}
-                  >
-                    <CiMicrophoneOff size={28} />
-                  </button>
-                ) : (
-                  <button
-                    className="btn p-3 btn-light rounded-circle"
-                    onClick={unmuteCall}
-                    data-tooltip-id="on_mic"
-                  >
-                    <CiMicrophoneOn size={28} />
-                  </button>
-                )}
-                {recording === true ? (
-                  <button
-                    className="btn p-3 btn-light rounded-circle"
-                    data-tooltip-id="off_record"
-                    onClick={pauseRecording}
-                  >
-                    <PiRecordFill size={25} />
-                  </button>
-                ) : (
-                  <button
-                    className="btn p-3 btn-light rounded-circle"
-                    data-tooltip-id="on_record"
-                    onClick={resumeRecording}
+                    className="btn p-3 btn-light rounded"
+                    data-tooltip-id="dialpad"
+                    onClick={() => {
+                      setIsDial(true);
+                      setShowCall(false);
+                      setShowContacts(false);
+                      // setUserState("READY");
+                    }}
                   >
                     {" "}
-                    <PiRecordFill size={25} />
+                    <BiDialpad size={25} />
                   </button>
-                )}
-                <button
-                  className="btn p-3 btn-light rounded-circle"
-                  data-tooltip-id="dialpad"
-                  onClick={() => {
-                    setIsDial(true);
-                    setShowCall(false);
-                    setShowContacts(false);
-                    // setUserState("READY");
-                  }}
-                >
-                  {" "}
-                  <BiDialpad size={25} />
-                </button>
+                  <div className="dropdown" data-tooltip-id="call_transfer">
+                    <button
+                      aria-expanded="false"
+                      data-bs-toggle="dropdown"
+                      className="btn p-3 btn-light rounded "
+                      type="button"
+                    >
+                      <BiTransferAlt size={25} />
+                    </button>
+                    <div role="menu" className="dropdown-menu">
+                      {agents?.length > 0 ? (
+                        agents?.map((agent, index) => (
+                          <a
+                            key={index}
+                            className="dropdown-item"
+                            href="#"
+                            onClick={() => callTransfer(agent.username)}
+                          >
+                            {agent.name}({agent.username})
+                          </a>
+                        ))
+                      ) : (
+                        <li>No Agents data found.</li>
+                      )}
+                    </div>
+                  </div>
+                </div>
                 {/* 
                 <div className="dropdown" data-tooltip-id="add_call">
                   <button
@@ -772,32 +804,7 @@ const Dialer = () => {
                     )}
                   </div>
                 </div> */}
-                <div className="dropdown" data-tooltip-id="call_transfer">
-                  <button
-                    aria-expanded="false"
-                    data-bs-toggle="dropdown"
-                    className="btn p-3 btn-light rounded-circle "
-                    type="button"
-                  >
-                    <BiTransferAlt size={25} />
-                  </button>
-                  <div role="menu" className="dropdown-menu">
-                    {agents?.length > 0 ? (
-                      agents?.map((agent, index) => (
-                        <a
-                          key={index}
-                          className="dropdown-item"
-                          href="#"
-                          onClick={() => callTransfer(agent.username)}
-                        >
-                          {agent.name}({agent.username})
-                        </a>
-                      ))
-                    ) : (
-                      <li>No Agents data found.</li>
-                    )}
-                  </div>
-                </div>
+
                 {/* <Popup
                   trigger={
                     <button
@@ -883,7 +890,7 @@ const Dialer = () => {
                     borderStartStartRadius: "5px",
                     borderBottomLeftRadius: "5px",
                   }}
-                  className=" py-1 border-none btn-primary btn-md  w-50 "
+                  className=" py-1 border-none btn-primary btn-md btn-block "
                   onClick={() => {
                     setShowCall(!showCall);
                     setIsDial(false);
@@ -896,41 +903,43 @@ const Dialer = () => {
               </>
             )}
             {userState !== "ON_CALL" && (
-              <button
-                type="button"
-                style={{
-                  borderStartStartRadius: "5px",
-                  borderBottomLeftRadius: "5px",
-                }}
-                className=" py-1 border-none btn-primary btn-md  w-50 "
-                onClick={() => {
-                  setIsDial(false);
-                  setShowCall(false);
-                  setShowContacts(true);
-                  setUserState("READY");
-                }}
-              >
-                <MdOutlineContacts />
-                &nbsp; Contacts
-              </button>
+              <>
+                <button
+                  type="button"
+                  style={{
+                    borderStartStartRadius: "5px",
+                    borderBottomLeftRadius: "5px",
+                  }}
+                  className=" py-1 border-none btn-primary btn-md  w-50 "
+                  onClick={() => {
+                    setIsDial(false);
+                    setShowCall(false);
+                    setShowContacts(true);
+                    setUserState("READY");
+                  }}
+                >
+                  <MdOutlineContacts />
+                  &nbsp; Contacts
+                </button>
+                <button
+                  type="button"
+                  style={{
+                    borderTopRightRadius: "5px",
+                    borderBottomRightRadius: "5px",
+                  }}
+                  className="py-1 border-none btn-primary btn-md w-50"
+                  onClick={() => {
+                    setIsDial(true);
+                    setShowCall(false);
+                    setShowContacts(false);
+                    // setUserState("READY");
+                  }}
+                >
+                  <IoIosKeypad className="mb-1" />
+                  &nbsp; Dial
+                </button>
+              </>
             )}
-            <button
-              type="button"
-              style={{
-                borderTopRightRadius: "5px",
-                borderBottomRightRadius: "5px",
-              }}
-              className="py-1 border-none btn-primary btn-md w-50"
-              onClick={() => {
-                setIsDial(true);
-                setShowCall(false);
-                setShowContacts(false);
-                // setUserState("READY");
-              }}
-            >
-              <IoIosKeypad className="mb-1" />
-              &nbsp; Dial
-            </button>
           </footer>
           {/* )} */}
         </div>

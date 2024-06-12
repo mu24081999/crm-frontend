@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { FaTrash, FaUserCheck, FaUserClock } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { SocketContext } from "../../../Context";
+import { MdBlockFlipped } from "react-icons/md";
 
 const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
   const { users } = useSelector((state) => state.user);
@@ -121,7 +122,7 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
                       {/* <i data-feather="trash-2"></i> */}
-                      <FaTrash />
+                      <MdBlockFlipped />
                     </span>
                   </span>
                   <span className="nav-link-text">Blocked</span>

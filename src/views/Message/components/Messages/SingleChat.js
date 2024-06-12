@@ -780,7 +780,7 @@ const SingleChat = ({
                     </div>
                   </div>
                 </div>
-                <div class="card">
+                {/* <div class="card">
                   <div class="card-header">
                     <a
                       role="button"
@@ -832,8 +832,8 @@ const SingleChat = ({
                       </ul>
                     </div>
                   </div>
-                </div>
-                <div class="card">
+                </div> */}
+                {/* <div class="card">
                   <div class="card-header">
                     <a
                       role="button"
@@ -881,7 +881,7 @@ const SingleChat = ({
                       </a>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <div class="tab-pane fade" id="tab_files">

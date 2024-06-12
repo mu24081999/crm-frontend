@@ -1,25 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  deleteContactRec,
-  getContactDetais,
   getContactsList,
-  updateContactRec,
+  permanentDeleteContactRec,
 } from "../../../redux/services/contact";
 import Loader from "../../../components/Loader/Loader";
-import {
-  FaArchive,
-  FaArrowDown,
-  FaCopy,
-  FaEdit,
-  FaRegStar,
-  FaStar,
-  FaTrash,
-} from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import moment from "moment";
-import { Link } from "react-router-dom";
 import { SocketContext } from "../../../Context";
-import { deleteUserRec, updateUserRec } from "../../../redux/services/users";
+import {
+  deleteUserRec,
+  permanentDeleteUserRec,
+  updateUserRec,
+} from "../../../redux/services/users";
+import { MdBlockFlipped } from "react-icons/md";
 
 const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
   const { handleToggleShowUserDetail } = useContext(SocketContext);
@@ -33,6 +27,10 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
   }, [dispatch, token]);
   const handleDeleteContact = (contact_id) => {
     dispatch(deleteUserRec(token, contact_id));
+    onToggleEdit(false);
+  };
+  const handlePermanentDeleteContact = (contact_id) => {
+    dispatch(permanentDeleteUserRec(token, contact_id));
     onToggleEdit(false);
   };
   const handleToggle = (user_id) => {
@@ -57,10 +55,7 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                 <tr>
                   <th>Name</th>
                   <th>Email Address</th>
-                  {/* <th>Role</th>
-                  <th>Tags</th> */}
                   <th>Status</th>
-                  {/* <th>Socket ID</th> */}
                   <th>Date Created</th>
                   <th>Actions</th>
                 </tr>
@@ -174,10 +169,22 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                               <span className="icon">
                                 <span className="feather-icon">
                                   {/* <i data-feather="trash"></i> */}
-                                  <FaTrash />
+                                  <MdBlockFlipped fontSize={20} />
                                 </span>
                               </span>
                             </button>
+                            {/* <button
+                              className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
+                              onClick={() =>
+                                handlePermanentDeleteContact(contact.id)
+                              }
+                            >
+                              <span className="icon">
+                                <span className="feather-icon">
+                                  <FaTrash />
+                                </span>
+                              </span>
+                            </button> */}
                           </div>
                           {/* <div className="dropdown">
                             <button

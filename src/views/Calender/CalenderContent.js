@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Calender from "../../components/Calender/Calender";
 import AddEventForm from "./components/AddEventForm";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,11 +11,11 @@ import SideNav from "./components/SideNav";
 const CalenderContent = () => {
   const dispatch = useDispatch();
   const [eventsData, setEventsData] = useState([]);
+  console.log("🚀 ~ CalenderContent ~ eventsData:", eventsData);
   const [upcomingData, setUpcomingData] = useState([]);
   const [eventDetailRight, setEventDetailRight] = useState("-370px");
   const { token, user } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
-  const [agents, setAgents] = useState([]);
   const { events, isLoading, eventDetails } = useSelector(
     (state) => state.calendar_event
   );
@@ -23,7 +23,7 @@ const CalenderContent = () => {
     dispatch(getEventsList(token));
     dispatch(getUsers(token));
   }, [token, dispatch]);
-  useEffect(() => {
+  useMemo(() => {
     const data = [];
     events?.length > 0 &&
       events?.map((event, index) => {
@@ -54,10 +54,8 @@ const CalenderContent = () => {
       const itemDate = new Date(item.created_at);
       return itemDate >= startDate && itemDate <= endDate;
     });
-
     // Use the filtered data as needed
     setUpcomingData(filteredData);
-
     setEventsData(data);
   }, [events]);
   const handleDataFromChild = () => {

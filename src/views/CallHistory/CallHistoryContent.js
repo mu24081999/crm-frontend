@@ -23,16 +23,12 @@ const CallHistoryContent = () => {
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [phoneNumbers_, setPhoneNumbers_] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
-  const [isSearch, setIsSearch] = useState(false);
-  const { contacts } = useSelector((state) => state.contact);
-  const { availableNumbers, recordings } = useSelector(
+  const { availableNumbers, callLogs, recordings } = useSelector(
     (state) => state.calling
   );
   const { token, accountSid, accountAuthToken } = useSelector(
     (state) => state.auth
   );
-  const { callLogs, isLoading } = useSelector((state) => state.calling);
-
   const dispatch = useDispatch();
   useMemo(() => {
     dispatch(
@@ -42,35 +38,22 @@ const CallHistoryContent = () => {
       })
     );
   }, [token, dispatch, accountAuthToken, accountSid]);
+
   useEffect(() => {
     if (callLogs.length > 0) {
       setData(callLogs);
     }
-  }, [callLogs]);
+  }, [callLogs, recordings]);
   useEffect(() => {
     if (availableNumbers.length > 0) {
       setPhoneNumbers(availableNumbers);
       setPhoneNumbers_(availableNumbers);
     }
   }, [availableNumbers]);
-  useEffect(() => {
-    // dispatch(getAvailableNumbers(token));
-    dispatch(
-      recordingsList(token, {
-        accountSid: accountSid,
-        authToken: accountAuthToken,
-      })
-    );
-  }, [dispatch, token, accountSid, accountAuthToken]);
-  const handleReceiveData = (receivedData) => {
-    setData(receivedData);
-  };
   const handleToggleEdit = (value) => {
     setIsEdit(value);
   };
-  const handleNumbersDataFromChild = (data) => {
-    setIsSearch(data);
-  };
+
   return (
     <div className="hk-pg-wrapper pb-0">
       {/* <!-- Page Body --> */}

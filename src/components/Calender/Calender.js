@@ -81,6 +81,7 @@ import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment";
 import { getEventDetails } from "../../redux/services/calendar_event";
+import Loader from "../Loader/Loader";
 // import { INITIAL_EVENTS, createEventId } from "./event-utils";
 
 let eventGuid = 0;
@@ -153,12 +154,16 @@ export default function Calendar({
     console.log("🚀 ~ handleEvents ~ events:", currentEvents);
   }
   function renderEventContent(eventInfo) {
+    console.log(
+      "🚀 ~ renderEventContent ~ eventInfo:",
+      eventInfo.event.backgroundColor
+    );
     return (
       <div
         className="fc-event-title d-flex rounded-3 gap-2 p-1"
         style={{
           backgroundColor: eventInfo.event.backgroundColor,
-          color: "white",
+          color: "black",
         }}
       >
         {eventInfo.timeText}
@@ -177,7 +182,9 @@ export default function Calendar({
       /> */}
       <div className="demo-app-main">
         {isLoading ? (
-          <div>Loading...</div>
+          <div>
+            <Loader />
+          </div>
         ) : (
           <FullCalendar
             plugins={[

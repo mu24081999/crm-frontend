@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteContactRec,
-  getContactDetais,
-  getContactsList,
-} from "../../../redux/services/contact";
+import { getContactsList } from "../../../redux/services/contact";
 import Loader from "../../../components/Loader/Loader";
-import { FaStar } from "react-icons/fa";
 import { getUsers } from "../../../redux/services/users";
 import moment from "moment/moment";
 
@@ -40,6 +35,7 @@ const RecordingList = ({ isEdit, recordingsData }) => {
                   <th>Status</th>
                   <th>Duration</th>
                   <th>Direction</th>
+                  <th>Recording</th>
                 </tr>
               </thead>
 
@@ -48,19 +44,24 @@ const RecordingList = ({ isEdit, recordingsData }) => {
                   recordingsData?.map((recording) => (
                     <tr>
                       <td>
-                        {moment(recording?.dateCreated).format(
+                        {moment(recording?.call?.dateCreated).format(
                           "HH:mm:ss YYYY-MM-DD"
                         )}
                       </td>
-                      <td>{recording?.from}</td>
-                      <td>{recording?.to}</td>
-                      <td>{recording?.status}</td>
-                      <td>{recording?.duration} sec</td>
+                      <td>{recording?.call?.from}</td>
+                      <td>{recording?.call?.to}</td>
+                      <td>{recording?.call?.status}</td>
+                      <td>{recording?.call?.duration} sec</td>
+                      <td>{recording?.call?.direction}</td>
                       <td>
-                        {recording?.direction}
-                        {/* <audio controls>
-                          <source src={recording?.mediaUrl} type="audio/mpeg" />
-                        </audio> */}
+                        {recording?.recording?.mediaUrl && (
+                          <audio controls>
+                            <source
+                              src={recording?.recording?.mediaUrl}
+                              type="audio/x-wav"
+                            />
+                          </audio>
+                        )}
                       </td>
                     </tr>
                   ))}
