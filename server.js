@@ -5,11 +5,18 @@ const fs = require("fs");
 const path = require("path");
 const passport = require("passport");
 const app = express();
+const session = require("express-session");
 var GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 // Serve static files from the 'build' directory for all hostnames
 // app.use(express.static(path.join(__dirname, "build")));
-
+app.use(
+  session({
+    secret: "12345678",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 // Serve static files only for app.desktopcrm.com
 app.use((req, res, next) => {
   if (req.hostname === "app.desktopcrm.com") {
