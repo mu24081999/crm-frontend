@@ -34,6 +34,7 @@ app.get("*", (req, res, next) => {
   }
 });
 app.get("/auth/google/callback", (req, res) => {
+  console.log("🚀 ~ app.get ~ req:", req.url, req.params);
   console.log("yes");
   passport.authenticate(
     "google",

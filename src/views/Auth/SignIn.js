@@ -95,13 +95,13 @@ const SignIn = () => {
                                 Sign in to your account
                               </h4>
 
-                              {/* <div>
+                              <div>
                                 <h1>Welcome to My App</h1>
                                 <GoogleLoginButton
                                   onSuccess={handleSuccess}
                                   onFailure={handleFailure}
                                 />
-                              </div> */}
+                              </div>
 
                               {isLoading === true ? (
                                 <Loader />
