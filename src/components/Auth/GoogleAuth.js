@@ -31,7 +31,6 @@ const GoogleLoginButton = ({ onSuccess, onFailure }) => {
           console.log("Login Failed");
         }}
       />
-      ;
     </GoogleOAuthProvider>
   );
 };
