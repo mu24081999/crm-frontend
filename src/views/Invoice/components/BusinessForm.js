@@ -12,7 +12,9 @@ const BusinessForm = ({ onDataFromChild }) => {
     formState: { errors },
   } = useForm({});
   const handleAddBusinessForm = (data) => {
+    const closeElement = document.getElementById("close_business");
     onDataFromChild(data);
+    closeElement.click();
     return {};
   };
   return (
@@ -89,6 +91,7 @@ const BusinessForm = ({ onDataFromChild }) => {
 
               <div className="modal-footer align-items-center">
                 <button
+                  id="close_business"
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"

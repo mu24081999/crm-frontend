@@ -167,7 +167,6 @@ export const updateContactRec =
     }
   };
 export const updateBulkContactRec = (token, data) => async (dispatch) => {
-  console.log("🚀 ~ token, contact_id, data:", token, data);
   try {
     dispatch(contactRequestLoading());
     const config = {

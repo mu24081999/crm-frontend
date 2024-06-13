@@ -113,10 +113,10 @@ const router = (user, subscribed) => {
       path: "/test",
       element: <Test />,
     },
-    {
-      path: "/auth/google/callback",
-      element: <GoogleAuth />,
-    },
+    // {
+    //   path: "/auth/google/callback",
+    //   element: <GoogleAuth />,
+    // },
     {
       path: "/terms-conditions",
       element: <Terms />,

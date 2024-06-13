@@ -837,7 +837,7 @@ const CreateInvoice = ({
                     </div>
                   </div>
                 </div>
-                <div className="row mt-5">
+                {/* <div className="row mt-5">
                   <div className="col-sm">
                     <form className="form-inline p-3 bg-grey-light-5 rounded">
                       <div className="row gx-3 align-items-center">
@@ -871,7 +871,7 @@ const CreateInvoice = ({
                       </div>
                     </form>
                   </div>
-                </div>
+                </div> */}
                 <div className="table-wrap mt-5">
                   <div className="invoice-table-wrap">
                     <table className="table table-bordered invoice-table">
@@ -1265,10 +1265,6 @@ const CreateInvoice = ({
                   </a>
                 </div>
                 <div className="separator separator-light"></div>
-                <div className="btn btn-light btn-file mb-4">
-                  Attach files
-                  <input type="file" className="upload" />
-                </div>
                 <div className="my-2">
                   <a
                     className="d-inline-flex align-items-center"
@@ -1299,9 +1295,6 @@ const CreateInvoice = ({
                           control={control}
                           errors={errors}
                         />
-                        <button className="btn btn-outline-light mt-2">
-                          Add Note
-                        </button>
                       </div>
                     </div>
                     <div className="col-xxl-5 ">

@@ -94,14 +94,7 @@ const SignIn = () => {
                               <h4 className="mb-4 text-center">
                                 Sign in to your account
                               </h4>
-                              <div className="d-flex justify-content-center">
-                                <a
-                                  href="https://desktopcrm.com:51/v1/auth/google"
-                                  className="btn btn-outline-primary "
-                                >
-                                  <FaGoogle />
-                                </a>
-                              </div>
+
                               {/* <div>
                                 <h1>Welcome to My App</h1>
                                 <GoogleLoginButton
@@ -155,14 +148,6 @@ const SignIn = () => {
                                       />
                                     </div>
                                   </div>
-                                  <div className="d-flex justify-content-center">
-                                    <Checkbox
-                                      name="keep_logged_in"
-                                      label="Keep me logged in"
-                                      control={control}
-                                      errors={errors}
-                                    />
-                                  </div>
                                 </div>
                               )}
                               <input
@@ -170,7 +155,22 @@ const SignIn = () => {
                                 className="btn btn-primary btn-uppercase btn-block bg-primary"
                                 value="Login"
                               />
+                              <div className="text-center py-2">OR</div>
 
+                              <div className="d-flex justify-content-center">
+                                <a
+                                  href="https://desktopcrm.com:51/v1/auth/google"
+                                  className="btn btn-outline-primary  btn-block"
+                                >
+                                  <FaGoogle
+                                    style={{
+                                      marginTop: "-1%",
+                                      marginInline: "2%",
+                                    }}
+                                  />
+                                  Login with Google
+                                </a>
+                              </div>
                               <p className="p-xs mt-2 text-center">
                                 New to DesktopCRM?{" "}
                                 <Link to="/sign-up">

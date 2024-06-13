@@ -12,7 +12,9 @@ const BilledInfo = ({ onDataFromChild }) => {
     formState: { errors },
   } = useForm({});
   const handleAddBusinessForm = (data) => {
+    const close_billed = document.getElementById("close_billed");
     onDataFromChild(data);
+    close_billed.click();
     return {};
   };
   return (
@@ -89,6 +91,7 @@ const BilledInfo = ({ onDataFromChild }) => {
 
               <div className="modal-footer align-items-center">
                 <button
+                  id="close_billed"
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"

@@ -16,6 +16,8 @@ export const EditBulkContact = ({ token, dispatch, boards }) => {
   const { contactsToModify } = useContext(SocketContext);
   const [modifiedContacts, setModifiedContacts] = useState([]);
   const pipelineWatcher = watch("pipeline");
+  const pipelineStageWatcher = watch("pipeline_stage");
+  console.log("🚀 ~ EditBulkContact ~ pipelineWatcher:", pipelineWatcher);
   useEffect(() => {
     if (pipelineWatcher !== undefined && contactsToModify?.length > 0) {
       const modifiedArray = [];
@@ -34,6 +36,7 @@ export const EditBulkContact = ({ token, dispatch, boards }) => {
     const formData = {
       updates: modifiedContacts,
       modify_key: "board_id",
+      board_status: pipelineStageWatcher?.value,
     };
     dispatch(updateBulkContactRec(token, formData));
   };
@@ -58,8 +61,32 @@ export const EditBulkContact = ({ token, dispatch, boards }) => {
               options={
                 boards?.length > 0
                   ? boards?.map((board) => {
-                      return { label: board?.name, value: board?.id };
+                      return { label: board?.name, value: board?.id, ...board };
                     })
+                  : []
+              }
+              errors={errors}
+            />
+          </div>
+          <div className="col">
+            <ReactSelectField
+              name="pipeline_stage"
+              placeholder="Select pipeline "
+              label="Pipeline Stage"
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "Field required!",
+                },
+              }}
+              options={
+                pipelineWatcher?.pipeline_status_array?.status_array?.length > 0
+                  ? pipelineWatcher?.pipeline_status_array?.status_array?.map(
+                      (status) => {
+                        return { label: status, value: status };
+                      }
+                    )
                   : []
               }
               errors={errors}
