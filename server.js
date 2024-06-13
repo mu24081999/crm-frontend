@@ -29,6 +29,7 @@ app.get("*", (req, res) => {
   }
 });
 app.get("/auth/google/callback", (req, res) => {
+  console.log("yes");
   passport.authenticate(
     "google",
     { failureRedirect: "/" },
