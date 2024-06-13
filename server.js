@@ -58,6 +58,8 @@ app.get("*", (req, res, next) => {
   if (req.hostname === "app.desktopcrm.com") {
     if (!req.url.includes("/auth/google")) {
       res.sendFile(path.join(__dirname, "build", "index.html"));
+    } else {
+      next();
     }
   } else if (req.hostname === "desktopcrm.com") {
     res.sendFile(path.join(__dirname, "build2", "index.html"));
