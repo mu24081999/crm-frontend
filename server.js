@@ -21,8 +21,13 @@ app.use((req, res, next) => {
 });
 
 // Handle all other requests
-app.get("*", (req, res) => {
+app.get("*", (req, res, next) => {
   if (req.hostname === "app.desktopcrm.com") {
+    if (req.url.includes("/auth/google")) {
+      next(); // Pass through for other requests
+    } else {
+      res.sendFile(path.join(__dirname, "build", "index.html"));
+    }
     res.sendFile(path.join(__dirname, "build", "index.html"));
   } else if (req.hostname === "desktopcrm.com") {
     res.sendFile(path.join(__dirname, "build2", "index.html"));
