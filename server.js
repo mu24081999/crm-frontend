@@ -43,6 +43,7 @@ app.get("/auth/google/callback", (req, res) => {
       console.log(user, err, info);
     }
   );
+  res.json({ success: true });
 });
 const sslOptionsSub = {
   key: fs.readFileSync("desktopcrm.key"),
