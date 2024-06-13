@@ -3,7 +3,7 @@ const https = require("https");
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-
+const passport = require("passport");
 const app = express();
 
 // Serve static files from the 'build' directory for all hostnames
@@ -27,6 +27,15 @@ app.get("*", (req, res) => {
   } else if (req.hostname === "desktopcrm.com") {
     res.sendFile(path.join(__dirname, "build2", "index.html"));
   }
+});
+app.get("/auth/google/callback", (req, res) => {
+  passport.authenticate(
+    "google",
+    { failureRedirect: "/" },
+    (err, user, info) => {
+      console.log(user, err, info);
+    }
+  );
 });
 const sslOptionsSub = {
   key: fs.readFileSync("desktopcrm.key"),
