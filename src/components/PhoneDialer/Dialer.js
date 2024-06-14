@@ -670,22 +670,22 @@ const Dialer = () => {
               >
                 <ReactTooltip
                   id="on_mic"
-                  place="bottom"
+                  place="top"
                   content="Turn on microphone"
                 />
                 <ReactTooltip
                   id="off_mic"
-                  place="bottom"
+                  place="top"
                   content="Turn off microphone"
                 />
                 <ReactTooltip
                   id="on_record"
-                  place="bottom"
+                  place="top"
                   content="Turn on recording"
                 />
                 <ReactTooltip
                   id="off_record"
-                  place="bottom"
+                  place="top"
                   content="Turn off recording"
                 />
                 <ReactTooltip

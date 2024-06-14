@@ -297,7 +297,7 @@ const VerticalNavbar = () => {
                 user?.client_id === null &&
                 user?.parent_id === null && (
                   <>
-                    <li
+                    {/* <li
                       className={`nav-item ${
                         (location?.pathname === "/chats" ||
                           location?.pathname === "/chat-group") &&
@@ -357,7 +357,7 @@ const VerticalNavbar = () => {
                           </ul>
                         </li>
                       </ul>
-                    </li>
+                    </li> */}
                     <li
                       className={`nav-item ${
                         location?.pathname === "/subscriptions" && "active"
