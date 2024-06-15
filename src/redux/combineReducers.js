@@ -23,6 +23,7 @@ import kycReducer from "./slices/kyc";
 import ticketReducer from "./slices/ticket";
 import balanceReducer from "./slices/balance";
 import notificationReducer from "./slices/notifications";
+import planRatesReducer from "./slices/plan-rates";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -49,4 +50,5 @@ export const rootReducer = combineReducers({
   ticket: ticketReducer,
   balance: balanceReducer,
   notification: notificationReducer,
+  plan_rate: planRatesReducer,
 });

@@ -57,7 +57,7 @@ const Dialer = () => {
     // handleSubmit,
     watch,
     control,
-    // setValue,
+    setValue,
     formState: { errors },
   } = useForm();
   const [inputValue, setInputValue] = useState("");
@@ -87,6 +87,7 @@ const Dialer = () => {
   // const [activeRecordingSid, setActiveRecordingSid] = useState(null);
 
   const backendURL = process.env.REACT_APP_BACKEND_URL_PRODUCTION;
+  const selectedNumberWatcher = watch("my_numbers");
   useEffect(() => {
     if (users?.length > 0 && user?.role === "USER") {
       const data = users?.filter(
@@ -100,14 +101,24 @@ const Dialer = () => {
       setAgents(data);
     }
   }, [users, user]);
-  const selectedNumberWatcher = watch("my_numbers");
+  useEffect(() => {
+    if (selectedNumberWatcher?.value === undefined) {
+      setValue("my_numbers", {
+        label: user?.phone,
+        value: user?.phone,
+      });
+    }
+  }, [selectedNumberWatcher, user, setValue]);
   useEffect(() => {
     setIsLoading(true);
     axios
       .post(
         backendURL + "/user/calling/get-call-token",
         {
-          from_phone: selectedNumberWatcher?.value,
+          from_phone:
+            selectedNumberWatcher?.value !== undefined
+              ? selectedNumberWatcher.value
+              : user?.phone,
           accountSid: accountSid,
           identity: user.username,
           authToken: accountAuthToken,
@@ -669,72 +680,42 @@ const Dialer = () => {
             "
               >
                 <ReactTooltip
-                  id="on_mic"
-                  place="top"
-                  content="Turn on microphone"
-                />
-                <ReactTooltip
                   id="off_mic"
                   place="top"
-                  content="Turn off microphone"
-                />
-                <ReactTooltip
-                  id="on_record"
-                  place="top"
-                  content="Turn on recording"
+                  content="Turn off/on microphone"
                 />
                 <ReactTooltip
                   id="off_record"
                   place="top"
-                  content="Turn off recording"
+                  content="Turn off/on recording"
                 />
                 <ReactTooltip
                   id="call_transfer"
                   place="bottom"
                   content="Transfer Call"
                 />
-                <ReactTooltip
-                  id="add_call"
-                  place="bottom"
-                  content="Add Person in the call"
-                />
                 <ReactTooltip id="dialpad" place="bottom" content="Dialpad" />
                 <div className="d-flex justify-content-center gap-3 pt-3">
-                  {callMuted === false ? (
-                    <button
-                      className="btn p-3 btn-light rounded"
-                      data-tooltip-id="off_mic"
-                      onClick={muteCall}
-                    >
-                      <CiMicrophoneOff size={28} />
-                    </button>
-                  ) : (
-                    <button
-                      className="btn p-3 btn-light rounded"
-                      onClick={unmuteCall}
-                      data-tooltip-id="on_mic"
-                    >
-                      <CiMicrophoneOn size={28} />
-                    </button>
-                  )}
-                  {recording === true ? (
-                    <button
-                      className="btn p-3 btn-light rounded"
-                      data-tooltip-id="off_record"
-                      onClick={pauseRecording}
-                    >
-                      <PiRecordFill size={25} />
-                    </button>
-                  ) : (
-                    <button
-                      className="btn p-3 btn-light rounded"
-                      data-tooltip-id="on_record"
-                      onClick={resumeRecording}
-                    >
-                      {" "}
-                      <PiRecordFill size={25} />
-                    </button>
-                  )}
+                  <button
+                    className={`btn p-3 btn-${
+                      callMuted === false ? "light" : "danger"
+                    } rounded`}
+                    data-tooltip-id="off_mic"
+                    onClick={callMuted === false ? muteCall : unmuteCall}
+                  >
+                    <CiMicrophoneOn size={28} />
+                  </button>
+                  <button
+                    className={`btn p-3 btn-${
+                      recording === false ? "light" : "danger"
+                    } rounded`}
+                    data-tooltip-id="off_record"
+                    onClick={
+                      recording === true ? pauseRecording : resumeRecording
+                    }
+                  >
+                    <PiRecordFill size={25} />
+                  </button>
                 </div>
                 <div className="d-flex justify-content-center gap-3 pt-3">
                   <button
@@ -777,85 +758,8 @@ const Dialer = () => {
                     </div>
                   </div>
                 </div>
-                {/* 
-                <div className="dropdown" data-tooltip-id="add_call">
-                  <button
-                    aria-expanded="false"
-                    data-bs-toggle="dropdown"
-                    className="btn p-3 btn-light rounded-circle "
-                    type="button"
-                  >
-                    <GoPlus size={25} />
-                  </button>
-                  <div role="menu" className="dropdown-menu">
-                    {agents?.length > 0 ? (
-                      agents?.map((agent, index) => (
-                        <a
-                          key={index}
-                          className="dropdown-item"
-                          href="#"
-                          onClick={() => addPersonToCall(agent.username)}
-                        >
-                          {agent.name}({agent.username})
-                        </a>
-                      ))
-                    ) : (
-                      <li>No Agents data found.</li>
-                    )}
-                  </div>
-                </div> */}
-
-                {/* <Popup
-                  trigger={
-                    <button
-                      className="btn btn-light rounded-circle"
-                      id="transfer_button"
-                    >
-                      {" "}
-                      {<FcCallTransfer size={22} />}
-                    </button>
-                  }
-                  position="top right"
-                >
-                  <div className="">
-                    <h5 className="bg-primary text-white rounded px-3 py-2">
-                      Transfer To
-                    </h5>
-                    <ul
-                      className="p-0 row gap-2"
-                      style={{
-                        maxHeight: "200px",
-                        overflow: "scroll",
-                        textDecoration: "none",
-                      }}
-                    >
-                      {agents?.length > 0 ? (
-                        agents?.map((agent, index) => (
-                          <li
-                            className="px-5"
-                            key={index}
-                            onClick={() => callTransfer(agent.username)}
-                          >
-                            <a className="" style={{ cursor: "pointer" }}>
-                              {agent.name}({agent.username})
-                            </a>
-                          </li>
-                        ))
-                      ) : (
-                        <li>No Agents data found.</li>
-                      )}
-                    </ul>
-                  </div>
-                </Popup> */}
-                {/* <button
-                className="btn p-3 btn-light rounded-circle"
-                data-tooltip-id="call_transfer"
-                onClick={callTransfer}
-              >
-                <FcCallTransfer size={22} />
-              </button> */}
               </div>
-              <div className="d-flex justify-content-around ">
+              <div className="d-flex justify-content-center gap-3 ">
                 {/* {callStatus === "INCOMING" && ( */}
                 <div className="d-flex justify-content-center mt-4 mb-2 mx-1">
                   <button
@@ -882,7 +786,7 @@ const Dialer = () => {
 
           {/* {userState !== "ON_CALL" && ( */}
           <footer className="w-100 d-flex justify-content-between">
-            {userState === "ON_CALL" && (
+            {userState === "ON_CALL" && isDial && (
               <>
                 <button
                   type="button"

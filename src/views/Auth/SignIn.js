@@ -21,6 +21,9 @@ const SignIn = () => {
   );
   const handleSuccess = (response) => {
     // Handle successful sign-in
+    dispatch(
+      loginUser(response.email, "1234567890", false, "google", response)
+    );
     console.log("Logged in successfully!", response);
   };
 
@@ -95,14 +98,6 @@ const SignIn = () => {
                                 Sign in to your account
                               </h4>
 
-                              {/* <div>
-                                <h1>Welcome to My App</h1>
-                                <GoogleLoginButton
-                                  onSuccess={handleSuccess}
-                                  onFailure={handleFailure}
-                                />
-                              </div> */}
-
                               {isLoading === true ? (
                                 <Loader />
                               ) : (
@@ -156,8 +151,13 @@ const SignIn = () => {
                                 value="Login"
                               />
                               <div className="text-center py-2">OR</div>
-
                               <div className="d-flex justify-content-center">
+                                <GoogleLoginButton
+                                  onSuccess={handleSuccess}
+                                  onFailure={handleFailure}
+                                />
+                              </div>
+                              {/* <div className="d-flex justify-content-center">
                                 <a
                                   href="https://desktopcrm.com:51/v1/auth/google"
                                   className="btn btn-outline-primary  btn-block"
@@ -170,7 +170,7 @@ const SignIn = () => {
                                   />
                                   Login with Google
                                 </a>
-                              </div>
+                              </div> */}
                               <p className="p-xs mt-2 text-center">
                                 New to DesktopCRM?{" "}
                                 <Link to="/sign-up">

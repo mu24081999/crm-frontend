@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import brand from "../../assets/2.png";
 import { Link, useLocation } from "react-router-dom";
-import { FaRegEnvelope, FaRegUser } from "react-icons/fa";
+import { FaDollarSign, FaRegEnvelope, FaRegUser } from "react-icons/fa";
 import { MdAddRoad, MdOutlineEmail, MdSupportAgent } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { CiMenuFries } from "react-icons/ci";
@@ -89,6 +89,7 @@ const VerticalNavbar = () => {
           <button
             className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle"
             onClick={handleMenuClick}
+            style={{ cursor: "pointer" }}
           >
             <span className="icon">
               <span className="svg-icon fs-5">
@@ -122,10 +123,10 @@ const VerticalNavbar = () => {
       <div
         data-simplebar
         className="nicescroll-bar"
-        style={{ marginTop: "-19%" }}
+        style={{ paddingTop: "-19%" }}
       >
         <div className="menu-content-wrap">
-          <div className="menu-gap"></div>
+          {/* <div className="menu-gap"></div> */}
           <div className="menu-group">
             <ul className="navbar-nav flex-column">
               <li
@@ -244,6 +245,20 @@ const VerticalNavbar = () => {
                         </span>
                       </span>
                       <span className="nav-link-text">KYC List</span>
+                    </Link>
+                  </li>
+                  <li
+                    className={`nav-item ${
+                      location?.pathname === "/admin/plan-rates" && "active"
+                    }`}
+                  >
+                    <Link className="nav-link" to="/admin/plan-rates">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <FaDollarSign />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Plan Rates</span>
                     </Link>
                   </li>
                   <li

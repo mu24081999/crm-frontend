@@ -102,57 +102,8 @@ const Email_Tab = ({
                     <a class="btn" data-bs-toggle="collapse" href={`#` + index}>
                       <div className="d-flex">
                         <div class="fw-light">{email?.subject}</div>
-                        <div class="badge badge-orange badge-sm badge-pill flex-shrink-0 ms-3 pt-2 ">
-                          updated now
-                        </div>
                       </div>{" "}
                     </a>
-                    <div class="single-email-subject">
-                      <div class="email-options-wrap">
-                        <a
-                          class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          title=""
-                          data-bs-original-title="Print"
-                        >
-                          <span class="icon">
-                            <span class="feather-icon">
-                              {/* <i data-feather="printer"></i> */}
-                              <FaPrint />
-                            </span>
-                          </span>
-                        </a>
-                        <a
-                          class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          title=""
-                          data-bs-original-title="Reply"
-                        >
-                          <span class="icon">
-                            <span class="feather-icon">
-                              {/* <i data-feather="corner-up-left"></i> */}
-                              <FaArrowAltCircleLeft />
-                            </span>
-                          </span>
-                        </a>
-                        <a
-                          class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          title=""
-                          data-bs-original-title="Forward"
-                        >
-                          <span class="icon">
-                            <span class="feather-icon">
-                              {/* <i data-feather="arrow-right"></i> */}
-                              <FaArrowAltCircleRight />
-                            </span>
-                          </span>
-                        </a>
-                      </div>
-                    </div>
                   </div>
 
                   <div
@@ -219,7 +170,11 @@ const Email_Tab = ({
                       </div>
                     </div>
                     <div class="card-body">
-                      {email.body}
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: email?.body,
+                        }}
+                      ></div>
                       <div class="separator separator-light"></div>
                       {/* <div class="text-end">
                         <a href="/" class="link-theme fs-7">

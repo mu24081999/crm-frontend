@@ -654,7 +654,7 @@ const SingleChat = ({
             <span style={{ paddingRight: "12px" }}>3</span>
           </span> */}
         </div>
-        <div
+        {/* <div
           className="btn shadow btn-primary rounded-circle btn-file"
           style={{ width: "30px", height: "35px" }}
         >
@@ -663,7 +663,7 @@ const SingleChat = ({
             style={{ marginLeft: "-8px", marginBottom: "6px" }}
           />
           <input type="file" className="upload" onChange={handleFileChange} />
-        </div>
+        </div> */}
 
         <div class="input-group">
           <span class="input-affix-wrapper">

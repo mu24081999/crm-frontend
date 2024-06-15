@@ -33,6 +33,7 @@ const persistConfig = {
     "ticket",
     "balance",
     "notification",
+    "plan_rate",
   ],
   whitelist: ["auth"],
 };

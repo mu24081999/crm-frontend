@@ -52,8 +52,7 @@ import Terms from "./views/Terms/Terms";
 import Balance from "./views/Balance/Balance";
 import CallHistory from "./views/CallHistory/CallHistory";
 import MessagesLogs from "./views/MessagesLogs/MessagesLogs";
-import GoogleAuth from "./views/Auth/GoogleAuth";
-
+import PlanRateSetting from "./views/PlanRateSetting/PlanRate";
 // Define allowed roles for each route
 const roles = {
   dashboard: ["USER", "ADMIN", "SUPER_ADMIN", "AGENT"],
@@ -106,6 +105,17 @@ const router = (user, subscribed) => {
         subscribed,
         user
       )(Dashboard),
+      exact: true,
+      // element: <Dashboard />,
+    },
+    {
+      path: "admin/plan-rates",
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(PlanRateSetting),
       exact: true,
       // element: <Dashboard />,
     },

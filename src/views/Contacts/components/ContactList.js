@@ -14,14 +14,14 @@ import { SocketContext } from "../../../Context";
 import { ImBlocked } from "react-icons/im";
 import Checkbox from "../../../components/FormFields/checkboxField";
 import { useForm } from "react-hook-form";
-import { MdOutlineAttachEmail } from "react-icons/md";
+import { MdOutlineAttachEmail, MdOutlineSms } from "react-icons/md";
 import { CiExport, CiFilter, CiImport } from "react-icons/ci";
 import { toast } from "react-toastify";
 import exportToCSV from "../../../components/Papaparse/exportCSV";
-import { HiOutlineQueueList } from "react-icons/hi2";
-import { LuArchive } from "react-icons/lu";
+import { LuArchive, LuFilter, LuImport } from "react-icons/lu";
 import { LiaSmsSolid } from "react-icons/lia";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import { BiExport } from "react-icons/bi";
 
 const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
   const {
@@ -176,7 +176,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                   data-bs-toggle="modal"
                   data-bs-target="#edit-bulk-contact"
                 >
-                  <CiFilter size={15} />
+                  <LuFilter size={15} />
                 </button>
                 <button
                   type="button"
@@ -201,7 +201,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                   data-bs-target="#send-sms-bulk"
                   data-tooltip-id="send_sms_bulk"
                 >
-                  <LiaSmsSolid size={14} />
+                  <MdOutlineSms size={14} />
                 </button>
                 <button
                   type="button"
@@ -217,7 +217,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                   data-bs-target="#upload_contact_csv"
                   class="btn btn-light btn-sm"
                 >
-                  <CiImport size={14} />
+                  <LuImport size={14} />
                 </button>
                 <button
                   type="button"
@@ -225,7 +225,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                   data-tooltip-id="export"
                   onClick={handleFileExport}
                 >
-                  <CiExport size={14} />
+                  <BiExport size={14} />
                 </button>
               </div>
               <div>

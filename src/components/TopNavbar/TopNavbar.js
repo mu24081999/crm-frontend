@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, logoutUser } from "../../redux/services/auth";
 import _ from "lodash";
@@ -19,6 +19,7 @@ import moment from "moment";
 import { LuBadgeDollarSign } from "react-icons/lu";
 import { MdEventAvailable, MdOutlineAddTask } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
+import { updateNotificationRec } from "../../redux/services/notification";
 
 const TopNavbar = ({ notificationsData }) => {
   const redirectTo = useNavigate();
@@ -30,6 +31,15 @@ const TopNavbar = ({ notificationsData }) => {
   const [parentAccount, setParentAccount] = useState(user);
   const [subAccounts, setSubAccounts] = useState([]);
   const [userAgents, setUserAgents] = useState([]);
+  const [unreadNotificationCount, setUnreadNotificationCount] = useState(0);
+  useMemo(() => {
+    for (let n = 0; n < notificationsData.length; n++) {
+      const element = notificationsData[n];
+      if (element.is_read === "false") {
+        setUnreadNotificationCount((prev) => prev + 1);
+      }
+    }
+  }, [notificationsData]);
 
   useEffect(() => {
     if (selectedAccount?.parent_id) {
@@ -72,7 +82,9 @@ const TopNavbar = ({ notificationsData }) => {
       setUserAgents(data);
     }
   }, [user, users]);
-
+  const updateNotificationData = (not_id) => {
+    dispatch(updateNotificationRec(token, not_id, true, user.id));
+  };
   return (
     <nav className="hk-navbar navbar navbar-expand-xl navbar-light fixed-top">
       <div className="container-fluid">
@@ -326,7 +338,9 @@ const TopNavbar = ({ notificationsData }) => {
                       <span className="feather-icon">
                         <FaBell />
                       </span>
-                      {/* <span className="badge badge-success badge-indicator position-top-end-overflow-1"></span> */}
+                      {unreadNotificationCount > 0 && (
+                        <span className="badge badge-success badge-indicator position-top-end-overflow-1"></span>
+                      )}
                     </span>
                   </span>
                 </a>
@@ -339,7 +353,18 @@ const TopNavbar = ({ notificationsData }) => {
                   >
                     {notificationsData?.length > 0 &&
                       notificationsData?.map((notification, index) => (
-                        <a href="#" className="dropdown-item" key={index}>
+                        <a
+                          href="#"
+                          className={`dropdown-item ${
+                            notification.is_read === "false"
+                              ? "bg-light"
+                              : "bg-white"
+                          }`}
+                          key={index}
+                          onClick={() =>
+                            updateNotificationData(notification.id)
+                          }
+                        >
                           <div className="media">
                             <div className="media-head">
                               <div className="rounded-circle avatar avatar-sm bg-primary text-center pt-2">

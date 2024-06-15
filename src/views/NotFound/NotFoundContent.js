@@ -44,7 +44,7 @@ const NotFoundContent = () => {
                           with another name.
                         </p>
                         <Link
-                          tp="/plan-selection"
+                          to="/plan-selection"
                           className="btn btn-primary mt-4"
                         >
                           Return back and select your plan

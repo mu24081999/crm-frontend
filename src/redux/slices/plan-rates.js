@@ -1,49 +1,53 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const notificationSlice = createSlice({
-  name: "notifications",
+export const ratesSlice = createSlice({
+  name: "plan_rates",
   initialState: {
     isLoading: false,
-    notifications: [],
+    planRates: {},
     message: "",
     error: "",
-    token: "",
     type: "",
   },
   reducers: {
-    notificationRequestLoading: (state, action) => {
+    ratesRequestLoading: (state, action) => {
       state.isLoading = true;
     },
     invalidRequest: (state, action) => {
       state.isLoading = false;
-      state.notifications = [];
+      state.planRates = {};
       state.message = action.payload;
       state.error = "";
       state.token = "";
       state.type = "InvalidRequestError";
     },
-    getUserNotifications: (state, action) => {
+    updateRates: (state, action) => {
       state.isLoading = false;
-      state.notifications = action.payload;
+      state.planRates = action.payload;
       state.message = "success";
       state.error = "";
-      state.token = "";
       state.type = "success";
     },
-    updateNotification: (state, action) => {
+    addRates: (state, action) => {
       state.isLoading = false;
       state.message = action.payload;
       state.error = "";
-      state.token = "";
+      state.type = "success";
+    },
+    readRate: (state, action) => {
+      state.isLoading = false;
+      state.planRates = action.payload;
+      state.error = "";
       state.type = "success";
     },
   },
 });
 
-export default notificationSlice.reducer;
+export default ratesSlice.reducer;
 export const {
-  notificationRequestLoading,
+  ratesRequestLoading,
   invalidRequest,
-  getUserNotifications,
-  updateNotification,
-} = notificationSlice.actions;
+  addRates,
+  updateRates,
+  readRate,
+} = ratesSlice.actions;

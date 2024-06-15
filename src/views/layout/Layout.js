@@ -60,12 +60,46 @@ const Layout = ({ component }) => {
       todayDay === eventDay
     );
   }
+  function timeStringToTimestamp(timeString) {
+    // Get today's date
+    const today = new Date();
+
+    // Split the time string into hours, minutes, and seconds
+    const [hours, minutes, seconds] = timeString.split(":").map(Number);
+
+    // Set the hours, minutes, and seconds of today's date
+    today.setHours(hours, minutes, seconds, 0);
+
+    // Return the timestamp (milliseconds since the Unix epoch)
+    return today.getTime();
+  }
+  function isWithinOneHour(eventEndTime) {
+    // Create a new Date object for the current date and time
+    const now = new Date();
+
+    // Calculate the difference in time between the event and now in milliseconds
+    // const eventTime = new Date(eventDate).getTime();
+    const eventTime = timeStringToTimestamp(eventEndTime);
+    const currentTime = now.getTime();
+    console.log("🚀 ~ isWithinOneHour ~ currentTime:", currentTime);
+    const timeDifference = eventTime - currentTime;
+
+    // Check if the time difference is within one hour (3600000 milliseconds)
+    return timeDifference > 0 && timeDifference <= 3600000;
+  }
+
+  function shouldNotify(eventDate, eventEndTime) {
+    return isEventToday(eventDate) && isWithinOneHour(eventEndTime);
+  }
   async function todosReminder(todos) {
     if (todos?.length > 0) {
       for (let i = 0; i < todos.length; i++) {
         const element = todos[i];
-        const is_push = isEventToday(element.start_date);
-        if (is_push) {
+        const shouldNotifyNow = shouldNotify(
+          element.start_date,
+          element.start_time
+        );
+        if (shouldNotifyNow) {
           const notification = {
             user_id: user.id,
             notification: `Hey ${user.name}, this is a reminder for the task ${
@@ -101,14 +135,33 @@ const Layout = ({ component }) => {
     if (events?.length > 0) {
       for (let i = 0; i < events.length; i++) {
         const element = events[i];
-        switch (element.type) {
-          case "event":
-            for (let z = 0; z < element?.team_members?.members?.length; z++) {
-              const member = element?.team_members?.members[z];
+        const shouldNotifyNow = shouldNotify(
+          element.start_date,
+          element.start_time
+        );
+        if (shouldNotifyNow) {
+          switch (element.type) {
+            case "event":
+              for (let z = 0; z < element?.team_members?.members?.length; z++) {
+                const member = element?.team_members?.members[z];
+                const notification = {
+                  user_id: member.id,
+                  notification: `Hey ${
+                    member.name
+                  }, this is a reminder for the event ${
+                    element.name
+                  } happening on ${moment(element.start_date).format(
+                    "DD MMM, YYYY"
+                  )} at ${element.start_time}. Don't miss out!
+                  `,
+                  type: "reminder_added",
+                };
+                pushNotification(notification);
+              }
               const notification = {
-                user_id: member.id,
+                user_id: user.id,
                 notification: `Hey ${
-                  member.name
+                  user.name
                 }, this is a reminder for the event ${
                   element.name
                 } happening on ${moment(element.start_date).format(
@@ -118,38 +171,25 @@ const Layout = ({ component }) => {
                 type: "reminder_added",
               };
               pushNotification(notification);
-            }
-            const notification = {
-              user_id: user.id,
-              notification: `Hey ${
-                user.name
-              }, this is a reminder for the event ${
-                element.name
-              } happening on ${moment(element.start_date).format(
-                "DD MMM, YYYY"
-              )} at ${element.start_time}. Don't miss out!
-              `,
-              type: "reminder_added",
-            };
-            pushNotification(notification);
-            break;
-          case "reminder":
-            const notificationParam = {
-              user_id: user.id,
-              notification: `Hey ${
-                user.name
-              }, this is a reminder for the event ${
-                element.name
-              } happening on ${moment(element.start_date).format(
-                "DD MMM, YYYY"
-              )} at ${element.start_time}. Don't miss out!
-              `,
-              type: "reminder_added",
-            };
-            pushNotification(notificationParam);
-            break;
-          default:
-            break;
+              break;
+            case "reminder":
+              const notificationParam = {
+                user_id: user.id,
+                notification: `Hey ${
+                  user.name
+                }, this is a reminder for the event ${
+                  element.name
+                } happening on ${moment(element.start_date).format(
+                  "DD MMM, YYYY"
+                )} at ${element.start_time}. Don't miss out!
+                `,
+                type: "reminder_added",
+              };
+              pushNotification(notificationParam);
+              break;
+            default:
+              break;
+          }
         }
       }
     }
@@ -158,23 +198,23 @@ const Layout = ({ component }) => {
     const today = new Date();
     const todayString = today.toISOString().split("T")[0]; // Get date in YYYY-MM-DD format
     const lastCalledDate = localStorage.getItem("todosReminderLastCallDate");
-    if (lastCalledDate !== todayString) {
-      await todosReminder(todos);
-      localStorage.setItem("todosReminderLastCallDate", todayString);
-    } else {
-      console.log("Function has already been called today.");
-    }
+    // if (lastCalledDate !== todayString) {
+    await todosReminder(todos);
+    localStorage.setItem("todosReminderLastCallDate", todayString);
+    // } else {
+    // console.log("Function has already been called today.");
+    // }
   }
   async function checkAndCallOnceADayReminder(events) {
     const today = new Date();
     const todayString = today.toISOString().split("T")[0]; // Get date in YYYY-MM-DD format
     const lastCalledDate = localStorage.getItem("eventsReminderLastCallDate");
-    if (lastCalledDate !== todayString) {
-      await eventsReminder(todos);
-      localStorage.setItem("eventsReminderLastCallDate", todayString);
-    } else {
-      console.log("Function has already been called today.");
-    }
+    // if (lastCalledDate !== todayString) {
+    await eventsReminder(todos);
+    // localStorage.setItem("eventsReminderLastCallDate", todayString);
+    // } else {
+    // console.log("Function has already been called today.");
+    // }
   }
 
   useMemo(() => {

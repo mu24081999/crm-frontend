@@ -43,36 +43,37 @@ export const registerUser = (registerData) => async (dispatch) => {
   }
 };
 
-export const loginUser = (username, password, type) => async (dispatch) => {
-  try {
-    dispatch(authRequestLoading());
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    await axios
-      .post(
-        `${backendURL}/auth/siginin_user`,
-        { username, password, type },
-        config
-      )
-      .then((response) => {
-        console.log(response.data);
-        if (response?.data?.statusCode !== 200) {
-          toast.error(response.data.message);
-          dispatch(invalidRequest(response.data.message));
-          return toast.error(response.data.message);
-        }
-        toast.success(response.data.message);
-        dispatch(login(response.data.data.userData));
-        // Cookie.set("token", response.data.data.token);
-      });
-  } catch (e) {
-    dispatch(invalidRequest(e.message));
-    toast.error(e.message);
-  }
-};
+export const loginUser =
+  (username, password, type, authType, googleProfile) => async (dispatch) => {
+    try {
+      dispatch(authRequestLoading());
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      await axios
+        .post(
+          `${backendURL}/auth/siginin_user`,
+          { username, password, type, authType, googleProfile },
+          config
+        )
+        .then((response) => {
+          console.log(response.data);
+          if (response?.data?.statusCode !== 200) {
+            toast.error(response.data.message);
+            dispatch(invalidRequest(response.data.message));
+            return toast.error(response.data.message);
+          }
+          toast.success(response.data.message);
+          dispatch(login(response.data.data.userData));
+          // Cookie.set("token", response.data.data.token);
+        });
+    } catch (e) {
+      dispatch(invalidRequest(e.message));
+      toast.error(e.message);
+    }
+  };
 export const logoutUser = (token) => async (dispatch) => {
   try {
     dispatch(authRequestLoading());

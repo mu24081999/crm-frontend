@@ -74,10 +74,10 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
         >
           {Object.entries(selectedMessages).map(([date, messages]) => (
             <div key={date}>
-              <li className="text-center fs-6 fw-bold p-2">
+              {/* <li className="text-center fs-6 fw-bold p-2">
                 <hr data-content="AND" className="hr-text" />
                 <span>{date}</span>
-              </li>
+              </li> */}
               {messages?.map((message, index) => (
                 <div key={index} ref={containerRef}>
                   {message?.from_phone !== authUser.phone ? (
@@ -159,12 +159,13 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
         </ul>
 
         <footer
-          className="chat-footer fixed-bottom rounded d-flex  "
-          style={{ marginLeft: "50%" }}
+          className="chat-footer fixed-bottom rounded d-flex
+          "
+          style={{ marginLeft: "45.6%" }}
         >
-          <div className="d-flex flex-wrap">
+          <div className="d-flex flex-wrap border border-3 border bg-light rounded w-100 pt-5 ps-3">
             <div className="form-group">
-              <span className="input-affix-wrapper" style={{ width: "500px" }}>
+              <span className="input-affix-wrapper" style={{ width: "90vh" }}>
                 <input
                   type="text"
                   //   id="input_msg_chat_popup"
@@ -184,18 +185,17 @@ const SMS_Tab = ({ selectedMessages, authUser, contactDetails, activeBar }) => {
                 </span>
               </span>
             </div>
-            <div
+            {/* <div
               className="btn btn-primary shadow rounded-circle btn-file m-1"
               style={{ width: "35px", height: "35px" }}
             >
-              {/* Attach files */}
               <FiPaperclip
                 size={18}
                 style={{ marginLeft: "-8px", marginTop: "-4px" }}
               />
 
               <input type="file" className="upload" />
-            </div>
+            </div> */}
             {/* <div className="">
               <input type="file" className="form-control" />
             </div> */}

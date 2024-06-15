@@ -4,10 +4,11 @@ import InputField from "../../components/FormFields/InputField";
 import { useForm } from "react-hook-form";
 import Checkbox from "../../components/FormFields/checkboxField";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../redux/services/auth";
+import { loginUser, registerUser } from "../../redux/services/auth";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "./../../assets/3.png";
 import Loader from "../../components/Loader/Loader";
+import GoogleLoginButton from "../../components/Auth/GoogleAuth";
 
 const SignUp = () => {
   const {
@@ -30,7 +31,17 @@ const SignUp = () => {
 
     dispatch(registerUser(formData));
   };
-
+  const handleSuccess = (response) => {
+    // Handle successful sign-in
+    dispatch(
+      loginUser(response.email, "1234567890", false, "google", response)
+    );
+    console.log("Logged in successfully!", response);
+  };
+  const handleFailure = (error) => {
+    // Handle sign-in failure
+    console.error("Login failed:", error);
+  };
   useEffect(() => {
     switch (isAuthenticated) {
       case true:
@@ -180,7 +191,13 @@ const SignUp = () => {
                               >
                                 Create account
                               </button>
-
+                              <div className="text-center py-2">OR</div>
+                              <div className="d-flex justify-content-center">
+                                <GoogleLoginButton
+                                  onSuccess={handleSuccess}
+                                  onFailure={handleFailure}
+                                />
+                              </div>
                               {/* <p class="p-xs mt-2 text-center">
                                 <Link to="/sign-in">
                                   <u>Already have an account!</u>
