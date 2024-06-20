@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { FaPhone, FaPlus } from "react-icons/fa";
+import { FaPhone, FaPlus, FaTimes } from "react-icons/fa";
 
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import "./dialer.css";
 import InputField from "../FormFields/InputField";
 import { useForm } from "react-hook-form";
-import { IoIosKeypad, IoIosRecording } from "react-icons/io";
+import { IoIosKeypad, IoIosRecording, IoIosTimer } from "react-icons/io";
 import { MdOutlineContacts } from "react-icons/md";
 import { CiMicrophoneOff, CiMicrophoneOn } from "react-icons/ci";
 
@@ -30,27 +30,6 @@ import _ from "lodash";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import Loader from "../Loader/Loader";
 //Helpers
-const Timer = () => {
-  const [timer, setTimer] = useState({ mins: 0, sec: 0 });
-  const getTime = () => {
-    setTimer((state) => ({
-      mins: state.sec === 60 ? state.mins + 1 : state.mins,
-      sec: state.sec === 60 ? 0 : state.sec + 1,
-    }));
-  };
-  useEffect(() => {
-    const interval = setInterval(() => getTime(), 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="timer">
-      {`${timer.mins < 9 ? "0" + timer.mins : timer.mins} : ${
-        timer.sec < 9 ? "0" + timer.sec : timer.sec
-      }`}
-    </div>
-  );
-};
 
 const Dialer = () => {
   const {
@@ -77,6 +56,8 @@ const Dialer = () => {
   const [agents, setAgents] = useState([]);
   const [callMuted, setCallMuted] = useState(false);
   const [recording, setRecording] = useState(false);
+  const [timer, setTimer] = useState({ hours: 0, mins: 0, sec: 0 });
+
   const dispatch = useDispatch();
   const { token, user, accountSid, accountAuthToken } = useSelector(
     (state) => state.auth
@@ -206,6 +187,7 @@ const Dialer = () => {
     outgoingCall.on("reject", () => {
       setShowCall(false);
       setUserState("READY");
+      setTimer({ hours: 0, mins: 0, sec: 0 });
       setIsDial(true);
       setShowContacts(false);
       setCallStatus(null);
@@ -220,6 +202,7 @@ const Dialer = () => {
           user_id: user.id,
         })
       );
+      setTimer({ hours: 0, mins: 0, sec: 0 });
       setShowCall(false);
       setUserState("READY");
       setIsDial(true);
@@ -259,6 +242,7 @@ const Dialer = () => {
       setShowContacts(false);
       setUserState("READY");
       setAlertMessage(null);
+      setTimer({ hours: 0, mins: 0, sec: 0 });
     }
   };
   const handleAcceptCall = () => {
@@ -343,6 +327,32 @@ const Dialer = () => {
     // }
     setAlertMessage("Call recording resumed.");
   };
+
+  // const [timer, setTimer] = useState({ hours: 0, mins: 0, sec: 0 });
+  const Timer = () => {
+    const getTime = () => {
+      setTimer((state) => ({
+        hours: state.mins === 60 ? state.hours + 1 : state.hours,
+        mins: state.sec === 60 ? state.mins + 1 : state.mins,
+        sec: state.sec === 60 ? 0 : state.sec + 1,
+      }));
+    };
+    useEffect(() => {
+      const interval = setInterval(() => getTime(), 1000);
+      return () => clearInterval(interval);
+    }, []);
+    return (
+      <div className="badge bg-light badge-lg text-dark">
+        <span>
+          <IoIosTimer size={16} style={{ marginRight: "4%" }} />
+          {`${timer.hours < 9 ? "0" + timer.hours : timer.hours} :
+          ${timer.mins < 9 ? "0" + timer.mins : timer.mins} :
+
+           ${timer.sec < 9 ? "0" + timer.sec : timer.sec}`}
+        </span>
+      </div>
+    );
+  };
   return (
     <div
       // className=" d-flex justify-content-end btn btn-icon btn-floating btn-primary btn-lg btn-rounded " //btn-popup-open
@@ -370,6 +380,18 @@ const Dialer = () => {
       >
         {/* <div className="dropdown-menu dropdown-menu-end p-0"> */}
         <div style={{ padding: "1%", width: "290px", height: "450px" }}>
+          {(callStatus === "STARTED" || userState === "ON_CALL") && (
+            <div
+              className="  position-absolute"
+              style={{
+                visibility: showCall ? "unset" : "hidden",
+                marginTop: "22%",
+                marginLeft: "31%",
+              }}
+            >
+              <Timer />
+            </div>
+          )}
           {isDial && (
             <table id="dialer_table">
               <tr style={{ height: "50px" }}>
@@ -583,7 +605,7 @@ const Dialer = () => {
               </tr>
             </table>
           )}
-          {showContacts === true && (
+          {showContacts && (
             <>
               {/* <header>
                 <InputField
@@ -669,11 +691,6 @@ const Dialer = () => {
                   </span>
                 </div>
               </div>
-              {callStatus === "STARTED" && (
-                <div className="my-1 text-center">
-                  <Timer />
-                </div>
-              )}
 
               <div
                 className="

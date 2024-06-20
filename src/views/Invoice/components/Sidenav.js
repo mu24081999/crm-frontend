@@ -71,7 +71,7 @@ const Sidenav = ({
             type="button"
             // aria-expanded="false"
             // data-bs-toggle="dropdown"
-            className="btn btn-primary btn-rounded btn-block mb-4 dropdown-toggle"
+            className="btn btn-primary btn-rounded btn-block mb-4 "
             onClick={handleCreateClick}
           >
             Create

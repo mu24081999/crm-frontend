@@ -38,14 +38,7 @@ const InvoiceList = ({
     <div>
       <header className="invoice-header">
         <div className="d-flex align-items-center">
-          <a
-            className="invoiceapp-title dropdown-toggle link-dark"
-            data-bs-toggle="dropdown"
-            href="/"
-            role="button"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
+          <a className="invoiceapp-title link-dark" href="#" role="button">
             <h1>All invoices</h1>
           </a>
           {/* <div className="dropdown-menu">
@@ -222,6 +215,7 @@ const InvoiceList = ({
                         <a
                           onClick={() => handleLinkClick(invoice?.id)}
                           className="table-link-text link-high-em"
+                          style={{ cursor: "pointer" }}
                         >
                           {invoice?.invoice_details?.items[0]?.value}
                         </a>

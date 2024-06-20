@@ -13,48 +13,10 @@ const InvoicePreview = ({ invoiceDetails }) => {
     <div>
       <header className="invoice-header">
         <div className="d-flex align-items-center">
-          <a
-            className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-            href="create-invoice.html"
-          >
-            <span className="icon">
-              <span className="feather-icon">
-                <i data-feather="chevron-left"></i>
-              </span>
-            </span>
-          </a>
-          <div className="v-separator d-sm-inline-block d-none"></div>
-          <a className="invoiceapp-title link-dark ms-1 ms-sm-0" href="/">
+          <a className="invoiceapp-title link-dark ms-1 ms-sm-0">
             <h1>Template Preview</h1>
           </a>
         </div>
-        <div className="invoice-options-wrap">
-          <a
-            href="create-invoice.html"
-            className="btn btn-soft-primary flex-shrink-0 d-md-inline-block d-none"
-          >
-            Start with Template
-          </a>
-          <div className="v-separator d-md-inline-block d-none"></div>
-          <a
-            className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable ms-0 d-md-inline-block d-none"
-            href="/"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title=""
-            data-bs-original-title="Collapse"
-          >
-            <span className="icon">
-              <span className="feather-icon">
-                <i data-feather="chevron-up"></i>
-              </span>
-              <span className="feather-icon d-none">
-                <i data-feather="chevron-down"></i>
-              </span>
-            </span>
-          </a>
-        </div>
-        <div className="hk-sidebar-togglable"></div>
       </header>
       <div className="invoice-body">
         <div

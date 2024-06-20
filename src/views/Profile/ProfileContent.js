@@ -8,12 +8,16 @@ import EmailConfig from "./components/EmailConfig";
 import Billing from "./components/Billing";
 import NumberConfig from "./components/NumberConfig";
 import { useSelector } from "react-redux";
+import VoiceSettings from "./components/VoiceSettings";
 
 const ProfileContent = () => {
   const { user } = useSelector((state) => state.auth);
   return (
     <div>
-      <div className="hk-pg-wrapper">
+      <div
+        className="hk-pg-wrapper"
+        style={{ height: "100vh", overflow: "scroll" }}
+      >
         <div className="container-xxl">
           {/* <!-- Page Header --> */}
           <div className="hk-pg-header pt-7 pb-4">
@@ -32,6 +36,7 @@ const ProfileContent = () => {
                   <UpdatePassword />
                   <EmailConfig />
                   <NumberConfig />
+                  <VoiceSettings />
                   {/* <Billing /> */}
                   <CardInformation />
                 </div>

@@ -68,6 +68,15 @@ const Sidebar = ({ user }) => {
               </a>
             </li>
           )}
+          <li className="nav-item">
+            <a
+              data-bs-toggle="tab"
+              href="#tab_voice_settings"
+              className="nav-link"
+            >
+              <span className="nav-link-text">Voice Settings</span>
+            </a>
+          </li>
         </ul>
       </div>
     </div>

@@ -296,57 +296,11 @@ const CreateInvoice = ({
       <form onSubmit={handleSubmit(onInvoiceSubmit)}>
         <header className="invoice-header">
           <div className="d-flex align-items-center">
-            <a
-              className="invoiceapp-title dropdown-toggle link-dark"
-              data-bs-toggle="dropdown"
-              href="/"
-              role="button"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
+            <a className="invoiceapp-title link-dark" href="/" role="button">
               <h1>Standard Template</h1>
             </a>
-            <div className="dropdown-menu dropdown-menu-right">
-              <a className="dropdown-item" href="/">
-                Simplicity Template
-              </a>
-              <a className="dropdown-item" href="/">
-                Essential Template
-              </a>
-              <a className="dropdown-item" href="/">
-                classNameic Template
-              </a>
-              <a className="dropdown-item" href="/">
-                Pro Forma Template
-              </a>
-              <a className="dropdown-item" href="/">
-                Trade Template
-              </a>
-              <a className="dropdown-item" href="/">
-                Interim Template
-              </a>
-              <a className="dropdown-item" href="/">
-                Primary Template
-              </a>
-              <a className="dropdown-item" href="/">
-                Matt Opel Template
-              </a>
-              <a className="dropdown-item" href="/">
-                Freelancer Template
-              </a>
-            </div>
           </div>
           <div className="invoice-options-wrap">
-            <a
-              className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover invoiceapp-setting-toggle active"
-              href="/"
-            >
-              <span className="icon">
-                <span className="feather-icon">
-                  <i data-feather="sliders"></i>
-                </span>
-              </span>
-            </a>
             {/* <a
               href="invoice-preview.html"
               className="btn btn-outline-secondary flex-shrink-0 d-md-inline-block d-none"
@@ -359,23 +313,6 @@ const CreateInvoice = ({
             >
               save
             </button>
-            <a
-              className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover hk-navbar-togglable d-md-inline-block d-none"
-              href="/"
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title=""
-              data-bs-original-title="Collapse"
-            >
-              <span className="icon">
-                <span className="feather-icon">
-                  <i data-feather="chevron-up"></i>
-                </span>
-                <span className="feather-icon d-none">
-                  <i data-feather="chevron-down"></i>
-                </span>
-              </span>
-            </a>
           </div>
           <div className="hk-sidebar-togglable"></div>
         </header>

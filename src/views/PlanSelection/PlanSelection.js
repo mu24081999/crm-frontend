@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Payment from "../../components/PaymentCard/Payment";
 import { useForm } from "react-hook-form";
 import InputField from "../../components/FormFields/InputField";
@@ -11,6 +11,8 @@ import { FcApproval } from "react-icons/fc";
 import { FaCheck } from "react-icons/fa";
 import { addUserSubscription } from "../../redux/services/subscription";
 import moment from "moment/moment";
+import { readRateRec } from "../../redux/services/plan-rates";
+import _ from "lodash";
 
 const PlanSelection = () => {
   const {
@@ -22,10 +24,11 @@ const PlanSelection = () => {
   } = useForm({});
   const dispatch = useDispatch();
   const { token, user_id } = useSelector((state) => state.auth);
+  const { planRates } = useSelector((state) => state.plan_rate);
   const [amount, setAmount] = useState({
-    starter: 22,
-    growth: 77,
-    enterprise: 147,
+    starter: parseFloat(planRates?.starter),
+    growth: parseFloat(planRates?.growth),
+    enterprise: parseFloat(planRates?.enterprise),
   });
   const [planData, setPlanData] = useState({
     customer_id: null,
@@ -37,6 +40,16 @@ const PlanSelection = () => {
   });
   const [showDiscount, setShowDiscount] = useState(false);
   console.log("🚀 ~ PlanSelection ~ planData:", planData);
+  useEffect(() => {
+    dispatch(readRateRec(token, 1));
+  }, [token, dispatch]);
+  useEffect(() => {
+    setAmount({
+      starter: parseFloat(planRates?.starter),
+      growth: parseFloat(planRates?.growth),
+      enterprise: parseFloat(planRates?.enterprise),
+    });
+  }, [planRates]);
   const onSecondClick = (amount) => {
     dispatch(
       paymentIntent(token, {
@@ -55,16 +68,16 @@ const PlanSelection = () => {
   const handleSwitchClick = (event) => {
     if (event.target.checked) {
       setAmount({
-        starter: 19.8,
-        growth: 69,
-        enterprise: 132,
+        starter: planRates?.starter - (planRates?.starter / 100) * 10,
+        growth: planRates?.growth - (planRates?.growth / 100) * 10,
+        enterprise: planRates?.enterprise - (planRates?.enterprise / 100) * 10,
       });
       setShowDiscount(true);
     } else {
       setAmount({
-        starter: 22,
-        growth: 77,
-        enterprise: 147,
+        starter: planRates?.starter,
+        growth: planRates?.growth,
+        enterprise: planRates?.enterprise,
       });
       setShowDiscount(false);
     }
@@ -196,7 +209,7 @@ const PlanSelection = () => {
                       </div>
                       {showDiscount && (
                         <div>
-                          <span className="fs-1">(10% Off)</span>
+                          <span className="fs-4">(10% Off)</span>
                         </div>
                       )}
                     </div>
@@ -316,7 +329,7 @@ const PlanSelection = () => {
                       </div>
                       {showDiscount && (
                         <div>
-                          <span className="fs-1">(10% Off)</span>
+                          <span className="fs-4">(10% Off)</span>
                         </div>
                       )}
                     </div>
@@ -436,7 +449,7 @@ const PlanSelection = () => {
                       </div>
                       {showDiscount && (
                         <div>
-                          <span className="fs-1">(10% Off)</span>
+                          <span className="fs-4">(10% Off)</span>
                         </div>
                       )}
                     </div>
