@@ -124,14 +124,6 @@ const ChatAside = ({
           </div> */}
         </header>
         <div data-simplebar class="aside-body">
-          <form class="aside-search" role="search">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Search Chats"
-              // onKeyUp={handleSearchRoom}
-            />
-          </form>
           <ChatRooms
             rooms={rooms}
             authUser={authUser}

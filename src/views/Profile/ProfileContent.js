@@ -36,7 +36,7 @@ const ProfileContent = () => {
                   <UpdatePassword />
                   <EmailConfig />
                   <NumberConfig />
-                  <VoiceSettings />
+                  <VoiceSettings user={user} />
                   {/* <Billing /> */}
                   <CardInformation />
                 </div>

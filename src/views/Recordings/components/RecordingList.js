@@ -11,7 +11,7 @@ import { getUsers } from "../../../redux/services/users";
 import moment from "moment/moment";
 import { CallLogsList } from "../../../redux/services/calling";
 
-const RecordingList = ({ isEdit, recordingsData }) => {
+const RecordingList = ({ isEdit, recordingsData, user }) => {
   const dispatch = useDispatch();
   const { token, accountAuthToken, accountSid } = useSelector(
     (state) => state.auth

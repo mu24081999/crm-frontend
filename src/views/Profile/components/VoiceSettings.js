@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserRec } from "../../../redux/services/users";
+import { setAccount } from "../../../redux/slices/auth";
 
-const VoiceSettings = () => {
+const VoiceSettings = ({ user }) => {
+  console.log("🚀 ~ VoiceSettings ~ user:", user);
+  const [recording, setRecording] = useState(user.recording);
   const { token, user_id } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     user_id: user_id,
     recording: 0,
   });
+
   const handleRecordingOnChange = (e) => {
+    setRecording(!recording);
+
     if (e.target.checked) {
       setFormData({
         ...formData,
@@ -22,9 +28,16 @@ const VoiceSettings = () => {
       });
     }
   };
-  const handleSubmitForm = () => {
+  const handleSubmitForm = async () => {
     console.log(formData);
-    dispatch(updateUserRec(token, formData, user_id));
+    const is_updated = await dispatch(updateUserRec(token, formData, user_id));
+    if (is_updated === true) {
+      const newUser = {
+        ...user,
+        recording: recording,
+      };
+      dispatch(setAccount(newUser));
+    }
   };
   return (
     <div className="tab-pane fade show" id="tab_voice_settings">
@@ -33,7 +46,7 @@ const VoiceSettings = () => {
       </div>
       <div className="d-flex border col-md-4 col-sm-6 justify-content-between px-4 py-2 shadow rounded">
         <div>
-          <h6>Recording</h6>
+          <h6>Auto Call Recording</h6>
         </div>
         <div className="form-check form-switch">
           <input
@@ -41,6 +54,7 @@ const VoiceSettings = () => {
             name="recording"
             className="form-check-input"
             id="flexSwitchCheckDefault"
+            checked={recording}
             onChange={handleRecordingOnChange}
           />
         </div>

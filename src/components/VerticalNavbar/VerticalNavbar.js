@@ -732,7 +732,7 @@ const VerticalNavbar = () => {
                           <li className="nav-item">
                             <Link className="nav-link" to="/messages">
                               <span className="nav-link-text">
-                                Send Message
+                                Conversations
                               </span>
                             </Link>
                           </li>

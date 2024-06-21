@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { FaUserAlt } from "react-icons/fa";
 const ChatRooms = ({
@@ -12,11 +12,17 @@ const ChatRooms = ({
   updateChat,
 }) => {
   const [selectedRoom, setSelectedRoom] = useState("");
+  const [prevData, setPrevData] = useState([]);
+  const [roomsData, setRoomsData] = useState([]);
+  console.log("🚀 ~ roomsData:", roomsData);
   const sendDataToParent = () => {
     // Call the callback function with the data from the child
     onDataFromChild(selectedRoom);
   };
-
+  useEffect(() => {
+    setRoomsData(rooms);
+    setPrevData(rooms);
+  }, [rooms]);
   const roomClickHandler = (contact) => {
     setSelectedRoom(contact);
     // sendDataToParent();
@@ -64,12 +70,34 @@ const ChatRooms = ({
       spaceIndex !== -1 ? str.charAt(spaceIndex + 1) : "";
     return { firstCharacter, characterAfterSpace };
   }
+  const handleSearchRoom = (e) => {
+    console.log(e.target.value);
+    if (e.target.value !== "" || e.target.value !== undefined) {
+      const filterData =
+        prevData?.length > 0 &&
+        prevData?.filter(
+          (prev) =>
+            prev?.to_phone?.includes(e.target.value) ||
+            prev?.to_name?.includes(e.target.value)
+        );
+      setRoomsData(filterData);
+    } else {
+      setRoomsData(prevData);
+    }
+  };
   return (
     <div>
-      {" "}
+      <form class="aside-search" role="search">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search Chats"
+          onKeyUp={handleSearchRoom}
+        />
+      </form>{" "}
       <ul class="chat-contacts-list list-group list-group-flush">
-        {rooms?.length > 0 ? (
-          rooms?.map((contact, index) => {
+        {roomsData?.length > 0 ? (
+          roomsData?.map((contact, index) => {
             const messageArray = messages?.filter(
               (msg) =>
                 msg.from_phone === authUser?.phone &&

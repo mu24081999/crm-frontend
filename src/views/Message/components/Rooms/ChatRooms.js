@@ -1,9 +1,6 @@
-import React, { useState } from "react";
-import { CiMenuKebab } from "react-icons/ci";
+import React, { useMemo, useState } from "react";
 const ChatRooms = ({
   rooms,
-  authUser,
-  socket,
   onDataFromChild,
   messages,
   deleteChatRecord,
@@ -11,7 +8,13 @@ const ChatRooms = ({
   updateChat,
 }) => {
   const [selectedRoom, setSelectedRoom] = useState("");
-
+  const [prevData, setPrevData] = useState([]);
+  const [roomsData, setRoomsData] = useState([]);
+  console.log("🚀 ~ prevData:", roomsData);
+  useMemo(() => {
+    setRoomsData(rooms);
+    setPrevData(rooms);
+  }, [rooms]);
   const roomClickHandler = (contact) => {
     setSelectedRoom(contact);
     // sendDataToParent();
@@ -55,12 +58,34 @@ const ChatRooms = ({
       spaceIndex !== -1 ? str.charAt(spaceIndex + 1) : "";
     return { firstCharacter, characterAfterSpace };
   }
+  const handleSearchRoom = (e) => {
+    if (e.target.value !== "" || e.target.value !== undefined) {
+      const filterData =
+        prevData?.length > 0 &&
+        prevData?.filter(
+          (prev) =>
+            prev?.phone?.includes(e.target.value) ||
+            prev?.firstname?.includes(e.target.value)
+        );
+      setRoomsData(filterData);
+    } else {
+      setRoomsData(prevData);
+    }
+  };
   return (
     <div>
       {" "}
+      <form class="aside-search" role="search">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search Chats"
+          onKeyUp={handleSearchRoom}
+        />
+      </form>
       <ul class="chat-contacts-list list-group list-group-flush">
-        {rooms?.length > 0 ? (
-          rooms?.map((contact, index) => {
+        {roomsData?.length > 0 ? (
+          roomsData?.map((contact, index) => {
             const messageArray = messages?.filter(
               (msg) => msg.room === contact.name
             );
@@ -100,6 +125,7 @@ const ChatRooms = ({
                     <div>
                       <div class="user-name">
                         {contact?.firstname +
+                          " " +
                           // contact?.middlename +
                           contact?.lastname}
                       </div>

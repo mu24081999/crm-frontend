@@ -29,6 +29,8 @@ import { BiDialpad, BiLoaderCircle, BiTransferAlt } from "react-icons/bi";
 import _ from "lodash";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import Loader from "../Loader/Loader";
+import { updateUserRec } from "../../redux/services/users";
+import { setAccount } from "../../redux/slices/auth";
 //Helpers
 
 const Dialer = () => {
@@ -64,7 +66,7 @@ const Dialer = () => {
   );
   const { claimedNumbers } = useSelector((state) => state.calling);
   const { contacts } = useSelector((state) => state.contact);
-  const { users } = useSelector((state) => state.user);
+  const { users, isLoading: userLoading } = useSelector((state) => state.user);
   // const [activeRecordingSid, setActiveRecordingSid] = useState(null);
 
   const backendURL = process.env.REACT_APP_BACKEND_URL_PRODUCTION;
@@ -274,18 +276,20 @@ const Dialer = () => {
     }
   };
   // Function to pause recording
-  const pauseRecording = () => {
+  const pauseRecording = async () => {
     setAlertMessage("Call Recording paused.");
     setRecording(false);
-    if (activeCallSid) {
-      // connection.mediaStream?.pauseRecording();
-      // dispatch(
-      //   pauseCallRecording(token, {
-      //     callSid: activeCallSid,
-      //     accountSid: accountSid,
-      //     authToken: accountAuthToken,
-      //   })
-      // );
+    console.log("pause", recording);
+    const is_updated = await dispatch(
+      updateUserRec(token, { user_id: user.id, recording: 0 }, user.id)
+    );
+    console.log("🚀 ~ pauseRecording ~ is_updated:", is_updated);
+    if (is_updated === true) {
+      const newUser = {
+        ...user,
+        recording: recording,
+      };
+      dispatch(setAccount(newUser));
     }
   };
   const callTransfer = (targetClient) => {
@@ -320,8 +324,20 @@ const Dialer = () => {
     }
     setAlertMessage("Call UnMuted");
   };
-  const resumeRecording = () => {
+  const resumeRecording = async () => {
     setRecording(true);
+
+    const is_updated = await dispatch(
+      updateUserRec(token, { user_id: user.id, recording: 1 }, user.id)
+    );
+    console.log("🚀 ~ pauseRecording ~ is_updated:", is_updated);
+    if (is_updated === true) {
+      const newUser = {
+        ...user,
+        recording: recording,
+      };
+      dispatch(setAccount(newUser));
+    }
     // if (connection && connection?.mediaStream) {
     //   connection?.mediaStream?.resumeRecording();
     // }
@@ -379,13 +395,19 @@ const Dialer = () => {
         position="bottom right"
       >
         {/* <div className="dropdown-menu dropdown-menu-end p-0"> */}
-        <div style={{ padding: "1%", width: "290px", height: "450px" }}>
+        <div
+          style={{
+            padding: "1%",
+            width: "290px",
+            height: userState === "ON_CALL" ? "400px" : "450px",
+          }}
+        >
           {(callStatus === "STARTED" || userState === "ON_CALL") && (
             <div
               className="  position-absolute"
               style={{
                 visibility: showCall ? "unset" : "hidden",
-                marginTop: "22%",
+                marginTop: "30%",
                 marginLeft: "31%",
               }}
             >
@@ -692,10 +714,7 @@ const Dialer = () => {
                 </div>
               </div>
 
-              <div
-                className="
-            "
-              >
+              <div className="pt-5">
                 <ReactTooltip
                   id="off_mic"
                   place="top"
@@ -724,14 +743,12 @@ const Dialer = () => {
                   </button>
                   <button
                     className={`btn p-3 btn-${
-                      recording === false ? "light" : "danger"
+                      user.recording ? "light" : "danger"
                     } rounded`}
                     data-tooltip-id="off_record"
-                    onClick={
-                      recording === true ? pauseRecording : resumeRecording
-                    }
+                    onClick={user?.recording ? pauseRecording : resumeRecording}
                   >
-                    <PiRecordFill size={25} />
+                    {userLoading ? <Loader /> : <PiRecordFill size={25} />}
                   </button>
                 </div>
                 <div className="d-flex justify-content-center gap-3 pt-3">

@@ -1,7 +1,12 @@
 import _ from "lodash";
 import moment from "moment";
 import React, { useContext, useEffect, useState } from "react";
-import { FaArrowAltCircleRight, FaArrowDown } from "react-icons/fa";
+import {
+  FaArrowAltCircleRight,
+  FaArrowDown,
+  FaPhone,
+  FaPhoneAlt,
+} from "react-icons/fa";
 import AWS from "aws-sdk";
 import FilePreview from "../../../../components/FilePreview/FilePreview";
 import { SocketContext } from "../../../../Context";
@@ -208,6 +213,9 @@ const SingleChat = ({
             </div>
             <div class="user-status">{selectedRoom?.phone}</div>
           </div>
+        </div>
+        <div className="btn btn-success rounded-circle btn-icon float-end">
+          <FaPhone className="pt-2 " size={20} />
         </div>
       </header>
       <div data-simplebar id="chat_body" class="chat-body">
@@ -733,11 +741,11 @@ const SingleChat = ({
                 <span class="nav-link-text">Info</span>
               </a>
             </li>
-            <li class="nav-item">
+            {/* <li class="nav-item">
               <a class="nav-link" data-bs-toggle="tab" href="#tab_files">
                 <span class="nav-link-text">Files</span>
               </a>
-            </li>
+            </li> */}
           </ul>
           <div class="tab-content mt-4">
             <div class="tab-pane fade show active" id="tab_info">
@@ -884,7 +892,7 @@ const SingleChat = ({
                 </div> */}
               </div>
             </div>
-            <div class="tab-pane fade" id="tab_files">
+            {/* <div class="tab-pane fade" id="tab_files">
               <form role="search">
                 <input
                   type="text"
@@ -1242,7 +1250,7 @@ const SingleChat = ({
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

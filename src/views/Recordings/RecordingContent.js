@@ -23,7 +23,7 @@ const ContactsContent = () => {
     (state) => state.calling
   );
   console.log("🚀 ~ ContactsContent ~ callLogs:", callLogs);
-  const { token, accountSid, accountAuthToken } = useSelector(
+  const { token, accountSid, accountAuthToken, user } = useSelector(
     (state) => state.auth
   );
   const dispatch = useDispatch();
@@ -104,6 +104,7 @@ const ContactsContent = () => {
                       onToggleEdit={handleToggleEdit}
                       isEdit={isEdit}
                       recordingsData={callRecordingsData}
+                      user={user}
                     />
                   </div>
                 </div>
