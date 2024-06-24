@@ -39,7 +39,7 @@ const SearchNumber = ({
       country: data.country.value,
     };
     dispatch(searchAvailablePhoneNumber(token, formData));
-    // onDataFromChild(false);
+    onDataFromChild(formData.numberType);
   };
   return (
     <form onSubmit={handleSubmit(handleSearchNumber)}>

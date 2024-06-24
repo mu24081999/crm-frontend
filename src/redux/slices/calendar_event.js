@@ -29,6 +29,12 @@ export const calenderEventSlice = createSlice({
       state.error = "";
       state.type = "success";
     },
+    updateEvent: (state, action) => {
+      state.isLoading = false;
+      state.message = action.payload;
+      state.error = "";
+      state.type = "success";
+    },
     deleteEvent: (state, action) => {
       state.isLoading = false;
       state.message = action.payload;
@@ -58,4 +64,5 @@ export const {
   deleteEvent,
   getEvents,
   readEvent,
+  updateEvent,
 } = calenderEventSlice.actions;

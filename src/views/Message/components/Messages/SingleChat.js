@@ -15,6 +15,8 @@ import { getUsers } from "../../../../redux/services/users";
 import { FiAlertTriangle, FiPaperclip } from "react-icons/fi";
 import "reactjs-popup/dist/index.css";
 import Popup from "reactjs-popup";
+import { Tooltip as ReactTooltip } from "react-tooltip";
+import { updateBalanceAfterCall } from "../../../../redux/services/calling";
 
 const SingleChat = ({
   messages,
@@ -23,7 +25,22 @@ const SingleChat = ({
   socket,
   selectedMessages,
 }) => {
-  const { me, call, callUser, sendTextMessage } = useContext(SocketContext);
+  const {
+    me,
+    call,
+    callUser,
+    sendTextMessage,
+    callingDevice,
+    setShowCall,
+    setIsDialerOpen,
+    setActiveCall,
+    setUserState,
+    setCallStatus,
+    setIsDial,
+    setShowContacts,
+    setActiveCallSid,
+    setInputValue,
+  } = useContext(SocketContext);
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [usersArray, setUsersArray] = useState(null);
@@ -163,6 +180,53 @@ const SingleChat = ({
       spaceIndex !== -1 ? str.charAt(spaceIndex + 1) : "";
     return { firstCharacter, characterAfterSpace };
   }
+  const handleCallUser = (phoneNumber) => {
+    const outgoingCall = callingDevice?.connect({ To: phoneNumber });
+    outgoingCall.on("accept", (call) => {
+      console.log(call, "call accepted");
+      setShowCall(true);
+      setIsDialerOpen(true);
+      setActiveCall(call);
+      setUserState("ON_CALL");
+      setIsDial(false);
+      setShowContacts(false);
+      setCallStatus("STARTED");
+      setInputValue(phoneNumber);
+      console.log("Call accepted");
+      // Capture callSid from the accepted call
+      const callSid = call.parameters.CallSid;
+      setActiveCallSid(callSid);
+    });
+
+    outgoingCall.on("reject", () => {
+      setShowCall(false);
+      setUserState("READY");
+      // setTimer({ hours: 0, mins: 0, sec: 0 });
+      setIsDial(true);
+      setIsDialerOpen(false);
+      setShowContacts(false);
+      setCallStatus(null);
+
+      console.log("Call accepted");
+    });
+    outgoingCall.on("disconnect", () => {
+      dispatch(
+        updateBalanceAfterCall(token, {
+          accountSid: authUser.accountSid,
+          authToken: authUser.authToken,
+          user_id: authUser.id,
+        })
+      );
+      // setTimer({ hours: 0, mins: 0, sec: 0 });
+      setShowCall(false);
+      setIsDialerOpen(false);
+      setUserState("READY");
+      setIsDial(true);
+      setShowContacts(false);
+      console.log("Call disconnected");
+      setCallStatus(null);
+    });
+  };
 
   return (
     <div class="chatapp-single-chat">
@@ -214,8 +278,18 @@ const SingleChat = ({
             <div class="user-status">{selectedRoom?.phone}</div>
           </div>
         </div>
-        <div className="btn btn-success rounded-circle btn-icon float-end">
-          <FaPhone className="pt-2 " size={20} />
+        <ReactTooltip
+          id="call_user_button"
+          place="left"
+          content="Call To User"
+        />
+        <div
+          className="btn btn-success rounded-circle btn-icon float-end"
+          style={{ marginRight: "30%" }}
+          onClick={() => handleCallUser(selectedRoom?.phone)}
+          data-tooltip-id="call_user_button"
+        >
+          <FaPhone className="pt-2" size={20} />
         </div>
       </header>
       <div data-simplebar id="chat_body" class="chat-body">

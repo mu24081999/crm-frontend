@@ -6,6 +6,7 @@ import {
   getEvents,
   addEvent,
   deleteEvent,
+  updateEvent,
   readEvent,
 } from "../slices/calendar_event";
 import { toast } from "react-toastify";
@@ -28,6 +29,32 @@ export const storeEvent = (token, data) => async (dispatch) => {
           return dispatch(invalidRequest(response.data.message));
         }
         await dispatch(addEvent(response.data.message));
+        toast.success(response.data.message);
+        await dispatch(getEventsList(token));
+        return true;
+      });
+    return store_event;
+  } catch (e) {
+    dispatch(invalidRequest(e.message));
+  }
+};
+export const updateEventRec = (token, data, event_id) => async (dispatch) => {
+  try {
+    dispatch(eventRequstLoading());
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    };
+    const store_event = await axios
+      .put(`${backendURL}/user/calendar/update-event/${event_id}`, data, config)
+      .then(async (response) => {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          return dispatch(invalidRequest(response.data.message));
+        }
+        await dispatch(updateEvent(response.data.message));
         toast.success(response.data.message);
         await dispatch(getEventsList(token));
         return true;

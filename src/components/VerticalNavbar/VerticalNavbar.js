@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import brand from "../../assets/2.png";
 import { Link, useLocation } from "react-router-dom";
-import { FaDollarSign, FaRegEnvelope, FaRegUser } from "react-icons/fa";
+import {
+  FaBullseye,
+  FaDollarSign,
+  FaRegEnvelope,
+  FaRegUser,
+} from "react-icons/fa";
 import { MdAddRoad, MdOutlineEmail, MdSupportAgent } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CiMenuFries } from "react-icons/ci";
 import logo from "./../../assets/4.png";
 import { MdOutlineSubscriptions } from "react-icons/md";
@@ -16,48 +21,70 @@ import {
 } from "react-icons/ri";
 import { GoFileDirectory } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
-import { FaRegMessage, FaRegNoteSticky } from "react-icons/fa6";
+import {
+  FaArrowRightFromBracket,
+  FaRegMessage,
+  FaRegNoteSticky,
+} from "react-icons/fa6";
 import { GrCheckboxSelected } from "react-icons/gr";
-import { BsApp } from "react-icons/bs";
+import { BsApp, BsArrowBarLeft, BsArrowBarRight } from "react-icons/bs";
 import { TbFileInvoice, TbUsers } from "react-icons/tb";
 import { LuContact } from "react-icons/lu";
 import { BiWallet } from "react-icons/bi";
 import { TiCogOutline } from "react-icons/ti";
 import { SiJfrogpipelines } from "react-icons/si";
+import { getSubscriptionsList } from "../../redux/services/subscription";
+import _ from "lodash";
 
 const VerticalNavbar = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
   const [verticalClick, setVerticalClick] = useState(false);
+  console.log("🚀 ~ VerticalNavbar ~ verticalClick:", verticalClick);
+  const [subscriptionPlan, setSubscriptionPlan] = useState({});
+  const dispatch = useDispatch();
   const location = useLocation();
+  const { subscriptions, isLoading } = useSelector(
+    (state) => state.subscription
+  );
+  useEffect(() => {
+    dispatch(getSubscriptionsList(token));
+  }, [token, dispatch]);
+  useMemo(() => {
+    if (user?.parent_id !== null) {
+      const filteredData = subscriptions?.filter(
+        (subscription) =>
+          subscription.customer_id === _.toInteger(user?.parent_id)
+      );
+      setSubscriptionPlan(filteredData[0]);
+    }
+  }, [user, subscriptions]);
+
   const handleMenuClick = () => {
     setVerticalClick(true);
-    var hkMenu = document.getElementsByClassName("hk-menu")[0];
-    var navbarBrand = document.getElementsByClassName("navbar-brand")[0];
-    navbarBrand.style.visibility = "visible";
-    var navLink = document.getElementsByClassName("nav-link-text");
-    hkMenu.style.width = "270px";
-    navLink?.forEach((element) => {
-      element.style.visibility = "visible";
-    });
-    var hkWrapper = document.getElementsByClassName("hk-wrapper")[0];
-    hkWrapper.style.left = "200px";
-    var pageDiv = document.getElementsByClassName("hk-pg-wrapper")[0];
-    pageDiv.style.width = "80%";
+    // var hkMenu = document.getElementsByClassName("hk-menu")[0];
+    // var navbarBrand = document.getElementsByClassName("navbar-brand")[0];
+    // navbarBrand.style.visibility = "visible";
+    // var navLink = document.getElementsByClassName("nav-link-text");
+    // hkMenu.style.width = "270px";
+    // navLink?.forEach((element) => {
+    //   element.style.visibility = "visible";
+    // });
+    // var hkWrapper = document.getElementsByClassName("hk-wrapper")[0];
+    // hkWrapper.style.left = "200px";
+    // var pageDiv = document.getElementsByClassName("hk-pg-wrapper")[0];
+    // pageDiv.style.width = "80%";
+    const divElement = document.getElementById("main_div");
+
+    // Add click event listener
+    divElement.setAttribute("data-layout-style", "default");
   };
   const handleMenuClickAgain = () => {
     setVerticalClick(false);
-    var hkMenu = document.getElementsByClassName("hk-menu")[0];
-    var navbarBrand = document.getElementsByClassName("navbar-brand")[0];
-    navbarBrand.style.visibility = "hidden";
-    var navLink = document.getElementsByClassName("nav-link-text");
-    hkMenu.style.width = "80px";
-    navLink?.forEach((element) => {
-      element.style.visibility = "hidden";
-    });
-    var hkWrapper = document.getElementsByClassName("hk-wrapper")[0];
-    hkWrapper.style.left = "100px";
-    var pageDiv = document.getElementsByClassName("hk-pg-wrapper")[0];
-    pageDiv.style.width = "90%";
+
+    const divElement = document.getElementById("main_div");
+
+    // Add click event listener
+    divElement.setAttribute("data-layout-style", "collapsed");
   };
   return (
     <div className="hk-menu">
@@ -78,43 +105,22 @@ const VerticalNavbar = () => {
               alt="brand"
             />
           </Link>
-          {/* {verticalClick ? (
+          {!verticalClick ? (
+            <button
+              className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle"
+              onClick={handleMenuClick}
+              style={{ cursor: "pointer" }}
+            >
+              <BsArrowBarLeft />
+            </button>
+          ) : (
             <button
               className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle"
               onClick={handleMenuClickAgain}
             >
-              <LuArrowRightToLine />
+              <BsArrowBarRight />
             </button>
-          ) : ( */}
-          <button
-            className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle"
-            onClick={handleMenuClick}
-            style={{ cursor: "pointer" }}
-          >
-            <span className="icon">
-              <span className="svg-icon fs-5">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="icon icon-tabler icon-tabler-arrow-bar-to-left"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <line x1="10" y1="12" x2="20" y2="12"></line>
-                  <line x1="10" y1="12" x2="14" y2="16"></line>
-                  <line x1="10" y1="12" x2="14" y2="8"></line>
-                  <line x1="4" y1="4" x2="4" y2="20"></line>
-                </svg>
-              </span>
-            </span>
-          </button>
-          {/* )} */}
+          )}
         </span>
       </div>
       {/* <!-- /Brand --> */}
@@ -609,41 +615,44 @@ const VerticalNavbar = () => {
                       <span className="nav-link-text">Wallet</span>
                     </Link>
                   </li>
-                  <li
-                    className={`nav-item ${
-                      location?.pathname === "/invoices" && "active"
-                    }`}
-                  >
-                    <a
-                      className="nav-link"
-                      href="/"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#dash_invoice"
+                  {subscriptionPlan?.plan !== "Solo Starter" && (
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/invoices" && "active"
+                      }`}
                     >
-                      <span className="nav-icon-wrap">
-                        <span className="svg-icon">
-                          <TbFileInvoice />
+                      <a
+                        className="nav-link"
+                        href="/"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#dash_invoice"
+                      >
+                        <span className="nav-icon-wrap">
+                          <span className="svg-icon">
+                            <TbFileInvoice />
+                          </span>
                         </span>
-                      </span>
-                      <span className="nav-link-text">Invoices</span>
-                    </a>
-                    <ul
-                      id="dash_invoice"
-                      className="nav flex-column collapse  nav-children"
-                    >
-                      <li className="nav-item">
-                        <ul className="nav flex-column">
-                          <li className="nav-item">
-                            <Link className="nav-link" to="/invoices">
-                              <span className="nav-link-text">
-                                Invoice List
-                              </span>
-                            </Link>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
+                        <span className="nav-link-text">Invoices</span>
+                      </a>
+                      <ul
+                        id="dash_invoice"
+                        className="nav flex-column collapse  nav-children"
+                      >
+                        <li className="nav-item">
+                          <ul className="nav flex-column">
+                            <li className="nav-item">
+                              <Link className="nav-link" to="/invoices">
+                                <span className="nav-link-text">
+                                  Invoice List
+                                </span>
+                              </Link>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  )}
+
                   <li
                     className={`nav-item ${
                       (location?.pathname === "/recordings" ||
@@ -671,13 +680,13 @@ const VerticalNavbar = () => {
                     >
                       <li className="nav-item">
                         <ul className="nav flex-column">
-                          {/* <li className="nav-item">
+                          <li className="nav-item">
                             <Link className="nav-link" to="/recordings">
                               <span className="nav-link-text">
                                 Call Recordings
                               </span>
                             </Link>
-                          </li> */}
+                          </li>
                           <li className="nav-item">
                             <Link className="nav-link" to="/call-history">
                               <span className="nav-link-text">

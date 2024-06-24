@@ -21,6 +21,8 @@ const ContactsContent = () => {
   const [data, setData] = useState([]);
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [phoneNumbers_, setPhoneNumbers_] = useState([]);
+  const [numberType, setNumberType] = useState([]);
+  console.log("🚀 ~ ContactsContent ~ numberType:", numberType);
   const [selectedNumber, setSelectedNumber] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
@@ -61,6 +63,9 @@ const ContactsContent = () => {
   };
   const handleNumbersDataFromChild = (data) => {
     setIsSearch(data);
+  };
+  const handleNumberType = (data) => {
+    setNumberType(data);
   };
   const handleSelectedNumber = (data) => {
     setSelectedNumber(data);
@@ -108,7 +113,8 @@ const ContactsContent = () => {
                 {isSearch && (
                   <SearchNumber
                     numbersData={phoneNumbers_}
-                    onDataFromChild={handleNumbersDataFromChild}
+                    // onDataFromChild={handleNumbersDataFromChild}
+                    onDataFromChild={handleNumberType}
                     dispatch={dispatch}
                     token={token}
                     accountSid={accountSid}
@@ -117,113 +123,12 @@ const ContactsContent = () => {
                 )}
                 <div className="contact-body">
                   <div data-simplebar className="nicescroll-bar">
-                    {/* <div className="collapse" id="collapseQuick">
-                      <div className="quick-access-form-wrap">
-                        <form className="quick-access-form border">
-                          <div className="row gx-3">
-                            <div className="col-xxl-10">
-                              <div className="position-relative">
-                                <div className="dropify-square">
-                                  <input type="file" className="dropify-1" />
-                                </div>
-                                <div className="col-md-12">
-                                  <div className="row gx-3">
-                                    <div className="col-lg-4">
-                                      <div className="form-group">
-                                        <input
-                                          className="form-control"
-                                          placeholder="First name*"
-                                          value=""
-                                          type="text"
-                                        />
-                                      </div>
-                                      <div className="form-group">
-                                        <input
-                                          className="form-control"
-                                          placeholder="Last name*"
-                                          value=""
-                                          type="text"
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="col-lg-4">
-                                      <div className="form-group">
-                                        <input
-                                          className="form-control"
-                                          placeholder="Email Id*"
-                                          value=""
-                                          type="text"
-                                        />
-                                      </div>
-                                      <div className="form-group">
-                                        <input
-                                          className="form-control"
-                                          placeholder="Phone"
-                                          value=""
-                                          type="text"
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="col-lg-4">
-                                      <div className="form-group">
-                                        <input
-                                          className="form-control"
-                                          placeholder="Department"
-                                          value=""
-                                          type="text"
-                                        />
-                                      </div>
-                                      <div className="form-group">
-                                        <select
-                                          id="input_tags"
-                                          className="form-control"
-                                          multiple="multiple"
-                                        >
-                                          <option selected="selected">
-                                            Collaborator
-                                          </option>
-                                          <option>Designer</option>
-                                          <option selected="selected">
-                                            Developer
-                                          </option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-xxl-2">
-                              <div className="form-group">
-                                <button
-                                  data-bs-toggle="collapse"
-                                  data-bs-target="#collapseExample"
-                                  aria-expanded="false"
-                                  className="btn btn-block btn-primary "
-                                >
-                                  Create New
-                                </button>
-                              </div>
-                              <div className="form-group">
-                                <button
-                                  data-bs-toggle="collapse"
-                                  disabled
-                                  data-bs-target="#collapseExample"
-                                  aria-expanded="false"
-                                  className="btn btn-block btn-secondary"
-                                >
-                                  Discard
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div> */}
-
                     <ContactList
                       contactsData={phoneNumbers}
                       onToggleEdit={handleToggleEdit}
+                      numberPricing={
+                        numberType === "tollFree" ? "4.55" : "3.99"
+                      }
                       isEdit={isEdit}
                       onDataFromChild={handleSelectedNumber}
                     />

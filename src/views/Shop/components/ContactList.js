@@ -10,13 +10,16 @@ import { FaStar } from "react-icons/fa";
 import { getUsers } from "../../../redux/services/users";
 import Payment from "../../../components/PaymentCard/Payment";
 import { paymentIntent } from "../../../redux/services/payment";
+import _ from "lodash";
 
 const ContactList = ({
   contactsData,
   onToggleEdit,
+  numberPricing,
   isEdit,
   onDataFromChild,
 }) => {
+  console.log("🚀 ~ numberPricing:", numberPricing);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { isLoading } = useSelector((state) => state.calling);
@@ -31,7 +34,7 @@ const ContactList = ({
     dispatch(
       paymentIntent(token, {
         currency: "usd",
-        amount: 250,
+        amount: parseFloat(numberPricing) * 100,
         // amount: amount_value ? amount_value.getAttribute("data-amount") : "",
       })
     );
@@ -102,7 +105,7 @@ const ContactList = ({
                         </button>
                       </td>
                       <td>{contact?.addressRequirements}</td>
-                      <td className="fw-bold">$2.5</td>
+                      <td className="fw-bold">${numberPricing}</td>
                       <td>
                         <div className="d-flex align-items-center">
                           <div className="d-flex">

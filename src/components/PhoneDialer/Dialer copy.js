@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { FaPhone, FaPlus, FaTimes } from "react-icons/fa";
 
 import Popup from "reactjs-popup";
@@ -31,33 +31,9 @@ import { Tooltip as ReactTooltip } from "react-tooltip";
 import Loader from "../Loader/Loader";
 import { updateUserRec } from "../../redux/services/users";
 import { setAccount } from "../../redux/slices/auth";
-import { SocketContext } from "../../Context";
 //Helpers
 
 const Dialer = () => {
-  const {
-    setCallingDevice,
-    isDial,
-    setIsDial,
-    showCall,
-    setShowCall,
-    isDialerOpen,
-    setIsDialerOpen,
-    activeCall,
-    setActiveCall,
-    userState,
-    setUserState,
-    callStatus,
-    setCallStatus,
-    showContacts,
-    setShowContacts,
-    connection,
-    setConnection,
-    activeCallSid,
-    setActiveCallSid,
-    inputValue,
-    setInputValue,
-  } = useContext(SocketContext);
   const {
     // handleSubmit,
     watch,
@@ -65,18 +41,18 @@ const Dialer = () => {
     setValue,
     formState: { errors },
   } = useForm();
-  // const [inputValue, setInputValue] = useState("");
-  // const [isDial, setIsDial] = useState(true);
+  const [inputValue, setInputValue] = useState("");
+  const [isDial, setIsDial] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  // const [showContacts, setShowContacts] = useState(false);
-  // const [isDialerOpen, setIsDialerOpen] = useState(false);
-  // const [callStatus, setCallStatus] = useState(null);
+  const [showContacts, setShowContacts] = useState(false);
+  const [isDialerOpen, setIsDialerOpen] = useState(false);
+  const [callStatus, setCallStatus] = useState(null);
   const [twilioDevice, setTwilioDevice] = useState(null);
-  // const [userState, setUserState] = useState("READY");
-  // const [showCall, setShowCall] = useState(false);
-  // const [connection, setConnection] = useState(false);
-  // const [activeCall, setActiveCall] = useState(null);
-  // const [activeCallSid, setActiveCallSid] = useState(null);
+  const [userState, setUserState] = useState("READY");
+  const [showCall, setShowCall] = useState(false);
+  const [connection, setConnection] = useState(false);
+  const [activeCall, setActiveCall] = useState(null);
+  const [activeCallSid, setActiveCallSid] = useState(null);
   const [active, setActive] = useState(true);
   const [alertMessage, setAlertMessage] = useState(null);
   const [agents, setAgents] = useState([]);
@@ -150,7 +126,6 @@ const Dialer = () => {
         });
         console.log("device setup: " + device);
         setTwilioDevice(device);
-        setCallingDevice(device);
       })
       .catch((err) => console.error(err));
     return () => {

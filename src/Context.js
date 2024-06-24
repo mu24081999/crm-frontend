@@ -29,6 +29,19 @@ const ContextProvider = ({ children }) => {
   const [notificationsArray, setNotificationsArray] = useState([]);
   const [contactsToModify, setContactsToModify] = useState([]);
   const [me, setMe] = useState("");
+  //Dialer features
+  const [callingDevice, setCallingDevice] = useState({});
+  const [showCall, setShowCall] = useState(false);
+  const [isDialerOpen, setIsDialerOpen] = useState(false);
+  const [activeCall, setActiveCall] = useState(null);
+  const [userState, setUserState] = useState("READY");
+  const [callStatus, setCallStatus] = useState(null);
+  const [isDial, setIsDial] = useState(true);
+  const [showContacts, setShowContacts] = useState(false);
+  const [connection, setConnection] = useState(false);
+  const [activeCallSid, setActiveCallSid] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+
   const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
@@ -305,6 +318,17 @@ const ContextProvider = ({ children }) => {
         messageError,
         notificationsArray,
         contactsToModify,
+        callingDevice,
+        showCall,
+        isDialerOpen,
+        activeCall,
+        userState,
+        callStatus,
+        isDial,
+        showContacts,
+        connection,
+        activeCallSid,
+        inputValue,
         calling,
         readyForCall,
         readyForAudioCall,
@@ -317,6 +341,17 @@ const ContextProvider = ({ children }) => {
         handleToggleShowUserDetail,
         pushNotification,
         setContactsToModify,
+        setCallingDevice,
+        setShowCall,
+        setIsDialerOpen,
+        setActiveCall,
+        setUserState,
+        setCallStatus,
+        setIsDial,
+        setShowContacts,
+        setConnection,
+        setActiveCallSid,
+        setInputValue,
       }}
     >
       {children}

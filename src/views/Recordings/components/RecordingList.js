@@ -6,7 +6,7 @@ import {
   getContactsList,
 } from "../../../redux/services/contact";
 import Loader from "../../../components/Loader/Loader";
-import { FaStar } from "react-icons/fa";
+import { FaPlay, FaStar } from "react-icons/fa";
 import { getUsers } from "../../../redux/services/users";
 import moment from "moment/moment";
 import { CallLogsList } from "../../../redux/services/calling";
@@ -24,6 +24,15 @@ const RecordingList = ({ isEdit, recordingsData, user }) => {
       dispatch(getUsers(token));
     }
   }, [dispatch, token, accountSid, accountAuthToken]);
+  const AudioPlayer = () => {
+    return (
+      <div>
+        <button>
+          <FaPlay />
+        </button>
+      </div>
+    );
+  };
 
   return (
     <div className="contact-list-view">

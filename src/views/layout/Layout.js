@@ -1,4 +1,10 @@
-import React, { useEffect, useContext, useState, useMemo } from "react";
+import React, {
+  useEffect,
+  useContext,
+  useState,
+  useMemo,
+  useCallback,
+} from "react";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import VerticalNavbar from "../../components/VerticalNavbar/VerticalNavbar";
 import ChatPopup from "../../components/ChatPopup/ChatPopup";
@@ -15,7 +21,10 @@ import SubaccountForm from "./SubaccountForm";
 import { getUserNotificationsList } from "../../redux/services/notification";
 import { SocketContext } from "../../Context";
 import { getTodosList } from "../../redux/services/todo";
-import { getEventsList } from "../../redux/services/calendar_event";
+import {
+  getEventsList,
+  updateEventRec,
+} from "../../redux/services/calendar_event";
 import moment from "moment";
 // import Dialer from "../../components/PhoneDialer/Dialer";
 const Layout = ({ component }) => {
@@ -85,7 +94,7 @@ const Layout = ({ component }) => {
     const timeDifference = eventTime - currentTime;
 
     // Check if the time difference is within one hour (3600000 milliseconds)
-    return timeDifference > 0 && timeDifference <= 3600000;
+    return timeDifference > 0 && timeDifference <= 3600000 * 2;
   }
 
   function shouldNotify(eventDate, eventEndTime) {
@@ -131,6 +140,7 @@ const Layout = ({ component }) => {
       }
     }
   }
+
   async function eventsReminder(events) {
     if (events?.length > 0) {
       for (let i = 0; i < events.length; i++) {
@@ -139,7 +149,7 @@ const Layout = ({ component }) => {
           element.start_date,
           element.start_time
         );
-        if (shouldNotifyNow) {
+        if (shouldNotifyNow && element.notified === 0) {
           switch (element.type) {
             case "event":
               for (let z = 0; z < element?.team_members?.members?.length; z++) {
@@ -171,6 +181,7 @@ const Layout = ({ component }) => {
                 type: "reminder_added",
               };
               pushNotification(notification);
+              await updateEventRec(token, { notified: 1 }, element.id);
               break;
             case "reminder":
               const notificationParam = {
@@ -186,6 +197,7 @@ const Layout = ({ component }) => {
                 type: "reminder_added",
               };
               pushNotification(notificationParam);
+              await updateEventRec(token, { notified: 1 }, element.id);
               break;
             default:
               break;
@@ -210,7 +222,7 @@ const Layout = ({ component }) => {
     const todayString = today.toISOString().split("T")[0]; // Get date in YYYY-MM-DD format
     const lastCalledDate = localStorage.getItem("eventsReminderLastCallDate");
     // if (lastCalledDate !== todayString) {
-    await eventsReminder(todos);
+    await eventsReminder(events);
     // localStorage.setItem("eventsReminderLastCallDate", todayString);
     // } else {
     // console.log("Function has already been called today.");
@@ -221,12 +233,12 @@ const Layout = ({ component }) => {
     if (todos.length > 0) {
       checkAndCallOnceADay(todos);
     }
-  }, [todos]);
+  }, [todos, checkAndCallOnceADay]);
   useMemo(() => {
     if (events.length > 0) {
       checkAndCallOnceADayReminder(events);
     }
-  }, [events]);
+  }, [events, checkAndCallOnceADayReminder]);
   useEffect(() => {
     if (!isAuthenticated) {
       redirectTo("/sign-in");
@@ -241,6 +253,7 @@ const Layout = ({ component }) => {
   return (
     <div
       class="hk-wrapper"
+      id="main_div"
       data-layout="vertical"
       data-layout-style="collapsed"
       data-menu="light"

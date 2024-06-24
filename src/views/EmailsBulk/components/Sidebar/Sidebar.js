@@ -114,19 +114,18 @@ const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
                   <span className="nav-link-text">Archive</span>
                 </button>
               </li>
-              <li
+              {/* <li
                 className={`nav-item ${activeBar === "draft" ? "active" : ""}`}
               >
                 <button className="nav-link btn-block" href="/">
                   <span className="nav-icon-wrap">
                     <span className="feather-icon">
-                      {/* <i data-feather="edit"></i> */}
                       <FaEdit />
                     </span>
                   </span>
                   <span className="nav-link-text">Draft</span>
                 </button>
-              </li>
+              </li> */}
               <li
                 className={`nav-item ${activeBar === "trash" ? "active" : ""}`}
               >

@@ -39,7 +39,7 @@ const PlanSelection = () => {
     end_date: null,
   });
   const [showDiscount, setShowDiscount] = useState(false);
-  console.log("🚀 ~ PlanSelection ~ planData:", planData);
+
   useEffect(() => {
     dispatch(readRateRec(token, 1));
   }, [token, dispatch]);
@@ -197,6 +197,7 @@ const PlanSelection = () => {
                 className="col-lg-3 card shadow-lg rounded-4 p-4"
                 data-aos="fade-up"
                 data-aos-delay="100"
+                style={{ borderTop: "5px solid gold" }}
               >
                 <div className="">
                   <h3 className="text-light py-2">Solo Starter</h3>
@@ -209,7 +210,14 @@ const PlanSelection = () => {
                       </div>
                       {showDiscount && (
                         <div>
-                          <span className="fs-4">(10% Off)</span>
+                          <p className="fs-5">( 10% Off )</p>
+                          <p className="fs-5">
+                            <span>
+                              ( ${_.toString(amount?.starter * 12)?.slice(0, 5)}{" "}
+                              )
+                            </span>
+                            <span className="text-primary"> / Year</span>
+                          </p>
                         </div>
                       )}
                     </div>
@@ -218,7 +226,7 @@ const PlanSelection = () => {
                     <li>
                       <div className=" text-light d-flex">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        <div>Voice Calling and account serversice</div>
+                        <div>Voice Calling and account services</div>
                       </div>
                     </li>
                     <li>
@@ -230,13 +238,13 @@ const PlanSelection = () => {
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />1
-                        Subaccount/Client Account
+                        Subaccount
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        Agent/User
+                        <FaCheck color="green" size={34} className="pe-2" />1
+                        Agent
                       </div>
                     </li>
                     <li>
@@ -317,6 +325,7 @@ const PlanSelection = () => {
                 className="col-lg-3 card shadow-lg rounded-4 p-4"
                 data-aos="fade-up"
                 data-aos-delay="100"
+                style={{ borderTop: "5px solid teal" }}
               >
                 <div className="">
                   <h3 className=" py-2 text-light">Growth</h3>
@@ -329,7 +338,14 @@ const PlanSelection = () => {
                       </div>
                       {showDiscount && (
                         <div>
-                          <span className="fs-4">(10% Off)</span>
+                          <p className="fs-5">( 10% Off )</p>
+                          <p className="fs-5">
+                            <span>
+                              ( ${_.toString(amount?.growth * 12)?.slice(0, 5)}{" "}
+                              )
+                            </span>
+                            <span className="text-primary"> / Year</span>
+                          </p>
                         </div>
                       )}
                     </div>
@@ -344,13 +360,13 @@ const PlanSelection = () => {
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />3
-                        Subaccount/Client Account
+                        Subaccount
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />3
-                        Agent/User
+                        Agent
                       </div>
                     </li>
                     <li>
@@ -437,6 +453,7 @@ const PlanSelection = () => {
                 className="col-lg-3 card shadow-lg rounded-4 p-4"
                 data-aos="fade-up"
                 data-aos-delay="100"
+                style={{ borderTop: "5px solid red" }}
               >
                 <div className="">
                   <h3 className="text-gold py-2">Enterprise</h3>
@@ -449,7 +466,15 @@ const PlanSelection = () => {
                       </div>
                       {showDiscount && (
                         <div>
-                          <span className="fs-4">(10% Off)</span>
+                          <p className="fs-5">( 10% Off )</p>
+                          <p className="fs-5">
+                            <span>
+                              ( $
+                              {_.toString(amount?.enterprise * 12)?.slice(0, 4)}{" "}
+                              )
+                            </span>
+                            <span className="text-primary"> / Year</span>
+                          </p>
                         </div>
                       )}
                     </div>
@@ -464,13 +489,13 @@ const PlanSelection = () => {
                     <li>
                       <div className="d-flex text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        <div> Unlimited Subaccount/Client Account</div>
+                        <div> Unlimited Subaccounts</div>
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        Unlimited Agent/User
+                        Unlimited Agents
                       </div>
                     </li>
                     <li>
@@ -490,7 +515,7 @@ const PlanSelection = () => {
                     </li>
                   </ul>
                 </div>
-                <div className="card-footer p-0">
+                <div className="card-footer p-0 mt-3">
                   <button
                     className="btn btn-block btn-primary"
                     data-bs-toggle="modal"

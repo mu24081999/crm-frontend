@@ -22,7 +22,6 @@ const ContactsContent = () => {
   const { availableNumbers, recordings, callLogs } = useSelector(
     (state) => state.calling
   );
-  console.log("🚀 ~ ContactsContent ~ callLogs:", callLogs);
   const { token, accountSid, accountAuthToken, user } = useSelector(
     (state) => state.auth
   );
@@ -37,21 +36,21 @@ const ContactsContent = () => {
   }, [contacts]);
   useMemo(() => {
     const recordingsData = [];
-    for (let i = 0; i < callLogs.length; i++) {
-      for (let x = 0; x < recordings.length; x++) {
-        if (callLogs[i]?.sid === recordings[x]?.callSid) {
-          var data = {
-            ...recordings[x],
-            fromNumber: callLogs[i].from,
-            toNumber: callLogs[i].to,
-            direction: callLogs[i].direction,
-          };
-          recordingsData.push(data);
-        }
-      }
-    }
-    setCallRecordingsData(recordingsData);
-  }, [recordings, callLogs]);
+    // for (let i = 0; i < callLogs.length; i++) {
+    //   for (let x = 0; x < recordings.length; x++) {
+    //     if (callLogs[i]?.sid === recordings[x]?.callSid) {
+    //       var data = {
+    //         ...recordings[x],
+    //         fromNumber: callLogs[i].from,
+    //         toNumber: callLogs[i].to,
+    //         direction: callLogs[i].direction,
+    //       };
+    //       recordingsData.push(data);
+    //     }
+    //   }
+    // }
+    setCallRecordingsData(recordings);
+  }, [recordings]);
   useEffect(() => {
     if (availableNumbers.length > 0) {
       setPhoneNumbers(availableNumbers);
