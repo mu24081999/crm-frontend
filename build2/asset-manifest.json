@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.4ebd922d.css",
+    "main.js": "/static/js/main.607b5148.js",
+    "static/js/453.dc17a729.chunk.js": "/static/js/453.dc17a729.chunk.js",
+    "static/media/desktopcrm-front.png": "/static/media/desktopcrm-front.ff78021faf9a305cfdb9.png",
+    "index.html": "/index.html",
+    "main.4ebd922d.css.map": "/static/css/main.4ebd922d.css.map",
+    "main.607b5148.js.map": "/static/js/main.607b5148.js.map",
+    "453.dc17a729.chunk.js.map": "/static/js/453.dc17a729.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4ebd922d.css",
+    "static/js/main.607b5148.js"
+  ]
+}
