@@ -34,6 +34,7 @@ const persistConfig = {
     "balance",
     "notification",
     "plan_rate",
+    "pricing",
   ],
   whitelist: ["auth"],
 };

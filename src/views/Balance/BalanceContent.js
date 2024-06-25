@@ -11,6 +11,8 @@ import { addBalanceRec, getBalance } from "../../redux/services/balance";
 import moment from "moment/moment";
 import { Link } from "react-router-dom";
 import { SocketContext } from "../../Context";
+import { useForm } from "react-hook-form";
+import PricingGenerator from "./components/PricingGenerator";
 
 const BalanceContent = () => {
   const { pushNotification } = useContext(SocketContext);
@@ -48,6 +50,7 @@ const BalanceContent = () => {
       })
     );
   };
+
   return (
     <>
       <div className="hk-pg-wrapper pb-0">
@@ -174,36 +177,11 @@ const BalanceContent = () => {
                   </div>
                 </div>
                 <div className="w-50" style={{ height: "100%" }}>
-                  <div
-                    className="card shadow-lg  m-5"
-                    style={{ height: "50%" }}
-                  >
-                    <div className="card-header bg-primary">
-                      <div className="card-title text-white">
-                        Pricing SMS/Calls
-                      </div>
-                    </div>
-                    <div className="card-body">
-                      <table class="table table-hover">
-                        <thead>
-                          <tr className="sticky-top rounded">
-                            <th scope="col">Country</th>
-                            <th scope="col">Call Outbound Price / minute</th>
-                            <th scope="col">Call Inbound Price / minute</th>
-                            <th scope="col">SMS Price</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr key={1}>
-                            <td>United States</td>
-                            <td>$0.0140 / min</td>
-                            <td>$0.0085 / min</td>
-                            <td>$0.0079</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+                  <PricingGenerator
+                    authUser={user}
+                    dispatch={dispatch}
+                    token={token}
+                  />
                   <div className="card shadow-lg m-5" style={{ height: "38%" }}>
                     <div className="card-header bg-primary">
                       <div className="card-title text-white">Usage</div>

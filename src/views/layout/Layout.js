@@ -149,6 +149,7 @@ const Layout = ({ component }) => {
           element.start_date,
           element.start_time
         );
+
         if (shouldNotifyNow && element.notified === 0) {
           switch (element.type) {
             case "event":
@@ -181,7 +182,9 @@ const Layout = ({ component }) => {
                 type: "reminder_added",
               };
               pushNotification(notification);
-              await updateEventRec(token, { notified: 1 }, element.id);
+              await dispatch(
+                updateEventRec(token, { notified: 1 }, element.id)
+              );
               break;
             case "reminder":
               const notificationParam = {
@@ -197,7 +200,9 @@ const Layout = ({ component }) => {
                 type: "reminder_added",
               };
               pushNotification(notificationParam);
-              await updateEventRec(token, { notified: 1 }, element.id);
+              await dispatch(
+                updateEventRec(token, { notified: 1 }, element.id)
+              );
               break;
             default:
               break;
@@ -229,16 +234,16 @@ const Layout = ({ component }) => {
     // }
   }
 
-  useMemo(() => {
+  useEffect(() => {
     if (todos.length > 0) {
       checkAndCallOnceADay(todos);
     }
-  }, [todos, checkAndCallOnceADay]);
-  useMemo(() => {
+  }, [todos]);
+  useEffect(() => {
     if (events.length > 0) {
       checkAndCallOnceADayReminder(events);
     }
-  }, [events, checkAndCallOnceADayReminder]);
+  }, [events]);
   useEffect(() => {
     if (!isAuthenticated) {
       redirectTo("/sign-in");

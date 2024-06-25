@@ -18,6 +18,7 @@ export const UploadCSVContact = ({ token, dispatch, authUser }) => {
   } = useForm({});
   const { contactsToModify } = useContext(SocketContext);
   const [data, setData] = useState([]);
+  console.log("🚀 ~ UploadCSVContact ~ data:", data);
   const [file, setFile] = useState(null);
   const handleUploadCSV = () => {
     if (data?.length > 0) {

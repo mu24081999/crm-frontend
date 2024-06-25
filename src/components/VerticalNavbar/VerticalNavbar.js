@@ -39,7 +39,6 @@ import _ from "lodash";
 const VerticalNavbar = () => {
   const { user, token } = useSelector((state) => state.auth);
   const [verticalClick, setVerticalClick] = useState(false);
-  console.log("🚀 ~ VerticalNavbar ~ verticalClick:", verticalClick);
   const [subscriptionPlan, setSubscriptionPlan] = useState({});
   const dispatch = useDispatch();
   const location = useLocation();
@@ -49,7 +48,7 @@ const VerticalNavbar = () => {
   useEffect(() => {
     dispatch(getSubscriptionsList(token));
   }, [token, dispatch]);
-  useMemo(() => {
+  useEffect(() => {
     if (user?.parent_id !== null) {
       const filteredData = subscriptions?.filter(
         (subscription) =>
@@ -61,29 +60,12 @@ const VerticalNavbar = () => {
 
   const handleMenuClick = () => {
     setVerticalClick(true);
-    // var hkMenu = document.getElementsByClassName("hk-menu")[0];
-    // var navbarBrand = document.getElementsByClassName("navbar-brand")[0];
-    // navbarBrand.style.visibility = "visible";
-    // var navLink = document.getElementsByClassName("nav-link-text");
-    // hkMenu.style.width = "270px";
-    // navLink?.forEach((element) => {
-    //   element.style.visibility = "visible";
-    // });
-    // var hkWrapper = document.getElementsByClassName("hk-wrapper")[0];
-    // hkWrapper.style.left = "200px";
-    // var pageDiv = document.getElementsByClassName("hk-pg-wrapper")[0];
-    // pageDiv.style.width = "80%";
     const divElement = document.getElementById("main_div");
-
-    // Add click event listener
     divElement.setAttribute("data-layout-style", "default");
   };
   const handleMenuClickAgain = () => {
     setVerticalClick(false);
-
     const divElement = document.getElementById("main_div");
-
-    // Add click event listener
     divElement.setAttribute("data-layout-style", "collapsed");
   };
   return (

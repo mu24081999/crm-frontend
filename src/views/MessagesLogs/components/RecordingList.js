@@ -71,6 +71,7 @@ const RecordingList = ({ isEdit, recordingsData }) => {
                   <th>Text</th>
                   <th>Direction</th>
                   <th>Error Message</th>
+                  <th>Price</th>
                 </tr>
               </thead>
 
@@ -131,6 +132,7 @@ const RecordingList = ({ isEdit, recordingsData }) => {
                           </Popup>
                         )}
                       </td>
+                      <td>{recording?.price}</td>
                     </tr>
                   ))}
               </tbody>

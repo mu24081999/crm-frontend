@@ -128,7 +128,10 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
     setContacts(filterData);
   };
   return (
-    <div className="contact-list-view">
+    <div
+      className="contact-list-view"
+      style={{ height: "100vh", overflow: "scroll" }}
+    >
       <div className="">
         <div className="p-2">
           <div class="btn-toolbar" role="toolbar" aria-label="Add to pipeline">

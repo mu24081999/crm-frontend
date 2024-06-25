@@ -36,6 +36,7 @@ const RecordingList = ({ isEdit, recordingsData }) => {
                   <th>Duration</th>
                   <th>Direction</th>
                   <th>Recording</th>
+                  <th>Price</th>
                 </tr>
               </thead>
 
@@ -63,6 +64,7 @@ const RecordingList = ({ isEdit, recordingsData }) => {
                           </audio>
                         )}
                       </td>
+                      <td>{recording?.call?.price || 0}</td>
                     </tr>
                   ))}
               </tbody>

@@ -35,6 +35,7 @@ export const addBalanceRec = (token, data) => async (dispatch) => {
     dispatch(invalidRequest(e.message));
   }
 };
+
 export const getBalance = (token) => async (dispatch) => {
   try {
     dispatch(balanceRequestLoading());
