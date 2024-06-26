@@ -48,6 +48,13 @@ const SingleChat = ({
   const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   useEffect(() => {
+    if (selectedMessages?.length > 0) {
+      document
+        .getElementById("dummy_avatar")
+        .scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [selectedMessages]);
+  useEffect(() => {
     if (selectedUser && me && token) {
       // callUser(selectedUser?.socket_id, authUser.name);
     }
@@ -284,7 +291,7 @@ const SingleChat = ({
           content="Call To User"
         />
         <div
-          className="btn btn-success rounded-circle btn-icon float-end"
+          className="btn btn-primary rounded-circle btn-icon float-end"
           style={{ marginRight: "30%" }}
           onClick={() => handleCallUser(selectedRoom?.phone)}
           data-tooltip-id="call_user_button"

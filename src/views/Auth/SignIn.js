@@ -155,6 +155,9 @@ const SignIn = () => {
                                 <GoogleLoginButton
                                   onSuccess={handleSuccess}
                                   onFailure={handleFailure}
+                                  text={"signin_with"}
+                                  auto_select={true}
+                                  useOneTap={true}
                                 />
                               </div>
                               {/* <div className="d-flex justify-content-center">

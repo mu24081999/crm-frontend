@@ -10,7 +10,6 @@ const ChatRooms = ({
   const [selectedRoom, setSelectedRoom] = useState("");
   const [prevData, setPrevData] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
-  console.log("🚀 ~ prevData:", roomsData);
   useMemo(() => {
     setRoomsData(rooms);
     setPrevData(rooms);
@@ -27,6 +26,9 @@ const ChatRooms = ({
           message.from_phone === contact.phone
       );
     onMessagesDataFromChild(messagesData);
+    document
+      .getElementById("dummy_avatar")
+      ?.scrollIntoView({ behavior: "smooth", block: "end" });
 
     // socket.emit("joinRoom", { roomId: contact.name });
   };

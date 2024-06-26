@@ -21,7 +21,13 @@ import React from "react";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 
-const GoogleLoginButton = ({ onSuccess, onFailure }) => {
+const GoogleLoginButton = ({
+  onSuccess,
+  onFailure,
+  auto_select,
+  text,
+  useOneTap,
+}) => {
   return (
     <GoogleOAuthProvider clientId="73457248543-vn1bjkn98qogdcljl35job6ek20e82qt.apps.googleusercontent.com">
       <GoogleLogin
@@ -36,7 +42,9 @@ const GoogleLoginButton = ({ onSuccess, onFailure }) => {
         onError={(err) => {
           console.log("Login Failed", err);
         }}
-        auto_select
+        auto_select={auto_select}
+        text={text}
+        useOneTap={useOneTap}
       />
     </GoogleOAuthProvider>
   );

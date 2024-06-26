@@ -90,7 +90,7 @@ const EditorField = React.forwardRef((props, ref) => {
                       "powerpaste table advtable tinymcespellchecker",
                     ],
                     toolbar:
-                      "formatselect | fontselect | bold italic strikethrough forecolor backcolor formatpainter | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | link insertfile image | removeformat | code | addcomment | checklist | casechange",
+                      "formatselect | fontselect | bold italic strikethrough   formatpainter | alignleft aligncenter alignright alignjustify | numlist bullist outdent indent | link insertfile image | removeformat | code | addcomment | checklist | casechange",
                     content_style:
                       "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }, .tox-statusbar{display:none}",
                   }}

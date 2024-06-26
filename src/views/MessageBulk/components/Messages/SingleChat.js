@@ -31,6 +31,13 @@ const SingleChat = ({
   //   }
   // }, [selectedUser, authUser, callUser, call, me, token]);
   useEffect(() => {
+    if (selectedMessages?.length > 0) {
+      document
+        .getElementById("dummy_avatar")
+        .scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [selectedMessages]);
+  useEffect(() => {
     if (users?.length > 0) {
       setUsersArray(users);
     }

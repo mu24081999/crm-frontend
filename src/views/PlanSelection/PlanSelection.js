@@ -54,7 +54,7 @@ const PlanSelection = () => {
     dispatch(
       paymentIntent(token, {
         currency: "usd",
-        amount: amount,
+        amount: Math.floor(amount),
         // amount: amount_value ? amount_value.getAttribute("data-amount") : "",
       })
     );
@@ -381,19 +381,19 @@ const PlanSelection = () => {
                         Email Marketing
                       </div>
                     </li>
-                    <li>
+                    {/* <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
                         Time Tracking
                       </div>
-                    </li>
+                    </li> */}
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
                         Create & Send Invoices
                       </div>
                     </li>
-                    <li>
+                    {/* <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
                         Create Funnels & Landing Pages
@@ -410,10 +410,10 @@ const PlanSelection = () => {
                         <FaCheck color="green" size={34} className="pe-2" />
                         Website Creation
                       </div>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
-                <div className="card-footer p-0">
+                <div className="card-footer p-0" style={{ marginTop: "50%" }}>
                   <button
                     className="btn btn-block btn-primary"
                     data-bs-toggle="modal"
@@ -498,16 +498,16 @@ const PlanSelection = () => {
                         Unlimited Agents
                       </div>
                     </li>
-                    <li>
+                    {/* <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
                         White-Label Dashboard
                       </div>
-                    </li>
+                    </li> */}
                     <li>
                       <div
                         className=" text-light"
-                        style={{ paddingBottom: "56%" }}
+                        style={{ paddingBottom: "69%" }}
                       >
                         <FaCheck color="green" size={34} className="pe-2" />
                         Send Fax{" "}

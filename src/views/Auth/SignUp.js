@@ -196,6 +196,9 @@ const SignUp = () => {
                                 <GoogleLoginButton
                                   onSuccess={handleSuccess}
                                   onFailure={handleFailure}
+                                  text={"signup_with"}
+                                  auto_select={false}
+                                  useOneTap={false}
                                 />
                               </div>
                               {/* <p class="p-xs mt-2 text-center">

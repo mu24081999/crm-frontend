@@ -53,6 +53,7 @@ import Balance from "./views/Balance/Balance";
 import CallHistory from "./views/CallHistory/CallHistory";
 import MessagesLogs from "./views/MessagesLogs/MessagesLogs";
 import PlanRateSetting from "./views/PlanRateSetting/PlanRate";
+import KYCNeeded from "./views/KYCNeeded/KYCNeeded";
 // Define allowed roles for each route
 const roles = {
   dashboard: ["USER", "ADMIN", "SUPER_ADMIN", "AGENT"],
@@ -95,7 +96,7 @@ const permissions = {
   ],
 };
 
-const router = (user, subscribed) => {
+const router = (user, subscribed, is_approved) => {
   return createBrowserRouter([
     {
       path: "/",
@@ -380,14 +381,14 @@ const router = (user, subscribed) => {
       )(AdminKYC),
     },
     {
-      path: "subaccounts",
+      path: "/subaccounts",
       // element: <Subaccounts />,
       element: RoleAuthorization(
         roles.dashboard,
         user?.role,
         subscribed,
         user
-      )(Subaccounts),
+      )(is_approved === 1 ? Subaccounts : KYCNeeded),
     },
     {
       path: "permissions",
