@@ -25,20 +25,23 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
     console.log("🚀 ~ handlePriceGeneration ~ data:", formData);
   };
   return (
-    <div className="card shadow-lg  m-5" style={{ height: "50%" }}>
+    <div
+      className="card shadow-lg  m-5"
+      style={{ height: "50%", overflow: "scroll" }}
+    >
       <div className="card-header bg-primary">
         <div className="card-title text-white">Pricing Generator</div>
       </div>
       <div className="card-body">
-        <h6>Generate Pricing by selecting desired country</h6>
         <form
           onSubmit={handleSubmit(handlePriceGeneration)}
-          className="d-flex gap-3"
+          className="d-flex gap-3 card-body pb-0"
         >
-          <div className="col-md-6 col-sm-6">
+          <div className="col-md-10 col-sm-6">
             <ReactSelectField
               name="country"
               placeholder="Select Country"
+              label="Generate Pricing by selecting desired country"
               control={control}
               errors={errors}
               mb={false}
@@ -51,7 +54,7 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
               }}
             />
           </div>
-          <div className="pt-1">
+          <div className="pt-5">
             {isLoading ? (
               <Loader />
             ) : (
@@ -61,13 +64,8 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
         </form>
         {!isLoading && pricing && (
           <div>
-            <div>
-              <h6 className="bg-secondary text-white fw-bold text-center p-3 rounded">
-                Generated Prices
-              </h6>
-            </div>
-            <div className="card-body">
-              <div className=" d-flex gap-2">
+            <div className="card-body pt-0">
+              <div className="d-flex gap-2">
                 <div className="col-md-6 col-sm-6">
                   <div className="bg-primary p-2 rounded-top text-white text-center fw-bold">
                     Voice

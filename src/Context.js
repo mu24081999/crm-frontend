@@ -41,6 +41,7 @@ const ContextProvider = ({ children }) => {
   const [connection, setConnection] = useState(false);
   const [activeCallSid, setActiveCallSid] = useState(null);
   const [inputValue, setInputValue] = useState("");
+  const [kycApproved, setKycApproved] = useState(0);
 
   const myVideo = useRef();
   const userVideo = useRef();
@@ -52,9 +53,16 @@ const ContextProvider = ({ children }) => {
     socket.emit("send-message", data);
   };
   const pushNotification = (data) => {
-    const { user_id, notification, type } = data;
+    const { user_id, notification, type, notification_details, email_to } =
+      data;
     console.log("🚀 ~ pushNotification ~ data:", data);
-    socket.emit("push-notification", { user_id, notification, type });
+    socket.emit("push-notification", {
+      user_id,
+      notification,
+      type,
+      notification_details,
+      email_to,
+    });
   };
   const handleToggleShowLeadDetail = (value, contact_id, token) => {
     if (contact_id && token) {
@@ -329,6 +337,7 @@ const ContextProvider = ({ children }) => {
         connection,
         activeCallSid,
         inputValue,
+        kycApproved,
         calling,
         readyForCall,
         readyForAudioCall,
@@ -352,6 +361,7 @@ const ContextProvider = ({ children }) => {
         setConnection,
         setActiveCallSid,
         setInputValue,
+        setKycApproved,
       }}
     >
       {children}

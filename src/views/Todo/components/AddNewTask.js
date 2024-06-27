@@ -40,6 +40,8 @@ const AddNewTask = ({ token, usersData, user }) => {
           user_id: element.id,
           notification: `You have been added in a todo created by  ${user.name}`,
           type: "todo_added",
+          notification_details: formData,
+          email_to: element.email,
         };
         pushNotification(notificationData);
       }
@@ -47,6 +49,8 @@ const AddNewTask = ({ token, usersData, user }) => {
         user_id: user.id,
         notification: `You have added todo including members ${memberNames}`,
         type: "todo_added",
+        notification_details: formData,
+        email_to: user.email,
       };
       pushNotification(notificationData);
     }

@@ -7,11 +7,11 @@ import moment from "moment";
 import EventDetail from "./components/EventDetail";
 import { getUsers } from "../../redux/services/users";
 import SideNav from "./components/SideNav";
+import _ from "lodash";
 
 const CalenderContent = () => {
   const dispatch = useDispatch();
   const [eventsData, setEventsData] = useState([]);
-  console.log("🚀 ~ CalenderContent ~ eventsData:", eventsData);
   const [upcomingData, setUpcomingData] = useState([]);
   const [eventDetailRight, setEventDetailRight] = useState("-370px");
   const { token, user } = useSelector((state) => state.auth);
@@ -19,6 +19,7 @@ const CalenderContent = () => {
   const { events, isLoading, eventDetails } = useSelector(
     (state) => state.calendar_event
   );
+  const [usersData, setUsersData] = useState([]);
   useEffect(() => {
     dispatch(getEventsList(token));
     dispatch(getUsers(token));
@@ -64,6 +65,16 @@ const CalenderContent = () => {
   const handleEventDetailRight = (value) => {
     setEventDetailRight(value);
   };
+  useEffect(() => {
+    if (users?.length > 0) {
+      const data = users?.filter(
+        (u) =>
+          _.toInteger(u.parent_id) === user.id ||
+          _.toInteger(u.client_id) === user.id
+      );
+      setUsersData(data);
+    }
+  }, [users, user]);
   return (
     <div>
       {/* <!-- Calendar Drawer --> */}
@@ -107,7 +118,7 @@ const CalenderContent = () => {
               token={token}
               authUser={user}
               onDataFromChild={handleDataFromChild}
-              usersData={users}
+              usersData={usersData}
             />
             {/* <!-- /New Event --> */}
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, logoutUser } from "../../redux/services/auth";
 import _ from "lodash";
@@ -20,13 +20,14 @@ import { LuBadgeDollarSign } from "react-icons/lu";
 import { MdEventAvailable, MdOutlineAddTask } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
 import { updateNotificationRec } from "../../redux/services/notification";
+import { SocketContext } from "../../Context";
 
 const TopNavbar = ({ notificationsData }) => {
   const redirectTo = useNavigate();
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
-
+  const { kycApproved } = useContext(SocketContext);
   const [selectedAccount, setSelectedAccount] = useState(user);
   const [parentAccount, setParentAccount] = useState(user);
   const [subAccounts, setSubAccounts] = useState([]);
@@ -692,7 +693,8 @@ const TopNavbar = ({ notificationsData }) => {
                                     </>
                                   ))}
                                 {!user?.parent_id &&
-                                  subAccounts?.length < 3 && (
+                                  subAccounts?.length < 3 &&
+                                  kycApproved && (
                                     <button
                                       type="button"
                                       class=" btn btn-block btn-outline-light btn-sm "

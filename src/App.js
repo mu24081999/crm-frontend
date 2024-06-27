@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RouterProvider } from "react-router-dom";
 import router from "./router";
 import { ToastContainer } from "react-toastify";
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserSubscriptions } from "./redux/services/subscription";
 import moment from "moment";
 import { getUserKYCList } from "./redux/services/kyc";
+import { SocketContext } from "./Context";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const App = () => {
   );
   const [isKycApproved, setIsKycApproved] = useState(0);
   const { kycDetails } = useSelector((state) => state.kyc);
-
+  const { kycApproved, setKycApproved } = useContext(SocketContext);
   const is_subscribed =
     moment(subscriptions[0]?.end_date).format("YYYY-MM-DDTHH:mm:ss") >
     moment(Date.now()).format("YYYY-MM-DDTHH:mm:ss");
@@ -28,6 +29,7 @@ const App = () => {
   }, [dispatch, token]);
   useEffect(() => {
     setIsKycApproved(kycDetails?.is_approved);
+    setKycApproved(kycDetails?.is_approved);
   }, [kycDetails]);
   return (
     <>

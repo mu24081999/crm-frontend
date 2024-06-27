@@ -51,6 +51,8 @@ const AddEventForm = ({
                 user_id: element.id,
                 notification: `You have been added in an event created by ${authUser.name}.`,
                 type: "reminder_added",
+                notification_details: formData,
+                email_to: element.email,
               };
               pushNotification(eventNot);
             }
@@ -58,6 +60,8 @@ const AddEventForm = ({
               user_id: authUser.id,
               notification: `You added an event including members ${members}.`,
               type: "reminder_added",
+              notification_details: formData,
+              email_to: authUser.email,
             };
             pushNotification(eventData);
             break;
@@ -66,6 +70,8 @@ const AddEventForm = ({
               user_id: authUser.id,
               notification: "You added a reminder.",
               type: "reminder_added",
+              notification_details: formData,
+              email_to: authUser.email,
             };
             pushNotification(notificationData);
             break;
@@ -271,14 +277,15 @@ const AddEventForm = ({
                       control={control}
                       isMulti={true}
                       options={
-                        usersData?.length > 0 &&
-                        usersData?.map((user, index) => {
-                          return {
-                            label: user.name,
-                            value: user.id,
-                            ...user,
-                          };
-                        })
+                        usersData?.length > 0
+                          ? usersData?.map((user, index) => {
+                              return {
+                                label: user.name,
+                                value: user.id,
+                                ...user,
+                              };
+                            })
+                          : []
                       }
                       errors={errors}
                     />

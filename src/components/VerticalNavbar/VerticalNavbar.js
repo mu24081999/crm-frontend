@@ -662,13 +662,13 @@ const VerticalNavbar = () => {
                     >
                       <li className="nav-item">
                         <ul className="nav flex-column">
-                          <li className="nav-item">
+                          {/* <li className="nav-item">
                             <Link className="nav-link" to="/recordings">
                               <span className="nav-link-text">
                                 Call Recordings
                               </span>
                             </Link>
-                          </li>
+                          </li> */}
                           <li className="nav-item">
                             <Link className="nav-link" to="/call-history">
                               <span className="nav-link-text">

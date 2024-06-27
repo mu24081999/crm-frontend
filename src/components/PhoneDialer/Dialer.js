@@ -432,7 +432,7 @@ const Dialer = () => {
               className="  position-absolute"
               style={{
                 visibility: showCall ? "unset" : "hidden",
-                marginTop: "30%",
+                marginTop: "57%",
                 marginLeft: "31%",
               }}
             >
@@ -716,26 +716,26 @@ const Dialer = () => {
             </>
           )}
           {userState === "ON_CALL" && showCall && (
-            <div style={{ height: "407px" }}>
-              <div className="w-100 pb-2">
-                {alertMessage !== null && (
-                  <p className="badge w-100 bg-light text-dark">
-                    {alertMessage}
-                  </p>
-                )}
-              </div>
+            <div className="py-3" style={{ backgroundColor: "Highlight" }}>
+              {/* <div className="w-100 pb-2">
+              {alertMessage !== null && (
+                <p className="badge w-100 bg-light text-dark">{alertMessage}</p>
+              )}
+            </div> */}
               <div>
-                <div>
+                <div className="d-flex justify-content-center">
                   <img
-                    src="https://static.vecteezy.com/system/resources/previews/026/619/142/non_2x/default-avatar-profile-icon-of-social-media-user-photo-image-vector.jpg"
+                    src="https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg"
                     alt="new"
-                    width={90}
+                    width={120}
+                    className="rounded-circle p-0"
                   />
-                  <span>
-                    {activeCall?.parameters?.From ||
-                      activeCall?.parameters?.To ||
-                      inputValue}
-                  </span>
+                </div>
+                <div className="text-center">
+                  {activeCall?.parameters?.From ||
+                    activeCall?.parameters?.To ||
+                    inputValue ||
+                    "090078609"}
                 </div>
               </div>
 
@@ -756,29 +756,32 @@ const Dialer = () => {
                   content="Transfer Call"
                 />
                 <ReactTooltip id="dialpad" place="bottom" content="Dialpad" />
-                <div className="d-flex justify-content-center gap-3 pt-3">
+                <div className="d-flex justify-content-center gap-3 pt-5">
                   <button
-                    className={`btn p-3 btn-${
-                      callMuted === false ? "light" : "danger"
-                    } rounded`}
+                    className={`btn p-2 rounded`}
+                    style={{
+                      backgroundColor:
+                        callMuted === false ? "#eaeaea" : "#ff7270",
+                      color: callMuted === true ? "white" : "#262a2e",
+                    }}
                     data-tooltip-id="off_mic"
                     onClick={callMuted === false ? muteCall : unmuteCall}
                   >
                     <CiMicrophoneOn size={28} />
                   </button>
                   <button
-                    className={`btn p-3 btn-${
-                      user.recording ? "light" : "danger"
-                    } rounded`}
+                    className={`btn p-2 rounded`}
+                    style={{
+                      backgroundColor: user.recording ? "#eaeaea" : "#ff7270",
+                      color: user.recording ? "#262a2e" : "white",
+                    }}
                     data-tooltip-id="off_record"
                     onClick={user?.recording ? pauseRecording : resumeRecording}
                   >
                     {userLoading ? <Loader /> : <PiRecordFill size={25} />}
                   </button>
-                </div>
-                <div className="d-flex justify-content-center gap-3 pt-3">
                   <button
-                    className="btn p-3 btn-light rounded"
+                    className="btn p-2 btn-light rounded"
                     data-tooltip-id="dialpad"
                     onClick={() => {
                       setIsDial(true);
@@ -794,7 +797,7 @@ const Dialer = () => {
                     <button
                       aria-expanded="false"
                       data-bs-toggle="dropdown"
-                      className="btn p-3 btn-light rounded "
+                      className="btn p-2 btn-light rounded "
                       type="button"
                     >
                       <BiTransferAlt size={25} />
@@ -817,8 +820,13 @@ const Dialer = () => {
                     </div>
                   </div>
                 </div>
+                <div className="d-flex justify-content-center gap-3 pt-3"></div>
               </div>
-              <div className="d-flex justify-content-center gap-3 ">
+              <div
+                className={`d-flex justify-content-${
+                  callStatus === "INCOMING" ? "between" : "center"
+                } mx-5 gap-3 `}
+              >
                 {/* {callStatus === "INCOMING" && ( */}
                 <div className="d-flex justify-content-center mt-4 mb-2 mx-1">
                   <button

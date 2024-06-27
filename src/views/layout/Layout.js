@@ -20,7 +20,7 @@ import Ticket from "./Ticket";
 import SubaccountForm from "./SubaccountForm";
 import { getUserNotificationsList } from "../../redux/services/notification";
 import { SocketContext } from "../../Context";
-import { getTodosList } from "../../redux/services/todo";
+import { getTodosList, updateTodoRec } from "../../redux/services/todo";
 import {
   getEventsList,
   updateEventRec,
@@ -108,7 +108,7 @@ const Layout = ({ component }) => {
           element.start_date,
           element.start_time
         );
-        if (shouldNotifyNow) {
+        if (shouldNotifyNow && element.is_notified === 0) {
           const notification = {
             user_id: user.id,
             notification: `Hey ${user.name}, this is a reminder for the task ${
@@ -118,6 +118,8 @@ const Layout = ({ component }) => {
             )} at ${element.start_time}. Don't miss out!
             `,
             type: "todo_added",
+            notification_details: element,
+            email_to: user.email,
           };
           pushNotification(notification);
           for (let y = 0; y < element?.asign_to?.members?.length; y++) {
@@ -133,8 +135,13 @@ const Layout = ({ component }) => {
               )} at ${element.start_time}. Don't miss out!
               `,
               type: "todo_added",
+              notification_details: element,
+              email_to: member.email,
             };
             pushNotification(notification);
+            await dispatch(
+              updateTodoRec(token, element.id, { is_notified: 1 })
+            );
           }
         }
       }
@@ -166,6 +173,8 @@ const Layout = ({ component }) => {
                   )} at ${element.start_time}. Don't miss out!
                   `,
                   type: "reminder_added",
+                  notification_details: element,
+                  to_email: member.email,
                 };
                 pushNotification(notification);
               }
@@ -180,6 +189,8 @@ const Layout = ({ component }) => {
                 )} at ${element.start_time}. Don't miss out!
                 `,
                 type: "reminder_added",
+                notification_details: element,
+                to_email: user.email,
               };
               pushNotification(notification);
               await dispatch(
@@ -198,6 +209,8 @@ const Layout = ({ component }) => {
                 )} at ${element.start_time}. Don't miss out!
                 `,
                 type: "reminder_added",
+                notification_details: element,
+                to_email: user.email,
               };
               pushNotification(notificationParam);
               await dispatch(
@@ -217,7 +230,6 @@ const Layout = ({ component }) => {
     const lastCalledDate = localStorage.getItem("todosReminderLastCallDate");
     // if (lastCalledDate !== todayString) {
     await todosReminder(todos);
-    localStorage.setItem("todosReminderLastCallDate", todayString);
     // } else {
     // console.log("Function has already been called today.");
     // }

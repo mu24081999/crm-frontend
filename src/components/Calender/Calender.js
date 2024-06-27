@@ -174,7 +174,7 @@ export default function Calendar({
   }
 
   return (
-    <div className="w-100">
+    <div className="w-100" style={{ height: "100vh", overflow: "scroll" }}>
       {/* <Sidebar
         weekendsVisible={weekendsVisible}
         handleWeekendsToggle={handleWeekendsToggle}
