@@ -20,7 +20,6 @@ const PlanRateContent = () => {
   const dispatch = useDispatch();
   const { token, user_id } = useSelector((state) => state.auth);
   const { planRates } = useSelector((state) => state.plan_rate);
-  console.log("🚀 ~ PlanRateContent ~ planRates:", planRates);
   useEffect(() => {
     dispatch(readRateRec(token, 1));
   }, [dispatch, token]);
@@ -54,7 +53,7 @@ const PlanRateContent = () => {
           <div className="form">
             <form onSubmit={handleSubmit(handleAddRates)}>
               <div className="row">
-                <div className="col-md-6 col-sm-6">
+                <div className="col-md-4 col-sm-6">
                   <InputField
                     name="starter"
                     errors={errors}
@@ -64,7 +63,7 @@ const PlanRateContent = () => {
                   />
                 </div>
 
-                <div className="col-md-6 col-sm-6">
+                <div className="col-md-4 col-sm-6">
                   <InputField
                     name="growth"
                     errors={errors}
@@ -73,7 +72,7 @@ const PlanRateContent = () => {
                     placeholder="Growth plan rate"
                   />
                 </div>
-                <div className="col-md-6 col-sm-6">
+                <div className="col-md-4 col-sm-6">
                   <InputField
                     name="enterprise"
                     errors={errors}

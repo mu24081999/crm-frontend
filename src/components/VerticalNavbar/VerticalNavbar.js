@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import brand from "../../assets/2.png";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -35,8 +35,10 @@ import { TiCogOutline } from "react-icons/ti";
 import { SiJfrogpipelines } from "react-icons/si";
 import { getSubscriptionsList } from "../../redux/services/subscription";
 import _ from "lodash";
+import { SocketContext } from "../../Context";
 
 const VerticalNavbar = () => {
+  const { setThemeType } = useContext(SocketContext);
   const { user, token } = useSelector((state) => state.auth);
   const [verticalClick, setVerticalClick] = useState(false);
   const [subscriptionPlan, setSubscriptionPlan] = useState({});
@@ -60,13 +62,15 @@ const VerticalNavbar = () => {
 
   const handleMenuClick = () => {
     setVerticalClick(true);
-    const divElement = document.getElementById("main_div");
-    divElement.setAttribute("data-layout-style", "default");
+    // const divElement = document.getElementById("main_div");
+    // divElement.setAttribute("data-layout-style", "default");
+    setThemeType("default");
   };
   const handleMenuClickAgain = () => {
     setVerticalClick(false);
-    const divElement = document.getElementById("main_div");
-    divElement.setAttribute("data-layout-style", "collapsed");
+    // const divElement = document.getElementById("main_div");
+    // divElement.setAttribute("data-layout-style", "collapsed");
+    setThemeType("collapsed");
   };
   return (
     <div className="hk-menu">
@@ -249,6 +253,7 @@ const VerticalNavbar = () => {
                       <span className="nav-link-text">Plan Rates</span>
                     </Link>
                   </li>
+
                   <li
                     className={`nav-item ${
                       location?.pathname === "/posts" && "active"
@@ -415,6 +420,20 @@ const VerticalNavbar = () => {
                           </span>
                         </span>
                         <span className="nav-link-text">Active Numbers</span>
+                      </Link>
+                    </li>
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/client/balance" && "active"
+                      }`}
+                    >
+                      <Link className="nav-link" to="/client/balance">
+                        <span className="nav-icon-wrap">
+                          <span className="svg-icon">
+                            <BiWallet />
+                          </span>
+                        </span>
+                        <span className="nav-link-text">Wallet</span>
                       </Link>
                     </li>
                   </>

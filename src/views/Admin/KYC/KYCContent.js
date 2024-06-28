@@ -5,7 +5,7 @@ import KYCList from "./components/KYCList";
 import { useDispatch, useSelector } from "react-redux";
 import { SocketContext } from "../../../Context";
 import { getUsers } from "../../../redux/services/users";
-import { getKYCList } from "../../../redux/services/kyc";
+import { getKYCList, updateKycRec } from "../../../redux/services/kyc";
 import Loader from "../../../components/Loader/Loader";
 const KYCContent = () => {
   const { showLeadDetails } = useContext(SocketContext);
@@ -45,7 +45,11 @@ const KYCContent = () => {
   const handleViewDataFromHeader = (value) => {
     setView(value);
   };
-
+  const handleUpdateKycForm = (form_id) => {
+    dispatch(
+      updateKycRec(token, form_id, { is_approved: 1, approved_by: user.id })
+    );
+  };
   return (
     <div className="hk-pg-wrapper pb-0">
       {/* <!-- Page Body --> */}
@@ -243,6 +247,16 @@ const KYCContent = () => {
                             </section>
                           </>
                         )}
+                      </div>
+                    )}
+                    {kycDetails?.is_approved === 0 && (
+                      <div className="modal-footer">
+                        <button
+                          className="btn btn-primary btn-block"
+                          onClick={() => handleUpdateKycForm(kycDetails?.id)}
+                        >
+                          Approve
+                        </button>
                       </div>
                     )}
                   </div>

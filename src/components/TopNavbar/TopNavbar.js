@@ -694,10 +694,10 @@ const TopNavbar = ({ notificationsData }) => {
                                   ))}
                                 {!user?.parent_id &&
                                   subAccounts?.length < 3 &&
-                                  kycApproved && (
+                                  kycApproved === 1 && (
                                     <button
                                       type="button"
-                                      class=" btn btn-block btn-outline-light btn-sm "
+                                      class="btn btn-block btn-outline-light btn-sm "
                                       data-bs-toggle="modal"
                                       data-bs-target="#addAccountModal"
                                     >

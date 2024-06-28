@@ -424,7 +424,7 @@ const Dialer = () => {
           style={{
             padding: "1%",
             width: "290px",
-            height: userState === "ON_CALL" ? "400px" : "450px",
+            height: isDial || showContacts ? "450px" : "400px",
           }}
         >
           {(callStatus === "STARTED" || userState === "ON_CALL") && (
@@ -716,7 +716,7 @@ const Dialer = () => {
             </>
           )}
           {userState === "ON_CALL" && showCall && (
-            <div className="py-3" style={{ backgroundColor: "Highlight" }}>
+            <div className="py-3" style={{ backgroundColor: "#00808017" }}>
               {/* <div className="w-100 pb-2">
               {alertMessage !== null && (
                 <p className="badge w-100 bg-light text-dark">{alertMessage}</p>

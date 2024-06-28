@@ -12,7 +12,6 @@ import { getUserKYCList, storeKyc } from "../../redux/services/kyc";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import countryList from "react-select-country-list";
-console.log(countryList().getData());
 const KYCContent = () => {
   const {
     handleSubmit,
@@ -23,7 +22,6 @@ const KYCContent = () => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { kycDetails } = useSelector((state) => state.kyc);
-  console.log("🚀 ~ KYCContent ~ kycDetails:", kycDetails);
   const [image, setImage] = useState(null);
   const [base64Image, setBase64Image] = useState(null);
   const [error, setError] = useState(null);

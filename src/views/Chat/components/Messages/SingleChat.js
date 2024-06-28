@@ -23,7 +23,9 @@ import { SocketContext } from "../../../../Context";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../../../redux/services/users";
 import { FiPaperclip } from "react-icons/fi";
-
+import { saveAs } from "file-saver";
+import axios from "axios";
+import FileDownload from "../../../../components/FileDownload/FileDownload";
 const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
   const {
     me,
@@ -50,6 +52,22 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
   //     );
   //   }
   // }, [selectedUser, authUser, callUser, call, me, token]);
+  const downloadFile = async (url, filename) => {
+    try {
+      const response = await axios.get(url, {
+        responseType: "blob", // Important
+      });
+
+      const blob = new Blob([response.data]);
+      saveAs(blob, filename);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
+  };
+
+  const handleDownload = (url, filename) => {
+    downloadFile(url, filename);
+  };
   useEffect(() => {
     if (users?.length > 0) {
       setUsersArray(users);
@@ -195,25 +213,25 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
 
   //   fetchObjects();
   // }, []);
-  const downloadFile = async (bucketName, objectKey) => {
-    const s3 = new AWS.S3();
-    const params = {
-      Bucket: bucketName,
-      Key: objectKey,
-    };
-    try {
-      const data = await s3.getObject(params).promise();
-      const url = URL.createObjectURL(new Blob([data.Body]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", objectKey);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error("Error downloading file:", error);
-    }
-  };
+  // const downloadFile = async (bucketName, objectKey) => {
+  //   const s3 = new AWS.S3();
+  //   const params = {
+  //     Bucket: bucketName,
+  //     Key: objectKey,
+  //   };
+  //   try {
+  //     const data = await s3.getObject(params).promise();
+  //     const url = URL.createObjectURL(new Blob([data.Body]));
+  //     const link = document.createElement("a");
+  //     link.href = url;
+  //     link.setAttribute("download", objectKey);
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link);
+  //   } catch (error) {
+  //     console.error("Error downloading file:", error);
+  //   }
+  // };
   const getFile = (key) => {
     const file = files?.filter((fl) => fl.Key === key);
     return file;
@@ -532,20 +550,24 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                     <div class="msg-box">
                       <div>
                         {msg?.file_key && (
-                          <button
-                            style={{ border: "none", background: "none" }}
-                            onClick={() =>
-                              downloadFile(
-                                "jampackcrm",
-                                getFile(msg.file_key)[0]?.Key
-                              )
-                            }
-                          >
-                            <FilePreview
-                              fileType={getFileExtension(msg?.file_key)}
-                              fileUrl={`https://s3.eu-west-2.amazonaws.com/jampackcrm/${msg?.file_key}`}
-                            />
-                          </button>
+                          <>
+                            <a
+                              style={{ border: "none", background: "none" }}
+                              href={msg?.file_url}
+                              // onClick={() =>
+                              //   handleDownload(msg?.file_url, msg?.file_key)
+                              // }
+                            >
+                              <FilePreview
+                                fileType={getFileExtension(msg?.file_key)}
+                                fileUrl={`https://s3.eu-west-2.amazonaws.com/jampackcrm/${msg?.file_key}`}
+                              />
+                            </a>
+                            {/* <FileDownload
+                              fileUrl={msg?.file_url}
+                              filename={msg?.file_key}
+                            /> */}
+                          </>
                         )}
                         <p>{msg.message}</p>
                         <span class="chat-time">

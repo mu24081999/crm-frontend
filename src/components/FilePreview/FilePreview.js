@@ -1,5 +1,5 @@
 import React from "react";
-import { FaFileArchive, FaFilePdf } from "react-icons/fa";
+import { FaFileArchive, FaFilePdf, FaRegFileAlt } from "react-icons/fa";
 
 function FilePreview({ fileType, fileUrl, fileWidth }) {
   let content;
@@ -63,10 +63,11 @@ function FilePreview({ fileType, fileUrl, fileWidth }) {
       );
       break;
     default:
-      content = <p>Unsupported file type</p>;
+      // content = <p>Unsupported file type</p>;
+      content = <FaRegFileAlt color="white" size={70} n />;
   }
 
-  return <div>{content}</div>;
+  return <div className="">{content}</div>;
 }
 
 export default FilePreview;

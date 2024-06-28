@@ -28,7 +28,8 @@ import {
 import moment from "moment";
 // import Dialer from "../../components/PhoneDialer/Dialer";
 const Layout = ({ component }) => {
-  const { notificationsArray, pushNotification } = useContext(SocketContext);
+  const { notificationsArray, pushNotification, themeType } =
+    useContext(SocketContext);
   const { notifications } = useSelector((state) => state.notification);
   const { todos } = useSelector((state) => state.todo);
   const { events } = useSelector((state) => state.calendar_event);
@@ -272,7 +273,8 @@ const Layout = ({ component }) => {
       class="hk-wrapper"
       id="main_div"
       data-layout="vertical"
-      data-layout-style="collapsed"
+      // data-layout-style="collapsed"
+      data-layout-style={themeType}
       data-menu="light"
       data-footer="simple"
       data-hover="active"

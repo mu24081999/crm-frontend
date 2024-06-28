@@ -295,6 +295,7 @@ const AddPostForm = ({ authUser, dispatch, token, postDetails }) => {
                   placeholder="Visibility"
                   label="Visibility"
                   control={control}
+                  mb={true}
                   options={[
                     {
                       label: "Public",
@@ -318,6 +319,7 @@ const AddPostForm = ({ authUser, dispatch, token, postDetails }) => {
                   placeholder="Status"
                   label="Status"
                   control={control}
+                  mb={true}
                   options={[
                     {
                       label: "Publish",
@@ -353,6 +355,7 @@ const AddPostForm = ({ authUser, dispatch, token, postDetails }) => {
                   placeholder="Category"
                   label="Category"
                   control={control}
+                  mb={true}
                   options={[
                     {
                       label: "Design",
@@ -522,19 +525,6 @@ const AddPostForm = ({ authUser, dispatch, token, postDetails }) => {
                 >
                   <div className="d-flex align-items-center">
                     <h6 className="me-2 mb-0">Preview Image</h6>
-                    <span
-                      className="btn btn-xs btn-icon btn-rounded btn-light"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      title=""
-                      data-bs-original-title="Add Category"
-                    >
-                      <span className="icon">
-                        <span className="feather-icon">
-                          <i data-feather="plus"></i>
-                        </span>
-                      </span>
-                    </span>
                   </div>
                 </a>
                 <div className="card-action-wrap">
@@ -557,7 +547,7 @@ const AddPostForm = ({ authUser, dispatch, token, postDetails }) => {
                   <input
                     type="file"
                     className="form-control"
-                    onClick={handlePreviewImage}
+                    onChange={handlePreviewImage}
                   />
                   <div class="col">
                     <a href="#">

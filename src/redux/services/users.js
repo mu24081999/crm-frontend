@@ -137,7 +137,7 @@ export const updateUserRec = (token, data, user_id) => async (dispatch) => {
     dispatch(userRequestLoading());
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         "x-access-token": token,
       },
     };

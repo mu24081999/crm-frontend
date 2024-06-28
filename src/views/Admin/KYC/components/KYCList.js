@@ -24,6 +24,7 @@ const KYCList = ({ kycArray, dispatch, isEdit, users, isLoading, token }) => {
                   <th>Phone Number</th>
                   <th>Address</th>
                   <th>Nationality</th>
+                  <th>Approved</th>
                   <th>Date Created</th>
                   <th>Action</th>
                 </tr>
@@ -38,6 +39,7 @@ const KYCList = ({ kycArray, dispatch, isEdit, users, isLoading, token }) => {
                       <td>{form?.phone}</td>
                       <td>{form?.address}</td>
                       <td>{form?.nationality}</td>
+                      <td>{form?.is_approved === 0 ? "false" : "true"}</td>
                       <td>{moment(form?.created_at).format("DD MMM, YYYY")}</td>
                       <td>
                         <a

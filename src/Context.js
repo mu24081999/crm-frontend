@@ -42,6 +42,7 @@ const ContextProvider = ({ children }) => {
   const [activeCallSid, setActiveCallSid] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [kycApproved, setKycApproved] = useState(0);
+  const [themeType, setThemeType] = useState("collapsed");
 
   const myVideo = useRef();
   const userVideo = useRef();
@@ -338,6 +339,7 @@ const ContextProvider = ({ children }) => {
         activeCallSid,
         inputValue,
         kycApproved,
+        themeType,
         calling,
         readyForCall,
         readyForAudioCall,
@@ -362,6 +364,7 @@ const ContextProvider = ({ children }) => {
         setActiveCallSid,
         setInputValue,
         setKycApproved,
+        setThemeType,
       }}
     >
       {children}

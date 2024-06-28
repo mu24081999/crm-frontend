@@ -12,7 +12,7 @@ const Header = ({ onDataFromChild, activeBar }) => {
   return (
     <header className="contact-header">
       <div className="d-flex align-items-center">
-        <span className="fs-5 fw-bold">Subscriptions</span>
+        <span className="fs-5 fw-bold">KYC List</span>
       </div>
       <div className="contact-options-wrap">
         <a

@@ -50,6 +50,7 @@ import VerifyEmailOtp from "./views/Auth/verifyEmailOtp";
 import Permissions from "./views/Permissions/Permission";
 import Terms from "./views/Terms/Terms";
 import Balance from "./views/Balance/Balance";
+import AdminBalance from "./views/Admin/Balance/Balance";
 import CallHistory from "./views/CallHistory/CallHistory";
 import MessagesLogs from "./views/MessagesLogs/MessagesLogs";
 import PlanRateSetting from "./views/PlanRateSetting/PlanRate";
@@ -205,6 +206,16 @@ const router = (user, subscribed, is_approved) => {
         subscribed,
         user
       )(Clients),
+    },
+    {
+      path: "/client/balance",
+      // element: <Users />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(AdminBalance),
     },
     {
       path: "/admin/subaccounts",

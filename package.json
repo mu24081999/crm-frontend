@@ -70,6 +70,7 @@
     "react-tag-input-component": "^2.0.2",
     "react-toastify": "^10.0.4",
     "react-tooltip": "^5.26.4",
+    "react-use-downloader": "^1.2.8",
     "reactjs-popup": "^2.0.6",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^3.1.0",

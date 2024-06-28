@@ -16,14 +16,15 @@ const EditAccountSetting = () => {
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
   const { users, isLoading } = useSelector((state) => state.user);
-  console.log("🚀 ~ EditAccountSetting ~ users:", users);
   const [avatar, setAvatar] = useState(null);
+  console.log("🚀 ~ EditAccountSetting ~ avatar:", avatar);
   useEffect(() => {
     setValue("firstname", user?.name?.split(" ")[0]);
     setValue("lastname", user?.name?.split(" ")[1]);
     setValue("location", user?.location);
     setValue("bio", user?.bio);
     setValue("personal_phone", user?.personal_phone);
+    // setAvatar(user?.avatar);
   }, [user, setValue, users]);
   const handleEditAccount = async (data) => {
     const formData = new FormData();
@@ -62,8 +63,10 @@ const EditAccountSetting = () => {
                   <div className="avatar avatar-rounded avatar-xxl">
                     <img
                       src={
-                        avatar !== null
+                        avatar !== null && avatar?.type !== undefined
                           ? URL.createObjectURL(avatar)
+                          : user?.avatar !== undefined
+                          ? user?.avatar
                           : "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
                       }
                       alt="user"
