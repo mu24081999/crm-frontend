@@ -52,6 +52,13 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
     }
   }, [selectedUser, authUser, callUser, call, me, token]);
   useEffect(() => {
+    if (messages?.length > 0) {
+      document
+        .getElementById("dummy_avatar")
+        .scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [messages]);
+  useEffect(() => {
     if (users?.length > 0) {
       setUsersArray(users);
     }

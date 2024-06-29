@@ -46,6 +46,13 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
   const { users } = useSelector((state) => state.user);
   const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (messages?.length > 0) {
+      document
+        .getElementById("dummy_avatar")
+        .scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [messages]);
   // useEffect(() => {
   //   if (selectedUser && me && token) {
   //     callUser(selectedUser?.socket_id, authUser.name, type,       selectedUser?.name
