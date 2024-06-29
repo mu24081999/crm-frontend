@@ -7,10 +7,11 @@ import { updatedMe } from "./redux/slices/auth";
 import { getContactDetais } from "./redux/services/contact";
 import { getUserDetails } from "./redux/services/users";
 import { toast } from "react-toastify";
-
+import notificationSound from "./assets/notification.mp3";
 const SocketContext = createContext();
 const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
 const ContextProvider = ({ children }) => {
+  const noti_sound = new Audio(notificationSound);
   const socket = useMemo(() => io(socketURL), []);
   const { user_id, user } = useSelector((state) => state.auth);
   const [callAccepted, setCallAccepted] = useState(false);
@@ -152,6 +153,7 @@ const ContextProvider = ({ children }) => {
       //   });
       socket.on("trigger_notification", (notifications) => {
         setNotificationsArray(notifications);
+        noti_sound.play();
       });
       socket.on("message_error", (err) => {
         toast.error(err);

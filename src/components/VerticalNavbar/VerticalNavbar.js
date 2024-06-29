@@ -38,7 +38,7 @@ import _ from "lodash";
 import { SocketContext } from "../../Context";
 
 const VerticalNavbar = () => {
-  const { setThemeType } = useContext(SocketContext);
+  const { setThemeType, themeType } = useContext(SocketContext);
   const { user, token } = useSelector((state) => state.auth);
   const [verticalClick, setVerticalClick] = useState(false);
   const [subscriptionPlan, setSubscriptionPlan] = useState({});
@@ -91,7 +91,7 @@ const VerticalNavbar = () => {
               alt="brand"
             />
           </Link>
-          {!verticalClick ? (
+          {themeType === "collapsed" ? (
             <button
               className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle"
               onClick={handleMenuClick}

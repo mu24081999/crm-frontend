@@ -25,13 +25,13 @@ const Emails = ({
         />
 
         <div data-simplebar class="aside-body">
-          <form class="aside-search" role="search">
+          {/* <form class="aside-search" role="search">
             <input
               type="text"
               class="form-control"
               placeholder="Search inbox"
             />
-          </form>
+          </form> */}
           <EmailsList
             emailsData={emailsData}
             emails={emailArray}

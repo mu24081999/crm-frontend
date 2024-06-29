@@ -70,7 +70,6 @@ export const sendEmailRec = (token, data) => async (dispatch) => {
     await axios
       .post(`${backendURL}/user/email/send-email`, data, config)
       .then((response) => {
-        console.log(response);
         if (response?.data?.statusCode !== 200) {
           toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
@@ -125,7 +124,7 @@ export const updateEmailRec = (token, emailId, data) => async (dispatch) => {
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(updateEmail(response.data.message));
-        dispatch(getEmailList(token));
+        dispatch(getEmailList(token, data.user_email, 20, 1));
         toast.success(response.data.message);
       });
   } catch (e) {

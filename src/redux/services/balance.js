@@ -35,6 +35,32 @@ export const addBalanceRec = (token, data) => async (dispatch) => {
     dispatch(invalidRequest(e.message));
   }
 };
+export const asignBalanceToUser = (token, data) => async (dispatch) => {
+  try {
+    dispatch(balanceRequestLoading());
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    };
+    const is_added = await axios
+      .post(`${backendURL}/user/balance/asign-balance`, data, config)
+      .then(async (response) => {
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          return dispatch(invalidRequest(response.data.message));
+        }
+        await dispatch(addBalance(response.data.message));
+        toast.success(response.data.message);
+        await dispatch(getBalance(token));
+        return true;
+      });
+    return is_added;
+  } catch (e) {
+    dispatch(invalidRequest(e.message));
+  }
+};
 
 export const getBalance = (token) => async (dispatch) => {
   try {

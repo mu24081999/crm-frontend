@@ -22,6 +22,7 @@ import { LuArchive, LuFilter, LuImport } from "react-icons/lu";
 import { LiaSmsSolid } from "react-icons/lia";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import { BiExport } from "react-icons/bi";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
   const {
@@ -92,6 +93,22 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
       const formData = {
         updates: modifiedArray,
         modify_key: "status",
+      };
+      dispatch(updateBulkContactRec(token, formData));
+    } else {
+      toast.error("Please select at least one contact.");
+    }
+  };
+  const handleBulkDelete = () => {
+    if (contactsToModify?.length > 0) {
+      const modifiedArray = [];
+
+      contactsToModify?.map((contact) => {
+        modifiedArray.push({ ...contact });
+      });
+      const formData = {
+        updates: modifiedArray,
+        modify_key: "contact_delete",
       };
       dispatch(updateBulkContactRec(token, formData));
     } else {
@@ -170,6 +187,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
               place="bottom"
               content="Export contacts"
             />
+            <ReactTooltip id="trash" place="bottom" content="Delete contacts" />
             <div className="d-flex justify-content-between w-100">
               <div className="d-flex gap-2 w-50">
                 <button
@@ -205,6 +223,14 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                   data-tooltip-id="send_sms_bulk"
                 >
                   <MdOutlineSms size={14} />
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-light btn-sm"
+                  data-tooltip-id="trash"
+                  onClick={handleBulkDelete}
+                >
+                  <FaRegTrashCan size={14} />
                 </button>
                 <button
                   type="button"

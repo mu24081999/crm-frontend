@@ -17,7 +17,6 @@ const EditAccountSetting = () => {
   const { token, user } = useSelector((state) => state.auth);
   const { users, isLoading } = useSelector((state) => state.user);
   const [avatar, setAvatar] = useState(null);
-  console.log("🚀 ~ EditAccountSetting ~ avatar:", avatar);
   useEffect(() => {
     setValue("firstname", user?.name?.split(" ")[0]);
     setValue("lastname", user?.name?.split(" ")[1]);
@@ -43,8 +42,6 @@ const EditAccountSetting = () => {
         bio: data.bio,
         personal_phone: data.personal_phone,
       };
-      console.log("🚀 ~ handleEditAccount ~ newUser:", newUser);
-
       await dispatch(setAccount(newUser));
     }
   };

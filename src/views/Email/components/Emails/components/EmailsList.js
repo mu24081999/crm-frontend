@@ -4,6 +4,7 @@ import { FaArchive, FaRegStar, FaStar, FaTrash } from "react-icons/fa";
 import { updateEmailRec } from "../../../../../redux/services/email";
 import _ from "lodash";
 import Loader from "../../../../../components/Loader/Loader";
+import { useSelector } from "react-redux";
 const EmailsList = ({
   emailsData,
   emails,
@@ -12,6 +13,7 @@ const EmailsList = ({
   token,
   isLoading,
 }) => {
+  const { user } = useSelector((state) => state.auth);
   const handleEmailClick = (id) => {
     const repliesData = emails.filter((email) => email.parent_id === id);
     const selectedEmail = emailsData.filter((email) => email.id === id)[0];
@@ -23,7 +25,13 @@ const EmailsList = ({
     onEmailDetail(data);
   };
   const handleImportantClick = (email_id, status) => {
-    dispatch(updateEmailRec(token, email_id, { isRead: true, status: status }));
+    dispatch(
+      updateEmailRec(token, email_id, {
+        isRead: true,
+        status: status,
+        user_email: user.email,
+      })
+    );
     return {};
   };
   function extractCharactersFromArray(str) {

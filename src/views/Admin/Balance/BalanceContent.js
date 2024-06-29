@@ -7,12 +7,18 @@ import {
 } from "../../../redux/services/payment";
 import { toast } from "react-toastify";
 import { FiDollarSign } from "react-icons/fi";
-import { addBalanceRec, getBalance } from "../../../redux/services/balance";
+import {
+  addBalanceRec,
+  asignBalanceToUser,
+  getBalance,
+} from "../../../redux/services/balance";
 import moment from "moment/moment";
 import { SocketContext } from "../../../Context";
 import ReactSelectField from "../../../components/FormFields/reactSelectField";
 import InputField from "../../../components/FormFields/InputField";
 import { useForm } from "react-hook-form";
+import _ from "lodash";
+import Loader from "../../../components/Loader/Loader";
 const BalanceContent = () => {
   const {
     handleSubmit,
@@ -23,14 +29,22 @@ const BalanceContent = () => {
   } = useForm({});
   const { pushNotification } = useContext(SocketContext);
   const { user, token } = useSelector((state) => state.auth);
-  const { balanceDetails } = useSelector((state) => state.balance);
+  const { users } = useSelector((state) => state.user);
+  const { balanceDetails, isLoading } = useSelector((state) => state.balance);
   const { payments } = useSelector((state) => state.payment);
   const [amount, setAmount] = useState(null);
+  const [usersData, setUsersData] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getBalance(token));
     dispatch(getUserAllPayments(token));
   }, [token, dispatch]);
+  useEffect(() => {
+    const filteredData = users?.filter(
+      (usr) => _.toInteger(usr.parent_id) === user.id
+    );
+    setUsersData(filteredData);
+  }, [users, user]);
   const afterPayment = async () => {
     const formData = {
       user_id: user.id,
@@ -55,8 +69,29 @@ const BalanceContent = () => {
       })
     );
   };
-  const handleAsignBalance = (data) => {};
-
+  const handleAsignBalance = async (data) => {
+    const formData = {
+      user_id: user.id,
+      to_user: data.to_user.value,
+      credit: data.credit * 100,
+    };
+    const is_added = await dispatch(asignBalanceToUser(token, formData));
+    if (is_added === true) {
+      const notificationParam = {
+        user_id: user.id,
+        notification: `Your have successfully transfer amount to your subaccount ${data?.to_user?.label} of amount $${data.credit}`,
+        type: "balance_credit",
+      };
+      pushNotification(notificationParam);
+      const notificationParam2 = {
+        user_id: data.to_user.value,
+        notification: `Your account balance has been credited with amount ${data.credit} from account ${user.name}`,
+        type: "balance_credit",
+      };
+      pushNotification(notificationParam2);
+    }
+  };
+  const max_amount = balanceDetails?.credit / 100;
   return (
     <>
       <div className="hk-pg-wrapper pb-0">
@@ -140,7 +175,7 @@ const BalanceContent = () => {
                         <div className="d-flex gap-3">
                           <div className="col-md-6 col-sm-6">
                             <ReactSelectField
-                              name="board_id"
+                              name="to_user"
                               placeholder="Asign To"
                               mb={true}
                               control={control}
@@ -150,16 +185,26 @@ const BalanceContent = () => {
                                   message: "Field required!",
                                 },
                               }}
-                              options={[]}
+                              options={
+                                usersData?.length > 0
+                                  ? usersData?.map((usr) => {
+                                      return {
+                                        label: usr.name,
+                                        value: usr.id,
+                                      };
+                                    })
+                                  : []
+                              }
                               errors={errors}
                             />
                           </div>
                           <div className="col-md-5 col-sm-6 pt-1">
                             <InputField
-                              name="board_id"
+                              name="credit"
                               type="number"
                               placeholder="Credit Amount"
                               mb={true}
+                              max={max_amount}
                               control={control}
                               rules={{
                                 required: {
@@ -172,9 +217,13 @@ const BalanceContent = () => {
                           </div>
                         </div>
                         <div>
-                          <button className="btn btn-primary mt-3">
-                            Submit
-                          </button>
+                          {isLoading ? (
+                            <Loader />
+                          ) : (
+                            <button className="btn btn-primary mt-3">
+                              Submit
+                            </button>
+                          )}
                         </div>
                       </form>
                     </div>
