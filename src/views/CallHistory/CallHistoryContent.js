@@ -26,7 +26,7 @@ const CallHistoryContent = () => {
   const { availableNumbers, callLogs, recordings } = useSelector(
     (state) => state.calling
   );
-  const { token, accountSid, accountAuthToken } = useSelector(
+  const { token, accountSid, accountAuthToken, user } = useSelector(
     (state) => state.auth
   );
   const dispatch = useDispatch();
@@ -76,6 +76,9 @@ const CallHistoryContent = () => {
                       onToggleEdit={handleToggleEdit}
                       isEdit={isEdit}
                       recordingsData={data}
+                      dispatch={dispatch}
+                      token={token}
+                      user={user}
                     />
                   </div>
                 </div>

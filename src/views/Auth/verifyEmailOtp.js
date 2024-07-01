@@ -52,10 +52,6 @@ const VerifyEmailOtp = () => {
       // password: user.password,
     };
     const verificationSuccess = await dispatch(verifyEmail(formData));
-    console.log(
-      "🚀 ~ otpVerificationHandler ~ verificationSuccess:",
-      verificationSuccess
-    );
     if (verificationSuccess?.verified === 1) {
       // navigate("plan-selection");
       dispatch(
@@ -74,6 +70,7 @@ const VerifyEmailOtp = () => {
   const handleResendOTP = () => {
     const data = {
       email: email,
+      subject: "OTP Verification",
     };
     return dispatch(ForgotPassword(data));
   };

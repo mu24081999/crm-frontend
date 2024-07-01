@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import EditAccountSetting from "./components/EditAccountSetting";
 import AccountSetting from "./components/AccountSetting";
@@ -7,11 +7,20 @@ import CardInformation from "./components/CardInformation";
 import EmailConfig from "./components/EmailConfig";
 import Billing from "./components/Billing";
 import NumberConfig from "./components/NumberConfig";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import VoiceSettings from "./components/VoiceSettings";
+import { getUserSubscriptions } from "../../redux/services/subscription";
+import BrandDetails from "./components/BrandDetails";
 
 const ProfileContent = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
+  const { subscriptions, isLoading } = useSelector(
+    (state) => state.subscription
+  );
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserSubscriptions(token));
+  }, [dispatch, token]);
   return (
     <div>
       <div
@@ -28,10 +37,11 @@ const ProfileContent = () => {
           {/* <!-- Page Body --> */}
           <div className="hk-pg-body">
             <div className="row edit-profile-wrap">
-              <Sidebar user={user} />
+              <Sidebar user={user} subscription={subscriptions[0]} />
               <div className="col-lg-10 col-sm-9 col-8">
                 <div className="tab-content">
                   <EditAccountSetting />
+                  <BrandDetails />
                   <AccountSetting />
                   <UpdatePassword />
                   <EmailConfig />

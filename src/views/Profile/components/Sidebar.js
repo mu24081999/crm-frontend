@@ -1,6 +1,6 @@
 import React from "react";
 
-const Sidebar = ({ user }) => {
+const Sidebar = ({ user, subscription }) => {
   return (
     <div className="col-lg-2 col-sm-3 col-4">
       <div className="nav-profile mt-4">
@@ -42,7 +42,13 @@ const Sidebar = ({ user }) => {
               </a>
             </li>
           )}
-
+          {subscription?.plan?.includes("Enterprise") && (
+            <li className="nav-item">
+              <a data-bs-toggle="tab" href="#tab_brand" className="nav-link">
+                <span className="nav-link-text">Brand Details</span>
+              </a>
+            </li>
+          )}
           <li className="nav-item">
             <a data-bs-toggle="tab" href="#tab_block_4" className="nav-link">
               <span className="nav-link-text">Login & Security</span>

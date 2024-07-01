@@ -4,10 +4,9 @@ import { getContactsList } from "../../../redux/services/contact";
 import Loader from "../../../components/Loader/Loader";
 import { getUsers } from "../../../redux/services/users";
 import moment from "moment/moment";
+import SearchNumber from "./SearchNumber";
 
-const RecordingList = ({ isEdit, recordingsData }) => {
-  const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.auth);
+const RecordingList = ({ isEdit, recordingsData, dispatch, user, token }) => {
   const { isLoading } = useSelector((state) => state.calling);
   useEffect(() => {
     if (token) {
@@ -18,6 +17,7 @@ const RecordingList = ({ isEdit, recordingsData }) => {
 
   return (
     <div className="contact-list-view">
+      <SearchNumber user={user} token={token} dispatch={dispatch} />
       {!isEdit && (
         <>
           {isLoading ? (
@@ -42,18 +42,26 @@ const RecordingList = ({ isEdit, recordingsData }) => {
 
               <tbody>
                 {recordingsData?.length > 0 &&
-                  recordingsData?.map((recording) => (
-                    <tr>
+                  recordingsData?.map((recording, index) => (
+                    <tr key={index}>
                       <td>
                         {moment(recording?.call?.dateCreated).format(
                           "HH:mm:ss YYYY-MM-DD"
                         )}
                       </td>
                       <td>{recording?.call?.from}</td>
-                      <td>{recording?.call?.to}</td>
+                      <td>
+                        {recording?.call?.from?.includes("client")
+                          ? recordingsData[index - 1]?.call?.to
+                          : recording?.call?.to}
+                      </td>
                       <td>{recording?.call?.status}</td>
                       <td>{recording?.call?.duration} sec</td>
-                      <td>{recording?.call?.direction}</td>
+                      <td>
+                        {recording?.call?.from?.includes("client")
+                          ? "outbound-dial"
+                          : recording?.call?.direction}
+                      </td>
                       <td>
                         {recording?.recording?.mediaUrl && (
                           <audio controls>

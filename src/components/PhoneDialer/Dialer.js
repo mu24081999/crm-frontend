@@ -772,8 +772,8 @@ const Dialer = () => {
                   <button
                     className={`btn p-2 rounded`}
                     style={{
-                      backgroundColor: user.recording ? "#eaeaea" : "#ff7270",
-                      color: user.recording ? "#262a2e" : "white",
+                      backgroundColor: user.recording ? "#ff7270" : "#eaeaea",
+                      color: user.recording === 0 ? "#262a2e" : "white",
                     }}
                     data-tooltip-id="off_record"
                     onClick={user?.recording ? pauseRecording : resumeRecording}

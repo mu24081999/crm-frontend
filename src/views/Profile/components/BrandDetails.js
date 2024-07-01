@@ -9,7 +9,7 @@ import {
   updateUserRec,
 } from "../../../redux/services/users";
 import { setAccount } from "../../../redux/slices/auth";
-const EditAccountSetting = () => {
+const BrandDetails = () => {
   const {
     handleSubmit,
     watch,
@@ -19,23 +19,11 @@ const EditAccountSetting = () => {
   } = useForm({});
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
-  const { users, isLoading, userDetails } = useSelector((state) => state.user);
   const [avatar, setAvatar] = useState(null);
-  useEffect(() => {
-    setValue("firstname", user?.name?.split(" ")[0]);
-    setValue("lastname", user?.name?.split(" ")[1]);
-    setValue("location", user?.location);
-    setValue("bio", user?.bio);
-    setValue("personal_phone", user?.personal_phone);
-    setAvatar(userDetails?.avatar);
-  }, [user, setValue, users, userDetails]);
   const handleEditAccount = async (data) => {
     const formData = new FormData();
-    formData.append("name", data.firstname + " " + data.lastname);
+    formData.append("brand_name", data.brand_name);
     formData.append("avatar", avatar);
-    formData.append("location", data.location);
-    formData.append("bio", data.bio);
-    formData.append("personal_phone", data.personal_phone);
     const is_updated = await dispatch(updateUserRec(token, formData, user?.id));
     if (is_updated === true) {
       const new_user = await dispatch(getUserDetails(token, user.id));
@@ -56,8 +44,11 @@ const EditAccountSetting = () => {
     setAvatar(image);
   };
   return (
-    <div className="tab-pane fade show active" id="tab_block_1">
+    <div className="tab-pane fade show active" id="tab_brand">
       <form onSubmit={handleSubmit(handleEditAccount)}>
+        <div className="title title-xs title-wth-divider text-primary text-uppercase my-4">
+          <span>Brand Logo</span>
+        </div>
         <div className="row gx-3">
           <div className="col-sm-12">
             <div className="form-group">
@@ -101,72 +92,27 @@ const EditAccountSetting = () => {
         <div className="row gx-3">
           <div className="col-sm-6">
             <InputField
-              name="firstname"
-              placeholder="First Name"
-              label="First Name"
+              name="brand_name"
+              placeholder="Brand Name"
+              label="Brand Name"
               control={control}
-              // rules={{
-              //   required: {
-              //     value: true,
-              //     message: "Field required!",
-              //   },
-              // }}
-              errors={errors}
-            />
-          </div>
-          <div className="col-sm-6">
-            <InputField
-              name="lastname"
-              placeholder="Last Name"
-              label="Last Name"
-              control={control}
-              // rules={{
-              //   required: {
-              //     value: true,
-              //     message: "Field required!",
-              //   },
-              // }}
-              errors={errors}
-            />
-          </div>
-          <div className="col-sm-6">
-            <InputField
-              name="personal_phone"
-              placeholder="Your Phone Number"
-              label="Phone"
-              control={control}
-              // rules={{
-              //   required: {
-              //     value: true,
-              //     message: "Field required!",
-              //   },
-              // }}
-              errors={errors}
-            />
-          </div>
-          <div className="col-sm-6">
-            <InputField
-              name="location"
-              placeholder="Location"
-              label="Location"
-              control={control}
-              // rules={{
-              //   required: {
-              //     value: true,
-              //     message: "Field required!",
-              //   },
-              // }}
+              rules={{
+                required: {
+                  value: true,
+                  message: "Field required!",
+                },
+              }}
               errors={errors}
             />
           </div>
         </div>
         <div className="row gx-3">
-          <div className="col-sm-12">
+          <div className="col-sm-6">
             <div className="form-group">
               <TextAreaField
-                name="bio"
-                placeholder="Briefly describe yourself..."
-                label="Bio"
+                name="details"
+                placeholder="Briefly describe your business..."
+                label="Business Details"
                 rows="5"
                 control={control}
                 rules={{
@@ -178,34 +124,11 @@ const EditAccountSetting = () => {
                 errors={errors}
               />
               <small className="form-text text-muted">
-                Brief bio about yourself. This will be displayed on your profile
-                page.
+                Brief details about your business.
               </small>
             </div>
           </div>
         </div>
-        {/* <div className="title title-xs title-wth-divider text-primary text-uppercase my-4">
-          <span>Additional Info</span>
-        </div>
-        <div className="row gx-3">
-          <div className="col-sm-12">
-            <div className="form-group">
-              <InputField
-                name="phone"
-                placeholder="Your Phone Number"
-                label="Phone"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "Field required!",
-                  },
-                }}
-                errors={errors}
-              />
-            </div>
-          </div>
-        </div> */}
         <button type="submit" className="btn btn-primary mt-5">
           Save Changes
         </button>
@@ -214,4 +137,4 @@ const EditAccountSetting = () => {
   );
 };
 
-export default EditAccountSetting;
+export default BrandDetails;

@@ -43,7 +43,7 @@ export const getUserDetails = (token, user_id) => async (dispatch) => {
         "x-access-token": token,
       },
     };
-    await axios
+    const user = await axios
       .get(`${backendURL}/user/user-details/${user_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
@@ -52,7 +52,9 @@ export const getUserDetails = (token, user_id) => async (dispatch) => {
           return dispatch(invalidRequest(response.data.message));
         }
         dispatch(readUser(response.data.data.userData));
+        return response.data.data.userData;
       });
+    return user;
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }

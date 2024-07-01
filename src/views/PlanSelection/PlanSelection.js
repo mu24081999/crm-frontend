@@ -192,12 +192,12 @@ const PlanSelection = () => {
               </div>
               <div className="fw-bold">Yearly</div>
             </div>
-            <div className="row d-flex justify-content-center gap-2">
+            <div className="row d-flex justify-content-center gap-5">
               <div
                 className="col-lg-3 card shadow-lg rounded-4 p-4"
                 data-aos="fade-up"
                 data-aos-delay="100"
-                style={{ borderTop: "5px solid gold" }}
+                // style={{ borderTop: "5px solid gold" }}
               >
                 <div className="">
                   <h3 className="text-light py-2">Solo Starter</h3>
@@ -205,7 +205,9 @@ const PlanSelection = () => {
                     <div className="d-flex gap-2">
                       <div>
                         <sup className="fs-3">$</sup>
-                        <span className="fs-1">{amount?.starter}</span>
+                        <span className="fs-1">
+                          {_.toString(amount?.starter).slice(0, 5)}
+                        </span>
                         <p style={{ fontSize: "16px" }}>per month</p>
                       </div>
                       {showDiscount && (
@@ -226,66 +228,72 @@ const PlanSelection = () => {
                     <li>
                       <div className=" text-light d-flex">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        <div>Voice Calling and account services</div>
+                        <div>Leads Management</div>
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        Voice recording
+                        Voice Calling
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />1
-                        Subaccount
+                        Voice Recording
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />1
-                        Agent
-                      </div>
-                    </li>
-                    <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
                         Caller ID's
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        Send & Recieve SMS
+                        Send SMS
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        Leads Management
+                        Send Emails
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        To-do's
+                        $2 Credit
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />1
+                        Sub-Account
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />1
+                        Agent Account
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        Calender{" "}
+                        To-Do's
                       </div>
                     </li>
                     <li>
-                      <div
-                        className=" text-light"
-                        style={{ paddingTop: "8%" }}
-                      ></div>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Calender
+                      </div>
                     </li>
                   </ul>
                 </div>
-                <div className="card-footer p-0">
+                <div className="card-footer px-0" style={{ paddingTop: "35%" }}>
                   <button
                     className="btn btn-block btn-primary"
                     data-bs-toggle="modal"
@@ -333,7 +341,9 @@ const PlanSelection = () => {
                     <div className="d-flex gap-2">
                       <div>
                         <sup className="fs-3">$</sup>
-                        <span className="fs-1">{amount?.growth}</span>
+                        <span className="fs-1">
+                          {_.toString(amount?.growth).slice(0, 5)}
+                        </span>
                         <p style={{ fontSize: "16px" }}>per month</p>
                       </div>
                       {showDiscount && (
@@ -354,66 +364,78 @@ const PlanSelection = () => {
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        Everything In Solo Starter
+                        Leads Management
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />3
-                        Subaccount
+                        Voice Calling
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />3
-                        Agent
+                        Voice Recording
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        SMS Marketing
+                        Caller ID's
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        Email Marketing
-                      </div>
-                    </li>
-                    {/* <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        Time Tracking
-                      </div>
-                    </li> */}
-                    <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        Create & Send Invoices
-                      </div>
-                    </li>
-                    {/* <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        Create Funnels & Landing Pages
+                        Send SMS
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        Team Audio & Video Calling{" "}
+                        Send Emails
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        Website Creation
+                        $6 Credit
                       </div>
-                    </li> */}
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />3
+                        Sub-Accounts
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />3
+                        Agent Accounts
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        To-Do's
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Calender
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Send Fax
+                      </div>
+                    </li>
                   </ul>
                 </div>
-                <div className="card-footer p-0" style={{ marginTop: "50%" }}>
+                <div className="card-footer px-0" style={{ paddingTop: "23%" }}>
                   <button
                     className="btn btn-block btn-primary"
                     data-bs-toggle="modal"
@@ -453,7 +475,7 @@ const PlanSelection = () => {
                 className="col-lg-3 card shadow-lg rounded-4 p-4"
                 data-aos="fade-up"
                 data-aos-delay="100"
-                style={{ borderTop: "5px solid red" }}
+                // style={{ borderTop: "5px solid red" }}
               >
                 <div className="">
                   <h3 className="text-gold py-2">Enterprise</h3>
@@ -461,7 +483,9 @@ const PlanSelection = () => {
                     <div className="d-flex gap-2">
                       <div>
                         <sup className="fs-3">$</sup>
-                        <span className="fs-1">{amount?.enterprise}</span>
+                        <span className="fs-1">
+                          {_.toString(amount?.enterprise).slice(0, 5)}
+                        </span>
                         <p style={{ fontSize: "16px" }}>per month</p>
                       </div>
                       {showDiscount && (
@@ -483,34 +507,79 @@ const PlanSelection = () => {
                     <li className="">
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        Everything Growth
+                        Leads Management
                       </div>
                     </li>
                     <li>
                       <div className="d-flex text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        <div> Unlimited Subaccounts</div>
+                        <div> Voice Calling</div>
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        Unlimited Agents
+                        Voice Recording
                       </div>
                     </li>
-                    {/* <li>
+                    <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        White-Label Dashboard
+                        Caller ID's
                       </div>
-                    </li> */}
+                    </li>
                     <li>
-                      <div
-                        className=" text-light"
-                        style={{ paddingBottom: "69%" }}
-                      >
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Send SMS
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Send Emails
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        $10 Credit
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Unlimited Sub-Accounts
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light d-flex">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        <div>10 Agent Accounts on each Sub-Account</div>
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        To-Do's
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        Calender
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
                         Send Fax{" "}
+                      </div>
+                    </li>
+                    <li>
+                      <div className=" text-light">
+                        <FaCheck color="green" size={34} className="pe-2" />
+                        White-Lable Dashboard
                       </div>
                     </li>
                   </ul>
