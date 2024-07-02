@@ -239,13 +239,13 @@ const PlanSelection = () => {
                     </li>
                     <li>
                       <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />1
+                        <FaCheck color="green" size={34} className="pe-2" />
                         Voice Recording
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />1
+                        <FaCheck color="green" size={34} className="pe-2" />
                         Caller ID's
                       </div>
                     </li>
@@ -369,13 +369,13 @@ const PlanSelection = () => {
                     </li>
                     <li>
                       <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />3
+                        <FaCheck color="green" size={34} className="pe-2" />
                         Voice Calling
                       </div>
                     </li>
                     <li>
                       <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />3
+                        <FaCheck color="green" size={34} className="pe-2" />
                         Voice Recording
                       </div>
                     </li>
