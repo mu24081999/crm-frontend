@@ -9,6 +9,10 @@ import {
   updateUserRec,
 } from "../../../redux/services/users";
 import { setAccount } from "../../../redux/slices/auth";
+import {
+  addUpdateBrandRec,
+  getUserBrandRec,
+} from "../../../redux/services/brand";
 const BrandDetails = () => {
   const {
     handleSubmit,
@@ -19,24 +23,22 @@ const BrandDetails = () => {
   } = useForm({});
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
+  const { brandDetails } = useSelector((state) => state.brand);
   const [avatar, setAvatar] = useState(null);
+  useEffect(() => {
+    setValue("brand_name", brandDetails?.brand_name);
+    setValue("brand_details", brandDetails?.brand_details);
+  }, [brandDetails, setValue]);
   const handleEditAccount = async (data) => {
     const formData = new FormData();
     formData.append("brand_name", data.brand_name);
-    formData.append("avatar", avatar);
-    const is_updated = await dispatch(updateUserRec(token, formData, user?.id));
+    formData.append("brand_logo", avatar);
+    formData.append("brand_details", data.brand_details);
+    formData.append("user_id", user.id);
+
+    const is_updated = await dispatch(addUpdateBrandRec(token, formData));
     if (is_updated === true) {
-      const new_user = await dispatch(getUserDetails(token, user.id));
-      const newUser = {
-        ...user,
-        name: data.firstname + " " + data.lastname,
-        email: data.email,
-        location: data.location,
-        bio: data.bio,
-        personal_phone: data.personal_phone,
-        avatar: new_user.avatar,
-      };
-      await dispatch(setAccount(newUser));
+      await dispatch(getUserBrandRec(token, user.id));
     }
   };
   const handleImage = (e) => {
@@ -44,7 +46,7 @@ const BrandDetails = () => {
     setAvatar(image);
   };
   return (
-    <div className="tab-pane fade show active" id="tab_brand">
+    <div className="tab-pane " id="tab_brand">
       <form onSubmit={handleSubmit(handleEditAccount)}>
         <div className="title title-xs title-wth-divider text-primary text-uppercase my-4">
           <span>Brand Logo</span>
@@ -59,8 +61,8 @@ const BrandDetails = () => {
                       src={
                         avatar !== null && avatar?.type !== undefined
                           ? URL.createObjectURL(avatar)
-                          : user?.avatar !== undefined
-                          ? user?.avatar
+                          : brandDetails?.brand_logo !== undefined
+                          ? brandDetails?.brand_logo
                           : "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
                       }
                       alt="user"
@@ -110,7 +112,7 @@ const BrandDetails = () => {
           <div className="col-sm-6">
             <div className="form-group">
               <TextAreaField
-                name="details"
+                name="brand_details"
                 placeholder="Briefly describe your business..."
                 label="Business Details"
                 rows="5"

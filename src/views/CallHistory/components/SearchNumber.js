@@ -30,8 +30,8 @@ const SearchNumber = ({ token, user, dispatch }) => {
   }, [criteriaWatcher]);
   const handleSearchNumber = (data) => {
     const formData = {
-      phoneNumber: data.phoneNumber.value,
-      direction: data.direction.value,
+      phoneNumber: data?.phoneNumber?.value,
+      direction: data?.direction?.value,
       authToken: user.authToken,
       accountSid: user.accountSid,
     };
@@ -81,7 +81,7 @@ const SearchNumber = ({ token, user, dispatch }) => {
               errors={errors}
               mb={false}
               options={[
-                { label: "Outbound", value: "outbound" },
+                { label: "Outbound", value: "outbound-dial" },
                 { label: "Inbound", value: "inbound" },
               ]}
             />

@@ -14,14 +14,14 @@ const App = () => {
   const dispatch = useDispatch();
 
   const { user, token } = useSelector((state) => state.auth);
-  const { subscriptions, isLoading } = useSelector(
+  const { subscription, isLoading } = useSelector(
     (state) => state.subscription
   );
   const [isKycApproved, setIsKycApproved] = useState(0);
   const { kycDetails } = useSelector((state) => state.kyc);
   const { kycApproved, setKycApproved } = useContext(SocketContext);
   const is_subscribed =
-    moment(subscriptions[0]?.end_date).format("YYYY-MM-DDTHH:mm:ss") >
+    moment(subscription?.end_date).format("YYYY-MM-DDTHH:mm:ss") >
     moment(Date.now()).format("YYYY-MM-DDTHH:mm:ss");
   useEffect(() => {
     dispatch(getUserSubscriptions(token));

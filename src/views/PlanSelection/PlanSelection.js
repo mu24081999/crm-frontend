@@ -293,7 +293,7 @@ const PlanSelection = () => {
                     </li>
                   </ul>
                 </div>
-                <div className="card-footer px-0" style={{ paddingTop: "35%" }}>
+                <div className="card-footer px-0" style={{ paddingTop: "25%" }}>
                   <button
                     className="btn btn-block btn-primary"
                     data-bs-toggle="modal"
@@ -427,12 +427,12 @@ const PlanSelection = () => {
                         Calender
                       </div>
                     </li>
-                    <li>
+                    {/* <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
                         Send Fax
                       </div>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
                 <div className="card-footer px-0" style={{ paddingTop: "23%" }}>
@@ -568,12 +568,6 @@ const PlanSelection = () => {
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
                         Calender
-                      </div>
-                    </li>
-                    <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        Send Fax{" "}
                       </div>
                     </li>
                     <li>

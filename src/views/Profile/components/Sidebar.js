@@ -1,6 +1,7 @@
 import React from "react";
 
 const Sidebar = ({ user, subscription }) => {
+  console.log("🚀 ~ Sidebar ~ subscription:", subscription);
   return (
     <div className="col-lg-2 col-sm-3 col-4">
       <div className="nav-profile mt-4">
@@ -17,6 +18,27 @@ const Sidebar = ({ user, subscription }) => {
               <span className="nav-link-text">Public Profile</span>
             </a>
           </li>
+          <li className="nav-item">
+            <a data-bs-toggle="tab" href="#tab_block_2" className="nav-link">
+              <span className="nav-link-text">Account Settings</span>
+            </a>
+          </li>
+          <li className="nav-item">
+            <a data-bs-toggle="tab" href="#tab_block_4" className="nav-link">
+              <span className="nav-link-text">Login & Security</span>
+            </a>
+          </li>
+          {user?.parent_id !== null && user?.client_id === null && (
+            <li className="nav-item">
+              <a
+                data-bs-toggle="tab"
+                href="#tab_email_config"
+                className="nav-link"
+              >
+                <span className="nav-link-text">Email Configuration</span>
+              </a>
+            </li>
+          )}
           {(user?.parent_id !== null || user?.client_id !== null) && (
             <li className="nav-item">
               <a
@@ -31,8 +53,12 @@ const Sidebar = ({ user, subscription }) => {
             </li>
           )}
           <li className="nav-item">
-            <a data-bs-toggle="tab" href="#tab_block_2" className="nav-link">
-              <span className="nav-link-text">Account Settings</span>
+            <a
+              data-bs-toggle="tab"
+              href="#tab_voice_settings"
+              className="nav-link"
+            >
+              <span className="nav-link-text">Voice Settings</span>
             </a>
           </li>
           {user?.parent_id === null && user?.client_id === null && (
@@ -45,44 +71,10 @@ const Sidebar = ({ user, subscription }) => {
           {subscription?.plan?.includes("Enterprise") && (
             <li className="nav-item">
               <a data-bs-toggle="tab" href="#tab_brand" className="nav-link">
-                <span className="nav-link-text">Brand Details</span>
+                <span className="nav-link-text">White-Label Dashboard</span>
               </a>
             </li>
           )}
-          <li className="nav-item">
-            <a data-bs-toggle="tab" href="#tab_block_4" className="nav-link">
-              <span className="nav-link-text">Login & Security</span>
-            </a>
-          </li>
-          {/* <li className="nav-item">
-            <a
-              data-bs-toggle="tab"
-              href="#tab_block_billing"
-              className="nav-link"
-            >
-              <span className="nav-link-text">Billing Address</span>
-            </a>
-          </li> */}
-          {user?.parent_id !== null && user?.client_id === null && (
-            <li className="nav-item">
-              <a
-                data-bs-toggle="tab"
-                href="#tab_email_config"
-                className="nav-link"
-              >
-                <span className="nav-link-text">Email Configuration</span>
-              </a>
-            </li>
-          )}
-          <li className="nav-item">
-            <a
-              data-bs-toggle="tab"
-              href="#tab_voice_settings"
-              className="nav-link"
-            >
-              <span className="nav-link-text">Voice Settings</span>
-            </a>
-          </li>
         </ul>
       </div>
     </div>

@@ -19,12 +19,14 @@ const RoleAuthorization =
       } else if (
         allowedRoles.includes(role) &&
         role === "USER" &&
+        subscribed &&
         user.parent_id !== null &&
         user.client_id === null
       ) {
         return <WrappedComponent />;
       } else if (
         allowedRoles.includes(role) &&
+        subscribed &&
         role === "AGENT" &&
         user.parent_id === null &&
         user.client_id !== null

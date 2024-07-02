@@ -35,6 +35,7 @@ const persistConfig = {
     "notification",
     "plan_rate",
     "pricing",
+    "brand",
   ],
   whitelist: ["auth"],
 };

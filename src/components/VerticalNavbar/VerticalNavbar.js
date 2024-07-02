@@ -36,9 +36,11 @@ import { SiJfrogpipelines } from "react-icons/si";
 import { getSubscriptionsList } from "../../redux/services/subscription";
 import _ from "lodash";
 import { SocketContext } from "../../Context";
+import { getUserBrandRec } from "../../redux/services/brand";
 
 const VerticalNavbar = () => {
   const { setThemeType, themeType } = useContext(SocketContext);
+  const { brandDetails } = useSelector((state) => state.brand);
   const { user, token } = useSelector((state) => state.auth);
   const [verticalClick, setVerticalClick] = useState(false);
   const [subscriptionPlan, setSubscriptionPlan] = useState({});
@@ -49,7 +51,8 @@ const VerticalNavbar = () => {
   );
   useEffect(() => {
     dispatch(getSubscriptionsList(token));
-  }, [token, dispatch]);
+    dispatch(getUserBrandRec(token, user.id));
+  }, [token, dispatch, user]);
   useEffect(() => {
     if (user?.parent_id !== null) {
       const filteredData = subscriptions?.filter(
@@ -80,7 +83,7 @@ const VerticalNavbar = () => {
           <Link className="navbar-brand flex" to="/">
             <img
               className="brand-img img-fluid"
-              src={brand}
+              src={brandDetails?.brand_logo ? brandDetails?.brand_logo : brand}
               width={35}
               alt="brand"
             />

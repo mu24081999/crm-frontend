@@ -38,10 +38,9 @@ const NotFoundContent = () => {
                   <div className="w-100">
                     <div className="row">
                       <div className="col-xxl-9 col-xl-8 col-lg-11">
-                        <h1 className="display-4 fw-bold mb-2">404</h1>
+                        <h1 className="display-4 fw-bold mb-2">503</h1>
                         <p className="p-lg">
-                          Sorry, the requested page cannot be found. Try finding
-                          with another name.
+                          Sorry, you are not allowed to request this page.
                         </p>
                         <Link
                           to="/plan-selection"

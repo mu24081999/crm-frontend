@@ -9,7 +9,10 @@ import Billing from "./components/Billing";
 import NumberConfig from "./components/NumberConfig";
 import { useDispatch, useSelector } from "react-redux";
 import VoiceSettings from "./components/VoiceSettings";
-import { getUserSubscriptions } from "../../redux/services/subscription";
+import {
+  getSubscriptionsList,
+  getUserSubscriptions,
+} from "../../redux/services/subscription";
 import BrandDetails from "./components/BrandDetails";
 
 const ProfileContent = () => {
@@ -19,7 +22,7 @@ const ProfileContent = () => {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getUserSubscriptions(token));
+    dispatch(getSubscriptionsList(token));
   }, [dispatch, token]);
   return (
     <div>
@@ -41,13 +44,13 @@ const ProfileContent = () => {
               <div className="col-lg-10 col-sm-9 col-8">
                 <div className="tab-content">
                   <EditAccountSetting />
-                  <BrandDetails />
                   <AccountSetting />
                   <UpdatePassword />
                   <EmailConfig />
                   <NumberConfig />
                   <VoiceSettings user={user} />
                   {/* <Billing /> */}
+                  <BrandDetails />
                   <CardInformation />
                 </div>
               </div>

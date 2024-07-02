@@ -13,7 +13,7 @@ import {
 } from "react-icons/fa";
 import { getUserSubAccountsList } from "../../redux/services/calling";
 import { setAccount } from "../../redux/slices/auth";
-import { getUsers } from "../../redux/services/users";
+import { getUserDetails, getUsers } from "../../redux/services/users";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { LuBadgeDollarSign } from "react-icons/lu";
@@ -26,7 +26,7 @@ const TopNavbar = ({ notificationsData }) => {
   const redirectTo = useNavigate();
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
-  const { users } = useSelector((state) => state.user);
+  const { users, userDetails } = useSelector((state) => state.user);
   const { kycApproved } = useContext(SocketContext);
   const [selectedAccount, setSelectedAccount] = useState(user);
   const [parentAccount, setParentAccount] = useState(user);
@@ -53,9 +53,10 @@ const TopNavbar = ({ notificationsData }) => {
   const handleLogOut = () => {
     dispatch(logoutUser(token));
   };
-  useDispatch(() => {
+  useEffect(() => {
     dispatch(getUserSubAccountsList(token));
-  }, [token]);
+    dispatch(getUserDetails(token, user.id));
+  }, [token, user, dispatch]);
   const username = user?.username;
   const avatarHeading = _.toUpper(username?.slice(0, 2));
   const handleAccountClick = (account) => {
@@ -554,18 +555,35 @@ const TopNavbar = ({ notificationsData }) => {
                   data-bs-auto-close="outside"
                   aria-expanded="false"
                 >
-                  <div
-                    // className="avatar avatar-primary avatar-sm avatar-rounded"
-                    className="btn btn-primary btn-sm py-2 btn-rounded shadow-lg"
-                  >
-                    <span
-                      className="initial-wrap fw-bolder"
-                      style={{ fontSize: "14px", width: "11px" }}
+                  {userDetails?.avatar !== "" &&
+                  userDetails?.avatar !== null &&
+                  userDetails?.avatar !== undefined ? (
+                    <div className="media-head me-2">
+                      <div
+                        className="avatar avatar-sm avatar-rounded"
+                        style={{ height: "2.3rem", width: "2.3rem" }}
+                      >
+                        <img
+                          src={userDetails?.avatar}
+                          alt="user"
+                          className="avatar-img"
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      // className="avatar avatar-primary avatar-sm avatar-rounded"
+                      className="btn btn-primary btn-sm py-2 btn-rounded shadow-lg"
                     >
-                      {_.toUpper(selectedAccount?.username?.slice(0, 1)) ||
-                        _.toUpper(selectedAccount?.friendlyName?.slice(0, 1))}
-                    </span>
-                  </div>
+                      <span
+                        className="initial-wrap fw-bolder"
+                        style={{ fontSize: "14px", width: "11px" }}
+                      >
+                        {_.toUpper(selectedAccount?.username?.slice(0, 1)) ||
+                          _.toUpper(selectedAccount?.friendlyName?.slice(0, 1))}
+                      </span>
+                    </div>
+                  )}
                 </a>
                 <div className="dropdown-menu dropdown-menu-end">
                   <div className="p-2">
