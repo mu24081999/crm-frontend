@@ -87,12 +87,21 @@ const VerticalNavbar = () => {
               width={35}
               alt="brand"
             />
-            <img
-              className="brand-img img-fluid"
-              src={logo}
-              width={150}
-              alt="brand"
-            />
+            {brandDetails?.brand_name ? (
+              <span
+                className="fs-4 fw-bolder text-center text-primary pt-4 ms-3 "
+                style={{ fontWeight: "900" }}
+              >
+                {_.toString(brandDetails?.brand_name).slice(0, 10)}
+              </span>
+            ) : (
+              <img
+                className="brand-img img-fluid"
+                src={logo}
+                width={150}
+                alt="brand"
+              />
+            )}
           </Link>
           {themeType === "collapsed" ? (
             <button
