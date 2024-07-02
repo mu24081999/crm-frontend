@@ -68,13 +68,14 @@ const Sidebar = ({ user, subscription }) => {
               </a>
             </li>
           )}
-          {subscription?.plan?.includes("Enterprise") && (
-            <li className="nav-item">
-              <a data-bs-toggle="tab" href="#tab_brand" className="nav-link">
-                <span className="nav-link-text">White-Label Dashboard</span>
-              </a>
-            </li>
-          )}
+          {subscription?.plan?.includes("Enterprise") &&
+            user?.client_id !== null && (
+              <li className="nav-item">
+                <a data-bs-toggle="tab" href="#tab_brand" className="nav-link">
+                  <span className="nav-link-text">White-Label Dashboard</span>
+                </a>
+              </li>
+            )}
         </ul>
       </div>
     </div>

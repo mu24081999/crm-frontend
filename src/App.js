@@ -23,6 +23,7 @@ const App = () => {
   const is_subscribed =
     moment(subscription?.end_date).format("YYYY-MM-DDTHH:mm:ss") >
     moment(Date.now()).format("YYYY-MM-DDTHH:mm:ss");
+  console.log("🚀 ~ App ~ is_subscribed:", is_subscribed);
   useEffect(() => {
     dispatch(getUserSubscriptions(token));
     dispatch(getUserKYCList(token));
