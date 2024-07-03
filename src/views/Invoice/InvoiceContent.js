@@ -7,7 +7,7 @@ import CreateInvoice from "./components/CreateInvoice";
 import BusinessForm from "./components/BusinessForm";
 import BilledInfo from "./components/BilledInfo";
 import { useDispatch, useSelector } from "react-redux";
-import { getInvoiceList } from "../../redux/services/invoice";
+import { getUserInvoicesList } from "../../redux/services/invoice";
 
 const InvoiceContent = () => {
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ const InvoiceContent = () => {
   const [invoiceData, setInvoiceData] = useState([]);
   const [invoiceData_, setInvoiceData_] = useState([]);
   useEffect(() => {
-    dispatch(getInvoiceList(token));
+    dispatch(getUserInvoicesList(token));
   }, [token, dispatch]);
   useEffect(() => {
     if (invoices?.length > 0) {

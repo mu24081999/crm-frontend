@@ -23,23 +23,12 @@ const SubscriptionContent = () => {
   const [data_, setData_] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [view, setView] = useState("list");
-  const { subscriptions } = useSelector((state) => state.subscription);
+  const { subscription } = useSelector((state) => state.subscription);
   const { users } = useSelector((state) => state.user);
   useEffect(() => {
-    if (subscriptions?.length > 0) {
-      const filterData = [];
-      subscriptions?.map((sub) => {
-        const user = users?.filter((user) => user.id === sub?.customer_id)[0];
-        const data = {
-          ...sub,
-          customer_details: user,
-        };
-        return filterData?.push(data);
-      });
-      setData(filterData);
-      setData_(filterData);
-    }
-  }, [subscriptions, users]);
+    setData([subscription]);
+    setData_([subscription]);
+  }, [subscription]);
   useEffect(() => {
     dispatch(getUsers(token));
     dispatch(getUserSubscriptions(token));
@@ -83,21 +72,21 @@ const SubscriptionContent = () => {
                 />
                 <div className="contact-body">
                   <div className="nicescroll-bar">
-                    {view === "list" ? (
-                      <SubscriptionList
-                        subscriptionsArray={data}
-                        onToggleEdit={handleToggleEdit}
-                        isEdit={isEdit}
-                      />
-                    ) : (
-                      <SubscriptionCard
+                    {/* {view === "list" ? ( */}
+                    <SubscriptionList
+                      subscriptionsArray={data}
+                      onToggleEdit={handleToggleEdit}
+                      isEdit={isEdit}
+                    />
+                    {/* ) : ( */}
+                    {/* <SubscriptionCard
                         subscriptionArray={data}
                         onToggleEdit={handleToggleEdit}
                         isEdit={isEdit}
                         dispatch={dispatch}
                         token={token}
-                      />
-                    )}
+                      /> */}
+                    {/* )} */}
                   </div>
                 </div>
               </div>

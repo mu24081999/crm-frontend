@@ -45,9 +45,12 @@ const KYCContent = () => {
   const handleViewDataFromHeader = (value) => {
     setView(value);
   };
-  const handleUpdateKycForm = (form_id) => {
+  const handleUpdateKycForm = (form_id, approveValue) => {
     dispatch(
-      updateKycRec(token, form_id, { is_approved: 1, approved_by: user.id })
+      updateKycRec(token, form_id, {
+        is_approved: approveValue,
+        approved_by: user.id,
+      })
     );
   };
   return (
@@ -238,8 +241,9 @@ const KYCContent = () => {
                                   <div className="d-flex justify-content-center">
                                     <img
                                       className="rounded-3 border mt-5"
-                                      src="https://www.nadra.gov.pk/wp-content/uploads/2023/12/NIC.png"
+                                      src={kycDetails?.document_url}
                                       alt="id"
+                                      width={200}
                                     />
                                   </div>
                                 </div>
@@ -249,13 +253,22 @@ const KYCContent = () => {
                         )}
                       </div>
                     )}
-                    {kycDetails?.is_approved === 0 && (
+                    {kycDetails?.is_approved === 0 ? (
                       <div className="modal-footer">
                         <button
                           className="btn btn-primary btn-block"
-                          onClick={() => handleUpdateKycForm(kycDetails?.id)}
+                          onClick={() => handleUpdateKycForm(kycDetails?.id, 1)}
                         >
                           Approve
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="modal-footer">
+                        <button
+                          className="btn btn-primary btn-block"
+                          onClick={() => handleUpdateKycForm(kycDetails?.id, 0)}
+                        >
+                          Dis-Approve
                         </button>
                       </div>
                     )}

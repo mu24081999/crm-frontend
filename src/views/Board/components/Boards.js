@@ -322,7 +322,7 @@ const Boards = ({ boardsData, onDataFromChild }) => {
                 <div className="card-footer text-muted justify-content-between">
                   <div>
                     <div className="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-                      {board.team_members &&
+                      {/* {board.team_members &&
                         board.team_members.team?.map((member, index) => (
                           <div
                             className="avatar avatar-rounded"
@@ -338,7 +338,7 @@ const Boards = ({ boardsData, onDataFromChild }) => {
                               className="avatar-img"
                             />
                           </div>
-                        ))}
+                        ))} */}
                       {board?.team_members?.team?.length > 3 && (
                         <div
                           className="avatar avatar-soft-danger avatar-rounded"

@@ -1,7 +1,7 @@
 /* .item must be first */
 .item {
   align-items: center;
-  border-radius: 40px;
+  border-radius: 5px;
   border: #086f94 2px solid;
   color: rgb(19, 18, 18);
   cursor: pointer;
@@ -29,9 +29,9 @@
 }
 
 .pagination_active {
-  border: solid 2px #086f94;
-  background-color: #086f94;
-  border-radius: 40px;
+  border: solid 2px teal;
+  background-color: teal;
+  border-radius: 5px;
   color: white;
 }
 
@@ -41,11 +41,10 @@
 .next {
   font-size: 20px;
   height: 60px;
-  border-radius: 10px;
+  border-radius: 5px;
   position: absolute;
   right: 0;
   align-items: center;
-  border-radius: 40px;
   border: #086f94 2px solid;
   color: rgb(19, 18, 18);
   cursor: pointer;
@@ -81,7 +80,7 @@
   left: 0;
   position: absolute;
   align-items: center;
-  border-radius: 40px;
+  border-radius: 5px;
   border: #086f94 2px solid;
   color: rgb(19, 18, 18);
   cursor: pointer;

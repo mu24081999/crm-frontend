@@ -588,7 +588,40 @@ const TopNavbar = ({ notificationsData }) => {
                 <div className="dropdown-menu dropdown-menu-end">
                   <div className="p-2">
                     <div className="media">
-                      <div className="media-head me-2">
+                      {userDetails?.avatar !== "" &&
+                      userDetails?.avatar !== null &&
+                      userDetails?.avatar !== undefined ? (
+                        <div className="media-head me-2">
+                          <div
+                            className="avatar avatar-sm avatar-rounded"
+                            style={{ height: "2.3rem", width: "2.3rem" }}
+                          >
+                            <img
+                              src={userDetails?.avatar}
+                              alt="user"
+                              className="avatar-img"
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          // className="avatar avatar-primary avatar-sm avatar-rounded"
+                          className="btn btn-primary btn-sm py-2 btn-rounded shadow-lg"
+                        >
+                          <span
+                            className="initial-wrap fw-bolder"
+                            style={{ fontSize: "14px", width: "11px" }}
+                          >
+                            {_.toUpper(
+                              selectedAccount?.username?.slice(0, 1)
+                            ) ||
+                              _.toUpper(
+                                selectedAccount?.friendlyName?.slice(0, 1)
+                              )}
+                          </span>
+                        </div>
+                      )}
+                      {/* <div className="media-head me-2">
                         <div className="avatar avatar-primary avatar-sm avatar-rounded">
                           <span className="initial-wrap">
                             {_.toUpper(
@@ -599,7 +632,7 @@ const TopNavbar = ({ notificationsData }) => {
                               )}
                           </span>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="media-body">
                         {user?.parent_id === null && user.client_id === null ? (
                           <div className="dropdown">

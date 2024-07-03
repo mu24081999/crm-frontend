@@ -12,12 +12,14 @@ import { EditBulkContact } from "./components/EditBulkContact";
 import { getBoardList } from "../../redux/services/board";
 import { SmsBulk } from "./components/SmsBulk";
 import { UploadCSVContact } from "./components/UploadCSVContact";
+import Pagination from "../../components/Pagination/Pagination";
 const ContactsContent = () => {
   const { showLeadDetails } = useContext(SocketContext);
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
   const { contactDetails } = useSelector((state) => state.contact);
   const [data, setData] = useState([]);
+  const [data_, setData_] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [view, setView] = useState("list");
   const { contacts } = useSelector((state) => state.contact);
@@ -26,13 +28,13 @@ const ContactsContent = () => {
     dispatch(getBoardList(token));
   }, [token, dispatch]);
   useEffect(() => {
-    if (contacts.length > 0) {
-      const filterData = contacts.filter(
-        (contact) =>
-          contact.status !== "archived" && contact.status !== "blocked"
-      );
-      setData(filterData);
-    }
+    // if (contacts.length > 0) {
+    const filterData = contacts?.filter(
+      (contact) => contact.status !== "archived" && contact.status !== "blocked"
+    );
+    setData(filterData);
+    setData_(filterData);
+    // }
   }, [contacts]);
   const handleReceiveData = (receivedData) => {
     setData(receivedData);
@@ -43,7 +45,10 @@ const ContactsContent = () => {
   const handleViewDataFromHeader = (value) => {
     setView(value);
   };
-
+  const handleDataFromPagination = (newData) => {
+    console.log("🚀 ~ handleDataFromPagination ~ data:", newData);
+    setData(newData);
+  };
   return (
     <div className="hk-pg-wrapper pb-0">
       {/* <!-- Page Body --> */}
@@ -71,8 +76,18 @@ const ContactsContent = () => {
                   onDataFromChild={handleViewDataFromHeader}
                   activeBar={view}
                 />
-                <div className="contact-body">
+                <div
+                  className="contact-body"
+                  style={{ height: "100vh", overflow: "scroll" }}
+                >
                   <div className="nicescroll-bar">
+                    <div>
+                      <Pagination
+                        itemsPerPage={20}
+                        dataFromChild={handleDataFromPagination}
+                        items={data_}
+                      />
+                    </div>
                     {view === "list" ? (
                       <ContactList
                         contactsData={data}

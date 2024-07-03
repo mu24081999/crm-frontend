@@ -17,11 +17,11 @@ export const storeKyc = (token, data) => async (dispatch) => {
     dispatch(kycRequestLoading());
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         "x-access-token": token,
       },
     };
-    await axios
+    const is_added = await axios
       .post(`${backendURL}/user/kyc/post-kyc`, data, config)
       .then((response) => {
         if (response?.data?.statusCode !== 200) {
@@ -31,7 +31,9 @@ export const storeKyc = (token, data) => async (dispatch) => {
         dispatch(addKyc(response.data.message));
         toast.success(response.data.message);
         dispatch(getKYCList(token));
+        return true;
       });
+    return is_added;
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }

@@ -18,7 +18,6 @@ export const UploadCSVContact = ({ token, dispatch, authUser }) => {
   } = useForm({});
   const { contactsToModify } = useContext(SocketContext);
   const [data, setData] = useState([]);
-  console.log("🚀 ~ UploadCSVContact ~ data:", data);
   const [file, setFile] = useState(null);
   const handleUploadCSV = () => {
     if (data?.length > 0) {
@@ -38,7 +37,12 @@ export const UploadCSVContact = ({ token, dispatch, authUser }) => {
     Papa.parse(file, {
       header: true,
       complete: (results) => {
-        setData(results.data);
+        console.log("🚀 ~ handleFileChange ~ results:", results.data.length);
+        if (results.data.length > 100) {
+          setData(results.data.slice(0, 100));
+        } else {
+          setData(results.data);
+        }
       },
       error: (error) => {
         console.error("Error parsing CSV file:", error);

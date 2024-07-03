@@ -30,7 +30,7 @@ export const storeInvoice = (token, data) => async (dispatch) => {
         }
         dispatch(addInvoice(response.data.message));
         toast.success(response.data.message);
-        dispatch(getInvoiceList(token));
+        dispatch(getUserInvoicesList(token));
       });
   } catch (e) {
     dispatch(invalidRequest(e.message));
@@ -47,6 +47,29 @@ export const getInvoiceList = (token) => async (dispatch) => {
     };
     await axios
       .get(`${backendURL}/user/invoice/get-invoices`, config)
+      .then((response) => {
+        console.log("🚀 ~ .then ~ response:", response);
+        if (response?.data?.statusCode !== 200) {
+          toast.error(response.data.message);
+          return dispatch(invalidRequest(response.data.message));
+        }
+        dispatch(getAllInvoices(response.data.data.invoicesData));
+      });
+  } catch (e) {
+    dispatch(invalidRequest(e.message));
+  }
+};
+export const getUserInvoicesList = (token) => async (dispatch) => {
+  try {
+    dispatch(invoiceRequestLoading());
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    };
+    await axios
+      .get(`${backendURL}/user/invoice/get-user-invoices`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         if (response?.data?.statusCode !== 200) {

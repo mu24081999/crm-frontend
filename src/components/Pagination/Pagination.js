@@ -1,5 +1,5 @@
 // export default Pagination;
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactPaginate from "react-paginate";
 import "./paginate.css";
 import { FaGreaterThan, FaLessThan } from "react-icons/fa";
@@ -16,15 +16,27 @@ import { FaGreaterThan, FaLessThan } from "react-icons/fa";
 //     </>
 //   );
 // }
+// Function to deep compare two arrays
+const arraysEqual = (arr1, arr2) => {
+  if (arr1?.length !== arr2?.length) return false;
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) return false;
+  }
+  return true;
+};
 
 function Pagination({ itemsPerPage, items, dataFromChild }) {
   const prevItems = useRef();
 
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + itemsPerPage;
-  const currentItems = items.slice(itemOffset, endOffset);
+  const currentItems = items?.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(items.length / itemsPerPage);
-
+  console.log(
+    prevItems.current,
+    currentItems,
+    currentItems !== prevItems.current
+  );
   // Invoke when user clicks to request another page.
   const handlePageClick = (event) => {
     const newOffset = event.selected * itemsPerPage;
@@ -36,18 +48,18 @@ function Pagination({ itemsPerPage, items, dataFromChild }) {
     setItemOffset(newOffset);
     dataFromChild(currentItems);
   };
-  useMemo(() => {
+  useEffect(() => {
     const fetchData = async () => {
       // Simulate an API call delay
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      if (currentItems !== prevItems.current) {
+      if (!arraysEqual(currentItems, prevItems.current)) {
         dataFromChild(currentItems);
         // Update the previous items reference
         prevItems.current = currentItems;
       }
     };
     fetchData();
-  }, [currentItems, prevItems]);
+  }, [currentItems, prevItems, dataFromChild]);
 
   return (
     <>
@@ -56,22 +68,23 @@ function Pagination({ itemsPerPage, items, dataFromChild }) {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          padding: 20,
           boxSizing: "border-box",
+          // width: "max-content",
           width: "100%",
-          height: "100%",
+          height: "20px",
+          // border: "1px solid teal",
         }}
       >
         {/* <Items currentItems={currentItems} /> */}
 
         <ReactPaginate
           breakClassName={"item break-me "}
-          containerClassName={"pagination"}
+          containerClassName={"d-flex justify-content-center"}
           disabledClassName={"disabled-page"}
           marginPagesDisplayed={2}
-          nextClassName={"arrows next "}
+          nextClassName={"arrows btn btn-light "}
           pageClassName={"item pagination-page "}
-          previousClassName={"arrows previous"}
+          previousClassName={"arrows btn btn-light"}
           nextLabel={<FaGreaterThan />}
           previousLabel={<FaLessThan />}
           breakLabel="..."
@@ -84,10 +97,10 @@ function Pagination({ itemsPerPage, items, dataFromChild }) {
           renderOnZeroPageCount={null}
           activeClassName="pagination_active"
         />
-        <p style={{ textAlign: "center", width: "100%", fontSize: "18px" }}>
+        {/* <p style={{ textAlign: "center", width: "100%", fontSize: "18px" }}>
           Loading items from {itemOffset + 1} to {endOffset} out of{" "}
           {items.length}
-        </p>
+        </p> */}
       </div>
     </>
   );

@@ -69,7 +69,7 @@ const Sidebar = ({ user, subscription }) => {
             </li>
           )}
           {subscription?.plan?.includes("Enterprise") &&
-            user?.client_id !== null && (
+            user?.parent_id !== null && (
               <li className="nav-item">
                 <a data-bs-toggle="tab" href="#tab_brand" className="nav-link">
                   <span className="nav-link-text">White-Label Dashboard</span>

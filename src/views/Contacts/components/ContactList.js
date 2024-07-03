@@ -34,7 +34,6 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
   } = useForm({});
   const { handleToggleShowLeadDetail, setContactsToModify, contactsToModify } =
     useContext(SocketContext);
-  console.log("🚀 ~ ContactList ~ contactsToModify:", contactsToModify);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { isLoading } = useSelector((state) => state.contact);
