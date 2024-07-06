@@ -71,7 +71,7 @@ function Pagination({ itemsPerPage, items, dataFromChild }) {
           boxSizing: "border-box",
           // width: "max-content",
           width: "100%",
-          height: "20px",
+          height: "100px",
           // border: "1px solid teal",
         }}
       >

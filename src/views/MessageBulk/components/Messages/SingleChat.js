@@ -10,6 +10,7 @@ import { getUsers } from "../../../../redux/services/users";
 import { FiAlertTriangle, FiPaperclip } from "react-icons/fi";
 import "reactjs-popup/dist/index.css";
 import Popup from "reactjs-popup";
+import { toast } from "react-toastify";
 
 const SingleChat = ({
   messages,
@@ -23,7 +24,7 @@ const SingleChat = ({
   const [selectedUser, setSelectedUser] = useState(null);
   const [usersArray, setUsersArray] = useState(null);
   const { users } = useSelector((state) => state.user);
-  const { token } = useSelector((state) => state.auth);
+  const { token, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   // useEffect(() => {
   //   if (selectedUser && me && token) {
@@ -65,27 +66,41 @@ const SingleChat = ({
   const [message, setMessage] = useState();
 
   const sendMessage = (e) => {
-    if (e.key === "Enter" || e.type === "click") {
-      const messageData = {
-        from: {
-          phone: authUser.phone,
-          name: authUser.name,
-          avatar: authUser.avatar,
-          socket_id: authUser.socket_id,
-          accountSid: authUser?.accountSid,
-          authToken: authUser?.authToken,
-        },
-        to: {
-          phone: selectedRoom?.to_phone,
-          name: selectedRoom?.firstname + selectedRoom?.lastname,
-          avatar: selectedRoom?.avatar,
-        },
-        // to: "+923174660027",
-        message: message,
-      };
-      sendTextMessage(messageData);
+    if (
+      user?.phone !== null &&
+      user?.phone !== undefined &&
+      user?.phone !== ""
+    ) {
+      if (message !== null) {
+        if (e.key === "Enter" || e.type === "click") {
+          const messageData = {
+            from: {
+              phone: authUser.phone,
+              name: authUser.name,
+              avatar: authUser.avatar,
+              socket_id: authUser.socket_id,
+              accountSid: authUser?.accountSid,
+              authToken: authUser?.authToken,
+            },
+            to: {
+              phone: selectedRoom?.to_phone,
+              name: selectedRoom?.firstname + selectedRoom?.lastname,
+              avatar: selectedRoom?.avatar,
+            },
+            // to: "+923174660027",
+            message: message,
+          };
+          sendTextMessage(messageData);
 
-      setMessage("");
+          setMessage(null);
+        }
+      } else {
+        toast.error("Please write something in the message.");
+      }
+    } else {
+      toast.error(
+        "Please configure you number first, then you are able to send a message."
+      );
     }
   };
   const handleFileChange = (event) => {

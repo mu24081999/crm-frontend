@@ -6,7 +6,7 @@ import { getBoardDetails } from "../../../redux/services/board";
 import { useForm } from "react-hook-form";
 import ReactSelectField from "../../../components/FormFields/reactSelectField";
 
-const TaskHeader = ({ boardsData }) => {
+const TaskHeader = ({ boardsData, onDataViewFromChild, isShowTask }) => {
   const {
     handleSubmit,
     watch,
@@ -39,6 +39,14 @@ const TaskHeader = ({ boardsData }) => {
     <header className="taskboard-header">
       <div className="d-flex align-items-center flex-1">
         <div className="d-flex col-md-8 justify-content-between">
+          {isShowTask && (
+            <button
+              className="btn btn-primary"
+              onClick={() => onDataViewFromChild(false)}
+            >
+              Back
+            </button>
+          )}
           <a className="taskboardapp-title link-dark" href="/">
             <h1>{boardDetails?.name}</h1>
           </a>

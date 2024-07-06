@@ -2,7 +2,7 @@
 .item {
   align-items: center;
   border-radius: 5px;
-  border: #086f94 2px solid;
+  /* border: #086f94 2px solid; */
   color: rgb(19, 18, 18);
   cursor: pointer;
   display: flex;
@@ -29,7 +29,7 @@
 }
 
 .pagination_active {
-  border: solid 2px teal;
+  /* border: solid 2px teal; */
   background-color: teal;
   border-radius: 5px;
   color: white;
@@ -81,7 +81,7 @@
   position: absolute;
   align-items: center;
   border-radius: 5px;
-  border: #086f94 2px solid;
+  /* border: #086f94 2px solid; */
   color: rgb(19, 18, 18);
   cursor: pointer;
   display: flex;

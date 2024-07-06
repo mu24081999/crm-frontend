@@ -70,35 +70,36 @@ const TodosList = ({
           </ul>
         </div>
       </div> */}
-      {Object.entries(todosData).map(([date, todosList]) => (
-        <div class="collapse-simple mt-4" key={date}>
-          <div class="card">
-            <div class="card-header">
-              <a
-                role="button"
-                data-bs-toggle="collapse"
-                href="/todo_collapse_1"
-                aria-expanded="true"
-              >
-                <h5 class="mb-0">
-                  {moment(Date.now()).format("YYYY-MM-DD") === date
-                    ? "Recently Assigned"
-                    : moment(date).format("MMM DD YYYY")}
-                </h5>
-              </a>
-            </div>
-            <div id="todo_collapse_1" class="collapse show">
-              <div class="card-body">
-                <ul id="todo_list" class="advance-list">
-                  {todosList?.map((task, index) => (
-                    <li
-                      class="advance-list-item single-task-list active-todo"
-                      key={index}
-                      onClick={() => handleTaskClick(task.id)}
-                    >
-                      <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center">
-                          {/* <div class="form-check">
+      {todosData &&
+        Object.entries(todosData).map(([date, todosList]) => (
+          <div class="collapse-simple mt-4" key={date}>
+            <div class="card">
+              <div class="card-header">
+                <a
+                  role="button"
+                  data-bs-toggle="collapse"
+                  href="/todo_collapse_1"
+                  aria-expanded="true"
+                >
+                  <h5 class="mb-0">
+                    {moment(Date.now()).format("YYYY-MM-DD") === date
+                      ? "Recently Assigned"
+                      : moment(date).format("MMM DD YYYY")}
+                  </h5>
+                </a>
+              </div>
+              <div id="todo_collapse_1" class="collapse show">
+                <div class="card-body">
+                  <ul id="todo_list" class="advance-list">
+                    {todosList?.map((task, index) => (
+                      <li
+                        class="advance-list-item single-task-list active-todo"
+                        key={index}
+                        onClick={() => handleTaskClick(task.id)}
+                      >
+                        <div class="d-flex align-items-center justify-content-between">
+                          <div class="d-flex align-items-center">
+                            {/* <div class="form-check">
                             <input
                               type="checkbox"
                               class="form-check-input"
@@ -109,126 +110,128 @@ const TodosList = ({
                               for="customCheckTodo1"
                             ></label>
                           </div> */}
-                          <div>
-                            {/* <span class="todo-star marked">
+                            <div>
+                              {/* <span class="todo-star marked">
                               <span class="feather-icon">
                                 <FaStar />
                               </span>
                             </span> */}
-                            <span class="badge badge-danger badge-indicator badge-indicator-xl"></span>
-                            <span class="todo-text text-dark text-truncate">
-                              {task.name}
-                            </span>
-                            <span class="badge badge-sm badge-outline badge-danger badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none">
-                              <span>
-                                <i class="badge-dot ri-checkbox-blank-circle-fill"></i>
-                                {task.priority}
+                              <span class="badge badge-danger badge-indicator badge-indicator-xl"></span>
+                              <span class="todo-text text-dark text-truncate">
+                                {task.name}
                               </span>
-                            </span>
+                              <span class="badge badge-sm badge-outline badge-danger badge-wth-indicator badge-wth-icon ms-3 d-lg-inline-block d-none">
+                                <span>
+                                  <i class="badge-dot ri-checkbox-blank-circle-fill"></i>
+                                  {task.priority}
+                                </span>
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                        <div class="d-flex flex-shrink-0 align-items-center ms-3">
-                          <span class="todo-time d-lg-inline-block d-none text-primary me-3">
-                            {moment(task.end_date).format("YYYY MMM DD") +
-                              " " +
-                              task.end_time}
-                          </span>
-                          {/* <div class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
+                          <div class="d-flex flex-shrink-0 align-items-center ms-3">
+                            <span class="todo-time d-lg-inline-block d-none text-primary me-3">
+                              {moment(task.end_date).format("YYYY MMM DD") +
+                                " " +
+                                task.end_time}
+                            </span>
+                            {/* <div class="avatar avatar-xs avatar-rounded d-md-inline-block d-none">
                             <img
                               src="dist/img/avatar7.jpg"
                               alt="user"
                               class="avatar-img"
                             />
                           </div> */}
-                          <div className="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-                            {task?.asign_to &&
-                              task?.asign_to?.members?.map((member, index) => (
+                            <div className="avatar-group avatar-group-sm avatar-group-overlapped me-3">
+                              {task?.asign_to &&
+                                task?.asign_to?.members?.map(
+                                  (member, index) => (
+                                    <div
+                                      className="avatar avatar-rounded"
+                                      data-bs-toggle="tooltip"
+                                      data-bs-placement="top"
+                                      title=""
+                                      data-bs-original-title="Katharine"
+                                    >
+                                      <img
+                                        // src="dist/img/avatar8.jpg"
+                                        src={member.avatar}
+                                        alt="user"
+                                        className="avatar-img"
+                                      />
+                                    </div>
+                                  )
+                                )}
+
+                              {task?.asign_to?.members?.length > 3 && (
                                 <div
-                                  className="avatar avatar-rounded"
+                                  className="avatar avatar-soft-danger avatar-rounded"
                                   data-bs-toggle="tooltip"
                                   data-bs-placement="top"
                                   title=""
-                                  data-bs-original-title="Katharine"
+                                  data-bs-original-title="Tooltip text"
                                 >
-                                  <img
-                                    // src="dist/img/avatar8.jpg"
-                                    src={member.avatar}
-                                    alt="user"
-                                    className="avatar-img"
-                                  />
+                                  <span className="initial-wrap">
+                                    {task?.asign_to?.memebers?.length - 3}+
+                                  </span>
                                 </div>
-                              ))}
+                              )}
+                            </div>
 
-                            {task?.asign_to?.members?.length > 3 && (
-                              <div
-                                className="avatar avatar-soft-danger avatar-rounded"
-                                data-bs-toggle="tooltip"
-                                data-bs-placement="top"
-                                title=""
-                                data-bs-original-title="Tooltip text"
+                            {task?.labels?.labels?.map((label, index) => (
+                              <span
+                                class="badge badge-primary ms-3 d-md-inline-block d-none"
+                                key={index}
                               >
-                                <span className="initial-wrap">
-                                  {task?.asign_to?.memebers?.length - 3}+
-                                </span>
-                              </div>
-                            )}
-                          </div>
-
-                          {task?.labels?.labels?.map((label, index) => (
-                            <span
-                              class="badge badge-primary ms-3 d-md-inline-block d-none"
-                              key={index}
-                            >
-                              {label}
-                            </span>
-                          ))}
-                          <div class="dropdown">
-                            <button
-                              class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
-                              aria-expanded="false"
-                              data-bs-toggle="dropdown"
-                            >
-                              <span class="icon">
-                                <span class="feather-icon">
-                                  {/* <i data-feather="more-vertical"></i> */}
-                                  <CiMenuKebab />
-                                </span>
+                                {label}
                               </span>
-                            </button>
-                            <div
-                              role="menu"
-                              class="dropdown-menu dropdown-menu-end"
-                            >
+                            ))}
+                            <div class="dropdown">
                               <button
-                                class="dropdown-item edit-task"
-                                onClick={handleTaskClick}
+                                class="btn btn-icon btn-rounded btn-flush-light flush-soft-hover dropdown-toggle no-caret"
+                                aria-expanded="false"
+                                data-bs-toggle="dropdown"
                               >
-                                Edit Task
+                                <span class="icon">
+                                  <span class="feather-icon">
+                                    {/* <i data-feather="more-vertical"></i> */}
+                                    <CiMenuKebab />
+                                  </span>
+                                </span>
                               </button>
-                              <button
-                                class="dropdown-item view-task"
-                                onClick={handleTaskClick}
+                              <div
+                                role="menu"
+                                class="dropdown-menu dropdown-menu-end"
                               >
-                                View Task
-                              </button>
-                              <button
-                                class="dropdown-item "
-                                onClick={() => handleDeleteTask(task.id)}
-                              >
-                                Delete Task
-                              </button>
+                                <button
+                                  class="dropdown-item edit-task"
+                                  onClick={handleTaskClick}
+                                >
+                                  Edit Task
+                                </button>
+                                <button
+                                  class="dropdown-item view-task"
+                                  onClick={handleTaskClick}
+                                >
+                                  View Task
+                                </button>
+                                <button
+                                  class="dropdown-item "
+                                  onClick={() => handleDeleteTask(task.id)}
+                                >
+                                  Delete Task
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
       {/* 
       <div class="row mt-3">
         <div class="col-sm-12">

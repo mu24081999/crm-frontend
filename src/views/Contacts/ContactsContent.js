@@ -81,13 +81,6 @@ const ContactsContent = () => {
                   style={{ height: "100vh", overflow: "scroll" }}
                 >
                   <div className="nicescroll-bar">
-                    <div>
-                      <Pagination
-                        itemsPerPage={20}
-                        dataFromChild={handleDataFromPagination}
-                        items={data_}
-                      />
-                    </div>
                     {view === "list" ? (
                       <ContactList
                         contactsData={data}
@@ -103,6 +96,13 @@ const ContactsContent = () => {
                         token={token}
                       />
                     )}
+                    <div>
+                      <Pagination
+                        itemsPerPage={20}
+                        dataFromChild={handleDataFromPagination}
+                        items={data_}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

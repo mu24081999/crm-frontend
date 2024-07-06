@@ -902,7 +902,8 @@ const TopNavbar = ({ notificationsData }) => {
                   </Link>
                   {/* <div className="dropdown-divider"></div> */}
                   {/* <h6 className="dropdown-header">Manage Account</h6> */}
-                  {(user.client_id !== null || user.parent_id !== null) && (
+                  {(user.parent_id !== null ||
+                    (user.client_id === null && user.parent_id === null)) && (
                     <Link to={"/balance"} className="dropdown-item d-flex">
                       <span className="dropdown-icon pt-1 feather-icon">
                         <FaCreditCard />

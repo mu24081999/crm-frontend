@@ -40,9 +40,9 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
   const [searchInput, setSearchInput] = useState(null);
   const [contacts, setContacts] = useState();
   useEffect(() => {
-    if (contactsData.length > 0) {
-      setContacts(contactsData);
-    }
+    // if (contactsData.length > 0) {
+    setContacts(contactsData);
+    // }
   }, [contactsData]);
   const handleDeleteContact = (contact_id) => {
     dispatch(deleteContactRec(token, contact_id));

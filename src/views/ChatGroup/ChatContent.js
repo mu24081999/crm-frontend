@@ -56,8 +56,8 @@ const ChatContent = () => {
         await axios
           .get(`${backendURL}/user/chat/group-chat-history/${room_id}`, config)
           .then((response) => {
-            setMessages(response.data?.data.chatData);
-            setMessages_(response.data?.data.chatData);
+            setMessages(response.data?.data?.chatData);
+            setMessages_(response.data?.data?.chatData);
           });
       } catch (error) {
         toast.error(error.message);

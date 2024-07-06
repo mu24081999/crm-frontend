@@ -107,7 +107,7 @@ const ComposeEmail = () => {
       await dispatch(sendEmailBulk(token, formData));
       reset();
     } else {
-      toast.error("You are not allowed to send email!");
+      toast.error("Email not sent. Please configure your account.");
     }
   };
   // Function to extract email addresses from CSV contents

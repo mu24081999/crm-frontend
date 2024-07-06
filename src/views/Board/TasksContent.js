@@ -79,7 +79,9 @@ const SortableItem = ({ id, content, containerId }) => {
       {/* {content} */}
       <div className="card  tasklist-card">
         <div className="card-header card-header-action bg-primary ">
-          <h6 className="fw-bold text-white">{content?.firstname}</h6>
+          <h6 className="fw-bold text-white">
+            {content?.firstname}({content?.phone})
+          </h6>
         </div>
         <div className="card-body">
           <div>
@@ -157,7 +159,7 @@ const Column = ({ id, items }) => {
     setColor(randomColor);
   }, []);
   return (
-    <div className="col-md-3 shadow">
+    <div className="col-md-3">
       <div
         className="card shadow mb-5"
         style={{ borderTop: `5px solid ${color}` }}
@@ -189,7 +191,14 @@ const Column = ({ id, items }) => {
   );
 };
 
-const TasksContent = ({ token, contactsData, boardDetails, boardsData }) => {
+const TasksContent = ({
+  token,
+  contactsData,
+  boardDetails,
+  boardsData,
+  onDataViewFromChild,
+  isShowTask,
+}) => {
   const [items, setItems] = useState(initialItems);
   const [data, setData] = useState({});
   const [contacts, setContacts] = useState(contactsData);
@@ -265,7 +274,11 @@ const TasksContent = ({ token, contactsData, boardDetails, boardsData }) => {
 
   return (
     <div>
-      <TaskHeader boardsData={boardsData} />
+      <TaskHeader
+        boardsData={boardsData}
+        onDataViewFromChild={onDataViewFromChild}
+        isShowTask={isShowTask}
+      />
       <div className="taskboard-body">
         <DndContext
           sensors={sensors}

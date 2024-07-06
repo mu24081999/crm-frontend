@@ -78,6 +78,9 @@ const BoardContent = () => {
   const handleToggleDataFromSidebar = (data) => {
     setShowTask(data);
   };
+  const handleDataFromHeader = (data) => {
+    setShowTask(data);
+  };
   return (
     <div>
       {/* <!-- Main Content --> */}
@@ -85,15 +88,20 @@ const BoardContent = () => {
         {/* <!-- Page Body --> */}
         <div className="hk-pg-body py-0">
           <div className="taskboardapp-wrap">
-            <SideNav
-              onDataFromChild={handleDataFromSidebar}
-              boardsData={boardsData_}
-              dispatch={dispatch}
-              onToggleDataFromChild={handleToggleDataFromSidebar}
-              token={token}
-            />
+            {!isShowTask && (
+              <SideNav
+                onDataFromChild={handleDataFromSidebar}
+                boardsData={boardsData_}
+                dispatch={dispatch}
+                onToggleDataFromChild={handleToggleDataFromSidebar}
+                token={token}
+              />
+            )}
 
-            <div className="taskboardapp-content">
+            <div
+              className="taskboardapp-content"
+              style={{ paddingLeft: isShowTask ? "0px" : "270px" }}
+            >
               <div className="taskboardapp-detail-wrap">
                 {isShowTask && (
                   <TasksContent
@@ -102,6 +110,8 @@ const BoardContent = () => {
                     boardDetails={boardDetails}
                     boardsData={boardsData}
                     token={token}
+                    isShowTask={isShowTask}
+                    onDataViewFromChild={handleDataFromHeader}
                   />
                   // <Kanban />
                 )}
@@ -117,6 +127,8 @@ const BoardContent = () => {
                                 toggleType={toggleType}
                                 boardsData={boardsData}
                                 teamsData={teamsData}
+                                isShowTask={isShowTask}
+                                onDataViewFromChild={handleDataFromHeader}
                                 onDataFromChild={hnadleShowTask}
                               />
                             </div>

@@ -115,10 +115,10 @@ const ChatRooms = ({
                     <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
                       <span class="initial-wrap">
                         {extractCharactersFromArray(
-                          selectedRoom.firstname + " " + selectedRoom.lastname
+                          contact.firstname + " " + contact.lastname
                         ).firstCharacter +
                           extractCharactersFromArray(
-                            selectedRoom.firstname + " " + selectedRoom.lastname
+                            contact.firstname + " " + contact.lastname
                           ).characterAfterSpace}
                       </span>
                     </div>

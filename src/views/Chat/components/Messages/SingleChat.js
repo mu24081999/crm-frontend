@@ -479,9 +479,12 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                     <img
                       //   src="dist/img/avatar8.jpg"
                       src={
-                        _.toInteger(msg.recipient) === selectedRoom.user_id_1
-                          ? selectedRoom?.user_image_1
-                          : selectedRoom?.user_image_2
+                        (_.toInteger(msg.recipient) === selectedRoom.user_id_1
+                          ? selectedRoom?.user_image_1?.includes("https") &&
+                            selectedRoom?.user_image_1
+                          : selectedRoom?.user_image_2?.includes("https") &&
+                            selectedRoom?.user_image_2) ||
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNL_ZnOTpXSvhf1UaK7beHey2BX42U6solRA&s"
                       }
                       alt="user"
                       class="avatar-img"

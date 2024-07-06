@@ -69,7 +69,7 @@ const ComposeEmail = () => {
         });
       dispatch(sendEmailRec(token, formData));
     } else {
-      toast.error("You are not allowed to send email!");
+      toast.error("Email not sent. Please configure your account.");
     }
   };
   return (

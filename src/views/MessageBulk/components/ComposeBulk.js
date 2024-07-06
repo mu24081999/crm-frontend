@@ -82,56 +82,66 @@ const ComposeBulk = ({ onShowAddForm }) => {
   // };
   const handleSendBulkSMS = async (data) => {
     try {
-      setIsLoading(true);
-      if (toNumbers.length > 0) {
-        await Promise.all(
-          toNumbers.map(async (element) => {
-            const smsData = {
-              from: {
-                phone: user.phone,
-                name: user.name,
-                avatar: user.avatar,
-                socket_id: user.socket_id,
-                accountSid: user?.accountSid,
-                authToken: user?.authToken,
-              },
-              to: {
-                phone: element,
-              },
-              user_id: user?.id,
-              message: bodyWatcher,
-            };
-            console.log(smsData);
-            await sendTextMessage(smsData);
-          })
+      if (
+        user?.phone !== null &&
+        user?.phone !== undefined &&
+        user?.phone !== ""
+      ) {
+        setIsLoading(true);
+        if (toNumbers.length > 0) {
+          await Promise.all(
+            toNumbers.map(async (element) => {
+              const smsData = {
+                from: {
+                  phone: user.phone,
+                  name: user.name,
+                  avatar: user.avatar,
+                  socket_id: user.socket_id,
+                  accountSid: user?.accountSid,
+                  authToken: user?.authToken,
+                },
+                to: {
+                  phone: element,
+                },
+                user_id: user?.id,
+                message: bodyWatcher,
+              };
+              console.log(smsData);
+              await sendTextMessage(smsData);
+            })
+          );
+        } else if (data?.to?.split("\n")?.length > 0) {
+          const to_numbers = data?.to?.split("\n");
+          const is_completed = await Promise.all(
+            to_numbers.map(async (element) => {
+              const smsData = {
+                from: {
+                  phone: user.phone,
+                  name: user.name,
+                  avatar: user.avatar,
+                  socket_id: user.socket_id,
+                  accountSid: user?.accountSid,
+                  authToken: user?.authToken,
+                },
+                to: {
+                  phone: element,
+                },
+                message: bodyWatcher,
+                user_id: user?.id,
+              };
+              await sendTextMessage(smsData);
+            })
+          );
+          console.log("Sent text message", is_completed);
+        }
+        setIsLoading(false);
+        toast.success("SMS sent successfully.");
+        // Add any post-processing logic here
+      } else {
+        toast.error(
+          "Please configure you number first, then you are able to send a message."
         );
-      } else if (data?.to?.split("\n")?.length > 0) {
-        const to_numbers = data?.to?.split("\n");
-        const is_completed = await Promise.all(
-          to_numbers.map(async (element) => {
-            const smsData = {
-              from: {
-                phone: user.phone,
-                name: user.name,
-                avatar: user.avatar,
-                socket_id: user.socket_id,
-                accountSid: user?.accountSid,
-                authToken: user?.authToken,
-              },
-              to: {
-                phone: element,
-              },
-              message: bodyWatcher,
-              user_id: user?.id,
-            };
-            await sendTextMessage(smsData);
-          })
-        );
-        console.log("Sent text message", is_completed);
       }
-      setIsLoading(false);
-      toast.success("SMS sent successfully.");
-      // Add any post-processing logic here
     } catch (error) {
       console.error("Error sending SMS messages:", error);
       // Handle errors here
