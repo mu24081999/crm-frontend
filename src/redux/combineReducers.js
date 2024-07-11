@@ -26,6 +26,7 @@ import notificationReducer from "./slices/notifications";
 import planRatesReducer from "./slices/plan-rates";
 import pricingReducer from "./slices/pricing";
 import brandReducer from "./slices/brand";
+import permissionReducer from "./slices/permissions";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -55,4 +56,5 @@ export const rootReducer = combineReducers({
   plan_rate: planRatesReducer,
   pricing: pricingReducer,
   brand: brandReducer,
+  permission: permissionReducer,
 });

@@ -74,7 +74,7 @@ const RecordingList = ({ isEdit, recordingsData, user }) => {
                       <td>{recording?.duration} sec</td>
                       <td>{recording?.direction}</td>
                       <td>
-                        <audio controls>
+                        <audio controls style={{ width: "10%" }}>
                           <source
                             src={recording?.mediaUrl}
                             type="audio/x-wav"

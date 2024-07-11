@@ -10,6 +10,7 @@ import {
   recordingsList,
 } from "../../redux/services/calling";
 import { useForm } from "react-hook-form";
+import Pagination from "../../components/Pagination/Pagination";
 
 const CallHistoryContent = () => {
   const {
@@ -20,6 +21,7 @@ const CallHistoryContent = () => {
     formState: { errors },
   } = useForm({});
   const [data, setData] = useState([]);
+  const [data_, setData_] = useState([]);
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [phoneNumbers_, setPhoneNumbers_] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -40,9 +42,10 @@ const CallHistoryContent = () => {
   }, [token, dispatch, accountAuthToken, accountSid]);
 
   useEffect(() => {
-    if (callLogs.length > 0) {
-      setData(callLogs);
-    }
+    // if (callLogs.length > 0) {
+    setData(callLogs);
+    setData_(callLogs);
+    // }
   }, [callLogs, recordings]);
   useEffect(() => {
     if (availableNumbers.length > 0) {
@@ -53,7 +56,10 @@ const CallHistoryContent = () => {
   const handleToggleEdit = (value) => {
     setIsEdit(value);
   };
-
+  const handleDataFromPagination = (newData) => {
+    console.log("🚀 ~ handleDataFromPagination ~ data:", newData);
+    setData(newData);
+  };
   return (
     <div className="hk-pg-wrapper pb-0">
       {/* <!-- Page Body --> */}
@@ -79,6 +85,13 @@ const CallHistoryContent = () => {
                       dispatch={dispatch}
                       token={token}
                       user={user}
+                    />
+                  </div>
+                  <div>
+                    <Pagination
+                      itemsPerPage={20}
+                      dataFromChild={handleDataFromPagination}
+                      items={data_}
                     />
                   </div>
                 </div>

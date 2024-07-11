@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CiMenuFries } from "react-icons/ci";
 import logo from "./../../assets/4.png";
 import { MdOutlineSubscriptions } from "react-icons/md";
-import { LuUsers } from "react-icons/lu";
+import { LuUserCog2, LuUsers } from "react-icons/lu";
 import {
   RiContactsBook2Line,
   RiFilterLine,
@@ -446,6 +446,20 @@ const VerticalNavbar = () => {
                           </span>
                         </span>
                         <span className="nav-link-text">Wallet</span>
+                      </Link>
+                    </li>
+                    <li
+                      className={`nav-item ${
+                        location?.pathname === "/permissions" && "active"
+                      }`}
+                    >
+                      <Link className="nav-link" to="/permissions">
+                        <span className="nav-icon-wrap">
+                          <span className="svg-icon">
+                            <LuUserCog2 />
+                          </span>
+                        </span>
+                        <span className="nav-link-text">Permission</span>
                       </Link>
                     </li>
                   </>

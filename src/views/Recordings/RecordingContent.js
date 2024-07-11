@@ -10,12 +10,14 @@ import {
   recordingsList,
 } from "../../redux/services/calling";
 import { useForm } from "react-hook-form";
+import Pagination from "../../components/Pagination/Pagination";
 
 const ContactsContent = () => {
   const [data, setData] = useState([]);
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [phoneNumbers_, setPhoneNumbers_] = useState([]);
   const [callRecordingsData, setCallRecordingsData] = useState([]);
+  const [callRecordingsData_, setCallRecordingsData_] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const { contacts } = useSelector((state) => state.contact);
@@ -35,21 +37,8 @@ const ContactsContent = () => {
     }
   }, [contacts]);
   useMemo(() => {
-    const recordingsData = [];
-    // for (let i = 0; i < callLogs.length; i++) {
-    //   for (let x = 0; x < recordings.length; x++) {
-    //     if (callLogs[i]?.sid === recordings[x]?.callSid) {
-    //       var data = {
-    //         ...recordings[x],
-    //         fromNumber: callLogs[i].from,
-    //         toNumber: callLogs[i].to,
-    //         direction: callLogs[i].direction,
-    //       };
-    //       recordingsData.push(data);
-    //     }
-    //   }
-    // }
     setCallRecordingsData(recordings);
+    setCallRecordingsData_(recordings);
   }, [recordings]);
   useEffect(() => {
     if (availableNumbers.length > 0) {
@@ -72,14 +61,12 @@ const ContactsContent = () => {
       })
     );
   }, [dispatch, token, accountSid, accountAuthToken]);
-  const handleReceiveData = (receivedData) => {
-    setData(receivedData);
-  };
   const handleToggleEdit = (value) => {
     setIsEdit(value);
   };
-  const handleNumbersDataFromChild = (data) => {
-    setIsSearch(data);
+  const handleDataFromPagination = (newData) => {
+    console.log("🚀 ~ handleDataFromPagination ~ data:", newData);
+    setCallRecordingsData(newData);
   };
   return (
     <div className="hk-pg-wrapper pb-0">
@@ -104,6 +91,13 @@ const ContactsContent = () => {
                       isEdit={isEdit}
                       recordingsData={callRecordingsData}
                       user={user}
+                    />
+                  </div>
+                  <div>
+                    <Pagination
+                      itemsPerPage={20}
+                      dataFromChild={handleDataFromPagination}
+                      items={callRecordingsData_}
                     />
                   </div>
                 </div>
