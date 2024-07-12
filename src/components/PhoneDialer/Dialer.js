@@ -77,6 +77,7 @@ const Dialer = () => {
   // const [connection, setConnection] = useState(false);
   // const [activeCall, setActiveCall] = useState(null);
   // const [activeCallSid, setActiveCallSid] = useState(null);
+  const [anotherActiveCall, setAnotherActiveCall] = useState(null);
   const [active, setActive] = useState(true);
   const [alertMessage, setAlertMessage] = useState(null);
   const [agents, setAgents] = useState([]);
@@ -170,9 +171,13 @@ const Dialer = () => {
   useEffect(() => {
     if (twilioDevice) {
       twilioDevice.on("incoming", (call) => {
+        if (activeCall) {
+          setAnotherActiveCall(call);
+        } else {
+          setActiveCall(call);
+        }
         setShowCall(true);
         setIsDialerOpen(true);
-        setActiveCall(call);
         setUserState("ON_CALL");
         setCallStatus("INCOMING");
         setIsDial(false);
@@ -218,7 +223,6 @@ const Dialer = () => {
       setIsDial(true);
       setShowContacts(false);
       setCallStatus(null);
-
       console.log("Call accepted");
     });
     outgoingCall.on("disconnect", () => {
@@ -234,7 +238,6 @@ const Dialer = () => {
       setUserState("READY");
       setIsDial(true);
       setShowContacts(false);
-      console.log("Call disconnected");
       setCallStatus(null);
     });
 
@@ -265,6 +268,7 @@ const Dialer = () => {
       activeCall.disconnect(); // Disconnect the active call
       setShowCall(false);
       setActiveCall(null); // Reset active call state
+      setAnotherActiveCall(null); // Reset active call state
       setIsDial(true);
       setShowContacts(false);
       setUserState("READY");
@@ -273,8 +277,14 @@ const Dialer = () => {
     }
   };
   const handleAcceptCall = () => {
-    if (activeCall) {
+    if (activeCall && anotherActiveCall === null) {
       activeCall.accept(); // Disconnect the active call
+      setShowCall(true);
+      setCallStatus("STARTED");
+      setUserState("ON_CALL");
+    } else if (activeCall && anotherActiveCall) {
+      activeCall.disconnect();
+      anotherActiveCall.accept();
       setShowCall(true);
       setCallStatus("STARTED");
       setUserState("ON_CALL");

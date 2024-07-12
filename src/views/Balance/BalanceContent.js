@@ -31,7 +31,6 @@ const BalanceContent = () => {
       credit: amount * 100,
     };
     const is_added = await dispatch(addBalanceRec(token, formData));
-    console.log("🚀 ~ afterPayment ~ is_added:", is_added);
     if (is_added === true) {
       const data = {
         user_id: user.id,
@@ -99,14 +98,14 @@ const BalanceContent = () => {
                             onChange={(e) => setAmount(e.target.value)}
                           />
                         </div>
-                        {amount < 10 ? (
+                        {amount < 10 || amount > 100 ? (
                           <div>
                             <button
                               className="btn btn-primary btn-sm "
                               style={{ paddingInline: "10px" }}
                               onClick={() =>
                                 toast.error(
-                                  "Please enter credit greater than 10."
+                                  "Amount must be less than equal to 100 and greater than equal to 10"
                                 )
                               }
                             >

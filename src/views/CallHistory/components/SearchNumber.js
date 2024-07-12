@@ -31,7 +31,7 @@ const SearchNumber = ({ token, user, dispatch }) => {
   const handleSearchNumber = (data) => {
     const formData = {
       phoneNumber: data?.phoneNumber?.value,
-      direction: data?.direction?.value,
+      // direction: data?.direction?.value,
       authToken: user.authToken,
       accountSid: user.accountSid,
     };
@@ -60,7 +60,7 @@ const SearchNumber = ({ token, user, dispatch }) => {
               placeholder="Phone Number"
               control={control}
               errors={errors}
-              mb={true}
+              // mb={true}
               options={
                 claimedNumbers?.length > 0
                   ? claimedNumbers?.map((key, index) => {
@@ -73,7 +73,7 @@ const SearchNumber = ({ token, user, dispatch }) => {
               }
             />
           </div>
-          <div className="col-md-4 col-sm-6">
+          {/* <div className="col-md-4 col-sm-6">
             <ReactSelectField
               name="direction"
               placeholder="Direction"
@@ -85,7 +85,7 @@ const SearchNumber = ({ token, user, dispatch }) => {
                 { label: "Inbound", value: "inbound" },
               ]}
             />
-          </div>
+          </div> */}
         </div>
         <div>
           <button

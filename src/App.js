@@ -45,7 +45,10 @@ const App = () => {
   return (
     <>
       <ToastContainer autoClose={1500} />
-      <RouterProvider router={router(user, is_subscribed, isKycApproved)} />;
+      <RouterProvider
+        router={router(user, is_subscribed, isKycApproved, permissionDetails)}
+      />
+      ;
     </>
   );
 };

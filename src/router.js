@@ -97,7 +97,33 @@ const permissions = {
   ],
 };
 
-const router = (user, subscribed, is_approved) => {
+const router = (user, subscribed, is_approved, permissionDetails) => {
+  const permissionMapping = {
+    "/": "dashboard",
+    "/emails": "email",
+    "/messages": "sms",
+    "/call": "call",
+    "/todos": "todos",
+    "/shop": "phone_numbers",
+    "/chats": "chat",
+    "/chat-group": "group_chat",
+    "/projects-board": "leads_pipeline",
+    "/contacts": "contacts",
+    "/file-manager": "file_manager",
+    "/agents": "agents",
+    "/call-history": "call_recordings",
+    "/calendar": "calendar",
+    "/messages-logs": "sms_logs",
+    "/nessages-bulk": "bulk_sms",
+    "/bulk-emails": "bulk_emails",
+    "/balance": "wallet",
+  };
+  // Function to check if the user has the required permissions for the path
+  const hasPermissionForPath = (path) => {
+    if (!permissionDetails || !path) return false;
+    const permissionKey = permissionMapping[path];
+    return permissionKey && permissionDetails[permissionKey] === 1;
+  };
   return createBrowserRouter([
     {
       path: "/",
@@ -105,13 +131,14 @@ const router = (user, subscribed, is_approved) => {
         roles.dashboard,
         user?.role,
         subscribed,
-        user
+        user,
+        permissionDetails,
+        "/"
       )(Dashboard),
       exact: true,
-      // element: <Dashboard />,
     },
     {
-      path: "admin/plan-rates",
+      path: "/admin/plan-rates",
       element: RoleAuthorization(
         roles.dashboard,
         user?.role,
@@ -362,7 +389,7 @@ const router = (user, subscribed, is_approved) => {
       element: <SignIn />,
     },
     {
-      path: "contacts",
+      path: "/contacts",
       // element: <Contacts />,
       element: RoleAuthorization(
         roles.dashboard,
@@ -402,7 +429,7 @@ const router = (user, subscribed, is_approved) => {
       )(is_approved === 1 ? Subaccounts : KYCNeeded),
     },
     {
-      path: "permissions",
+      path: "/permissions",
       element: <Permissions />,
     },
     {

@@ -5,9 +5,8 @@ import NotFound from "./views/NotFound/NotFound";
 import { useSelector } from "react-redux";
 
 const RoleAuthorization =
-  (allowedRoles, role, subscribed, user, is_approved) => (WrappedComponent) => {
+  (allowedRoles, role, subscribed, user) => (WrappedComponent) => {
     const AuthorizedComponent = () => {
-      // Assume userRole is fetched from authentication context or props
       if (
         allowedRoles.includes(role) &&
         subscribed &&

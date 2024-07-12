@@ -43,7 +43,6 @@ const Boards = ({
       })
     );
   };
-  const FrequentBoards = boardsData?.slice(-3);
   return (
     <div className="tab-pane fade show active" id="tab_boards">
       <div className="row">

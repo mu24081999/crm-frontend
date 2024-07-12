@@ -42,20 +42,10 @@ const CallHistoryContent = () => {
   }, [token, dispatch, accountAuthToken, accountSid]);
 
   useEffect(() => {
-    // if (callLogs.length > 0) {
     setData(callLogs);
     setData_(callLogs);
-    // }
   }, [callLogs, recordings]);
-  useEffect(() => {
-    if (availableNumbers.length > 0) {
-      setPhoneNumbers(availableNumbers);
-      setPhoneNumbers_(availableNumbers);
-    }
-  }, [availableNumbers]);
-  const handleToggleEdit = (value) => {
-    setIsEdit(value);
-  };
+
   const handleDataFromPagination = (newData) => {
     console.log("🚀 ~ handleDataFromPagination ~ data:", newData);
     setData(newData);
@@ -79,20 +69,19 @@ const CallHistoryContent = () => {
                   <div data-simplebar className="nicescroll-bar">
                     <RecordingList
                       contactsData={phoneNumbers}
-                      onToggleEdit={handleToggleEdit}
                       isEdit={isEdit}
                       recordingsData={data}
                       dispatch={dispatch}
                       token={token}
                       user={user}
                     />
-                  </div>
-                  <div>
-                    <Pagination
-                      itemsPerPage={20}
-                      dataFromChild={handleDataFromPagination}
-                      items={data_}
-                    />
+                    <div>
+                      <Pagination
+                        itemsPerPage={20}
+                        dataFromChild={handleDataFromPagination}
+                        items={data_}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

@@ -8,13 +8,6 @@ import SearchNumber from "./SearchNumber";
 
 const RecordingList = ({ isEdit, recordingsData, dispatch, user, token }) => {
   const { isLoading } = useSelector((state) => state.calling);
-  useEffect(() => {
-    if (token) {
-      dispatch(getContactsList(token));
-      dispatch(getUsers(token));
-    }
-  }, [dispatch, token]);
-
   return (
     <div className="contact-list-view">
       <SearchNumber user={user} token={token} dispatch={dispatch} />

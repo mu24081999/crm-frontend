@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import notAllowed from "../../assets/not_allowed.jpg";
+import { SiAdblock } from "react-icons/si";
 
 const NotFoundContent = () => {
   return (
@@ -8,46 +10,44 @@ const NotFoundContent = () => {
         <div className="container-xxl">
           {/* <!-- Page Body --> */}
           <div className="hk-pg-body">
-            <div className="row">
-              <div className="col-xl-7 col-lg-6 d-lg-block d-none">
+            <div className="d-flex justify-content-center">
+              {/* <div className="col-xl-7 col-lg-6 d-lg-block d-none">
                 <div className="auth-content py-md-0 py-8">
                   <div className="row">
                     <div className="col-xl-12 text-center">
                       <img
                         // src="dist/img/macaroni-fatal-error.png"
-                        src="../../assets/distt/img/macaroni-fatal-error.png"
+                        src={notAllowed}
                         className="img-fluid w-sm-80 w-50"
                         alt="login"
                       />
-                      {/* <p className="p-xs mt-5 text-light">
-                        Illustrations powered by{" "}
-                        <a
-                          href="https://icons8.com/ouch/"
-                          target="_blank"
-                          className="text-light"
-                        >
-                          <u>Icons8</u>
-                        </a>
-                      </p> */}
+
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="col-xl-5 col-lg-6 col-md-7 col-sm-10">
+                <div className="text-center">
+                  <SiAdblock size={200} color="teal" />
+                </div>
                 <div className="auth-content py-md-0 py-8">
                   <div className="w-100">
-                    <div className="row">
+                    <div className="d-flex justify-content-center mt-5">
                       <div className="col-xxl-9 col-xl-8 col-lg-11">
-                        <h1 className="display-4 fw-bold mb-2">503</h1>
-                        <p className="p-lg">
+                        <h1 className="display-4 fw-bold mb-2 text-center">
+                          503
+                        </h1>
+                        <p className="p-lg text-center">
                           Sorry, you are not allowed to request this page.
                         </p>
-                        <Link
-                          to="/plan-selection"
-                          className="btn btn-primary mt-4"
-                        >
-                          Return back and select your plan
-                        </Link>
+                        <div className="d-flex justify-content-center">
+                          <Link
+                            to="/plan-selection"
+                            className="btn btn-primary mt-4"
+                          >
+                            Return back and select your plan
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
