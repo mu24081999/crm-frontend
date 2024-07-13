@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getContactsList } from "../../../redux/services/contact";
+import React from "react";
+import { useSelector } from "react-redux";
 import Loader from "../../../components/Loader/Loader";
-import { getUsers } from "../../../redux/services/users";
 import moment from "moment/moment";
 import SearchNumber from "./SearchNumber";
-
+import "./audio.css";
+import _ from "lodash";
 const RecordingList = ({ isEdit, recordingsData, dispatch, user, token }) => {
   const { isLoading } = useSelector((state) => state.calling);
   return (
@@ -56,16 +55,18 @@ const RecordingList = ({ isEdit, recordingsData, dispatch, user, token }) => {
                           : recording?.call?.direction}
                       </td>
                       <td>
-                        {recording?.recording?.mediaUrl && (
-                          <audio controls>
+                        {recording?.recording?.mediaUrl ? (
+                          <audio controls className="custom-audio-player">
                             <source
                               src={recording?.recording?.mediaUrl}
                               type="audio/x-wav"
                             />
                           </audio>
+                        ) : (
+                          <p>nill</p>
                         )}
                       </td>
-                      <td>{recording?.call?.price || 0}</td>
+                      <td>{parseFloat(recording?.call?.price) * 2 || 0}</td>
                     </tr>
                   ))}
               </tbody>

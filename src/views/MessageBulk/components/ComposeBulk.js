@@ -28,6 +28,7 @@ const ComposeBulk = ({ onShowAddForm }) => {
   const bodyWatcher = watch("body");
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
+  const { balanceDetails } = useSelector((state) => state.balance);
   // const { isLoading } = useSelector((state) => state.email);
   const [isLoading, setIsLoading] = useState(false);
   const [toNumbers, setToNumbers] = useState([]);
@@ -87,55 +88,58 @@ const ComposeBulk = ({ onShowAddForm }) => {
         user?.phone !== undefined &&
         user?.phone !== ""
       ) {
-        setIsLoading(true);
-        if (toNumbers.length > 0) {
-          await Promise.all(
-            toNumbers.map(async (element) => {
-              const smsData = {
-                from: {
-                  phone: user.phone,
-                  name: user.name,
-                  avatar: user.avatar,
-                  socket_id: user.socket_id,
-                  accountSid: user?.accountSid,
-                  authToken: user?.authToken,
-                },
-                to: {
-                  phone: element,
-                },
-                user_id: user?.id,
-                message: bodyWatcher,
-              };
-              console.log(smsData);
-              await sendTextMessage(smsData);
-            })
-          );
-        } else if (data?.to?.split("\n")?.length > 0) {
-          const to_numbers = data?.to?.split("\n");
-          const is_completed = await Promise.all(
-            to_numbers.map(async (element) => {
-              const smsData = {
-                from: {
-                  phone: user.phone,
-                  name: user.name,
-                  avatar: user.avatar,
-                  socket_id: user.socket_id,
-                  accountSid: user?.accountSid,
-                  authToken: user?.authToken,
-                },
-                to: {
-                  phone: element,
-                },
-                message: bodyWatcher,
-                user_id: user?.id,
-              };
-              await sendTextMessage(smsData);
-            })
-          );
-          console.log("Sent text message", is_completed);
+        if (parseInt(balanceDetails?.credit) > 0) {
+          setIsLoading(true);
+          if (toNumbers.length > 0) {
+            await Promise.all(
+              toNumbers.map(async (element) => {
+                const smsData = {
+                  from: {
+                    phone: user.phone,
+                    name: user.name,
+                    avatar: user.avatar,
+                    socket_id: user.socket_id,
+                    accountSid: user?.accountSid,
+                    authToken: user?.authToken,
+                  },
+                  to: {
+                    phone: element,
+                  },
+                  user_id: user?.id,
+                  message: bodyWatcher,
+                };
+                console.log(smsData);
+                await sendTextMessage(smsData);
+              })
+            );
+          } else if (data?.to?.split("\n")?.length > 0) {
+            const to_numbers = data?.to?.split("\n");
+            const is_completed = await Promise.all(
+              to_numbers.map(async (element) => {
+                const smsData = {
+                  from: {
+                    phone: user.phone,
+                    name: user.name,
+                    avatar: user.avatar,
+                    socket_id: user.socket_id,
+                    accountSid: user?.accountSid,
+                    authToken: user?.authToken,
+                  },
+                  to: {
+                    phone: element,
+                  },
+                  message: bodyWatcher,
+                  user_id: user?.id,
+                };
+                await sendTextMessage(smsData);
+              })
+            );
+          }
+          setIsLoading(false);
+          toast.success("SMS are successfully added to pipeline.");
+        } else {
+          toast.error("You have insufficient balance to send message.");
         }
-        setIsLoading(false);
-        toast.success("SMS sent successfully.");
         // Add any post-processing logic here
       } else {
         toast.error(

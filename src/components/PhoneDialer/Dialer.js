@@ -32,6 +32,8 @@ import Loader from "../Loader/Loader";
 import { updateUserRec } from "../../redux/services/users";
 import { setAccount } from "../../redux/slices/auth";
 import { SocketContext } from "../../Context";
+import { getBalance } from "../../redux/services/balance";
+import { toast } from "react-toastify";
 //Helpers
 
 const Dialer = () => {
@@ -58,6 +60,7 @@ const Dialer = () => {
     inputValue,
     setInputValue,
   } = useContext(SocketContext);
+  console.log("🚀 ~ Dialer ~ callStatus:", callStatus);
   const {
     // handleSubmit,
     watch,
@@ -91,9 +94,9 @@ const Dialer = () => {
   );
   const { claimedNumbers } = useSelector((state) => state.calling);
   const { contacts } = useSelector((state) => state.contact);
+  const { balanceDetails } = useSelector((state) => state.balance);
   const { users, isLoading: userLoading } = useSelector((state) => state.user);
   // const [activeRecordingSid, setActiveRecordingSid] = useState(null);
-
   const backendURL = process.env.REACT_APP_BACKEND_URL_PRODUCTION;
   const selectedNumberWatcher = watch("my_numbers");
   useEffect(() => {
@@ -171,18 +174,19 @@ const Dialer = () => {
   useEffect(() => {
     if (twilioDevice) {
       twilioDevice.on("incoming", (call) => {
-        if (activeCall) {
-          setAnotherActiveCall(call);
+        if (activeCall !== null) {
+          console.log("🚀 ~ twilioDevice.on ~ activeCall:", activeCall);
+          call.reject();
         } else {
           setActiveCall(call);
+          setShowCall(true);
+          setIsDialerOpen(true);
+          setUserState("ON_CALL");
+          setCallStatus("INCOMING");
+          setIsDial(false);
+          setShowContacts(false);
+          console.log("Call comming");
         }
-        setShowCall(true);
-        setIsDialerOpen(true);
-        setUserState("ON_CALL");
-        setCallStatus("INCOMING");
-        setIsDial(false);
-        setShowContacts(false);
-        console.log("Call comming");
       });
 
       twilioDevice.on("connect", (conn) => {
@@ -195,51 +199,56 @@ const Dialer = () => {
   useEffect(() => {
     // dispatch(getUsers(token));
     dispatch(getContactsList(token));
+    dispatch(getBalance(token));
     dispatch(
       getAllClaimedNumbers(token, { accountSid, authToken: accountAuthToken })
     );
   }, [dispatch, token, accountAuthToken, accountSid]);
   const makeCall = () => {
     const params = { To: inputValue };
-    const outgoingCall = twilioDevice?.connect(params);
-    outgoingCall.on("accept", (call) => {
-      console.log(call, "call accepted");
-      setShowCall(true);
-      setActiveCall(call);
-      setUserState("ON_CALL");
-      setIsDial(false);
-      setShowContacts(false);
-      setCallStatus("STARTED");
-      console.log("Call accepted");
-      // Capture callSid from the accepted call
-      const callSid = call.parameters.CallSid;
-      setActiveCallSid(callSid);
-    });
+    if (_.toInteger(balanceDetails?.credit) <= 0) {
+      toast.error("You have insufficient credit to make this call.");
+    } else {
+      const outgoingCall = twilioDevice?.connect(params);
+      outgoingCall.on("accept", (call) => {
+        console.log(call, "call accepted");
+        setShowCall(true);
+        setActiveCall(call);
+        setUserState("ON_CALL");
+        setIsDial(false);
+        setShowContacts(false);
+        setCallStatus("STARTED");
+        console.log("Call accepted");
+        // Capture callSid from the accepted call
+        const callSid = call.parameters.CallSid;
+        setActiveCallSid(callSid);
+      });
 
-    outgoingCall.on("reject", () => {
-      setShowCall(false);
-      setUserState("READY");
-      setTimer({ hours: 0, mins: 0, sec: 0 });
-      setIsDial(true);
-      setShowContacts(false);
-      setCallStatus(null);
-      console.log("Call accepted");
-    });
-    outgoingCall.on("disconnect", () => {
-      dispatch(
-        updateBalanceAfterCall(token, {
-          accountSid: accountSid,
-          authToken: accountAuthToken,
-          user_id: user.id,
-        })
-      );
-      setTimer({ hours: 0, mins: 0, sec: 0 });
-      setShowCall(false);
-      setUserState("READY");
-      setIsDial(true);
-      setShowContacts(false);
-      setCallStatus(null);
-    });
+      outgoingCall.on("reject", () => {
+        setShowCall(false);
+        setUserState("READY");
+        setTimer({ hours: 0, mins: 0, sec: 0 });
+        setIsDial(true);
+        setShowContacts(false);
+        setCallStatus(null);
+        console.log("Call accepted");
+      });
+      outgoingCall.on("disconnect", () => {
+        dispatch(
+          updateBalanceAfterCall(token, {
+            accountSid: accountSid,
+            authToken: accountAuthToken,
+            user_id: user.id,
+          })
+        );
+        setTimer({ hours: 0, mins: 0, sec: 0 });
+        setShowCall(false);
+        setUserState("READY");
+        setIsDial(true);
+        setShowContacts(false);
+        setCallStatus(null);
+      });
+    }
 
     // dispatch(
     //   makeUserToCall(token, {
@@ -268,7 +277,6 @@ const Dialer = () => {
       activeCall.disconnect(); // Disconnect the active call
       setShowCall(false);
       setActiveCall(null); // Reset active call state
-      setAnotherActiveCall(null); // Reset active call state
       setIsDial(true);
       setShowContacts(false);
       setUserState("READY");
@@ -277,14 +285,8 @@ const Dialer = () => {
     }
   };
   const handleAcceptCall = () => {
-    if (activeCall && anotherActiveCall === null) {
+    if (activeCall) {
       activeCall.accept(); // Disconnect the active call
-      setShowCall(true);
-      setCallStatus("STARTED");
-      setUserState("ON_CALL");
-    } else if (activeCall && anotherActiveCall) {
-      activeCall.disconnect();
-      anotherActiveCall.accept();
       setShowCall(true);
       setCallStatus("STARTED");
       setUserState("ON_CALL");

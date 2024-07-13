@@ -127,7 +127,7 @@ const ContactsContent = () => {
                       contactsData={phoneNumbers}
                       onToggleEdit={handleToggleEdit}
                       numberPricing={
-                        numberType === "tollFree" ? "4.55" : "3.99"
+                        numberType === "tollFree" ? "3.00" : "2.75"
                       }
                       isEdit={isEdit}
                       onDataFromChild={handleSelectedNumber}

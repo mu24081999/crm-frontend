@@ -264,7 +264,7 @@ const PlanSelection = () => {
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        $2 Credit
+                        $5 Credit per month
                       </div>
                     </li>
                     <li>
@@ -400,7 +400,7 @@ const PlanSelection = () => {
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        $6 Credit
+                        $15 Credit per month
                       </div>
                     </li>
                     <li>
@@ -543,7 +543,7 @@ const PlanSelection = () => {
                     <li>
                       <div className=" text-light">
                         <FaCheck color="green" size={34} className="pe-2" />
-                        $10 Credit
+                        $50 Credit per month
                       </div>
                     </li>
                     <li>

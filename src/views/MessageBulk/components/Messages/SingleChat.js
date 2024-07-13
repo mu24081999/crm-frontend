@@ -24,6 +24,8 @@ const SingleChat = ({
   const [selectedUser, setSelectedUser] = useState(null);
   const [usersArray, setUsersArray] = useState(null);
   const { users } = useSelector((state) => state.user);
+  const { balanceDetails } = useSelector((state) => state.balance);
+
   const { token, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   // useEffect(() => {
@@ -71,31 +73,35 @@ const SingleChat = ({
       user?.phone !== undefined &&
       user?.phone !== ""
     ) {
-      if (message !== null) {
-        if (e.key === "Enter" || e.type === "click") {
-          const messageData = {
-            from: {
-              phone: authUser.phone,
-              name: authUser.name,
-              avatar: authUser.avatar,
-              socket_id: authUser.socket_id,
-              accountSid: authUser?.accountSid,
-              authToken: authUser?.authToken,
-            },
-            to: {
-              phone: selectedRoom?.to_phone,
-              name: selectedRoom?.firstname + selectedRoom?.lastname,
-              avatar: selectedRoom?.avatar,
-            },
-            // to: "+923174660027",
-            message: message,
-          };
-          sendTextMessage(messageData);
+      if (parseInt(balanceDetails?.credit) > 0) {
+        if (message !== null) {
+          if (e.key === "Enter" || e.type === "click") {
+            const messageData = {
+              from: {
+                phone: authUser.phone,
+                name: authUser.name,
+                avatar: authUser.avatar,
+                socket_id: authUser.socket_id,
+                accountSid: authUser?.accountSid,
+                authToken: authUser?.authToken,
+              },
+              to: {
+                phone: selectedRoom?.to_phone,
+                name: selectedRoom?.firstname + selectedRoom?.lastname,
+                avatar: selectedRoom?.avatar,
+              },
+              // to: "+923174660027",
+              message: message,
+            };
+            sendTextMessage(messageData);
 
-          setMessage(null);
+            setMessage(null);
+          }
+        } else {
+          toast.error("Please write something in the message.");
         }
       } else {
-        toast.error("Please write something in the message.");
+        toast.error("You have insufficient balance to send the message.");
       }
     } else {
       toast.error(

@@ -1,0 +1,37 @@
+.custom-audio-player {
+  width: 100px;
+  height: 40px;
+  /* background-color: #f0f0f0; Background color of the player */
+  /* border: 1px solid #ccc; Border color of the player */
+  /* border-radius: 10px; Rounded corners */
+}
+
+.custom-audio-player::-webkit-media-controls-panel {
+  background-color: #f0f0f0; /* Background color of the controls */
+}
+
+.custom-audio-player::-webkit-media-controls-play-button,
+.custom-audio-player::-webkit-media-controls-current-time-display,
+.custom-audio-player::-webkit-media-controls-time-remaining-display,
+.custom-audio-player::-webkit-media-controls-timeline,
+.custom-audio-player::-webkit-media-controls-volume-slider,
+.custom-audio-player::-webkit-media-controls-mute-button {
+  color: #333; /* Color of the controls */
+}
+
+.custom-audio-player::-webkit-media-controls-play-button {
+  background-color: #ccc; /* Background color of the play button */
+  border-radius: 50%; /* Rounded play button */
+  padding: 5px; /* Padding for the play button */
+}
+
+.custom-audio-player::-webkit-media-controls-volume-slider {
+  background-color: #ccc; /* Background color of the volume slider */
+  border-radius: 5px; /* Rounded volume slider */
+}
+
+.custom-audio-player::-webkit-media-controls-mute-button {
+  background-color: #ccc; /* Background color of the mute button */
+  border-radius: 50%; /* Rounded mute button */
+  padding: 5px; /* Padding for the mute button */
+}

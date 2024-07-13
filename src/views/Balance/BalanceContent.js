@@ -81,7 +81,7 @@ const BalanceContent = () => {
                         <p className="fw-bolder">Available Credit </p>
                         <span>
                           $
-                          {balanceDetails?.credit > 0
+                          {balanceDetails?.credit
                             ? balanceDetails?.credit / 100
                             : 0}
                         </span>
@@ -98,7 +98,7 @@ const BalanceContent = () => {
                             onChange={(e) => setAmount(e.target.value)}
                           />
                         </div>
-                        {amount < 10 || amount > 100 ? (
+                        {amount < 5 || amount > 100 ? (
                           <div>
                             <button
                               className="btn btn-primary btn-sm "

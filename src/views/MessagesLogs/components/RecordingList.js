@@ -132,7 +132,11 @@ const RecordingList = ({ isEdit, recordingsData }) => {
                           </Popup>
                         )}
                       </td>
-                      <td>{recording?.price}</td>
+                      <td>
+                        {recording?.price
+                          ? parseFloat(recording?.price) * 2
+                          : 0}
+                      </td>
                     </tr>
                   ))}
               </tbody>
