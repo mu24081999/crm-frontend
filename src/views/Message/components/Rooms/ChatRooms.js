@@ -16,15 +16,11 @@ const ChatRooms = ({
   }, [rooms]);
   const roomClickHandler = (contact) => {
     setSelectedRoom(contact);
-    // sendDataToParent();
     onDataFromChild(contact);
-    const messagesData =
-      // messages?.length > 0 &&
-      messages?.filter(
-        (message) =>
-          message.to_phone === contact.phone ||
-          message.from_phone === contact.phone
-      );
+    const messagesData = messages?.filter(
+      (message) =>
+        message.to_phone === contact || message.from_phone === contact
+    );
     onMessagesDataFromChild(messagesData);
     document
       .getElementById("dummy_avatar")
@@ -47,12 +43,6 @@ const ChatRooms = ({
       return inputDate.toLocaleDateString("en-US", options);
     }
   }
-  const handleDeleteChat = (room_id) => {
-    deleteChatRecord(room_id);
-  };
-  const handleEditChat = (room_id, status) => {
-    updateChat(room_id, { status: status });
-  };
   function extractCharactersFromArray(str) {
     const firstCharacter = str?.charAt(0);
     const spaceIndex = str?.indexOf(" ");
@@ -100,37 +90,13 @@ const ChatRooms = ({
               >
                 <div class="media">
                   <div class="media-head">
-                    {/* <div class="avatar avatar-sm avatar-rounded position-relative">
-                      <img
-                        //   src="dist/img/avatar2.jpg"
-                        src={
-                          contact?.avatar ||
-                          "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
-                        }
-                        alt="user"
-                        class="avatar-img"
-                      />
-                      <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
-                    </div> */}
                     <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
-                      <span class="initial-wrap">
-                        {extractCharactersFromArray(
-                          contact.firstname + " " + contact.lastname
-                        ).firstCharacter +
-                          extractCharactersFromArray(
-                            contact.firstname + " " + contact.lastname
-                          ).characterAfterSpace}
-                      </span>
+                      <span class="initial-wrap">C</span>
                     </div>
                   </div>
                   <div class="media-body">
                     <div>
-                      <div class="user-name">
-                        {contact?.firstname +
-                          " " +
-                          // contact?.middlename +
-                          contact?.lastname}
-                      </div>
+                      <div class="user-name">{contact}</div>
                       <div class="user-last-chat">
                         {/* Please send some insights of presentation */}
                         {/* {lastMessage !== undefined && lastMessage.message} */}

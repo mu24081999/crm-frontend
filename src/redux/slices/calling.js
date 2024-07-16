@@ -6,6 +6,7 @@ export const callingSlice = createSlice({
     isLoading: false,
     availableNumbers: [],
     claimedNumbers: [],
+    conversations: [],
     callLogs: [],
     recordings: [],
     subAccounts: [],
@@ -24,6 +25,7 @@ export const callingSlice = createSlice({
       state.isLoading = false;
       state.availableNumbers = [];
       state.claimedNumbers = [];
+      state.conversations = [];
       state.availableNumberDetails = {};
       state.claimedNumberDetails = {};
       state.message = action.payload;
@@ -124,6 +126,12 @@ export const callingSlice = createSlice({
       state.error = "";
       state.type = "success";
     },
+    getConversations: (state, action) => {
+      state.isLoading = false;
+      state.conversations = action.payload;
+      state.error = "";
+      state.type = "success";
+    },
   },
 });
 
@@ -145,4 +153,5 @@ export const {
   addSubAccount,
   getUserSubAccounts,
   getClaimedNumbers,
+  getConversations,
 } = callingSlice.actions;

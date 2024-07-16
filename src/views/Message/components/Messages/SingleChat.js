@@ -107,9 +107,9 @@ const SingleChat = ({
                 authToken: authUser?.authToken,
               },
               to: {
-                phone: selectedRoom.phone,
-                name: selectedRoom.firstname + selectedRoom?.lastname,
-                avatar: selectedRoom.avatar,
+                phone: selectedRoom,
+                // name: selectedRoom.firstname + selectedRoom?.lastname,
+                // avatar: selectedRoom.avatar,
               },
               // to: "+923174660027",
               user_id: authUser.id,
@@ -271,38 +271,12 @@ const SingleChat = ({
         </a>
         <div class="media">
           <div class="media-head">
-            {/* <div class="avatar avatar-sm avatar-rounded position-relative">
-              <img
-                src={
-                  selectedRoom?.avatar ||
-                  "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"
-                }
-                alt="user"
-                class="avatar-img"
-              />
-              <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
-            </div> */}
             <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
-              <span class="initial-wrap">
-                {extractCharactersFromArray(
-                  selectedRoom.firstname + " " + selectedRoom.lastname
-                ).firstCharacter +
-                  extractCharactersFromArray(
-                    selectedRoom.firstname + " " + selectedRoom.lastname
-                  ).characterAfterSpace}
-              </span>
+              <span class="initial-wrap">C</span>
             </div>
           </div>
           <div class="media-body">
-            <div class="user-name">
-              {" "}
-              {selectedRoom?.firstname +
-                // " " +
-                // selectedRoom?.middlename +
-                " " +
-                selectedRoom?.lastname}
-            </div>
-            <div class="user-status">{selectedRoom?.phone}</div>
+            <div class="user-name"> {selectedRoom}</div>
           </div>
         </div>
         <ReactTooltip
@@ -313,7 +287,7 @@ const SingleChat = ({
         <div
           className="btn btn-primary rounded-circle btn-icon float-end"
           style={{ marginRight: "30%" }}
-          onClick={() => handleCallUser(selectedRoom?.phone)}
+          onClick={() => handleCallUser(selectedRoom)}
           data-tooltip-id="call_user_button"
         >
           <FaPhone className="pt-2" size={20} />
@@ -825,33 +799,21 @@ const SingleChat = ({
                 class="avatar-img"
               />
             </div>
-            <div class="cp-name text-truncate mt-2">
-              {" "}
-              {selectedRoom?.firstname +
-                " " +
-                selectedRoom?.middlename +
-                " " +
-                selectedRoom?.lastname}
-            </div>
+            <div class="cp-name text-truncate mt-2"> {selectedRoom}</div>
             <p class="text-truncate">No phone calls Always busy</p>
           </div>
-
+          {/* 
           <ul class="nav nav-justified nav-light nav-tabs nav-segmented-tabs active-theme mt-4">
             <li class="nav-item">
               <a class="nav-link active" data-bs-toggle="tab" href="#tab_info">
                 <span class="nav-link-text">Info</span>
               </a>
             </li>
-            {/* <li class="nav-item">
-              <a class="nav-link" data-bs-toggle="tab" href="#tab_files">
-                <span class="nav-link-text">Files</span>
-              </a>
-            </li> */}
-          </ul>
+          </ul> */}
           <div class="tab-content mt-4">
             <div class="tab-pane fade show active" id="tab_info">
               <div class="collapse-simple mt-3">
-                <div class="card">
+                {/* <div class="card">
                   <div class="card-header">
                     <a
                       role="button"
@@ -888,7 +850,7 @@ const SingleChat = ({
                       </ul>
                     </div>
                   </div>
-                </div>
+                </div> */}
                 {/* <div class="card">
                   <div class="card-header">
                     <a
@@ -993,365 +955,6 @@ const SingleChat = ({
                 </div> */}
               </div>
             </div>
-            {/* <div class="tab-pane fade" id="tab_files">
-              <form role="search">
-                <input
-                  type="text"
-                  class="form-control search-files"
-                  placeholder="Search files"
-                />
-              </form>
-              <div class="collapse-simple mt-3">
-                <div class="card">
-                  <div class="card-header">
-                    <a
-                      role="button"
-                      data-bs-toggle="collapse"
-                      href="/files_collapse"
-                      aria-expanded="true"
-                    >
-                      Yesterday
-                    </a>
-                  </div>
-                  <div id="files_collapse" class="collapse show">
-                    <div class="card-body">
-                      <ul class="cp-files">
-                        <li>
-                          <div class="media">
-                            <div class="media-head">
-                              <div class="avatar avatar-icon avatar-sm avatar-soft-blue">
-                                <span class="initial-wrap fs-3">
-                                  <i class="ri-file-excel-2-fill"></i>
-                                </span>
-                              </div>
-                            </div>
-                            <div class="media-body">
-                              <div>
-                                <p class="file-name">website_content.exl</p>
-                                <p class="file-size">2,635 KB</p>
-                              </div>
-                              <div>
-                                <a
-                                  href="/"
-                                  class="btn btn-sm btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <span class="icon">
-                                    <span class="feather-icon">
-                                      <i data-feather="more-vertical"></i>
-                                    </span>
-                                  </span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                  <a class="dropdown-item" href="/">
-                                    Download
-                                  </a>
-                                  <a class="dropdown-item link-danger" href="/">
-                                    Delete
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="media">
-                            <div class="media-head">
-                              <div class="avatar avatar-icon avatar-sm avatar-soft-light">
-                                <span class="initial-wrap fs-3">
-                                  <i class="ri-file-text-fill"></i>
-                                </span>
-                              </div>
-                            </div>
-                            <div class="media-body">
-                              <div>
-                                <p class="file-name">jampack.pdf</p>
-                                <p class="file-size">1.3 GB</p>
-                              </div>
-                              <div>
-                                <a
-                                  href="/"
-                                  class="btn btn-sm btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <span class="icon">
-                                    <span class="feather-icon">
-                                      <i data-feather="more-vertical"></i>
-                                    </span>
-                                  </span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                  <a class="dropdown-item" href="/">
-                                    Download
-                                  </a>
-                                  <a class="dropdown-item link-danger" href="/">
-                                    Delete
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="media">
-                            <div class="media-head">
-                              <div class="avatar avatar-icon avatar-sm avatar-soft-warning">
-                                <span class="initial-wrap fs-3">
-                                  <i class="ri-file-zip-fill"></i>
-                                </span>
-                              </div>
-                            </div>
-                            <div class="media-body">
-                              <div>
-                                <p class="file-name">themeforest-pack.zip</p>
-                                <p class="file-size">2.45 GB</p>
-                              </div>
-                              <div>
-                                <a
-                                  href="/"
-                                  class="btn btn-sm btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <span class="icon">
-                                    <span class="feather-icon">
-                                      <i data-feather="more-vertical"></i>
-                                    </span>
-                                  </span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                  <a class="dropdown-item" href="/">
-                                    Download
-                                  </a>
-                                  <a class="dropdown-item link-danger" href="/">
-                                    Delete
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="media">
-                            <div class="media-head">
-                              <div class="avatar avatar-logo avatar-sm">
-                                <span class="initial-wrap">
-                                  <img src="dist/img/6image.png" alt="user" />
-                                </span>
-                              </div>
-                            </div>
-                            <div class="media-body">
-                              <div>
-                                <p class="file-name">
-                                  bruce-mars-fiEG-Pk6ZASFPk6ZASF
-                                </p>
-                                <p class="file-size">4,178 KB</p>
-                              </div>
-                              <div>
-                                <a
-                                  href="/"
-                                  class="btn btn-sm btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <span class="icon">
-                                    <span class="feather-icon">
-                                      <i data-feather="more-vertical"></i>
-                                    </span>
-                                  </span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                  <a class="dropdown-item" href="/">
-                                    Download
-                                  </a>
-                                  <a class="dropdown-item link-danger" href="/">
-                                    Delete
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="media">
-                            <div class="media-head">
-                              <div class="avatar avatar-logo avatar-sm">
-                                <span class="initial-wrap">
-                                  <img src="dist/img/2image.png" alt="user" />
-                                </span>
-                              </div>
-                            </div>
-                            <div class="media-body">
-                              <div>
-                                <p class="file-name">
-                                  jonas-kakaroto-KIPqvvTKIPqvvT
-                                </p>
-                                <p class="file-size">951 KB</p>
-                              </div>
-                              <div>
-                                <a
-                                  href="/"
-                                  class="btn btn-sm btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <span class="icon">
-                                    <span class="feather-icon">
-                                      <i data-feather="more-vertical"></i>
-                                    </span>
-                                  </span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                  <a class="dropdown-item" href="/">
-                                    Download
-                                  </a>
-                                  <a class="dropdown-item link-danger" href="/">
-                                    Delete
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="card-header">
-                    <a
-                      role="button"
-                      data-bs-toggle="collapse"
-                      href="/files_collapse_1"
-                      aria-expanded="true"
-                    >
-                      23 April
-                    </a>
-                  </div>
-                  <div id="files_collapse_1" class="collapse show">
-                    <div class="card-body">
-                      <ul class="cp-files">
-                        <li>
-                          <div class="media">
-                            <div class="media-head">
-                              <div class="avatar avatar-icon avatar-sm avatar-soft-light">
-                                <span class="initial-wrap fs-3">
-                                  <i class="ri-keynote-fill"></i>
-                                </span>
-                              </div>
-                            </div>
-                            <div class="media-body">
-                              <div>
-                                <p class="file-name">presentation.keynote</p>
-                                <p class="file-size">20 KB</p>
-                              </div>
-                              <div>
-                                <a
-                                  href="/"
-                                  class="btn btn-sm btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <span class="icon">
-                                    <span class="feather-icon">
-                                      <i data-feather="more-vertical"></i>
-                                    </span>
-                                  </span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                  <a class="dropdown-item" href="/">
-                                    Download
-                                  </a>
-                                  <a class="dropdown-item link-danger" href="/">
-                                    Delete
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="media">
-                            <div class="media-head">
-                              <div class="avatar avatar-icon avatar-sm avatar-soft-warning">
-                                <span class="initial-wrap fs-3">
-                                  <i class="ri-file-zip-fill"></i>
-                                </span>
-                              </div>
-                            </div>
-                            <div class="media-body">
-                              <div>
-                                <p class="file-name">PACK-TRIAL.zip</p>
-                                <p class="file-size">2.45 GB</p>
-                              </div>
-                              <div>
-                                <a
-                                  href="/"
-                                  class="btn btn-sm btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <span class="icon">
-                                    <span class="feather-icon">
-                                      <i data-feather="more-vertical"></i>
-                                    </span>
-                                  </span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                  <a class="dropdown-item" href="/">
-                                    Download
-                                  </a>
-                                  <a class="dropdown-item" href="/">
-                                    Delete
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="media">
-                            <div class="media-head">
-                              <div class="avatar avatar-sm">
-                                <img
-                                  src="dist/img/img-thumb1.jpg"
-                                  alt="user"
-                                  class="avatar-img"
-                                />
-                              </div>
-                            </div>
-                            <div class="media-body">
-                              <div>
-                                <p class="file-name">
-                                  joel-mott-LaK153ghdigaghdi
-                                </p>
-                                <p class="file-size">3,028 KB</p>
-                              </div>
-                              <div>
-                                <a
-                                  href="/"
-                                  class="btn btn-sm btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <span class="icon">
-                                    <span class="feather-icon">
-                                      <i data-feather="more-vertical"></i>
-                                    </span>
-                                  </span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                  <a class="dropdown-item" href="/">
-                                    Download
-                                  </a>
-                                  <a class="dropdown-item" href="/">
-                                    Delete
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
