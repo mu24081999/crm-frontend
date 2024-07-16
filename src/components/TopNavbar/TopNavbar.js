@@ -27,11 +27,14 @@ const TopNavbar = ({ notificationsData }) => {
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
   const { users, userDetails } = useSelector((state) => state.user);
+  const { subscription } = useSelector((state) => state.subscription);
   const { kycApproved } = useContext(SocketContext);
   const [selectedAccount, setSelectedAccount] = useState(user);
   const [parentAccount, setParentAccount] = useState(user);
   const [subAccounts, setSubAccounts] = useState([]);
   const [userAgents, setUserAgents] = useState([]);
+  const [limitSubaccounts, setLimitSubaccounts] = useState(null);
+
   const [unreadNotificationCount, setUnreadNotificationCount] = useState(0);
   useMemo(() => {
     for (let n = 0; n < notificationsData.length; n++) {
@@ -41,7 +44,22 @@ const TopNavbar = ({ notificationsData }) => {
       }
     }
   }, [notificationsData]);
-
+  useEffect(() => {
+    switch (subscription?.plan) {
+      case "Solo Starter":
+        setLimitSubaccounts(1);
+        break;
+      case "Growth":
+        setLimitSubaccounts(3);
+        break;
+      case "Enterprise":
+        setLimitSubaccounts(1000);
+        break;
+      default:
+        setLimitSubaccounts(0);
+        break;
+    }
+  }, [subscription, user]);
   useEffect(() => {
     if (selectedAccount?.parent_id) {
       const parent = users?.filter(
@@ -744,7 +762,7 @@ const TopNavbar = ({ notificationsData }) => {
                                     </>
                                   ))}
                                 {!user?.parent_id &&
-                                  subAccounts?.length < 3 &&
+                                  subAccounts?.length < limitSubaccounts &&
                                   kycApproved === 1 && (
                                     <button
                                       type="button"

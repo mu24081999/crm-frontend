@@ -1,6 +1,6 @@
 // src/App.js
 import React, { useContext, useEffect, useState } from "react";
-import { RouterProvider } from "react-router-dom";
+import { RouterProvider, useNavigate } from "react-router-dom";
 import router from "./router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,7 +13,6 @@ import { getUserPermissionDetails } from "./redux/services/permissions";
 
 const App = () => {
   const dispatch = useDispatch();
-
   const { user, token } = useSelector((state) => state.auth);
   const { subscription, isLoading } = useSelector(
     (state) => state.subscription
@@ -25,6 +24,7 @@ const App = () => {
   const is_subscribed =
     moment(subscription?.end_date).format("YYYY-MM-DDTHH:mm:ss") >
     moment(Date.now()).format("YYYY-MM-DDTHH:mm:ss");
+
   useEffect(() => {
     dispatch(getUserSubscriptions(token));
     dispatch(getUserKYCList(token));

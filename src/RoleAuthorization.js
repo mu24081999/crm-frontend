@@ -3,6 +3,7 @@
 import React from "react";
 import NotFound from "./views/NotFound/NotFound";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const RoleAuthorization =
   (allowedRoles, role, subscribed, user) => (WrappedComponent) => {
@@ -12,7 +13,8 @@ const RoleAuthorization =
         subscribed &&
         role === "USER" &&
         user.parent_id === null &&
-        user.client_id === null
+        user.client_id === null &&
+        user?.verified === 1
       ) {
         return <WrappedComponent />;
       } else if (
@@ -20,7 +22,8 @@ const RoleAuthorization =
         role === "USER" &&
         subscribed &&
         user.parent_id !== null &&
-        user.client_id === null
+        user.client_id === null &&
+        user?.verified === 1
       ) {
         return <WrappedComponent />;
       } else if (
@@ -28,7 +31,8 @@ const RoleAuthorization =
         subscribed &&
         role === "AGENT" &&
         user.parent_id === null &&
-        user.client_id !== null
+        user.client_id !== null &&
+        user?.verified === 1
       ) {
         return <WrappedComponent />;
       } else if (role === "ADMIN") {

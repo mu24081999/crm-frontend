@@ -17,13 +17,7 @@ import BrandDetails from "./components/BrandDetails";
 
 const ProfileContent = () => {
   const { user, token } = useSelector((state) => state.auth);
-  const { subscriptions, isLoading } = useSelector(
-    (state) => state.subscription
-  );
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getSubscriptionsList(token));
-  }, [dispatch, token]);
+  const { subscription } = useSelector((state) => state.subscription);
   return (
     <div>
       <div
@@ -40,7 +34,7 @@ const ProfileContent = () => {
           {/* <!-- Page Body --> */}
           <div className="hk-pg-body">
             <div className="row edit-profile-wrap">
-              <Sidebar user={user} subscription={subscriptions[0]} />
+              <Sidebar user={user} subscription={subscription} />
               <div className="col-lg-10 col-sm-9 col-8">
                 <div className="tab-content">
                   <EditAccountSetting />

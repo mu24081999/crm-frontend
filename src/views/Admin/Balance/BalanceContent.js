@@ -248,7 +248,7 @@ const BalanceContent = () => {
                             <tr className="sticky-top rounded">
                               <th scope="col">#</th>
                               <th scope="col">Description</th>
-                              <th scope="col">Amount Payed</th>
+                              <th scope="col">Amount Paid</th>
                               <th scope="col">Date</th>
                             </tr>
                           </thead>

@@ -35,7 +35,7 @@ const ChatAside = ({
             <span className="pe-2">
               <FaEnvelope size={30} color="#007D88" />
             </span>
-            SMS
+            Conversation
           </h1>
         </header>
         <div data-simplebar class="aside-body">

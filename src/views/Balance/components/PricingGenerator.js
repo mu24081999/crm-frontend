@@ -76,8 +76,10 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
                         Inbound Call
                       </div>
                       <div className="border col-6 text-center p-1">
-                        {pricing?.voicePricing?.inboundCallPrices[0]
-                          ?.base_price || 0}
+                        {parseFloat(
+                          pricing?.voicePricing?.inboundCallPrices[0]
+                            ?.base_price
+                        ) * 2 || 0}
                       </div>
                     </div>
                   </div>
@@ -88,8 +90,10 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
                       </div>
                       <div className="border col-6 text-center p-1">
                         {" "}
-                        {pricing?.voicePricing?.outboundPrefixPrices[0]
-                          ?.base_price || 0}
+                        {parseFloat(
+                          pricing?.voicePricing?.outboundPrefixPrices[0]
+                            ?.base_price
+                        ) * 2 || 0}
                       </div>
                     </div>
                   </div>{" "}
@@ -105,8 +109,9 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
                       </div>
                       <div className="border col-6 text-center p-1">
                         {" "}
-                        {pricing?.smsPricing?.inboundSmsPrices[0]?.base_price ||
-                          0}
+                        {parseFloat(
+                          pricing?.smsPricing?.inboundSmsPrices[0]?.base_price
+                        ) * 2 || 0}
                       </div>
                     </div>
                   </div>
@@ -116,8 +121,10 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
                         Outbound SMS
                       </div>
                       <div className="border col-6 text-center p-1">
-                        {pricing?.smsPricing?.outboundSmsPrices[0]?.prices[0]
-                          ?.base_price || 0}
+                        {parseFloat(
+                          pricing?.smsPricing?.outboundSmsPrices[0]?.prices[0]
+                            ?.base_price
+                        ) * 2 || 0}
                       </div>
                     </div>
                   </div>{" "}

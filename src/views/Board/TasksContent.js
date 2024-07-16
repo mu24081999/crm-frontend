@@ -85,7 +85,7 @@ const SortableItem = ({ id, content, containerId }) => {
         </div>
         <div className="card-body">
           <div>
-            {"dafdasfasdfa daksjfjakdlsfjlk adksfjkl;adjs ff".slice(0, 150)}
+            {content?.bio?.slice(0, 150)}
             ...
           </div>
         </div>
@@ -212,7 +212,9 @@ const TasksContent = ({
   }, [contactsData, boardDetails]);
   useEffect(() => {
     var dataObj = {};
-    const statusArray = boardDetails?.pipeline_status_array?.status_array;
+    const statusArray =
+      boardDetails?.pipeline_status_array &&
+      JSON.parse(boardDetails?.pipeline_status_array)?.status_array;
     statusArray?.length > 0 &&
       statusArray?.map((status) => {
         dataObj[status] =

@@ -9,6 +9,8 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "./../../assets/3.png";
 import Loader from "../../components/Loader/Loader";
 import GoogleLoginButton from "../../components/Auth/GoogleAuth";
+import ReactSelectField from "../../components/FormFields/reactSelectField";
+import countryList from "react-select-country-list";
 
 const SignUp = () => {
   const {
@@ -26,6 +28,7 @@ const SignUp = () => {
     const formData = {
       ...data,
       role: "USER",
+      country: data?.country?.value,
     };
     setUserEmail(data?.email);
 
@@ -92,8 +95,8 @@ const SignUp = () => {
                                   <div className="col-lg-6">
                                     <InputField
                                       name="name"
-                                      placeholder="Enter your name"
-                                      label="Full Name"
+                                      placeholder="Your Full Name"
+                                      // label="Full Name"
                                       control={control}
                                       rules={{
                                         required: {
@@ -107,8 +110,8 @@ const SignUp = () => {
                                   <div className="col-lg-6">
                                     <InputField
                                       name="username"
-                                      placeholder="Enter username or email"
-                                      label="User Name"
+                                      placeholder="Username"
+                                      // label="User Name"
                                       control={control}
                                       rules={{
                                         required: {
@@ -123,8 +126,8 @@ const SignUp = () => {
                                     <InputField
                                       name="email"
                                       type="email"
-                                      placeholder="Enter your email id"
-                                      label="Email"
+                                      placeholder="Email Address"
+                                      // label="Email"
                                       control={control}
                                       rules={{
                                         required: {
@@ -139,8 +142,8 @@ const SignUp = () => {
                                     <InputField
                                       name="password"
                                       type="password"
-                                      placeholder="6+ characters"
-                                      label="Password"
+                                      placeholder="Password containing 8+ characters"
+                                      // label="Password"
                                       control={control}
                                       rules={{
                                         required: {
@@ -151,12 +154,45 @@ const SignUp = () => {
                                       errors={errors}
                                     />
                                   </div>
-                                  <div className="col-lg-6">
+                                  {/* <div className="col-md-12 col-sm-6">
+                                    <ReactSelectField
+                                      name="country"
+                                      placeholder="Select Country"
+                                      // label="Country"
+                                      control={control}
+                                      errors={errors}
+                                      mb={false}
+                                      options={countryList().getData() || []}
+                                      rules={{
+                                        required: {
+                                          value: true,
+                                          message: "Field required!",
+                                        },
+                                      }}
+                                    />
+                                  </div> */}
+                                  <div className="col-lg-12 col-sm-6">
                                     <InputField
                                       name="personal_phone"
                                       type="string"
-                                      placeholder="+14849993639"
-                                      label="Phone Number"
+                                      placeholder="Phone Number eg: '+14849993639'"
+                                      // label="Phone Number"
+                                      control={control}
+                                      rules={{
+                                        required: {
+                                          value: true,
+                                          message: "Field required!",
+                                        },
+                                      }}
+                                      errors={errors}
+                                    />
+                                  </div>
+                                  {/* 
+                                  <div className="col-lg-6">
+                                    <InputField
+                                      name="state"
+                                      placeholder="State eg: CA"
+                                      // label="State"
                                       control={control}
                                       rules={{
                                         required: {
@@ -169,9 +205,39 @@ const SignUp = () => {
                                   </div>
                                   <div className="col-lg-6">
                                     <InputField
+                                      name="city"
+                                      placeholder="Enter your city"
+                                      // label="City"
+                                      control={control}
+                                      rules={{
+                                        required: {
+                                          value: true,
+                                          message: "Field required!",
+                                        },
+                                      }}
+                                      errors={errors}
+                                    />
+                                  </div>
+                                  <div className="col-lg-6">
+                                    <InputField
+                                      name="postal_code"
+                                      placeholder="Postal Code"
+                                      // label="Postal Code"
+                                      control={control}
+                                      rules={{
+                                        required: {
+                                          value: true,
+                                          message: "Field required!",
+                                        },
+                                      }}
+                                      errors={errors}
+                                    />
+                                  </div> */}
+                                  <div className="col-lg-12 col-sm-6">
+                                    <InputField
                                       name="location"
-                                      placeholder="LA, street 2, apt # 45434"
-                                      label="Address"
+                                      placeholder="Address eg: LA, street 2, apt # 45434"
+                                      // label="Address"
                                       control={control}
                                       rules={{
                                         required: {

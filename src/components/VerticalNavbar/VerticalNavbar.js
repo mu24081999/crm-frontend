@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import brand from "../../assets/2.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaBullseye,
   FaDollarSign,
@@ -39,6 +39,7 @@ import { SocketContext } from "../../Context";
 import { getUserBrandRec } from "../../redux/services/brand";
 
 const VerticalNavbar = () => {
+  const navigate = useNavigate();
   const { setThemeType, themeType } = useContext(SocketContext);
   const { brandDetails } = useSelector((state) => state.brand);
   const { user, token } = useSelector((state) => state.auth);
@@ -49,6 +50,14 @@ const VerticalNavbar = () => {
   const { subscriptions, isLoading } = useSelector(
     (state) => state.subscription
   );
+  useEffect(() => {
+    if (
+      (user && user?.role === "USER" && user?.verified === 0) ||
+      (user && user?.role === "AGENT" && user?.verified === 0)
+    ) {
+      navigate(`/email-verification/${user?.email}`);
+    }
+  }, [user, navigate]);
   useEffect(() => {
     dispatch(getSubscriptionsList(token));
     dispatch(getUserBrandRec(token, user.id));

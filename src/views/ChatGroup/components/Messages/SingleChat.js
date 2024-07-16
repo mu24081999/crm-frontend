@@ -87,6 +87,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
     return { firstCharacter, characterAfterSpace };
   }
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile_, setSelectedFile_] = useState(null);
 
   const [files, setFiles] = useState([]);
 
@@ -121,7 +122,8 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
     socket.emit("chat_message", formData);
     // socket.emit("chat_message", messageData);
     setMessage("");
-    setSelectedFile("");
+    setSelectedFile(null);
+    setSelectedFile_(null);
     document
       .getElementById("dummy_avatar")
       .scrollIntoView({ behavior: "smooth", block: "end" });
@@ -132,6 +134,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
   };
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
+    setSelectedFile_(event.target.files[0]);
   };
 
   // useEffect(() => {
@@ -414,6 +417,18 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
       </div>
 
       <footer class="chat-footer d-flex gap-2">
+        <div>
+          {selectedFile_ !== null && (
+            <div className="rounded">
+              <img
+                src={selectedFile_ ? URL.createObjectURL(selectedFile_) : ""}
+                alt="image"
+                className="avatar-img"
+                width={50}
+              />
+            </div>
+          )}
+        </div>
         <div>
           <button
             className="btn btn-secondary shadow rounded-circle  float-end"

@@ -81,12 +81,14 @@ export const EditBulkContact = ({ token, dispatch, boards }) => {
                 },
               }}
               options={
-                pipelineWatcher?.pipeline_status_array?.status_array?.length > 0
-                  ? pipelineWatcher?.pipeline_status_array?.status_array?.map(
-                      (status) => {
-                        return { label: status, value: status };
-                      }
-                    )
+                pipelineWatcher?.pipeline_status_array &&
+                JSON.parse(pipelineWatcher?.pipeline_status_array)?.status_array
+                  ?.length > 0
+                  ? JSON.parse(
+                      pipelineWatcher?.pipeline_status_array
+                    )?.status_array?.map((status) => {
+                      return { label: status, value: status };
+                    })
                   : []
               }
               errors={errors}

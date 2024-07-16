@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
+import { useSelector } from "react-redux";
 const ChatRooms = ({
   rooms,
   authUser,
@@ -9,6 +10,7 @@ const ChatRooms = ({
   deleteChatRecord,
   updateChat,
 }) => {
+  const { users } = useSelector((state) => state.user);
   const roomClickHandler = (room) => {
     console.log("🚀 ~ roomClickHandler ~ room:", room);
     // sendDataToParent();
@@ -36,6 +38,10 @@ const ChatRooms = ({
   };
   const handleEditChat = (room_id, status) => {
     updateChat(room_id, { status: status });
+  };
+  const getUser = (user_id) => {
+    const user = users?.filter((user) => user.id === parseInt(user_id))[0];
+    return user;
   };
   return (
     <div>
@@ -67,7 +73,13 @@ const ChatRooms = ({
                         alt="user"
                         class="avatar-img"
                       />
-                      <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
+                      {getUser(
+                        room.user_id_1 === authUser?.id
+                          ? room.user_id_2
+                          : room.user_id_1
+                      )?.connected === 1 && (
+                        <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
+                      )}
                     </div>
                   </div>
                   <div class="media-body">

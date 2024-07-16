@@ -7,6 +7,8 @@ import InputField from "../../components/FormFields/InputField";
 import Loader from "../../components/Loader/Loader";
 import _ from "lodash";
 import { getUserSubscriptions } from "../../redux/services/subscription";
+import ReactSelectField from "../../components/FormFields/reactSelectField";
+import countryList from "react-select-country-list";
 
 const SubaccountForm = () => {
   const {
@@ -63,6 +65,7 @@ const SubaccountForm = () => {
       ...data,
       parent_id: _.toString(user.id),
       role: "USER",
+      country: data.country.value,
     };
     dispatch(addUserRec(token, formData));
   };
@@ -111,7 +114,7 @@ const SubaccountForm = () => {
                       errors={errors}
                       name="name"
                       placeholder="Name"
-                      label="Name"
+                      // label="Name"
                       rules={{
                         required: {
                           value: true,
@@ -142,7 +145,7 @@ const SubaccountForm = () => {
                       errors={errors}
                       name="username"
                       placeholder="Username"
-                      label="Username"
+                      // label="Username"
                       rules={{
                         required: {
                           value: true,
@@ -158,7 +161,7 @@ const SubaccountForm = () => {
                       errors={errors}
                       name="email"
                       placeholder="Email"
-                      label="Email"
+                      // label="Email"
                       rules={{
                         required: {
                           value: true,
@@ -174,13 +177,90 @@ const SubaccountForm = () => {
                       errors={errors}
                       name="password"
                       placeholder="Password"
-                      label="Password"
+                      // label="Password"
                       rules={{
                         required: {
                           value: true,
                           message: "Field required!",
                         },
                       }}
+                    />
+                  </div>
+                  <div className="col-md-12 col-sm-6">
+                    <ReactSelectField
+                      name="country"
+                      placeholder="Select Country"
+                      // label="Country"
+                      control={control}
+                      errors={errors}
+                      mb={false}
+                      options={countryList().getData() || []}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-6">
+                    <InputField
+                      name="state"
+                      placeholder="State eg: CA"
+                      // label="State"
+                      control={control}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
+                      errors={errors}
+                    />
+                  </div>
+                  <div className="col-lg-6">
+                    <InputField
+                      name="city"
+                      placeholder="Enter your city"
+                      // label="City"
+                      control={control}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
+                      errors={errors}
+                    />
+                  </div>
+                  <div className="col-lg-6">
+                    <InputField
+                      name="postal_code"
+                      placeholder="Postal Code"
+                      // label="Postal Code"
+                      control={control}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
+                      errors={errors}
+                    />
+                  </div>
+                  <div className="col-lg-12 col-sm-6">
+                    <InputField
+                      name="location"
+                      placeholder="Address eg: LA, street 2, apt # 45434"
+                      // label="Address"
+                      control={control}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: "Field required!",
+                        },
+                      }}
+                      errors={errors}
                     />
                   </div>
                 </div>

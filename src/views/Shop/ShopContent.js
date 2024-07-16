@@ -28,7 +28,7 @@ const ContactsContent = () => {
   const [isSearch, setIsSearch] = useState(false);
   const { contacts } = useSelector((state) => state.contact);
   const { availableNumbers } = useSelector((state) => state.calling);
-  const { token, accountSid, accountAuthToken } = useSelector(
+  const { user, token, accountSid, accountAuthToken } = useSelector(
     (state) => state.auth
   );
   const backendURL = process.env.REACT_APP_BACKEND_URL_PRODUCTION;
@@ -83,6 +83,7 @@ const ContactsContent = () => {
         subAccountSid: accountSid,
         subAuthToken: accountAuthToken,
         phoneNumber: selectedNumber,
+        addressSid: user?.addressSid,
       },
       config
     );
