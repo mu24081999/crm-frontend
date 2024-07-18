@@ -259,6 +259,10 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
   function bytesToMegabytes(bytes) {
     return (bytes / (1024 * 1024)).toFixed(2);
   }
+  const getUser = (user_id) => {
+    const user = users?.filter((user) => user.id === parseInt(user_id))[0];
+    return user;
+  };
   return (
     <div class="chatapp-single-chat">
       <header class="chat-header">
@@ -286,7 +290,14 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                 alt="user"
                 class="avatar-img"
               />
-              <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
+              {getUser(
+                selectedRoom.user_id_1 === authUser?.id
+                  ? selectedRoom.user_id_2
+                  : selectedRoom.user_id_1
+              )?.connected === 1 && (
+                <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
+              )}
+              {/* <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span> */}
             </div>
           </div>
           <div class="media-body">
@@ -1014,11 +1025,11 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                 <span class="nav-link-text">Info</span>
               </a>
             </li>
-            <li class="nav-item">
+            {/* <li class="nav-item">
               <a class="nav-link" data-bs-toggle="tab" href="#tab_files">
                 <span class="nav-link-text">Files</span>
               </a>
-            </li>
+            </li> */}
           </ul>
           <div class="tab-content mt-4">
             <div class="tab-pane fade show active" id="tab_info">

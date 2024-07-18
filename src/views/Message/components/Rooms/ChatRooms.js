@@ -1,4 +1,6 @@
 import React, { useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import Loader from "../../../../components/Loader/Loader";
 const ChatRooms = ({
   rooms,
   onDataFromChild,
@@ -10,6 +12,7 @@ const ChatRooms = ({
   const [selectedRoom, setSelectedRoom] = useState("");
   const [prevData, setPrevData] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
+  const { isLoading } = useSelector((state) => state.calling);
   useMemo(() => {
     setRoomsData(rooms);
     setPrevData(rooms);
@@ -75,46 +78,49 @@ const ChatRooms = ({
           onKeyUp={handleSearchRoom}
         />
       </form>
-      <ul class="chat-contacts-list list-group list-group-flush">
-        {roomsData?.length > 0 ? (
-          roomsData?.map((contact, index) => {
-            const messageArray = messages?.filter(
-              (msg) => msg.room === contact.name
-            );
-            const lastMessage = messageArray[messageArray.length - 1];
-            return (
-              <li
-                class="list-group-item"
-                key={index}
-                onClick={() => roomClickHandler(contact)}
-              >
-                <div class="media">
-                  <div class="media-head">
-                    <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
-                      <span class="initial-wrap">C</span>
-                    </div>
-                  </div>
-                  <div class="media-body">
-                    <div>
-                      <div class="user-name">{contact}</div>
-                      <div class="user-last-chat">
-                        {/* Please send some insights of presentation */}
-                        {/* {lastMessage !== undefined && lastMessage.message} */}
-                        {contact?.phone}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <ul class="chat-contacts-list list-group list-group-flush">
+          {roomsData?.length > 0 ? (
+            roomsData?.map((contact, index) => {
+              const messageArray = messages?.filter(
+                (msg) => msg.room === contact.name
+              );
+              const lastMessage = messageArray[messageArray.length - 1];
+              return (
+                <li
+                  class="list-group-item"
+                  key={index}
+                  onClick={() => roomClickHandler(contact)}
+                >
+                  <div class="media">
+                    <div class="media-head">
+                      <div class="avatar avatar-sm avatar-primary position-relative avatar-rounded">
+                        <span class="initial-wrap">C</span>
                       </div>
                     </div>
-                    <div>
-                      <div class="last-chat-time">
-                        {lastMessage?.created_at
-                          ? formatRelativeDate(
-                              lastMessage?.created_at || new Date()
-                            )
-                          : "..."}
+                    <div class="media-body">
+                      <div>
+                        <div class="user-name">{contact}</div>
+                        <div class="user-last-chat">
+                          {/* Please send some insights of presentation */}
+                          {/* {lastMessage !== undefined && lastMessage.message} */}
+                          {contact?.phone}
+                        </div>
                       </div>
-                      {/* <div class="badge badge-primary badge-sm badge-pill">
+                      <div>
+                        <div class="last-chat-time">
+                          {lastMessage?.created_at
+                            ? formatRelativeDate(
+                                lastMessage?.created_at || new Date()
+                              )
+                            : "..."}
+                        </div>
+                        {/* <div class="badge badge-primary badge-sm badge-pill">
                         15
                       </div> */}
-                      {/* <div class="dropdown action-drp">
+                        {/* <div class="dropdown action-drp">
                         <a
                           href="/"
                           class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
@@ -159,16 +165,17 @@ const ChatRooms = ({
                           </a>
                         </div>
                       </div> */}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            );
-          })
-        ) : (
-          <li>No rooms till.</li>
-        )}
-      </ul>
+                </li>
+              );
+            })
+          ) : (
+            <li>No rooms till.</li>
+          )}
+        </ul>
+      )}
     </div>
   );
 };

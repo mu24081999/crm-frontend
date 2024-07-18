@@ -26,6 +26,7 @@ import moment from "moment";
 import { MdAlternateEmail, MdOutlineSms } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
 import { first } from "lodash";
+import Loader from "../../components/Loader/Loader";
 
 const initialItems = {
   pending: [
@@ -198,6 +199,7 @@ const TasksContent = ({
   boardsData,
   onDataViewFromChild,
   isShowTask,
+  tasksLoading,
 }) => {
   const [items, setItems] = useState(initialItems);
   const [data, setData] = useState({});
@@ -282,26 +284,32 @@ const TasksContent = ({
         isShowTask={isShowTask}
       />
       <div className="taskboard-body">
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <div
-            className="d-flex gap-5 p-3 card-body"
-            style={{
-              overflow: "scroll",
-              scrollBehavior: "smooth",
-              flexDirection: "row",
-              maxHeight: "750px",
-            }}
-          >
-            {Object.keys(data)?.length > 0 &&
-              Object.keys(data)?.map((columnId) => (
-                <Column key={columnId} id={columnId} items={data[columnId]} />
-              ))}
+        {tasksLoading ? (
+          <div className="w-100">
+            <Loader />
           </div>
-        </DndContext>
+        ) : (
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <div
+              className="d-flex gap-5 p-3 card-body"
+              style={{
+                overflow: "scroll",
+                scrollBehavior: "smooth",
+                flexDirection: "row",
+                maxHeight: "750px",
+              }}
+            >
+              {Object.keys(data)?.length > 0 &&
+                Object.keys(data)?.map((columnId) => (
+                  <Column key={columnId} id={columnId} items={data[columnId]} />
+                ))}
+            </div>
+          </DndContext>
+        )}
       </div>
     </div>
   );

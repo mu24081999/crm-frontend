@@ -98,8 +98,12 @@ const VerticalNavbar = () => {
             />
             {brandDetails?.brand_name ? (
               <span
-                className="fs-4 fw-bolder text-center text-primary pt-4 ms-3 "
-                style={{ fontWeight: "900" }}
+                className="fs-4 fw-bolder text-center pt-4 ms-3 "
+                style={{
+                  fontWeight: "900",
+                  fontFamily: brandDetails?.font_family,
+                  color: brandDetails?.text_color,
+                }}
               >
                 {_.toString(brandDetails?.brand_name).slice(0, 10)}
               </span>

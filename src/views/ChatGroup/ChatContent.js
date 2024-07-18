@@ -26,8 +26,10 @@ const ChatContent = () => {
   const { user, token } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
   const [rooms, setRooms] = useState([]);
+  const [isRoomsLoading, setIsRoomsLoading] = useState(false);
   const dispatch = useDispatch();
   const getRooms = useCallback(async () => {
+    setIsRoomsLoading(true);
     try {
       const config = {
         headers: {
@@ -39,9 +41,11 @@ const ChatContent = () => {
         .get(`${backendURL}/user/chat/get-group-rooms`, config)
         .then((response) => {
           setRooms(response.data.data.chatRoomsData);
+          setIsRoomsLoading(false);
         });
     } catch (error) {
       toast.error(error.message);
+      setIsRoomsLoading(false);
     }
   }, [backendURL, token]);
   const getChats = useCallback(
@@ -182,6 +186,7 @@ const ChatContent = () => {
                 onDataFromChild={handleDataFromChild}
                 messages={allMessages}
                 deleteChatRecord={deleteChatRecord}
+                roomsLoading={isRoomsLoading}
               />
               {selectedRoom?.id && (
                 <SingleChat

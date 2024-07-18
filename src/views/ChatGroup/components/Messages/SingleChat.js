@@ -230,7 +230,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                       .characterAfterSpace
                   )}
               </span>
-              <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
+              {/* <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span> */}
             </div>
           </div>
           <div class="media-body">
@@ -572,7 +572,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                       .characterAfterSpace
                   )}
               </span>
-              <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
+              {/* <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span> */}
             </div>
             <div class="cp-name text-truncate mt-2">{selectedRoom?.name}</div>
             <p class="text-truncate">No phone calls Always busy</p>
@@ -584,21 +584,14 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                 <span class="nav-link-text">Info</span>
               </a>
             </li>
-            <li class="nav-item">
+            {/* <li class="nav-item">
               <a class="nav-link" data-bs-toggle="tab" href="#tab_files">
                 <span class="nav-link-text">Files</span>
               </a>
-            </li>
+            </li> */}
           </ul>
           <div class="tab-content mt-4">
             <div class="tab-pane fade show active" id="tab_info">
-              <form role="search">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Search in conversation"
-                />
-              </form>
               <div class="collapse-simple mt-3">
                 <div class="card">
                   <div class="card-header">
@@ -616,8 +609,8 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
                       className="p-1"
                       style={{ height: "200px", overflow: "scroll" }}
                     >
-                      {selectedRoom?.group_members?.members?.length > 0 ? (
-                        selectedRoom?.group_members?.members?.map(
+                      {selectedRoom?.group_members ? (
+                        JSON.parse(selectedRoom?.group_members).members?.map(
                           (user, index) => (
                             <li key={index}>
                               <div class="media d-flex align-items-center py-1">

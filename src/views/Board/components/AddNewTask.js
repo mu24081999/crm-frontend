@@ -53,13 +53,18 @@ const AddNewTask = ({ agents, boardDetails }) => {
         value: boardDetails?.avatar_text,
       });
       setValue("avatar_color", boardDetails?.avatar_color);
-      setValue("team_members", boardDetails?.team_members?.team);
-      const stages = [];
-      boardDetails?.pipeline_status_array?.status_array?.map(
-        (status, index) => {
-          return stages?.push({ id: index + 1, value: status });
-        }
+      setValue(
+        "team_members",
+        boardDetails?.team_members &&
+          JSON.parse(boardDetails?.team_members)?.team
       );
+      const stages = [];
+      boardDetails?.pipeline_status_array &&
+        JSON.parse(boardDetails?.pipeline_status_array)?.status_array?.map(
+          (status, index) => {
+            return stages?.push({ id: index + 1, value: status });
+          }
+        );
       console.log("🚀 ~ useEffect ~ stages:", stages);
       setStatusArray(stages);
       stages?.forEach((stage) => {
@@ -68,26 +73,19 @@ const AddNewTask = ({ agents, boardDetails }) => {
     }
   }, [boardDetails, setValue]);
   const handleAddBoard = async (data) => {
+    const element = document.getElementById("close_task_button");
     console.log("🚀 ~ handleAddBoard ~ data:", boardDetails);
     const newData = {
       name: data.name,
       image: data.image,
-      visibility: data.visibility.value,
-      avatar_text: data.avatar_text.value,
+      visibility: data?.visibility?.value,
+      avatar_text: data?.avatar_text?.value,
       avatar_color: data.avatar_color,
       team_members: data.team_members,
     };
     const pipeline_status_array = [];
-    // const formData = new FormData();
-    // formData.append("name", newData.name);
-    // formData.append("image", newData.image);
-    // formData.append("visibility", newData.visibility);
-    // formData.append("avatar_text", newData.avatar_text);
-    // formData.append("avatar_color", newData.avatar_color);
-    // formData.append("team_members", JSON.stringify(newData.team_members));
-    for (let i = 0; i < statusArray.length; i++) {
+    for (let i = 0; i < statusArray?.length; i++) {
       const element = statusArray[i];
-      console.log("🚀 ~ handleAddBoard ~ element:", element);
       const status_ = watch(`status-${element.id}`);
       pipeline_status_array.push(status_);
     }
@@ -101,6 +99,7 @@ const AddNewTask = ({ agents, boardDetails }) => {
     } else {
       await dispatch(storeBoard(token, formData));
     }
+    element.click();
     return reset();
   };
   return (
@@ -328,6 +327,7 @@ const AddNewTask = ({ agents, boardDetails }) => {
               </div>
               <div className="modal-footer">
                 <button
+                  id="close_task_button"
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"

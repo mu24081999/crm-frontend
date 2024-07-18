@@ -9,6 +9,7 @@ const BoardList = ({
   onDataFromChild,
   onDataViewFromChild,
   isShowTask,
+  boardsLoading,
 }) => {
   return (
     <div className="tab-content">
@@ -18,6 +19,7 @@ const BoardList = ({
           onDataFromChild={onDataFromChild}
           onDataViewFromChild={onDataViewFromChild}
           isShowTask={isShowTask}
+          boardsLoading={boardsLoading}
         />
       )}
       {toggleType === "team" && <Members teamsData={teamsData} />}

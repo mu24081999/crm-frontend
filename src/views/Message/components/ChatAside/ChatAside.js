@@ -13,6 +13,7 @@ import {
 import { useSelector } from "react-redux";
 import { IoIosMail } from "react-icons/io";
 import { TiMessages } from "react-icons/ti";
+import { MdConnectWithoutContact } from "react-icons/md";
 
 const ChatAside = ({
   rooms,
@@ -33,7 +34,9 @@ const ChatAside = ({
         <header class="aside-header">
           <h1 className="fs-5 fw-bold">
             <span className="pe-2">
-              <FaEnvelope size={30} color="#007D88" />
+              <MdConnectWithoutContact size={30} color="#007D88" />
+
+              {/* <FaEnvelope  /> */}
             </span>
             Conversation
           </h1>

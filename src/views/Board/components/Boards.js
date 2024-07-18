@@ -17,12 +17,13 @@ import {
   updateBoardRec,
 } from "../../../redux/services/board";
 import { getContactsListByBoard } from "../../../redux/services/contact";
-
+import Loader from "../../../components/Loader/Loader";
 const Boards = ({
   boardsData,
   onDataFromChild,
   isShowTask,
   onDataViewFromChild,
+  boardsLoading,
 }) => {
   const { token, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -45,40 +46,43 @@ const Boards = ({
   };
   return (
     <div className="tab-pane fade show active" id="tab_boards">
-      <div className="row">
-        {boardsData?.length > 0 &&
-          boardsData?.map((board, index) => (
-            <div className="col-md-4" key={index}>
-              <div className="card board-card card-border">
-                <div className="card-body">
-                  <div className="media align-items-center">
-                    <div className="media-head">
-                      <div
-                        className="avatar avatar-sm rounded-4"
-                        style={{ backgroundColor: board.avatar_color }}
-                      >
-                        <span
-                          className="initial-wrap"
-                          style={{ color: "white" }}
+      {boardsLoading ? (
+        <Loader />
+      ) : (
+        <div className="row">
+          {boardsData?.length > 0 &&
+            boardsData?.map((board, index) => (
+              <div className="col-md-4" key={index}>
+                <div className="card board-card card-border">
+                  <div className="card-body">
+                    <div className="media align-items-center">
+                      <div className="media-head">
+                        <div
+                          className="avatar avatar-sm rounded-4"
+                          style={{ backgroundColor: board.avatar_color }}
                         >
-                          {board.avatar_text}
-                        </span>
+                          <span
+                            className="initial-wrap"
+                            style={{ color: "white" }}
+                          >
+                            {board.avatar_text}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="media-body">
+                        <a
+                          className="link-primary btn"
+                          onClick={() => handleEditBoard(board.id, true)}
+                        >
+                          {board.name}
+                        </a>
                       </div>
                     </div>
-                    <div className="media-body">
-                      <a
-                        className="link-primary btn"
-                        onClick={() => handleEditBoard(board.id, true)}
-                      >
-                        {board.name}
-                      </a>
-                    </div>
                   </div>
-                </div>
-                <div className="card-footer text-muted justify-content-between">
-                  <div>
-                    <div className="avatar-group avatar-group-sm avatar-group-overlapped me-3">
-                      {/* {board.team_members &&
+                  <div className="card-footer text-muted justify-content-between">
+                    <div>
+                      <div className="avatar-group avatar-group-sm avatar-group-overlapped me-3">
+                        {/* {board.team_members &&
                         board.team_members.team?.map((member, index) => (
                           <div
                             className="avatar avatar-rounded"
@@ -95,98 +99,98 @@ const Boards = ({
                             />
                           </div>
                         ))} */}
-                      {board?.team_members?.team?.length > 3 && (
-                        <div
-                          className="avatar avatar-soft-danger avatar-rounded"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          title=""
-                          data-bs-original-title="Tooltip text"
-                        >
-                          <span className="initial-wrap">
-                            {board?.team_members?.team?.length - 3}+
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="d-flex align-items-center">
-                    <p className="p-xs me-2">Updated now</p>
-                    <div className="flex-shrink-0">
-                      <span>
-                        {board?.visibility === "stared" ? (
-                          <FaStar
-                            color="gold"
-                            onClick={() => updateBoard(board.id, "public")}
-                          />
-                        ) : (
-                          <FaRegStar
-                            onClick={() => updateBoard(board.id, "stared")}
-                          />
+                        {board?.team_members?.team?.length > 3 && (
+                          <div
+                            className="avatar avatar-soft-danger avatar-rounded"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            title=""
+                            data-bs-original-title="Tooltip text"
+                          >
+                            <span className="initial-wrap">
+                              {board?.team_members?.team?.length - 3}+
+                            </span>
+                          </div>
                         )}
-                      </span>
-                      <a
-                        className="btn btn-xs btn-icon btn-flush-primary btn-rounded flush-soft-hover"
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="top"
-                        title=""
-                        data-bs-original-title="Public"
-                      >
+                      </div>
+                    </div>
+
+                    <div className="d-flex align-items-center">
+                      <p className="p-xs me-2">Updated now</p>
+                      <div className="flex-shrink-0">
                         <span>
-                          {board?.visibility === "public" && (
-                            <FaGlobe
+                          {board?.visibility === "stared" ? (
+                            <FaStar
+                              color="gold"
                               onClick={() => updateBoard(board.id, "public")}
                             />
-                          )}{" "}
-                          {board?.visibility === "private" && (
-                            <FaLock
+                          ) : (
+                            <FaRegStar
                               onClick={() => updateBoard(board.id, "stared")}
                             />
                           )}
                         </span>
-                      </a>
-                      <a
-                        className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                        aria-expanded="false"
-                        data-bs-toggle="dropdown"
-                        href="/"
-                      >
-                        <span className="icon">
-                          <span className="feather-icon">
-                            {/* <i data-feather="more-horizontal"></i> */}
-                            <CiMenuKebab />
-                          </span>
-                        </span>
-                      </a>
-                      <div
-                        role="menu"
-                        className="dropdown-menu dropdown-menu-end"
-                      >
-                        <button
-                          className="dropdown-item"
-                          data-bs-toggle="modal"
-                          data-bs-target="#add_new_board"
-                          onClick={() => handleEditBoard(board.id)}
-                        >
-                          <FaEdit />
-                          Edit
-                        </button>
                         <a
-                          className="dropdown-item"
-                          onClick={() => handleDelete(board.id)}
+                          className="btn btn-xs btn-icon btn-flush-primary btn-rounded flush-soft-hover"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title=""
+                          data-bs-original-title="Public"
                         >
-                          <FaTrash />
-                          Delete
+                          <span>
+                            {board?.visibility === "public" && (
+                              <FaGlobe
+                                onClick={() => updateBoard(board.id, "public")}
+                              />
+                            )}{" "}
+                            {board?.visibility === "private" && (
+                              <FaLock
+                                onClick={() => updateBoard(board.id, "stared")}
+                              />
+                            )}
+                          </span>
                         </a>
+                        <a
+                          className="btn btn-xs btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
+                          aria-expanded="false"
+                          data-bs-toggle="dropdown"
+                          href="/"
+                        >
+                          <span className="icon">
+                            <span className="feather-icon">
+                              {/* <i data-feather="more-horizontal"></i> */}
+                              <CiMenuKebab />
+                            </span>
+                          </span>
+                        </a>
+                        <div
+                          role="menu"
+                          className="dropdown-menu dropdown-menu-end"
+                        >
+                          <button
+                            className="dropdown-item"
+                            data-bs-toggle="modal"
+                            data-bs-target="#add_new_board"
+                            onClick={() => handleEditBoard(board.id)}
+                          >
+                            <FaEdit />
+                            Edit
+                          </button>
+                          <a
+                            className="dropdown-item"
+                            onClick={() => handleDelete(board.id)}
+                          >
+                            <FaTrash />
+                            Delete
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        {/* <div className="col-lg-6">
+            ))}
+          {/* <div className="col-lg-6">
           <div className="card board-card card-border">
             <div className="card-body">
               <div className="media align-items-center">
@@ -748,7 +752,8 @@ const Boards = ({
             </div>
           </div>
         </div> */}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

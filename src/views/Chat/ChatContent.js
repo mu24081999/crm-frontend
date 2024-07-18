@@ -31,8 +31,10 @@ const ChatContent = () => {
   const { users } = useSelector((state) => state.user);
   const [rooms, setRooms] = useState([]);
   const [rooms_, setRooms_] = useState([]);
+  const [isRoomsLoading, setIsRoomsLoading] = useState(false);
   const dispatch = useDispatch();
   const getRooms = useCallback(async () => {
+    setIsRoomsLoading(true);
     try {
       const config = {
         headers: {
@@ -48,9 +50,11 @@ const ChatContent = () => {
             (room) => room.status !== "blocked" && room.status !== "archived"
           );
           setRooms(data);
+          setIsRoomsLoading(false);
         });
     } catch (error) {
       toast.error(error.message);
+      setIsRoomsLoading(false);
     }
   }, [backendURL, token]);
   const deleteChatRecord = useCallback(
@@ -200,6 +204,7 @@ const ChatContent = () => {
               <ChatAside
                 socket={socket}
                 rooms={rooms}
+                roomsLoading={isRoomsLoading}
                 rooms_={rooms_}
                 onFilterDataFromChild={handleFilterDataFromChild}
                 authUser={user}

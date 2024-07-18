@@ -32,10 +32,16 @@ const BoardContent = () => {
   const [isShowTask, setShowTask] = useState(false);
   const { user, token } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
-  const { boards, boardDetails } = useSelector((state) => state.board);
+  const {
+    boards,
+    boardDetails,
+    isLoading: boardsLoading,
+  } = useSelector((state) => state.board);
   const { contacts } = useSelector((state) => state.contact);
   const { teams } = useSelector((state) => state.board_team);
-  const { tasks } = useSelector((state) => state.board_task);
+  const { tasks, isLoading: tasksLoading } = useSelector(
+    (state) => state.board_task
+  );
 
   const dispatch = useDispatch();
   const handleToggleChange = (value) => {
@@ -111,6 +117,7 @@ const BoardContent = () => {
                     boardsData={boardsData}
                     token={token}
                     isShowTask={isShowTask}
+                    tasksLoading={tasksLoading}
                     onDataViewFromChild={handleDataFromHeader}
                   />
                   // <Kanban />
@@ -128,6 +135,7 @@ const BoardContent = () => {
                                 boardsData={boardsData}
                                 teamsData={teamsData}
                                 isShowTask={isShowTask}
+                                boardsLoading={boardsLoading}
                                 onDataViewFromChild={handleDataFromHeader}
                                 onDataFromChild={hnadleShowTask}
                               />

@@ -4,15 +4,12 @@ import InputField from "../../../components/FormFields/InputField";
 import TextAreaField from "../../../components/FormFields/textAreaField";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getUserDetails,
-  getUsers,
-  updateUserRec,
-} from "../../../redux/services/users";
-import { setAccount } from "../../../redux/slices/auth";
-import {
   addUpdateBrandRec,
   getUserBrandRec,
 } from "../../../redux/services/brand";
+import ReactColorInput from "../../../components/FormFields/reactColorInput";
+import axios from "axios";
+import ReactSelectField from "../../../components/FormFields/reactSelectField";
 const BrandDetails = () => {
   const {
     handleSubmit,
@@ -25,6 +22,27 @@ const BrandDetails = () => {
   const { token, user } = useSelector((state) => state.auth);
   const { brandDetails } = useSelector((state) => state.brand);
   const [avatar, setAvatar] = useState(null);
+  const [fonts, setFonts] = useState([]);
+  useEffect(() => {
+    const fetchFonts = async () => {
+      try {
+        const response = await axios.get(
+          `https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyCwGqg4a2OdpgLlK53S29V51mdnODUhznk`
+        );
+        const fontList = response.data.items.map((font) => ({
+          value: font.family,
+          label: font.family,
+          style: { fontFamily: font.family },
+        }));
+        setFonts(fontList);
+      } catch (error) {
+        console.error("Error fetching fonts:", error);
+      }
+    };
+
+    fetchFonts();
+  }, []);
+
   useEffect(() => {
     setValue("brand_name", brandDetails?.brand_name);
     setValue("brand_details", brandDetails?.brand_details);
@@ -35,6 +53,8 @@ const BrandDetails = () => {
     formData.append("brand_logo", avatar);
     formData.append("brand_details", data.brand_details);
     formData.append("user_id", user.id);
+    formData.append("font_family", data.font_family.value);
+    formData.append("text_color", data.text_color);
 
     const is_updated = await dispatch(addUpdateBrandRec(token, formData));
     if (is_updated === true) {
@@ -44,6 +64,16 @@ const BrandDetails = () => {
   const handleImage = (e) => {
     let image = e.currentTarget.files[0];
     setAvatar(image);
+  };
+  const customStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      fontFamily: state.data.value,
+    }),
+    singleValue: (provided, state) => ({
+      ...provided,
+      fontFamily: state.data.value,
+    }),
   };
   return (
     <div className="tab-pane " id="tab_brand">
@@ -91,22 +121,63 @@ const BrandDetails = () => {
         <div className="title title-xs title-wth-divider text-primary text-uppercase my-4">
           <span>Personal Info</span>
         </div>
-        <div className="row gx-3">
-          <div className="col-sm-6">
-            <InputField
-              name="brand_name"
-              placeholder="Brand Name"
-              label="Brand Name"
-              control={control}
-              rules={{
-                required: {
-                  value: true,
-                  message: "Field required!",
-                },
-              }}
-              errors={errors}
-            />
-          </div>
+        <div className="col-sm-6">
+          <InputField
+            name="brand_name"
+            placeholder="Brand Name"
+            label="Brand Name"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: "Field required!",
+              },
+            }}
+            errors={errors}
+          />
+        </div>
+        <div className="col-sm-6 pt-1">
+          <ReactColorInput
+            name="text_color"
+            placeholder="Text Color"
+            label="Text Color"
+            mb={true}
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: "Field required!",
+              },
+            }}
+            errors={errors}
+          />
+        </div>
+        <div className="col-sm-6">
+          <ReactSelectField
+            name="font_family"
+            placeholder="Font Family"
+            label="Font Family"
+            control={control}
+            options={
+              fonts?.length > 0
+                ? fonts?.map((font) => {
+                    return {
+                      label: font.label,
+                      value: font.value,
+                      style: font.style,
+                    };
+                  })
+                : []
+            }
+            styles={customStyles}
+            rules={{
+              required: {
+                value: true,
+                message: "Field required!",
+              },
+            }}
+            errors={errors}
+          />
         </div>
         <div className="row gx-3">
           <div className="col-sm-6">

@@ -10,6 +10,7 @@ const ChatAside = ({
   onDataFromChild,
   messages,
   deleteChatRecord,
+  roomsLoading,
 }) => {
   const { users } = useSelector((state) => state.user);
   function extractCharactersFromArray(str) {
@@ -92,13 +93,6 @@ const ChatAside = ({
           </div>
         </header>
         <div data-simplebar class="aside-body">
-          <form class="aside-search" role="search">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Search Chats"
-            />
-          </form>
           <div class="frequent-contact">
             {/* <div class="title-sm text-primary">
               <span>Frequent contact</span>
@@ -157,6 +151,7 @@ const ChatAside = ({
             onDataFromChild={onDataFromChild}
             messages={messages}
             deleteChatRecord={deleteChatRecord}
+            roomsLoading={roomsLoading}
           />
         </div>
       </div>

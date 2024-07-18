@@ -1,7 +1,6 @@
 import _ from "lodash";
 import React, { useState } from "react";
-import { CiMenuKebab } from "react-icons/ci";
-
+import Loader from "../../../../components/Loader/Loader";
 const ChatRooms = ({
   rooms,
   authUser,
@@ -9,6 +8,7 @@ const ChatRooms = ({
   onDataFromChild,
   messages,
   deleteChatRecord,
+  roomsLoading,
 }) => {
   const [selectedRoom, setSelectedRoom] = useState("");
   const sendDataToParent = () => {
@@ -48,57 +48,61 @@ const ChatRooms = ({
   return (
     <div>
       {" "}
-      <ul class="chat-contacts-list list-group list-group-flush">
-        {rooms?.length > 0 ? (
-          rooms?.map((room, index) => {
-            const messageArray = messages?.filter(
-              (msg) => msg.room === room.room_id
-            );
-            const lastMessage = messageArray[messageArray.length - 1];
-            return (
-              <li
-                class="list-group-item"
-                key={index}
-                onClick={() => roomClickHandler(room)}
-              >
-                <div class="media">
-                  <div class="media-head">
-                    <div class="avatar avatar-sm avatar-rounded position-relative">
-                      <span
-                        class="initial-wrap bg-primary"
-                        style={{ color: "white" }}
-                      >
-                        {_.capitalize(
-                          extractCharactersFromArray(room?.name).firstCharacter
-                        ) +
-                          _.capitalize(
+      {roomsLoading ? (
+        <Loader />
+      ) : (
+        <ul class="chat-contacts-list list-group list-group-flush">
+          {rooms?.length > 0 ? (
+            rooms?.map((room, index) => {
+              const messageArray = messages?.filter(
+                (msg) => msg.room === room.room_id
+              );
+              const lastMessage = messageArray[messageArray.length - 1];
+              return (
+                <li
+                  class="list-group-item"
+                  key={index}
+                  onClick={() => roomClickHandler(room)}
+                >
+                  <div class="media">
+                    <div class="media-head">
+                      <div class="avatar avatar-sm avatar-rounded position-relative">
+                        <span
+                          class="initial-wrap bg-primary"
+                          style={{ color: "white" }}
+                        >
+                          {_.capitalize(
                             extractCharactersFromArray(room?.name)
-                              .characterAfterSpace
-                          )}
-                      </span>
-                      <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span>
-                    </div>
-                  </div>
-                  <div class="media-body">
-                    <div>
-                      <div class="user-name">{_.capitalize(room?.name)}</div>
-                      <div class="user-last-chat">
-                        {/* Please send some insights of presentation */}
-                        {lastMessage !== undefined && lastMessage.message}
+                              .firstCharacter
+                          ) +
+                            _.capitalize(
+                              extractCharactersFromArray(room?.name)
+                                .characterAfterSpace
+                            )}
+                        </span>
+                        {/* <span class="badge badge-success badge-indicator badge-indicator-lg position-bottom-end-overflow-1"></span> */}
                       </div>
                     </div>
-                    <div>
-                      <div class="last-chat-time">
-                        {lastMessage?.created_at
-                          ? formatRelativeDate(
-                              lastMessage?.created_at || new Date()
-                            )
-                          : "..."}
+                    <div class="media-body">
+                      <div>
+                        <div class="user-name">{_.capitalize(room?.name)}</div>
+                        <div class="user-last-chat">
+                          {/* Please send some insights of presentation */}
+                          {lastMessage !== undefined && lastMessage.message}
+                        </div>
                       </div>
-                      {/* <div class="badge badge-primary badge-sm badge-pill">
+                      <div>
+                        <div class="last-chat-time">
+                          {lastMessage?.created_at
+                            ? formatRelativeDate(
+                                lastMessage?.created_at || new Date()
+                              )
+                            : "..."}
+                        </div>
+                        {/* <div class="badge badge-primary badge-sm badge-pill">
                         15
                       </div> */}
-                      {/* <div class="dropdown action-drp">
+                        {/* <div class="dropdown action-drp">
                         <a
                           href="/"
                           class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
@@ -128,16 +132,17 @@ const ChatRooms = ({
                           </a>
                         </div>
                       </div> */}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            );
-          })
-        ) : (
-          <li>No rooms till.</li>
-        )}
-      </ul>
+                </li>
+              );
+            })
+          ) : (
+            <li>No rooms till.</li>
+          )}
+        </ul>
+      )}
     </div>
   );
 };
