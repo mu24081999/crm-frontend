@@ -26,25 +26,16 @@ import { FiPaperclip } from "react-icons/fi";
 import { saveAs } from "file-saver";
 import axios from "axios";
 const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
-  const {
-    me,
-    // leaveCall,
-    calling,
-    // myVideo,
-    // name,
-    // setName,
-    // callEnded,
-    // leaveCall,
-    readyForCall,
-    readyForAudioCall,
-    call,
-    callUser,
-  } = useContext(SocketContext);
+  const { pushNotification } = useContext(SocketContext);
   const [selectedUser, setSelectedUser] = useState(null);
   const [usersArray, setUsersArray] = useState(null);
   const { users } = useSelector((state) => state.user);
   const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const getUser = (user_id) => {
+    const user = users?.filter((user) => user.id === parseInt(user_id))[0];
+    return user;
+  };
   useEffect(() => {
     if (messages?.length > 0) {
       document
@@ -97,7 +88,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
   }, [usersArray, authUser, selectedRoom]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedFile_, setSelectedFile_] = useState(null);
-
   const [files, setFiles] = useState([]);
 
   const [message, setMessage] = useState();
@@ -153,29 +143,15 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
           type: "text",
         };
       }
-      // const formData_ = new FormData();
-      // formData_.append(
-      //   "sender",
-      //   selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-      //     ? selectedRoom.user_id_1
-      //     : selectedRoom?.user_id_2
-      // );
-      // formData_.append(
-      //   "recipient",
-      //   selectedRoom && selectedRoom?.user_id_1 === authUser?.id
-      //     ? selectedRoom.user_id_2
-      //     : selectedRoom?.user_id_1
-      // );
-      // formData_.append("room", selectedRoom?.name);
-      // formData_.append("message", message);
-      // if (selectedFile) {
-      //   formData_.append("file", selectedFile);
-      //   formData_.append("type", "file");
-      // } else {
-      //   formData_.append("type", "text");
-      // }
-
       socket.emit("chat_message", formData);
+      const recipient = getUser(formData?.recipient);
+      const sender = getUser(formData?.sender);
+      // if (recipient?.connected === 0) {
+      pushNotification({
+        user_id: recipient?.id,
+        notification: `You have a team message from ${sender.name}`,
+        type: "team_message",
+      });
       // socket.emit("chat_message", messageData);
       setMessage("");
       setSelectedFile(null);
@@ -184,8 +160,6 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
         .getElementById("dummy_avatar")
         .scrollIntoView({ behavior: "smooth", block: "end" });
 
-      //   const chatBody = document.getElementById("chat_body");
-      //   chatBody.scrollTop = chatBody.scrollHeight;
       // }
     }
   };
@@ -259,10 +233,7 @@ const SingleChat = ({ messages, selectedRoom, authUser, socket }) => {
   function bytesToMegabytes(bytes) {
     return (bytes / (1024 * 1024)).toFixed(2);
   }
-  const getUser = (user_id) => {
-    const user = users?.filter((user) => user.id === parseInt(user_id))[0];
-    return user;
-  };
+
   return (
     <div class="chatapp-single-chat">
       <header class="chat-header">
