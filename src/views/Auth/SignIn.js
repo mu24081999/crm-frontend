@@ -37,13 +37,11 @@ const SignIn = () => {
     // setValue,
     formState: { errors },
   } = useForm({});
-  // useEffect(() => {
-  //   if (isAuthenticated && user?.verified === 1) {
-  //     redirectTo("/");
-  //   } else if (isAuthenticated && user?.verified === 0) {
-  //     redirectTo(`/email-verification/${user.email}`);
-  //   }
-  // }, [isAuthenticated, redirectTo, user]);
+  useEffect(() => {
+    if (isAuthenticated && user?.verified === 1) {
+      redirectTo("/");
+    }
+  }, [isAuthenticated, redirectTo, user]);
   const signInHandler = async (data) => {
     const logged_user = await dispatch(
       loginUser(data?.username, data?.password)
@@ -51,7 +49,7 @@ const SignIn = () => {
     if (logged_user) {
       console.log("🚀 ~ signInHandler ~ logged_user:", logged_user);
       // redirectTo(`/email-verification/${logged_user.email}`);
-      window.location.href = `http://localhost:3000/two-fa-verification/${logged_user.email}`;
+      window.location.href = `http://app.desktopcrm.com/two-fa-verification/${logged_user.email}`;
     }
   };
   // const formConfig = [
