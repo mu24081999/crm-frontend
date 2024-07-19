@@ -209,8 +209,12 @@ const SingleChat = ({
             </div>
           </div>
           <div class="media-body">
-            <div class="user-name"> {selectedRoom?.to_phone}</div>
-            <div class="user-status">{selectedRoom?.phone}</div>
+            <div class="user-name">
+              {" "}
+              {selectedRoom?.direction === "outbound"
+                ? selectedRoom?.to_phone
+                : selectedRoom?.from_phone}
+            </div>
           </div>
         </div>
       </header>

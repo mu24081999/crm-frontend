@@ -1,18 +1,5 @@
 import React from "react";
 import ChatRooms from "../Rooms/ChatRooms";
-import {
-  FaArchive,
-  FaBook,
-  FaCog,
-  FaEnvelope,
-  FaPlus,
-  FaStar,
-  FaUserCheck,
-  FaUsers,
-} from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { IoIosMail } from "react-icons/io";
-import { TiMessages } from "react-icons/ti";
 import { MdConnectWithoutContact } from "react-icons/md";
 
 const ChatAside = ({
@@ -23,9 +10,7 @@ const ChatAside = ({
   messages,
   deleteChatRecord,
   updateChat,
-  onFilterDataFromChild,
   onMessagesDataFromChild,
-  rooms_,
 }) => {
   return (
     <div>

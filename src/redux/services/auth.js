@@ -10,6 +10,7 @@ import {
   resetPassword,
   authRequestLoading,
   verifyOtp,
+  twoFa,
 } from "../slices/auth";
 // import { createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
@@ -52,7 +53,7 @@ export const loginUser =
           "Content-Type": "application/json",
         },
       };
-      await axios
+      const is_login = await axios
         .post(
           `${backendURL}/auth/siginin_user`,
           { username, password, type, authType, googleProfile },
@@ -66,9 +67,14 @@ export const loginUser =
             return toast.error(response.data.message);
           }
           toast.success(response.data.message);
-          dispatch(login(response.data.data.userData));
+          if (type || authType || googleProfile) {
+            return dispatch(login(response.data.data.userData));
+          }
+          // dispatch(twoFa(response.data.data.userData));
           // Cookie.set("token", response.data.data.token);
+          return response.data.data.userData;
         });
+      return is_login;
     } catch (e) {
       dispatch(invalidRequest(e.message));
       toast.error(e.message);
@@ -201,6 +207,7 @@ export const verifyEmail = (data) => async (dispatch) => {
         }
         dispatch(verifyOtp(response.data.message));
         toast.success(response.data.message);
+
         return response.data.data.userData;
       });
     if (verify_otp) {

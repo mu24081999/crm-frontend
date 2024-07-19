@@ -1,24 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { CiMenuKebab } from "react-icons/ci";
 import { FaUserAlt } from "react-icons/fa";
 const ChatRooms = ({
   rooms,
   authUser,
-  socket,
   onDataFromChild,
   messages,
-  deleteChatRecord,
   onMessagesDataFromChild,
-  updateChat,
 }) => {
   const [selectedRoom, setSelectedRoom] = useState("");
   const [prevData, setPrevData] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
-  console.log("🚀 ~ roomsData:", roomsData);
-  const sendDataToParent = () => {
-    // Call the callback function with the data from the child
-    onDataFromChild(selectedRoom);
-  };
   useEffect(() => {
     setRoomsData(rooms);
     setPrevData(rooms);
@@ -35,12 +26,10 @@ const ChatRooms = ({
             message.to_phone === contact.to_phone &&
             message.user_id === authUser.id) ||
           (message.to_phone === authUser.phone &&
-            message.from_phone === contact.to_phone &&
-            message.user_id === authUser.id)
+            message.from_phone === contact.from_phone &&
+            message?.direction === "inbound")
       );
     onMessagesDataFromChild(messagesData);
-
-    // socket.emit("joinRoom", { roomId: contact.name });
   };
   function formatRelativeDate(date) {
     const inputDate = new Date(date);
@@ -56,19 +45,6 @@ const ChatRooms = ({
       const options = { year: "numeric", month: "long", day: "numeric" };
       return inputDate.toLocaleDateString("en-US", options);
     }
-  }
-  const handleDeleteChat = (room_id) => {
-    deleteChatRecord(room_id);
-  };
-  const handleEditChat = (room_id, status) => {
-    updateChat(room_id, { status: status });
-  };
-  function extractCharactersFromArray(str) {
-    const firstCharacter = str?.charAt(0);
-    const spaceIndex = str?.indexOf(" ");
-    const characterAfterSpace =
-      spaceIndex !== -1 ? str.charAt(spaceIndex + 1) : "";
-    return { firstCharacter, characterAfterSpace };
   }
   const handleSearchRoom = (e) => {
     console.log(e.target.value);
@@ -98,11 +74,17 @@ const ChatRooms = ({
       <ul class="chat-contacts-list list-group list-group-flush">
         {roomsData?.length > 0 ? (
           roomsData?.map((contact, index) => {
-            const messageArray = messages?.filter(
-              (msg) =>
-                msg.from_phone === authUser?.phone &&
-                msg.to_phone === contact.to_phone
-            );
+            const messageArray =
+              roomsData?.length > 0 &&
+              roomsData?.filter(
+                (message) =>
+                  (message.from_phone === authUser.phone &&
+                    message.to_phone === contact.to_phone &&
+                    message.user_id === authUser.id) ||
+                  (message.to_phone === authUser.phone &&
+                    message.from_phone === contact.from_phone &&
+                    message?.direction === "inbound")
+              );
             const lastMessage = messageArray[messageArray.length - 1];
             return (
               <li
@@ -120,7 +102,11 @@ const ChatRooms = ({
                   </div>
                   <div class="media-body">
                     <div>
-                      <div class="user-name">{contact?.to_phone}</div>
+                      <div class="user-name">
+                        {contact?.direction === "outbound"
+                          ? contact?.to_phone
+                          : contact?.from_phone}
+                      </div>
                     </div>
                     <div>
                       <div class="last-chat-time">

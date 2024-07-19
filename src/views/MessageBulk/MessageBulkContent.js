@@ -18,7 +18,6 @@ import { SocketContext } from "../../Context";
 import ComposeBulk from "./components/ComposeBulk";
 
 const MessageContent = () => {
-  const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
   const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
   const { messagesArray } = useContext(SocketContext);
   const [selectedMessages, setSelectedMessages] = useState({});
@@ -28,8 +27,6 @@ const MessageContent = () => {
   const socket = useMemo(() => io(socketURL), [socketURL]);
   const [selectedRoom, setSelectedRoom] = useState({});
   const [messages, setMessages] = useState([]);
-  const [allMessages, setAllMessages] = useState([]);
-
   const [contactsData, setContactsData] = useState([]);
 
   const { user, token } = useSelector((state) => state.auth);
@@ -55,9 +52,18 @@ const MessageContent = () => {
         if (
           !uniquePhoneNumbers[obj.to_phone] &&
           obj.to_phone !== user?.phone &&
-          obj.user_id === user?.id
+          obj.user_id === user?.id &&
+          obj.direction === "outbound"
         ) {
           uniquePhoneNumbers[obj.to_phone] = true;
+          filteredArray.push(obj);
+        }
+        if (
+          !uniquePhoneNumbers[obj.from_phone] &&
+          obj.from_phone !== user?.phone &&
+          obj.direction === "inbound"
+        ) {
+          uniquePhoneNumbers[obj.from_phone] = true;
           filteredArray.push(obj);
         }
       });
@@ -82,98 +88,7 @@ const MessageContent = () => {
       setContactsData(filteredArray);
     }
   }, [messagesArray, user]);
-  const getRooms = useCallback(async () => {
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": token,
-        },
-      };
-      await axios
-        .get(`${backendURL}/user/chat/get-rooms`, config)
-        .then((response) => {
-          setRooms_(response.data.data.chatRoomsData);
-          const data = response?.data?.data?.chatRoomsData?.filter(
-            (room) => room.status !== "blocked" && room.status !== "archived"
-          );
-          setRooms(data);
-        });
-    } catch (error) {
-      toast.error(error.message);
-    }
-  }, [backendURL, token]);
-  const deleteChatRecord = useCallback(
-    async (room_id) => {
-      try {
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": token,
-          },
-        };
-        await axios
-          .delete(
-            `${backendURL}/user/chat/delete-group-chat-history/${room_id}`,
-            config
-          )
-          .then((response) => {
-            getRooms();
-          });
-      } catch (error) {
-        toast.error(error.message);
-      }
-    },
-    [backendURL, token, getRooms]
-  );
-  const updateChat = useCallback(
-    async (room_id, data) => {
-      try {
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": token,
-          },
-        };
-        await axios
-          .put(`${backendURL}/user/chat/update-chat/${room_id}`, data, config)
-          .then((response) => {
-            getRooms();
-          });
-      } catch (error) {
-        toast.error(error.message);
-      }
-    },
-    [backendURL, token, getRooms]
-  );
 
-  const getAllChats = useCallback(
-    async (room) => {
-      try {
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": token,
-          },
-        };
-        await axios
-          .get(`${backendURL}/user/chat/get-chats`, config)
-          .then((response) => {
-            setAllMessages(response.data?.data.chatData);
-          });
-      } catch (error) {
-        toast.error(error.message);
-      }
-    },
-    [backendURL, token]
-  );
-  useEffect(() => {
-    if (token) {
-      getRooms();
-      getAllChats();
-      dispatch(getUsers(token));
-    }
-  }, [token, dispatch, getRooms, getAllChats]);
   useEffect(() => {
     if (messagesArray?.length > 0) {
       setMessages(messagesArray);
@@ -199,17 +114,6 @@ const MessageContent = () => {
     setRooms(data);
   };
   const handleMessagesDataFromChild = (data) => {
-    // const categorizeMessagesByDate =
-    //   data?.length > 0 &&
-    //   data?.reduce((result, message) => {
-    //     const date = message.created_at.slice(0, 10); // Extract date from created_at
-    //     if (!result[date]) {
-    //       result[date] = []; // Initialize array for the date if it doesn't exist
-    //     }
-    //     result[date].push(message); // Push message to the array for the date
-    //     return result;
-    //   }, {});
-
     setSelectedMessages(data);
   };
   const onShowAddForm = (data) => {
@@ -232,13 +136,10 @@ const MessageContent = () => {
                 socket={socket}
                 rooms={contactsData}
                 messages={messages}
-                rooms_={rooms_}
                 onFilterDataFromChild={handleFilterDataFromChild}
                 authUser={user}
                 onDataFromChild={handleDataFromChild}
                 onMessagesDataFromChild={handleMessagesDataFromChild}
-                deleteChatRecord={deleteChatRecord}
-                updateChat={updateChat}
                 onShowAddForm={onShowAddForm}
               />
               {selectedRoom?.id && (

@@ -24,7 +24,6 @@ const SignIn = () => {
     dispatch(
       loginUser(response.email, "1234567890", false, "google", response)
     );
-    console.log("Logged in successfully!", response);
   };
 
   const handleFailure = (error) => {
@@ -38,16 +37,22 @@ const SignIn = () => {
     // setValue,
     formState: { errors },
   } = useForm({});
-  useEffect(() => {
-    if (isAuthenticated && user?.verified === 1) {
-      redirectTo("/");
-    } else if (isAuthenticated && user?.verified === 0) {
-      redirectTo(`/email-verification/${user.email}`);
+  // useEffect(() => {
+  //   if (isAuthenticated && user?.verified === 1) {
+  //     redirectTo("/");
+  //   } else if (isAuthenticated && user?.verified === 0) {
+  //     redirectTo(`/email-verification/${user.email}`);
+  //   }
+  // }, [isAuthenticated, redirectTo, user]);
+  const signInHandler = async (data) => {
+    const logged_user = await dispatch(
+      loginUser(data?.username, data?.password)
+    );
+    if (logged_user) {
+      console.log("🚀 ~ signInHandler ~ logged_user:", logged_user);
+      // redirectTo(`/email-verification/${logged_user.email}`);
+      window.location.href = `http://localhost:3000/two-fa-verification/${logged_user.email}`;
     }
-  }, [isAuthenticated, redirectTo, user]);
-  const signInHandler = (data) => {
-    console.log("🚀 ~ signInHandler ~ data:", data);
-    dispatch(loginUser(data?.username, data?.password));
   };
   // const formConfig = [
   //   { name: "firstName", label: "First Name", initialValue: "" },

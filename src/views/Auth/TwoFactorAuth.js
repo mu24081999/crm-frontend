@@ -12,7 +12,7 @@ import {
 } from "../../redux/services/auth";
 import logo from "./../../assets/3.png";
 
-const VerifyEmailOtp = () => {
+const TwoFactorAuth = () => {
   const navigate = useNavigate();
   const {
     handleSubmit,
@@ -23,26 +23,12 @@ const VerifyEmailOtp = () => {
   } = useForm({});
   const dispatch = useDispatch();
   const { email } = useParams();
-  const { token, user } = useSelector((state) => state.auth);
+  const { token, isAuthenticated } = useSelector((state) => state.auth);
   useEffect(() => {
-    if (
-      user?.verified === 1 &&
-      user?.role === "USER" &&
-      user?.parent_id === null &&
-      user?.client_id === null
-    ) {
-      navigate("/plan-selection"); // Navigate on successful verification
-    } else if (
-      (user?.verified === 1 &&
-        user?.parent_id !== null &&
-        user?.role === "USER") ||
-      (user?.verified === 1 &&
-        user?.client_id !== null &&
-        user?.role === "AGENT")
-    ) {
+    if (isAuthenticated) {
       navigate("/");
     }
-  }, [navigate, user]);
+  }, [isAuthenticated, navigate]);
   const otpVerificationHandler = async (data) => {
     const formData = {
       email: email,
@@ -162,4 +148,4 @@ const VerifyEmailOtp = () => {
   );
 };
 
-export default VerifyEmailOtp;
+export default TwoFactorAuth;

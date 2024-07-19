@@ -28,8 +28,6 @@ const ChatRooms = ({
     document
       .getElementById("dummy_avatar")
       ?.scrollIntoView({ behavior: "smooth", block: "end" });
-
-    // socket.emit("joinRoom", { roomId: contact.name });
   };
   function formatRelativeDate(date) {
     const inputDate = new Date(date);
@@ -46,22 +44,11 @@ const ChatRooms = ({
       return inputDate.toLocaleDateString("en-US", options);
     }
   }
-  function extractCharactersFromArray(str) {
-    const firstCharacter = str?.charAt(0);
-    const spaceIndex = str?.indexOf(" ");
-    const characterAfterSpace =
-      spaceIndex !== -1 ? str.charAt(spaceIndex + 1) : "";
-    return { firstCharacter, characterAfterSpace };
-  }
   const handleSearchRoom = (e) => {
     if (e.target.value !== "" || e.target.value !== undefined) {
       const filterData =
         prevData?.length > 0 &&
-        prevData?.filter(
-          (prev) =>
-            prev?.phone?.includes(e.target.value) ||
-            prev?.firstname?.includes(e.target.value)
-        );
+        prevData?.filter((prev) => prev?.includes(e.target.value));
       setRoomsData(filterData);
     } else {
       setRoomsData(prevData);
@@ -103,11 +90,7 @@ const ChatRooms = ({
                     <div class="media-body">
                       <div>
                         <div class="user-name">{contact}</div>
-                        <div class="user-last-chat">
-                          {/* Please send some insights of presentation */}
-                          {/* {lastMessage !== undefined && lastMessage.message} */}
-                          {contact?.phone}
-                        </div>
+                        <div class="user-last-chat">{contact?.phone}</div>
                       </div>
                       <div>
                         <div class="last-chat-time">
@@ -117,54 +100,6 @@ const ChatRooms = ({
                               )
                             : "..."}
                         </div>
-                        {/* <div class="badge badge-primary badge-sm badge-pill">
-                        15
-                      </div> */}
-                        {/* <div class="dropdown action-drp">
-                        <a
-                          href="/"
-                          class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
-                          data-bs-toggle="dropdown"
-                        >
-                          <span class="icon">
-                            <span class="feather-icon">
-                              <CiMenuKebab />
-                            </span>
-                          </span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end">
-                          <a
-                            class="dropdown-item"
-                            onClick={() =>
-                              handleEditChat(contact?.firstname, "muted")
-                            }
-                          >
-                            Mute Chat
-                          </a>
-                          <a
-                            class="dropdown-item"
-                            onClick={() =>
-                              handleEditChat(contact?.firstname, "archived")
-                            }
-                          >
-                            Archive Chat
-                          </a>
-                          <a
-                            class="dropdown-item"
-                            onClick={() => handleDeleteChat(contact?.firstname)}
-                          >
-                            Delete Chat
-                          </a>
-                          <a
-                            class="dropdown-item link-danger"
-                            onClick={() =>
-                              handleEditChat(contact?.firstname, "blocked")
-                            }
-                          >
-                            Block
-                          </a>
-                        </div>
-                      </div> */}
                       </div>
                     </div>
                   </div>

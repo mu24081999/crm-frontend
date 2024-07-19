@@ -12,6 +12,7 @@ import SignUp from "./views/Auth/SignUp";
 import ResetPassword from "./views/Auth/ResetPassword";
 import VerifyPassword from "./views/Auth/VerifyPassword";
 import ResetUserPassword from "./views/Auth/ResetUserPassword";
+import TwoFactorAuth from "./views/Auth/TwoFactorAuth";
 import Chat from "./views/Chat/Chat";
 import Contacts from "./views/Contacts/Contacts";
 import Test from "./views/Test/Test2";
@@ -135,7 +136,7 @@ const router = (user, subscribed, is_approved, permissionDetails) => {
         permissionDetails,
         "/"
       )(Dashboard),
-      exact: true,
+      children: [],
     },
     {
       path: "/admin/plan-rates",
@@ -445,8 +446,14 @@ const router = (user, subscribed, is_approved, permissionDetails) => {
       element: <VerifyPassword />,
     },
     {
+      path: "/two-fa-verification/:email",
+      element: <TwoFactorAuth />,
+      exact: true,
+    },
+    {
       path: "/email-verification/:email",
       element: <VerifyEmailOtp />,
+      exact: true,
     },
     {
       path: "/edit-contact/:contactId",

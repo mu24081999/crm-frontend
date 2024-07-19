@@ -8,6 +8,7 @@ import { getContactDetais } from "./redux/services/contact";
 import { getUserDetails } from "./redux/services/users";
 import { toast } from "react-toastify";
 import notificationSound from "./assets/notification.mp3";
+import { IoIosTimer } from "react-icons/io";
 const SocketContext = createContext();
 const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
 const ContextProvider = ({ children }) => {
@@ -44,7 +45,31 @@ const ContextProvider = ({ children }) => {
   const [inputValue, setInputValue] = useState("");
   const [kycApproved, setKycApproved] = useState(0);
   const [themeType, setThemeType] = useState("collapsed");
+  const [timer, setTimer] = useState({ hours: 0, mins: 0, sec: 0 });
+  const Timer = () => {
+    const getTime = () => {
+      setTimer((state) => ({
+        hours: state.mins === 60 ? state.hours + 1 : state.hours,
+        mins: state.sec === 60 ? state.mins + 1 : state.mins,
+        sec: state.sec === 60 ? 0 : state.sec + 1,
+      }));
+    };
+    useEffect(() => {
+      const interval = setInterval(() => getTime(), 1000);
+      return () => clearInterval(interval);
+    }, []);
+    return (
+      <div className="badge bg-light badge-lg text-dark">
+        <span>
+          <IoIosTimer size={16} style={{ marginRight: "4%" }} />
+          {`${timer.hours < 9 ? "0" + timer.hours : timer.hours} :
+          ${timer.mins < 9 ? "0" + timer.mins : timer.mins} :
 
+           ${timer.sec < 9 ? "0" + timer.sec : timer.sec}`}
+        </span>
+      </div>
+    );
+  };
   const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
@@ -323,6 +348,7 @@ const ContextProvider = ({ children }) => {
         type,
         callEnded,
         me,
+        timer,
         messagesArray,
         showLeadDetails,
         showUserDetails,
@@ -342,6 +368,8 @@ const ContextProvider = ({ children }) => {
         inputValue,
         kycApproved,
         themeType,
+        Timer,
+        setTimer,
         calling,
         readyForCall,
         readyForAudioCall,

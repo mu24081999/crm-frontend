@@ -29,21 +29,16 @@ const MessageContent = () => {
   const socket = useMemo(() => io(socketURL), [socketURL]);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [allMessages, setAllMessages] = useState([]);
 
   const [contactsData, setContactsData] = useState([]);
 
   const { user, token } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
-  const [rooms, setRooms] = useState([]);
-  const [rooms_, setRooms_] = useState([]);
-  const { contacts } = useSelector((state) => state.contact);
   const dispatch = useDispatch();
   useEffect(() => {
     setMessages(defaultMessages);
   }, [defaultMessages]);
   useEffect(() => {
-    // dispatch(getContactsList(token));
     dispatch(
       getConversationsList(token, {
         authToken: user?.authToken,
@@ -55,153 +50,18 @@ const MessageContent = () => {
   useEffect(() => {
     setContactsData(conversations);
   }, [conversations]);
-
-  // const getRooms = useCallback(async () => {
-  //   try {
-  //     const config = {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "x-access-token": token,
-  //       },
-  //     };
-  //     await axios
-  //       .get(`${backendURL}/user/chat/get-rooms`, config)
-  //       .then((response) => {
-  //         setRooms_(response.data.data.chatRoomsData);
-  //         const data = response?.data?.data?.chatRoomsData?.filter(
-  //           (room) => room.status !== "blocked" && room.status !== "archived"
-  //         );
-  //         setRooms(data);
-  //       });
-  //   } catch (error) {
-  //     toast.error(error.message);
-  //   }
-  // }, [backendURL, token]);
-  // const deleteChatRecord = useCallback(
-  //   async (room_id) => {
-  //     try {
-  //       const config = {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "x-access-token": token,
-  //         },
-  //       };
-  //       await axios
-  //         .delete(
-  //           `${backendURL}/user/chat/delete-group-chat-history/${room_id}`,
-  //           config
-  //         )
-  //         .then((response) => {
-  //           getRooms();
-  //         });
-  //     } catch (error) {
-  //       toast.error(error.message);
-  //     }
-  //   },
-  //   [backendURL, token, getRooms]
-  // );
-  // const updateChat = useCallback(
-  //   async (room_id, data) => {
-  //     try {
-  //       const config = {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "x-access-token": token,
-  //         },
-  //       };
-  //       await axios
-  //         .put(`${backendURL}/user/chat/update-chat/${room_id}`, data, config)
-  //         .then((response) => {
-  //           getRooms();
-  //         });
-  //     } catch (error) {
-  //       toast.error(error.message);
-  //     }
-  //   },
-  //   [backendURL, token, getRooms]
-  // );
-  // const getChats = useCallback(
-  //   async (room) => {
-  //     try {
-  //       const config = {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "x-access-token": token,
-  //         },
-  //       };
-  //       await axios
-  //         .get(
-  //           `${backendURL}/user/chat/chat-history/${room?.user_id_1}/${room?.user_id_2}`,
-  //           config
-  //         )
-  //         .then((response) => {
-  //           setMessages(response.data?.data.chatData);
-  //         });
-  //     } catch (error) {
-  //       toast.error(error.message);
-  //     }
-  //   },
-  //   [backendURL, token]
-  // );
-  // useMemo(() => {
-  //   if (selectedRoom) {
-  //     getChats(selectedRoom);
-  //   }
-  // }, [getChats, selectedRoom]);
-  // const getAllChats = useCallback(
-  //   async (room) => {
-  //     try {
-  //       const config = {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "x-access-token": token,
-  //         },
-  //       };
-  //       await axios
-  //         .get(`${backendURL}/user/chat/get-chats`, config)
-  //         .then((response) => {
-  //           setAllMessages(response.data?.data.chatData);
-  //         });
-  //     } catch (error) {
-  //       toast.error(error.message);
-  //     }
-  //   },
-  //   [backendURL, token]
-  // );
-  // useMemo(() => {
-  //   if (selectedRoom) {
-  //     getChats(selectedRoom);
-  //   }
-  // }, [getChats, selectedRoom]);
-  // useEffect(() => {
-  //   if (token) {
-  //     getRooms();
-  //     getAllChats();
-  //     dispatch(getUsers(token));
-  //   }
-  // }, [token, dispatch, getRooms, getAllChats]);
-  // useEffect(() => {
-  //   // Listen for incoming messages
-  //   socket.on("message_added", (data) => {
-  //     // setMessages([...messages, data]);
-  //     setMessages(data);
-  //   });
-  //   socket.on("room_added", (data) => {
-  //     setRooms(data);
-  //   });
-
-  //   // return () => {
-  //   //   socket.disconnect();
-  //   // };
-  // }, [socket]);
   useEffect(() => {
     setMessages(messagesArray);
     const messagesData =
       messagesArray?.length > 0 &&
       messagesArray?.filter(
         (message) =>
-          message.to_phone === selectedRoom.phone ||
-          message.from_phone === selectedRoom.phone
+          (message.from_phone === user?.phone &&
+            message.to_phone === selectedRoom?.to_phone &&
+            message.user_id === user?.id) ||
+          (message.to_phone === user?.phone &&
+            message.from_phone === selectedRoom?.from_phone &&
+            message.user_id === user?.id)
       );
     setSelectedMessages(messagesData);
   }, [messagesArray]);
@@ -209,7 +69,7 @@ const MessageContent = () => {
     setSelectedRoom(data);
   };
   const handleFilterDataFromChild = (data) => {
-    setRooms(data);
+    // setRooms(data);
   };
   const handleMessagesDataFromChild = (data) => {
     console.log("🚀 ~ handleMessagesDataFromChild ~ data:", data);
@@ -229,13 +89,10 @@ const MessageContent = () => {
                 socket={socket}
                 rooms={contactsData}
                 messages={messages}
-                rooms_={rooms_}
                 onFilterDataFromChild={handleFilterDataFromChild}
                 authUser={user}
                 onDataFromChild={handleDataFromChild}
                 onMessagesDataFromChild={handleMessagesDataFromChild}
-                // deleteChatRecord={deleteChatRecord}
-                // updateChat={updateChat}
               />
               {selectedRoom !== null && (
                 <SingleChat

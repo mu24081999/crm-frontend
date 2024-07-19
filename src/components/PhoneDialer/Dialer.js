@@ -59,6 +59,9 @@ const Dialer = () => {
     setActiveCallSid,
     inputValue,
     setInputValue,
+    timer,
+    setTimer,
+    Timer,
   } = useContext(SocketContext);
   console.log("🚀 ~ Dialer ~ callStatus:", callStatus);
   const {
@@ -86,7 +89,7 @@ const Dialer = () => {
   const [agents, setAgents] = useState([]);
   const [callMuted, setCallMuted] = useState(false);
   const [recording, setRecording] = useState(false);
-  const [timer, setTimer] = useState({ hours: 0, mins: 0, sec: 0 });
+  // const [timer, setTimer] = useState({ hours: 0, mins: 0, sec: 0 });
 
   const dispatch = useDispatch();
   const { token, user, accountSid, accountAuthToken } = useSelector(
@@ -382,30 +385,30 @@ const Dialer = () => {
   };
 
   // const [timer, setTimer] = useState({ hours: 0, mins: 0, sec: 0 });
-  const Timer = () => {
-    const getTime = () => {
-      setTimer((state) => ({
-        hours: state.mins === 60 ? state.hours + 1 : state.hours,
-        mins: state.sec === 60 ? state.mins + 1 : state.mins,
-        sec: state.sec === 60 ? 0 : state.sec + 1,
-      }));
-    };
-    useEffect(() => {
-      const interval = setInterval(() => getTime(), 1000);
-      return () => clearInterval(interval);
-    }, []);
-    return (
-      <div className="badge bg-light badge-lg text-dark">
-        <span>
-          <IoIosTimer size={16} style={{ marginRight: "4%" }} />
-          {`${timer.hours < 9 ? "0" + timer.hours : timer.hours} :
-          ${timer.mins < 9 ? "0" + timer.mins : timer.mins} :
+  // const Timer = () => {
+  //   const getTime = () => {
+  //     setTimer((state) => ({
+  //       hours: state.mins === 60 ? state.hours + 1 : state.hours,
+  //       mins: state.sec === 60 ? state.mins + 1 : state.mins,
+  //       sec: state.sec === 60 ? 0 : state.sec + 1,
+  //     }));
+  //   };
+  //   useEffect(() => {
+  //     const interval = setInterval(() => getTime(), 1000);
+  //     return () => clearInterval(interval);
+  //   }, []);
+  //   return (
+  //     <div className="badge bg-light badge-lg text-dark">
+  //       <span>
+  //         <IoIosTimer size={16} style={{ marginRight: "4%" }} />
+  //         {`${timer.hours < 9 ? "0" + timer.hours : timer.hours} :
+  //         ${timer.mins < 9 ? "0" + timer.mins : timer.mins} :
 
-           ${timer.sec < 9 ? "0" + timer.sec : timer.sec}`}
-        </span>
-      </div>
-    );
-  };
+  //          ${timer.sec < 9 ? "0" + timer.sec : timer.sec}`}
+  //       </span>
+  //     </div>
+  //   );
+  // };
   return (
     <div
       // className=" d-flex justify-content-end btn btn-icon btn-floating btn-primary btn-lg btn-rounded " //btn-popup-open
