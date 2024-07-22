@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-
-import Analystics from "./components/Analystics";
 import Overview from "./components/Overview";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment/moment";

@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteContactRec,
-  getContactDetais,
-  getContactsList,
-} from "../../../redux/services/contact";
+import { getContactsList } from "../../../redux/services/contact";
 import Loader from "../../../components/Loader/Loader";
-import { FaStar } from "react-icons/fa";
 import { getUsers } from "../../../redux/services/users";
-import Payment from "../../../components/PaymentCard/Payment";
 import { paymentIntent } from "../../../redux/services/payment";
 import _ from "lodash";
 
 const ContactList = ({
   contactsData,
-  onToggleEdit,
   numberPricing,
   isEdit,
   onDataFromChild,
 }) => {
-  console.log("🚀 ~ numberPricing:", numberPricing);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { isLoading } = useSelector((state) => state.calling);
@@ -35,17 +27,11 @@ const ContactList = ({
       paymentIntent(token, {
         currency: "usd",
         amount: parseFloat(numberPricing) * 100,
-        // amount: amount_value ? amount_value.getAttribute("data-amount") : "",
       })
     );
   };
   return (
     <div className="contact-list-view">
-      {/* <div className="bg-primary p-2 rounded mb-5">
-        <h5 className="pt-2 fw-bold" style={{ color: "white" }}>
-          Phone Numbers
-        </h5>
-      </div> */}
       {!isEdit && (
         <>
           {isLoading ? (
@@ -109,16 +95,28 @@ const ContactList = ({
                       <td>
                         <div className="d-flex align-items-center">
                           <div className="d-flex">
-                            <button
-                              className="btn btn-primary"
-                              id="buy_number"
-                              data-bs-toggle="modal"
-                              data-bs-target="#add_payment_form"
-                              data-amount={`7000`}
-                              onClick={() => handleBuyClick(contact)}
-                            >
-                              Buy
-                            </button>
+                            {contact?.phoneNumber?.includes("+44") ? (
+                              <button
+                                type="button"
+                                id="bundle_modal_button"
+                                className="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#bundle_modal"
+                              >
+                                Buy
+                              </button>
+                            ) : (
+                              <button
+                                className="btn btn-primary"
+                                id="buy_number"
+                                data-bs-toggle="modal"
+                                data-bs-target="#add_payment_form"
+                                data-amount={`7000`}
+                                onClick={() => handleBuyClick(contact)}
+                              >
+                                Buy
+                              </button>
+                            )}
                           </div>
                         </div>
                       </td>

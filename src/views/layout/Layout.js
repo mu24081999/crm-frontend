@@ -26,6 +26,7 @@ import {
   updateEventRec,
 } from "../../redux/services/calendar_event";
 import moment from "moment";
+import A2PVerification from "./A2PVerification";
 // import Dialer from "../../components/PhoneDialer/Dialer";
 const Layout = ({ component }) => {
   const { notificationsArray, pushNotification, themeType } =
@@ -298,6 +299,7 @@ const Layout = ({ component }) => {
         {" "}
         <Ticket />
         <SubaccountForm />
+        <A2PVerification />
       </div>
     </div>
   );

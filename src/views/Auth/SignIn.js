@@ -1,16 +1,12 @@
 import React, { useEffect } from "react";
-import brand from "../../assets/logo-light.png";
 // import FormRender from "../../components/FormRender";
 import InputField from "../../components/FormFields/InputField";
 import { useForm } from "react-hook-form";
-import Checkbox from "../../components/FormFields/checkboxField";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../redux/services/auth";
 import { Link, useNavigate } from "react-router-dom";
-import { TbCirclesRelation } from "react-icons/tb";
 import logo from "./../../assets/3.png";
 import Loader from "../../components/Loader/Loader";
-import { FaGoogle } from "react-icons/fa";
 import GoogleLoginButton from "../../components/Auth/GoogleAuth";
 
 const SignIn = () => {

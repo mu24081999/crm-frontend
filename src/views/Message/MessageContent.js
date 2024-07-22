@@ -1,24 +1,13 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import ChatAside from "./components/ChatAside/ChatAside";
 import SingleChat from "./components/Messages/SingleChat";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../../redux/services/users";
 import io from "socket.io-client";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { getContactsList } from "../../redux/services/contact";
 import { getMessagesList } from "../../redux/services/message";
 import { SocketContext } from "../../Context";
 import { getConversationsList } from "../../redux/services/calling";
 
 const MessageContent = () => {
-  const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
   const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
   const { messagesArray } = useContext(SocketContext);
   const [selectedMessages, setSelectedMessages] = useState({});
@@ -29,11 +18,9 @@ const MessageContent = () => {
   const socket = useMemo(() => io(socketURL), [socketURL]);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [messages, setMessages] = useState([]);
-
   const [contactsData, setContactsData] = useState([]);
-
   const { user, token } = useSelector((state) => state.auth);
-  const { users } = useSelector((state) => state.user);
+  const [a2pVerified, setA2pVerified] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     setMessages(defaultMessages);
@@ -75,10 +62,9 @@ const MessageContent = () => {
     console.log("🚀 ~ handleMessagesDataFromChild ~ data:", data);
     setSelectedMessages(data);
   };
+
   return (
     <div>
-      {/* <!-- Wrapper --> */}
-
       {/* <!-- Main Content --> */}
       <div class="hk-pg-wrapper pb-0">
         {/* <!-- Page Body --> */}
@@ -87,6 +73,7 @@ const MessageContent = () => {
             <div class="chatapp-content">
               <ChatAside
                 socket={socket}
+                a2pVerified={a2pVerified}
                 rooms={contactsData}
                 messages={messages}
                 onFilterDataFromChild={handleFilterDataFromChild}
@@ -97,6 +84,7 @@ const MessageContent = () => {
               {selectedRoom !== null && (
                 <SingleChat
                   messages={messages}
+                  a2pVerified={a2pVerified}
                   selectedRoom={selectedRoom}
                   selectedMessages={selectedMessages}
                   authUser={user}

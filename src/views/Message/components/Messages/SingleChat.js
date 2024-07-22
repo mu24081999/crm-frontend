@@ -25,6 +25,7 @@ const SingleChat = ({
   authUser,
   socket,
   selectedMessages,
+  a2pVerified,
 }) => {
   const {
     me,
@@ -115,7 +116,13 @@ const SingleChat = ({
               user_id: authUser.id,
               message: message,
             };
-            sendTextMessage(messageData);
+            if (selectedRoom?.includes("+1") && !a2pVerified) {
+              toast.warn(
+                "A2P verification is required for conversation in US/Canada."
+              );
+            } else {
+              sendTextMessage(messageData);
+            }
 
             setMessage(null);
           }

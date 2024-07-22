@@ -12,17 +12,12 @@ import { toast } from "react-toastify";
 
 const ContactsContent = () => {
   const {
-    handleSubmit,
-    watch,
-    control,
-    setValue,
     formState: { errors },
   } = useForm({});
   const [data, setData] = useState([]);
   const [phoneNumbers, setPhoneNumbers] = useState([]);
   const [phoneNumbers_, setPhoneNumbers_] = useState([]);
   const [numberType, setNumberType] = useState([]);
-  console.log("🚀 ~ ContactsContent ~ numberType:", numberType);
   const [selectedNumber, setSelectedNumber] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
@@ -77,6 +72,7 @@ const ContactsContent = () => {
         "x-access-token": token,
       },
     };
+
     const is_added = await axios.post(
       `${backendURL}/user/calling/claim-phone-number`,
       {
@@ -87,7 +83,7 @@ const ContactsContent = () => {
       },
       config
     );
-    toast.success(is_added?.data?.message);
+    if (is_added) toast.success(is_added?.data?.message);
   };
   return (
     <div className="hk-pg-wrapper pb-0">
@@ -95,11 +91,6 @@ const ContactsContent = () => {
       <div className="hk-pg-body py-0">
         <div className="contactapp-wrap">
           <div className="contactapp-content">
-            {/* <Sidebar
-              onSendData={handleReceiveData}
-              contactsData={contacts}
-              onToggleEdit={handleToggleEdit}
-            /> */}
             {!isEdit && (
               <div className="contactapp-detail-wrap">
                 <Header />
@@ -114,7 +105,6 @@ const ContactsContent = () => {
                 {isSearch && (
                   <SearchNumber
                     numbersData={phoneNumbers_}
-                    // onDataFromChild={handleNumbersDataFromChild}
                     onDataFromChild={handleNumberType}
                     dispatch={dispatch}
                     token={token}
@@ -137,6 +127,36 @@ const ContactsContent = () => {
                 </div>
               </div>
             )}
+
+            <div
+              id="bundle_modal"
+              className="modal fade add-new-contact"
+              tabIndex="-1"
+              role="dialog"
+              aria-hidden="true"
+            >
+              <div
+                className="modal-dialog modal-dialog-centered modal-lg"
+                role="document"
+              >
+                <div className="modal-content">
+                  <div className="modal-header bg-primary">
+                    <span style={{ color: "white", fontWeight: "bold" }}>
+                      Create Regulatory Bundle
+                    </span>
+                    <button
+                      type="button"
+                      className="btn-close btn-light"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  <div className="modal-body">Yoo</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

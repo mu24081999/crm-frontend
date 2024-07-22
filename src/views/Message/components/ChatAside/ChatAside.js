@@ -11,6 +11,7 @@ const ChatAside = ({
   deleteChatRecord,
   updateChat,
   onMessagesDataFromChild,
+  a2pVerified,
 }) => {
   return (
     <div>
@@ -27,6 +28,24 @@ const ChatAside = ({
           </h1>
         </header>
         <div data-simplebar class="aside-body">
+          <div className="alert alert-warning">
+            {a2pVerified ? (
+              <></>
+            ) : (
+              <p>
+                A2P Verfification is required for conversation in
+                US/Canada.&nbsp;
+                <a
+                  href="#"
+                  data-bs-target="#a2p-modal"
+                  data-bs-toggle="modal"
+                  className="text-underline"
+                >
+                  <ins>Add Details</ins>
+                </a>
+              </p>
+            )}
+          </div>
           <ChatRooms
             rooms={rooms}
             authUser={authUser}
