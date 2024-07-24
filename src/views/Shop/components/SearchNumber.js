@@ -71,7 +71,35 @@ const SearchNumber = ({
                 control={control}
                 errors={errors}
                 mb={false}
-                options={countryList().getData() || []}
+                options={[
+                  { label: "Argentina", value: "AR" },
+                  { label: "Austria", value: "AT" },
+                  { label: "Kenya", value: "KE" },
+                  { label: "Brazil", value: "BR" },
+                  { label: "Bulgaria", value: "BG" },
+                  { label: "Canada", value: "CA" },
+                  { label: "Colombia", value: "CO" },
+                  { label: "Czechia", value: "CZ" },
+                  { label: "Ecuador", value: "EC" },
+                  { label: "El Salvador", value: "SV" },
+                  { label: "Estonia", value: "EE" },
+                  { label: "Germany", value: "DE" },
+                  { label: "Grenada", value: "GD" },
+                  { label: "Hong Kong", value: "HK" },
+                  { label: "Japan", value: "JP" },
+                  { label: "Kenya", value: "KE" },
+                  { label: "Mali", value: "ML" },
+                  { label: "Mexico", value: "MX" },
+                  { label: "Namibia", value: "NA" },
+                  { label: "New Zealand", value: "NZ" },
+                  { label: "Puerto Rico", value: "PR" },
+                  { label: "Philippines", value: "PH" },
+                  { label: "Panama", value: "PA" },
+                  { label: "Switzerland", value: "CH" },
+                  { label: "Slovenia", value: "SI" },
+                  { label: "Tunisia", value: "TN" },
+                  { label: "United States", value: "US" },
+                ]}
                 rules={{
                   required: {
                     value: true,
