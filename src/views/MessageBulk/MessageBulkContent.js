@@ -30,10 +30,8 @@ const MessageContent = () => {
   const [contactsData, setContactsData] = useState([]);
 
   const { user, token } = useSelector((state) => state.auth);
-  const { users } = useSelector((state) => state.user);
   const [rooms, setRooms] = useState([]);
-  const [rooms_, setRooms_] = useState([]);
-  const { contacts } = useSelector((state) => state.contact);
+  const [a2pVerified, setA2pVerified] = useState(false);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -135,6 +133,7 @@ const MessageContent = () => {
               <ChatAside
                 socket={socket}
                 rooms={contactsData}
+                a2pVerified={a2pVerified}
                 messages={messages}
                 onFilterDataFromChild={handleFilterDataFromChild}
                 authUser={user}
@@ -145,6 +144,7 @@ const MessageContent = () => {
               {selectedRoom?.id && (
                 <SingleChat
                   messages={messages}
+                  a2pVerified={a2pVerified}
                   selectedRoom={selectedRoom}
                   selectedMessages={selectedMessages}
                   authUser={user}
@@ -155,7 +155,10 @@ const MessageContent = () => {
           </div>
           {showForm && (
             <div class="emailapp-wrap">
-              <ComposeBulk onShowAddForm={onShowAddForm} />
+              <ComposeBulk
+                onShowAddForm={onShowAddForm}
+                a2pVerified={a2pVerified}
+              />
             </div>
           )}
         </div>

@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import Payment from "../../components/PaymentCard/Payment";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { readSettingRec } from "../../redux/services/generalSetting";
 
 const ContactsContent = () => {
   const {
@@ -28,6 +29,10 @@ const ContactsContent = () => {
   );
   const backendURL = process.env.REACT_APP_BACKEND_URL_PRODUCTION;
   const dispatch = useDispatch();
+  const { isLoading, settingDetails } = useSelector((state) => state.setting);
+  useEffect(() => {
+    dispatch(readSettingRec(token, 1));
+  }, [dispatch, token]);
   useEffect(() => {
     // if (contacts.length > 0) {
     const filterData = contacts?.filter(
@@ -118,7 +123,9 @@ const ContactsContent = () => {
                       contactsData={phoneNumbers}
                       onToggleEdit={handleToggleEdit}
                       numberPricing={
-                        numberType === "tollFree" ? "3.00" : "2.75"
+                        numberType === "tollFree"
+                          ? settingDetails?.toll_free_number_price
+                          : settingDetails?.local_number_price
                       }
                       isEdit={isEdit}
                       onDataFromChild={handleSelectedNumber}

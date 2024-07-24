@@ -37,6 +37,8 @@ const persistConfig = {
     "pricing",
     "brand",
     "verification",
+    "package",
+    "setting",
   ],
   whitelist: ["auth"],
 };

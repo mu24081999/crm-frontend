@@ -20,23 +20,19 @@ import {
   RiVoiceprintLine,
 } from "react-icons/ri";
 import { GoFileDirectory } from "react-icons/go";
-import { IoSettingsOutline } from "react-icons/io5";
-import {
-  FaArrowRightFromBracket,
-  FaRegMessage,
-  FaRegNoteSticky,
-} from "react-icons/fa6";
-import { GrCheckboxSelected } from "react-icons/gr";
+import { FaWpforms } from "react-icons/fa";
+import { FaRegMessage } from "react-icons/fa6";
 import { BsApp, BsArrowBarLeft, BsArrowBarRight } from "react-icons/bs";
 import { TbFileInvoice, TbUsers } from "react-icons/tb";
 import { LuContact } from "react-icons/lu";
 import { BiWallet } from "react-icons/bi";
 import { TiCogOutline } from "react-icons/ti";
-import { SiJfrogpipelines } from "react-icons/si";
 import { getSubscriptionsList } from "../../redux/services/subscription";
 import _ from "lodash";
 import { SocketContext } from "../../Context";
 import { getUserBrandRec } from "../../redux/services/brand";
+import { FiPackage } from "react-icons/fi";
+import { IoPricetagsOutline } from "react-icons/io5";
 
 const VerticalNavbar = () => {
   const navigate = useNavigate();
@@ -244,7 +240,7 @@ const VerticalNavbar = () => {
                     <Link className="nav-link" to="/admin/subscriptions">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
-                          <GrCheckboxSelected />
+                          <MdOutlineSubscriptions />
                         </span>
                       </span>
                       <span className="nav-link-text">Subscriptions</span>
@@ -258,7 +254,7 @@ const VerticalNavbar = () => {
                     <Link className="nav-link" to="/admin/kyc-forms">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
-                          <FaRegNoteSticky />
+                          <FaWpforms />
                         </span>
                       </span>
                       <span className="nav-link-text">KYC List</span>
@@ -272,10 +268,24 @@ const VerticalNavbar = () => {
                     <Link className="nav-link" to="/admin/plan-rates">
                       <span className="nav-icon-wrap">
                         <span className="svg-icon">
-                          <FaDollarSign />
+                          <FiPackage />
                         </span>
                       </span>
-                      <span className="nav-link-text">Plan Rates</span>
+                      <span className="nav-link-text">Packages Details</span>
+                    </Link>
+                  </li>
+                  <li
+                    className={`nav-item ${
+                      location?.pathname === "/admin/number-rates" && "active"
+                    }`}
+                  >
+                    <Link className="nav-link" to="/admin/number-rates">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <IoPricetagsOutline />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">DID Rates Setting</span>
                     </Link>
                   </li>
 

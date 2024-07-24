@@ -6,6 +6,7 @@ const ChatRooms = ({
   onDataFromChild,
   messages,
   onMessagesDataFromChild,
+  a2pVerified,
 }) => {
   const [selectedRoom, setSelectedRoom] = useState("");
   const [prevData, setPrevData] = useState([]);

@@ -2,49 +2,42 @@
 import axios from "axios";
 import {
   invalidRequest,
-  verificationRequestLoading,
-  getAllVerifications,
-  addVerification,
-  verificationDetails,
-  updateVerification,
-} from "../slices/verification";
+  packageRequestLoading,
+  addPackage,
+  getPackages,
+  packageDetails,
+  updatePackage,
+} from "../slices/packages";
 import { toast } from "react-toastify";
 const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
 
-export const storeVerification = (token, data) => async (dispatch) => {
+export const storePackage = (token, data) => async (dispatch) => {
   try {
-    dispatch(verificationRequestLoading());
+    dispatch(packageRequestLoading());
     const config = {
       headers: {
         "Content-Type": "application/json",
         "x-access-token": token,
       },
     };
-    const is_added = await axios
-      .post(
-        `${backendURL}/user/verifications/create-a2p-verification`,
-        data,
-        config
-      )
-      .then(async (response) => {
+    await axios
+      .post(`${backendURL}/user/packages/add-package`, data, config)
+      .then((response) => {
         if (response?.data?.statusCode !== 200) {
           toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
-        await dispatch(addVerification(response.data.message));
+        dispatch(addPackage(response.data.message));
         toast.success(response.data.message);
-        // await dispatch(getVerificationsList(token));
-        await dispatch(getVerificationDetails(token, data.user_id));
-        return true;
+        dispatch(readPackage(token, response.data.data.id));
       });
-    return is_added;
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }
 };
-export const getVerificationsList = (token) => async (dispatch) => {
+export const getPackagesList = (token) => async (dispatch) => {
   try {
-    dispatch(verificationRequestLoading());
+    dispatch(packageRequestLoading());
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -52,22 +45,22 @@ export const getVerificationsList = (token) => async (dispatch) => {
       },
     };
     await axios
-      .get(`${backendURL}/user/verifications/get-verifications`, config)
+      .get(`${backendURL}/user/packages/get-packages`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         if (response?.data?.statusCode !== 200) {
           toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
-        dispatch(getAllVerifications(response.data.data.verifications));
+        dispatch(getPackages(response.data.data.packages));
       });
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }
 };
-export const getVerificationDetails = (token, user_id) => async (dispatch) => {
+export const readPackage = (token, package_id) => async (dispatch) => {
   try {
-    dispatch(verificationRequestLoading());
+    dispatch(packageRequestLoading());
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -75,27 +68,24 @@ export const getVerificationDetails = (token, user_id) => async (dispatch) => {
       },
     };
     await axios
-      .get(
-        `${backendURL}/user/verifications/read-verification/${user_id}`,
-        config
-      )
+      .get(`${backendURL}/user/packages/get-package/${package_id}`, config)
       .then((response) => {
         console.log("🚀 ~ .then ~ response:", response);
         if (response?.data?.statusCode !== 200) {
           toast.error(response.data.message);
           return dispatch(invalidRequest(response.data.message));
         }
-        dispatch(verificationDetails(response.data.data.verificationData));
+        dispatch(packageDetails(response.data.data.packageDetails));
       });
   } catch (e) {
     dispatch(invalidRequest(e.message));
   }
 };
 
-export const updateVerificationRec =
-  (token, verification_id, data) => async (dispatch) => {
+export const updatePackageRec =
+  (token, package_id, data) => async (dispatch) => {
     try {
-      dispatch(verificationRequestLoading());
+      dispatch(packageRequestLoading());
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +94,7 @@ export const updateVerificationRec =
       };
       await axios
         .put(
-          `${backendURL}/user/verifications/update-a2p-verification/${verification_id}`,
+          `${backendURL}/user/packages/update-package/${package_id}`,
           data,
           config
         )
@@ -114,10 +104,9 @@ export const updateVerificationRec =
             toast.error(response.data.message);
             return dispatch(invalidRequest(response.data.message));
           }
-          dispatch(updateVerification(response.data.message));
-          // dispatch(getVerificationsList(token));
-          dispatch(getVerificationDetails(token, data.user_id));
+          dispatch(updatePackage(response.data.message));
           toast.success(response.data.message);
+          dispatch(readPackage(token, response.data.data.id));
         });
     } catch (e) {
       dispatch(invalidRequest(e.message));

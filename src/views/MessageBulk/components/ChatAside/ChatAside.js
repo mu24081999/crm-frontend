@@ -11,6 +11,7 @@ const ChatAside = ({
   messages,
   onMessagesDataFromChild,
   onShowAddForm,
+  a2pVerified,
 }) => {
   return (
     <div>
@@ -21,7 +22,7 @@ const ChatAside = ({
             <span className="pe-2">
               <FaEnvelope size={30} color="#007D88" />
             </span>
-            SMS Bulk
+            SMS Marketting
           </h1>
           <a
             href="/"
@@ -37,9 +38,28 @@ const ChatAside = ({
           </a>
         </header>
         <div data-simplebar class="aside-body">
+          <div className="alert alert-warning">
+            {a2pVerified ? (
+              <></>
+            ) : (
+              <p>
+                A2P Verfification is required for conversation in
+                US/Canada.&nbsp;
+                <a
+                  href="#"
+                  data-bs-target="#a2p-modal"
+                  data-bs-toggle="modal"
+                  className="text-underline"
+                >
+                  <ins>Add Details</ins>
+                </a>
+              </p>
+            )}
+          </div>
           <ChatRooms
             rooms={rooms}
             authUser={authUser}
+            a2pVerified={a2pVerified}
             socket={socket}
             onDataFromChild={onDataFromChild}
             messages={messages}

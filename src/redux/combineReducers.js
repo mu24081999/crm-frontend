@@ -28,6 +28,8 @@ import pricingReducer from "./slices/pricing";
 import brandReducer from "./slices/brand";
 import permissionReducer from "./slices/permissions";
 import verificationReducer from "./slices/verification";
+import packageReducer from "./slices/packages";
+import settingReducer from "./slices/generalSetring";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -59,4 +61,6 @@ export const rootReducer = combineReducers({
   brand: brandReducer,
   permission: permissionReducer,
   verification: verificationReducer,
+  package: packageReducer,
+  setting: settingReducer,
 });

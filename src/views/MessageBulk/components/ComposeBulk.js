@@ -14,7 +14,7 @@ import Loader from "../../../components/Loader/Loader";
 import { toast } from "react-toastify";
 import { SocketContext } from "../../../Context";
 
-const ComposeBulk = ({ onShowAddForm }) => {
+const ComposeBulk = ({ onShowAddForm, a2pVerified }) => {
   const { sendTextMessage } = useContext(SocketContext);
 
   const {
@@ -89,54 +89,60 @@ const ComposeBulk = ({ onShowAddForm }) => {
         user?.phone !== ""
       ) {
         if (parseInt(balanceDetails?.credit) > 0) {
-          setIsLoading(true);
-          if (toNumbers.length > 0) {
-            await Promise.all(
-              toNumbers.map(async (element) => {
-                const smsData = {
-                  from: {
-                    phone: user.phone,
-                    name: user.name,
-                    avatar: user.avatar,
-                    socket_id: user.socket_id,
-                    accountSid: user?.accountSid,
-                    authToken: user?.authToken,
-                  },
-                  to: {
-                    phone: element,
-                  },
-                  user_id: user?.id,
-                  message: bodyWatcher,
-                };
-                console.log(smsData);
-                await sendTextMessage(smsData);
-              })
-            );
-          } else if (data?.to?.split("\n")?.length > 0) {
-            const to_numbers = data?.to?.split("\n");
-            const is_completed = await Promise.all(
-              to_numbers.map(async (element) => {
-                const smsData = {
-                  from: {
-                    phone: user.phone,
-                    name: user.name,
-                    avatar: user.avatar,
-                    socket_id: user.socket_id,
-                    accountSid: user?.accountSid,
-                    authToken: user?.authToken,
-                  },
-                  to: {
-                    phone: element,
-                  },
-                  message: bodyWatcher,
-                  user_id: user?.id,
-                };
-                await sendTextMessage(smsData);
-              })
+          if (a2pVerified) {
+            setIsLoading(true);
+            if (toNumbers.length > 0) {
+              await Promise.all(
+                toNumbers.map(async (element) => {
+                  const smsData = {
+                    from: {
+                      phone: user.phone,
+                      name: user.name,
+                      avatar: user.avatar,
+                      socket_id: user.socket_id,
+                      accountSid: user?.accountSid,
+                      authToken: user?.authToken,
+                    },
+                    to: {
+                      phone: element,
+                    },
+                    user_id: user?.id,
+                    message: bodyWatcher,
+                  };
+                  console.log(smsData);
+                  await sendTextMessage(smsData);
+                })
+              );
+            } else if (data?.to?.split("\n")?.length > 0) {
+              const to_numbers = data?.to?.split("\n");
+              const is_completed = await Promise.all(
+                to_numbers.map(async (element) => {
+                  const smsData = {
+                    from: {
+                      phone: user.phone,
+                      name: user.name,
+                      avatar: user.avatar,
+                      socket_id: user.socket_id,
+                      accountSid: user?.accountSid,
+                      authToken: user?.authToken,
+                    },
+                    to: {
+                      phone: element,
+                    },
+                    message: bodyWatcher,
+                    user_id: user?.id,
+                  };
+                  await sendTextMessage(smsData);
+                })
+              );
+            }
+            setIsLoading(false);
+            toast.success("SMS are successfully added to pipeline.");
+          } else {
+            toast.warn(
+              "A2P Verification is required to process this marketting."
             );
           }
-          setIsLoading(false);
-          toast.success("SMS are successfully added to pipeline.");
         } else {
           toast.error("You have insufficient balance to send message.");
         }

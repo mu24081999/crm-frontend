@@ -13,6 +13,7 @@ import { addUserSubscription } from "../../redux/services/subscription";
 import moment from "moment/moment";
 import { readRateRec } from "../../redux/services/plan-rates";
 import _ from "lodash";
+import { readPackage } from "../../redux/services/package";
 
 const PlanSelection = () => {
   const {
@@ -25,11 +26,12 @@ const PlanSelection = () => {
   const dispatch = useDispatch();
   const { token, user_id } = useSelector((state) => state.auth);
   const { planRates } = useSelector((state) => state.plan_rate);
-  const [amount, setAmount] = useState({
-    starter: parseFloat(planRates?.starter),
-    growth: parseFloat(planRates?.growth),
-    enterprise: parseFloat(planRates?.enterprise),
-  });
+  const { packageDetails, isLoading } = useSelector((state) => state.package);
+  // const [amount, setAmount] = useState({
+  //   starter: parseFloat(planRates?.starter),
+  //   growth: parseFloat(planRates?.growth),
+  //   enterprise: parseFloat(planRates?.enterprise),
+  // });
   const [planData, setPlanData] = useState({
     customer_id: null,
     plan_type: null,
@@ -41,16 +43,18 @@ const PlanSelection = () => {
   const [showDiscount, setShowDiscount] = useState(false);
 
   useEffect(() => {
-    dispatch(readRateRec(token, 1));
+    // dispatch(readRateRec(token, 1));
+    dispatch(readPackage(token, 1));
   }, [token, dispatch]);
-  useEffect(() => {
-    setAmount({
-      starter: parseFloat(planRates?.starter),
-      growth: parseFloat(planRates?.growth),
-      enterprise: parseFloat(planRates?.enterprise),
-    });
-  }, [planRates]);
+  // useEffect(() => {
+  //   setAmount({
+  //     starter: parseFloat(planRates?.starter),
+  //     growth: parseFloat(planRates?.growth),
+  //     enterprise: parseFloat(planRates?.enterprise),
+  //   });
+  // }, [planRates]);
   const onSecondClick = (amount) => {
+    console.log("🚀 ~ onSecondClick ~ amount:", amount);
     dispatch(
       paymentIntent(token, {
         currency: "usd",
@@ -67,18 +71,18 @@ const PlanSelection = () => {
   };
   const handleSwitchClick = (event) => {
     if (event.target.checked) {
-      setAmount({
-        starter: planRates?.starter - (planRates?.starter / 100) * 10,
-        growth: planRates?.growth - (planRates?.growth / 100) * 10,
-        enterprise: planRates?.enterprise - (planRates?.enterprise / 100) * 10,
-      });
+      // setAmount({
+      //   starter: planRates?.starter - (planRates?.starter / 100) * 10,
+      //   growth: planRates?.growth - (planRates?.growth / 100) * 10,
+      //   enterprise: planRates?.enterprise - (planRates?.enterprise / 100) * 10,
+      // });
       setShowDiscount(true);
     } else {
-      setAmount({
-        starter: planRates?.starter,
-        growth: planRates?.growth,
-        enterprise: planRates?.enterprise,
-      });
+      // setAmount({
+      //   starter: planRates?.starter,
+      //   growth: planRates?.growth,
+      //   enterprise: planRates?.enterprise,
+      // });
       setShowDiscount(false);
     }
   };
@@ -97,68 +101,6 @@ const PlanSelection = () => {
     return newDate;
   }
   return (
-    // <div className="d-flex justify-content-center">
-    //   <div
-    //     className="card rounded-lg shadow-lg p-0"
-    //     style={{ marginTop: "15%", width: "50%" }}
-    //   >
-    //     <div className=" card-header bg-primary">
-    //       <div className="card-title fw-bold fs-5" style={{ color: "white" }}>
-    //         Select your subscription plan.
-    //       </div>
-    //     </div>
-    //     <div className="card-body">
-    //       <form onSubmit={handleSubmit(handleAddSubscription)}>
-    //         <div className="row">
-    //           <div className="col-12">
-    //             <ReactSelectField
-    //               name="plan"
-    //               placeholder="Subscription Plan"
-    //               label="Subscription Plan"
-    //               options={
-    //                 [
-    //                   { label: "Monthly", value: "monthly" },
-    //                   { label: "Yearly", value: "yearly" },
-    //                 ] || []
-    //               }
-    //               control={control}
-    //               errors={errors}
-    //             />
-    //           </div>
-    //           <div className="col-12">
-    //             <ReactSelectField
-    //               name="plan"
-    //               placeholder="Subscription Plan"
-    //               label="Subscription Plan"
-    //               options={
-    //                 [
-    //                   { label: "Monthly", value: "monthly" },
-    //                   { label: "Yearly", value: "yearly" },
-    //                 ] || []
-    //               }
-    //               control={control}
-    //               errors={errors}
-    //             />
-    //           </div>
-    //         </div>
-
-    //         <button type="submit" className="btn btn-primary mt-5">
-    //           Save Changes
-    //         </button>
-    //       </form>
-    //       <button
-    //         className="btn btn-primary"
-    //         id="buy_number"
-    //         data-bs-toggle="modal"
-    //         data-bs-target="#add_payment_form"
-    //         data-amount={`7000`}
-    //       >
-    //         Buy
-    //       </button>
-    //       <Payment />
-    //     </div>
-    //   </div>
-    // </div>
     <div className=" ">
       <div className="container">
         <div className="menu-header text-center py-5">
@@ -175,11 +117,6 @@ const PlanSelection = () => {
         </div>
         <section id="pricing" className="pricing">
           <div className="container" data-aos="fade-up">
-            {/* <div className="section-title">
-              <h2 className="text-center bg-primary text-white p-2 rounded-3">
-                Plans
-              </h2>
-            </div> */}
             <div className="d-flex gap-2 text-center justify-content-center py-3">
               <div className="fw-bold">Monthly</div>
               <div className="form-check form-switch">
@@ -193,143 +130,116 @@ const PlanSelection = () => {
               <div className="fw-bold">Yearly</div>
             </div>
             <div className="row d-flex justify-content-center gap-5">
-              <div
-                className="col-lg-3 card shadow-lg rounded-4 p-4"
-                data-aos="fade-up"
-                data-aos-delay="100"
-                // style={{ borderTop: "5px solid gold" }}
-              >
-                <div className="">
-                  <h3 className="text-light py-2">Solo Starter</h3>
-                  <h4 className="text-primary">
-                    <div className="d-flex gap-2">
-                      <div>
-                        <sup className="fs-3">$</sup>
-                        <span className="fs-1">
-                          {_.toString(amount?.starter).slice(0, 5)}
-                        </span>
-                        <p style={{ fontSize: "16px" }}>per month</p>
+              {packageDetails?.packages &&
+                JSON.parse(packageDetails?.packages)?.packagesDetails?.map(
+                  (obj, index) => (
+                    <div
+                      className="col-lg-3 card shadow-lg rounded-4 p-4"
+                      data-aos="fade-up"
+                      data-aos-delay="100"
+                      key={index}
+                      // style={{ borderTop: "5px solid gold" }}
+                    >
+                      <div className="">
+                        <h3 className="text-light py-2">{obj?.name}</h3>
+                        <h4 className="text-primary">
+                          <div className="d-flex gap-2">
+                            <div>
+                              <sup className="fs-3">$</sup>
+                              <span className="fs-1">
+                                {showDiscount
+                                  ? _.toString(
+                                      obj?.price -
+                                        (obj?.price / 100) * obj.discount
+                                    )
+                                  : _.toString(obj?.price).slice(0, 5)}
+                              </span>
+                              <p style={{ fontSize: "16px" }}>per month</p>
+                            </div>
+                            {showDiscount && (
+                              <div>
+                                <p className="fs-5">( 10% Off )</p>
+                                <p className="fs-5">
+                                  <span>
+                                    ( $
+                                    {_.toString(
+                                      obj?.price * 12 -
+                                        ((obj?.price * 12) / 100) *
+                                          obj?.discount
+                                    )?.slice(0, 5)}{" "}
+                                    )
+                                  </span>
+                                  <span className="text-primary"> / Year</span>
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </h4>
+                        <ul
+                          className="p-0"
+                          style={{ maxHeight: "40vh", overflow: "scroll" }}
+                        >
+                          {obj?.content?.map((content, index) => (
+                            <li key={index}>
+                              <div className=" text-light d-flex">
+                                <FaCheck
+                                  color="green"
+                                  size={34}
+                                  className="pe-2"
+                                />
+                                <div>{content}</div>
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      {showDiscount && (
-                        <div>
-                          <p className="fs-5">( 10% Off )</p>
-                          <p className="fs-5">
-                            <span>
-                              ( ${_.toString(amount?.starter * 12)?.slice(0, 5)}{" "}
-                              )
-                            </span>
-                            <span className="text-primary"> / Year</span>
-                          </p>
-                        </div>
-                      )}
+                      <div
+                        className="card-footer px-0"
+                        style={{ paddingTop: "5%" }}
+                      >
+                        <button
+                          className="btn btn-block btn-primary"
+                          data-bs-toggle="modal"
+                          data-bs-target="#add_payment_form"
+                          data-amount={`120000`}
+                          onClick={() => {
+                            onSecondClick(
+                              showDiscount
+                                ? (obj?.price * 12 -
+                                    ((obj?.price * 12) / 100) * obj?.discount) *
+                                    100
+                                : obj?.price * 100
+                            );
+                            setPlanData({
+                              customer_id: user_id,
+                              plan: obj?.name,
+                              amount_payed: showDiscount
+                                ? (obj?.price * 12 -
+                                    ((obj?.price * 12) / 100) * obj?.discount) *
+                                  100
+                                : obj?.price * 100,
+                              plan_type: showDiscount ? "yearly" : "monthly",
+                              start_date: moment(currentDate).format(
+                                "YYYY-MM-DD HH:mm:ss"
+                              ),
+                              end_date: showDiscount
+                                ? moment(addYearsToDate(currentDate, 1)).format(
+                                    "YYYY-MM-DD HH:mm:ss"
+                                  )
+                                : moment(
+                                    addMonthsToDate(currentDate, 1)
+                                  ).format("YYYY-MM-DD HH:mm:ss"),
+                            });
+                          }}
+                        >
+                          Get Started
+                        </button>
+                      </div>
                     </div>
-                  </h4>
-                  <ul className="p-0">
-                    <li>
-                      <div className=" text-light d-flex">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        <div>Leads Management</div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        Voice Calling
-                      </div>
-                    </li>
-                    <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        Voice Recording
-                      </div>
-                    </li>
-                    <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        Caller ID's
-                      </div>
-                    </li>
-                    <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        Send SMS
-                      </div>
-                    </li>
-                    <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        Send Emails
-                      </div>
-                    </li>
-                    <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        $5 Credit per month
-                      </div>
-                    </li>
-                    <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />1
-                        Sub-Account
-                      </div>
-                    </li>
-                    <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />1
-                        Agent Account
-                      </div>
-                    </li>
-                    <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        To-Do's
-                      </div>
-                    </li>
-                    <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        Calender
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div className="card-footer px-0" style={{ paddingTop: "25%" }}>
-                  <button
-                    className="btn btn-block btn-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#add_payment_form"
-                    data-amount={`120000`}
-                    onClick={() => {
-                      onSecondClick(
-                        showDiscount
-                          ? amount?.starter * 12 * 100
-                          : amount?.starter * 100
-                      );
-                      setPlanData({
-                        customer_id: user_id,
-                        plan: "Solo Starter",
-                        amount_payed: showDiscount
-                          ? amount?.starter * 12 * 100
-                          : amount?.starter * 100,
-                        plan_type: showDiscount ? "yearly" : "monthly",
-                        start_date: moment(currentDate).format(
-                          "YYYY-MM-DD HH:mm:ss"
-                        ),
-                        end_date: showDiscount
-                          ? moment(addYearsToDate(currentDate, 1)).format(
-                              "YYYY-MM-DD HH:mm:ss"
-                            )
-                          : moment(addMonthsToDate(currentDate, 1)).format(
-                              "YYYY-MM-DD HH:mm:ss"
-                            ),
-                      });
-                    }}
-                  >
-                    Get Started
-                  </button>
-                </div>
-              </div>
-              <div
+                  )
+                )}
+
+              {/* <div
                 className="col-lg-3 card shadow-lg rounded-4 p-4"
                 data-aos="fade-up"
                 data-aos-delay="100"
@@ -427,12 +337,7 @@ const PlanSelection = () => {
                         Calender
                       </div>
                     </li>
-                    {/* <li>
-                      <div className=" text-light">
-                        <FaCheck color="green" size={34} className="pe-2" />
-                        Send Fax
-                      </div>
-                    </li> */}
+
                   </ul>
                 </div>
                 <div className="card-footer px-0" style={{ paddingTop: "23%" }}>
@@ -613,7 +518,7 @@ const PlanSelection = () => {
                     Get Started
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>

@@ -55,6 +55,7 @@ import AdminBalance from "./views/Admin/Balance/Balance";
 import CallHistory from "./views/CallHistory/CallHistory";
 import MessagesLogs from "./views/MessagesLogs/MessagesLogs";
 import PlanRateSetting from "./views/PlanRateSetting/PlanRate";
+import PhoneNumberRates from "./views/Admin/PhoneNumberRates/PhoneNumberRates";
 import KYCNeeded from "./views/KYCNeeded/KYCNeeded";
 // Define allowed roles for each route
 const roles = {
@@ -254,6 +255,16 @@ const router = (user, subscribed, is_approved, permissionDetails) => {
         subscribed,
         user
       )(AdminSubaccounts),
+    },
+    {
+      path: "/admin/number-rates",
+      // element: <Users />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(PhoneNumberRates),
     },
     {
       path: "/admin/agents",
