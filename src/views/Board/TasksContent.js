@@ -138,8 +138,15 @@ const DropZone = ({ containerId }) => {
     </div>
   );
 };
-const Column = ({ id, items }) => {
+const Column = ({ id, items, boardDetails }) => {
+  console.log("🚀 ~ Column ~ id:", id);
   const [color, setColor] = useState(null);
+  const statusArray =
+    boardDetails?.pipeline_status_array &&
+    JSON.parse(boardDetails?.pipeline_status_array)?.status_array;
+  const status =
+    statusArray?.length > 0 &&
+    statusArray?.filter((status) => status.stage === id)[0];
   function getRandomColorFromList(colorList) {
     const randomIndex = Math.floor(Math.random() * colorList.length);
     return colorList[randomIndex];
@@ -163,7 +170,7 @@ const Column = ({ id, items }) => {
     <div className="col-md-3">
       <div
         className="card shadow mb-5"
-        style={{ borderTop: `5px solid ${color}` }}
+        style={{ borderTop: `5px solid ${status?.color}` }}
       >
         <div className="card-body">
           <h5 className="text-center ">{id}</h5>
@@ -219,8 +226,10 @@ const TasksContent = ({
       JSON.parse(boardDetails?.pipeline_status_array)?.status_array;
     statusArray?.length > 0 &&
       statusArray?.map((status) => {
-        dataObj[status] =
-          contacts?.filter((contact) => contact?.board_status === status) || [];
+        dataObj[status?.stage] =
+          contacts?.filter(
+            (contact) => contact?.board_status === status?.stage
+          ) || [];
       });
     setData(dataObj);
   }, [boardDetails, contacts]);
@@ -304,9 +313,16 @@ const TasksContent = ({
               }}
             >
               {Object.keys(data)?.length > 0 &&
-                Object.keys(data)?.map((columnId) => (
-                  <Column key={columnId} id={columnId} items={data[columnId]} />
-                ))}
+                Object.keys(data)?.map((columnId) => {
+                  return (
+                    <Column
+                      key={columnId}
+                      id={columnId}
+                      items={data[columnId]}
+                      boardDetails={boardDetails}
+                    />
+                  );
+                })}
             </div>
           </DndContext>
         )}

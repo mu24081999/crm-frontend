@@ -57,6 +57,7 @@ import MessagesLogs from "./views/MessagesLogs/MessagesLogs";
 import PlanRateSetting from "./views/PlanRateSetting/PlanRate";
 import PhoneNumberRates from "./views/Admin/PhoneNumberRates/PhoneNumberRates";
 import KYCNeeded from "./views/KYCNeeded/KYCNeeded";
+import A2PRegistrationRequests from "./views/Admin/A2PRegistrationRequest/A2PRegistrationRequests";
 // Define allowed roles for each route
 const roles = {
   dashboard: ["USER", "ADMIN", "SUPER_ADMIN", "AGENT"],
@@ -235,6 +236,16 @@ const router = (user, subscribed, is_approved, permissionDetails) => {
         subscribed,
         user
       )(Clients),
+    },
+    {
+      path: "/admin/a2p-registration-requests",
+      // element: <Users />,
+      element: RoleAuthorization(
+        roles.dashboard,
+        user?.role,
+        subscribed,
+        user
+      )(A2PRegistrationRequests),
     },
     {
       path: "/client/balance",

@@ -87,7 +87,7 @@ export const EditBulkContact = ({ token, dispatch, boards }) => {
                   ? JSON.parse(
                       pipelineWatcher?.pipeline_status_array
                     )?.status_array?.map((status) => {
-                      return { label: status, value: status };
+                      return { label: status?.stage, value: status?.stage };
                     })
                   : []
               }

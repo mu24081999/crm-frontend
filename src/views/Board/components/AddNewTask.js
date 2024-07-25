@@ -62,13 +62,18 @@ const AddNewTask = ({ agents, boardDetails }) => {
       boardDetails?.pipeline_status_array &&
         JSON.parse(boardDetails?.pipeline_status_array)?.status_array?.map(
           (status, index) => {
-            return stages?.push({ id: index + 1, value: status });
+            return stages?.push({
+              id: index + 1,
+              value: status?.stage,
+              color: status?.color,
+            });
           }
         );
       console.log("🚀 ~ useEffect ~ stages:", stages);
       setStatusArray(stages);
       stages?.forEach((stage) => {
         setValue(`status-${stage?.id}`, stage?.value);
+        setValue(`status-color-${stage?.id}`, stage?.color);
       });
     }
   }, [boardDetails, setValue]);
@@ -87,7 +92,11 @@ const AddNewTask = ({ agents, boardDetails }) => {
     for (let i = 0; i < statusArray?.length; i++) {
       const element = statusArray[i];
       const status_ = watch(`status-${element.id}`);
-      pipeline_status_array.push(status_);
+      const status_color = watch(`status-color-${element.id}`);
+      pipeline_status_array.push({
+        stage: status_,
+        color: status_color,
+      });
     }
     const formData = {
       ...newData,
@@ -137,6 +146,7 @@ const AddNewTask = ({ agents, boardDetails }) => {
                       name="avatar_color"
                       placeholder="Avatar Color"
                       // label="Avatar Color"
+
                       mb={true}
                       control={control}
                       rules={{
@@ -282,11 +292,28 @@ const AddNewTask = ({ agents, boardDetails }) => {
                 {statusArray?.length > 0 ? (
                   statusArray?.map((status, index) => (
                     <div className="col-12 d-flex gap-2" key={index}>
-                      <div className="col-11 py-2">
+                      <div className="col-5 py-2">
                         <InputField
                           name={`status-${status?.id}`}
                           placeholder="Name"
                           // label="Name"
+                          mb={true}
+                          control={control}
+                          rules={{
+                            required: {
+                              value: true,
+                              message: "Field required!",
+                            },
+                          }}
+                          errors={errors}
+                        />
+                      </div>
+                      <div className="col-5 py-2">
+                        <ReactColorInput
+                          name={`status-color-${status?.id}`}
+                          placeholder="Status Color"
+                          // label="Avatar Color"
+
                           mb={true}
                           control={control}
                           rules={{

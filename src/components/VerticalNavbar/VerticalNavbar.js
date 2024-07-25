@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CiMenuFries } from "react-icons/ci";
 import logo from "./../../assets/4.png";
 import { MdOutlineSubscriptions } from "react-icons/md";
-import { LuUserCog2, LuUsers } from "react-icons/lu";
+import { LuGitPullRequest, LuUserCog2, LuUsers } from "react-icons/lu";
 import {
   RiContactsBook2Line,
   RiFilterLine,
@@ -244,6 +244,24 @@ const VerticalNavbar = () => {
                         </span>
                       </span>
                       <span className="nav-link-text">Subscriptions</span>
+                    </Link>
+                  </li>
+                  <li
+                    className={`nav-item ${
+                      location?.pathname ===
+                        "/admin/a2p-registration-requests" && "active"
+                    }`}
+                  >
+                    <Link
+                      className="nav-link"
+                      to="/admin/a2p-registration-requests"
+                    >
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <LuGitPullRequest />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">A2P Requests</span>
                     </Link>
                   </li>
                   <li

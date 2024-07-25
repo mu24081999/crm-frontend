@@ -7,7 +7,16 @@ import { SocketContext } from "../../../Context";
 import { getSubscriptionsList } from "../../../redux/services/subscription";
 import { getUsers } from "../../../redux/services/users";
 import Pagination from "../../../components/Pagination/Pagination";
-const SubscriptionContent = () => {
+import { getVerificationsList } from "../../../redux/services/verification";
+import { useForm } from "react-hook-form";
+const A2PRegistrationRequestsContent = () => {
+  const {
+    handleSubmit,
+    // watch,
+    control,
+    // setValue,
+    formState: { errors },
+  } = useForm({});
   const { showLeadDetails } = useContext(SocketContext);
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
@@ -16,25 +25,26 @@ const SubscriptionContent = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [view, setView] = useState("list");
   const { subscriptions } = useSelector((state) => state.subscription);
+  const { verifications } = useSelector((state) => state.verification);
   const { users } = useSelector((state) => state.user);
   useEffect(() => {
-    if (subscriptions?.length > 0) {
+    if (verifications?.length > 0) {
       const filterData = [];
-      subscriptions?.map((sub) => {
-        const user = users?.filter((user) => user.id === sub?.customer_id)[0];
+      verifications?.map((ver) => {
+        const user = users?.filter((user) => user.id === ver?.user_id)[0];
         const data = {
-          ...sub,
+          ...ver,
           customer_details: user,
         };
         return filterData?.push(data);
       });
-      setData(subscriptions);
-      setData_(subscriptions);
+      setData(verifications);
+      setData_(verifications);
     }
-  }, [subscriptions, users]);
+  }, [verifications, users]);
   useEffect(() => {
     dispatch(getUsers(token));
-    dispatch(getSubscriptionsList(token));
+    dispatch(getVerificationsList(token));
   }, [token, dispatch]);
   const handleReceiveData = (receivedData) => {
     setData(receivedData);
@@ -56,11 +66,11 @@ const SubscriptionContent = () => {
       <div className="hk-pg-body py-0">
         <div className="contactapp-wrap">
           <div className="contactapp-content">
-            <Sidebar
+            {/* <Sidebar
               onSendData={handleReceiveData}
               onToggleEdit={handleToggleEdit}
               subscriptions={data_}
-            />
+            /> */}
 
             {!showLeadDetails && (
               <div className="contactapp-detail-wrap">
@@ -95,4 +105,4 @@ const SubscriptionContent = () => {
   );
 };
 
-export default SubscriptionContent;
+export default A2PRegistrationRequestsContent;

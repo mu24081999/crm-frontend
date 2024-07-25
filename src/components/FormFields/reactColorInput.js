@@ -46,7 +46,7 @@ const ReactColorInput = React.forwardRef((props, ref) => {
             )}
             <div className="">
               <InputColor
-                initialValue="#f01a3aff"
+                initialValue={field?.value ? field?.value : ""}
                 onChange={handleOnChange}
                 placement="bottom"
                 name={field.name}

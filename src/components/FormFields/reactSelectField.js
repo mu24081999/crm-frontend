@@ -107,6 +107,7 @@ const ReactSelectField = React.forwardRef((props, ref) => {
               components={
                 props?.CustomOption && { Option: props?.CustomOption }
               }
+              defaultValue={defaultValue}
               isLoading={props.isLoading || false}
               noOptionsMessage={() => null}
               getOptionLabel={getOptionLabel}
