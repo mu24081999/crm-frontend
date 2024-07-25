@@ -85,6 +85,7 @@ const ContactsContent = () => {
         subAuthToken: accountAuthToken,
         phoneNumber: selectedNumber,
         addressSid: user?.addressSid,
+        user_id: user?.id,
       },
       config
     );
