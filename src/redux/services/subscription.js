@@ -82,6 +82,37 @@ export const addUserSubscription = (token, data) => async (dispatch) => {
     dispatch(invalidRequest(e.message));
   }
 };
+export const updateUserSubscription =
+  (token, subscription_id, data) => async (dispatch) => {
+    try {
+      dispatch(subscriptionRequestLoading());
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
+      };
+      const is_added = await axios
+        .put(
+          `${backendURL}/user/subscriptions/update-subscription/${subscription_id}`,
+          data,
+          config
+        )
+        .then((response) => {
+          console.log("🚀 ~ .then ~ response:", response);
+          if (response?.data?.statusCode !== 200) {
+            toast.error(response.data.message);
+            return dispatch(invalidRequest(response.data.message));
+          }
+          dispatch(addSubscription(response.data.message));
+          dispatch(getUserSubscriptions(token));
+          return true;
+        });
+      return is_added;
+    } catch (e) {
+      dispatch(invalidRequest(e.message));
+    }
+  };
 export const getSubscriptionDetails =
   (token, subscription_id) => async (dispatch) => {
     try {

@@ -514,7 +514,7 @@ const A2PVerification = () => {
                                 options={[
                                   {
                                     label:
-                                      "Low Volume Standard Brand $10 one type fee. 600 sms per day",
+                                      "Low Volume Standard Brand $10 one time fee. 600 sms per day",
                                     value: "standard",
                                   },
                                   // {

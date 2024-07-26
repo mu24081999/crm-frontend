@@ -64,7 +64,10 @@ const A2PRegistrationRequestsContent = () => {
     <div className="hk-pg-wrapper pb-0">
       {/* <!-- Page Body --> */}
       <div className="hk-pg-body py-0">
-        <div className="contactapp-wrap">
+        <div
+          // className="contactapp-wrap"
+          style={{ width: "100%", overflow: "scroll" }}
+        >
           <div className="contactapp-content">
             {/* <Sidebar
               onSendData={handleReceiveData}
@@ -78,8 +81,8 @@ const A2PRegistrationRequestsContent = () => {
                   onDataFromChild={handleViewDataFromHeader}
                   activeBar={view}
                 />
-                <div className="contact-body">
-                  <div className="nicescroll-bar">
+                <div className="">
+                  <div>
                     <SubscriptionList
                       subscriptionsArray={data}
                       users={users}

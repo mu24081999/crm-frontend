@@ -91,7 +91,7 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
                       <div className="border col-6 text-center p-1">
                         {" "}
                         {parseFloat(
-                          pricing?.voicePricing?.outboundPrefixPrices[0]
+                          pricing?.voicePricing?.outboundPrefixPrices[1]
                             ?.base_price
                         ) * 2 || 0}
                       </div>

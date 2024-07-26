@@ -8,6 +8,9 @@ import {
 import Loader from "../../../../components/Loader/Loader";
 import moment from "moment";
 import { SocketContext } from "../../../../Context";
+import DatePickerFeild from "../../../../components/FormFields/datePickerField";
+import { useForm } from "react-hook-form";
+import { updateUserSubscription } from "../../../../redux/services/subscription";
 
 const SubscriptionList = ({
   subscriptionsArray,
@@ -15,15 +18,27 @@ const SubscriptionList = ({
   isEdit,
   users,
 }) => {
+  const {
+    handleSubmit,
+    // watch,
+    control,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm({});
   const { handleToggleShowLeadDetail } = useContext(SocketContext);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-  const { isLoading } = useSelector((state) => state.contact);
+  const { isLoading } = useSelector((state) => state.subscription);
   useEffect(() => {
     if (token) {
       dispatch(getContactsList(token));
     }
   }, [dispatch, token]);
+  const handleChangeDate = (id, value) => {
+    console.log("🚀 ~ handleChangeDate ~ id,value:", id, value);
+    dispatch(updateUserSubscription(token, id, { end_date: value }));
+  };
   return (
     <div className="contact-list-view">
       {!isEdit && (
@@ -84,7 +99,24 @@ const SubscriptionList = ({
 
                       <td>
                         {" "}
-                        {moment(subscription?.end_date).format("DD MMM, YYYY")}
+                        {/* {moment(subscription?.end_date).format("DD MMM, YYYY")} */}
+                        <div className="col-sm-6" style={{ width: "200px" }}>
+                          <DatePickerFeild
+                            name={`end-date-${subscription?.end_date}`}
+                            defaultValue={moment(subscription?.end_date).format(
+                              "YYYY-MM-DD"
+                            )}
+                            // label="Start Date"
+                            onChange={(e) =>
+                              handleChangeDate(
+                                subscription?.id,
+                                moment(e).format("YYYY-MM-DD")
+                              )
+                            }
+                            errors={errors}
+                            control={control}
+                          />
+                        </div>
                       </td>
                       <td>
                         {new Date(subscription?.end_date) > new Date(Date.now())
