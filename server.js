@@ -18,13 +18,26 @@ app.use(
   })
 );
 // Serve static files only for app.desktopcrm.com
+// app.use((req, res, next) => {
+//   if (req.hostname === "app.desktopcrm.com") {
+//     express.static(path.join(__dirname, "build"))(req, res, next);
+//   } else if (req.hostname === "desktopcrm.com") {
+//     express.static(path.join(__dirname, "build2"))(req, res, next);
+//   } else {
+//     next();
+//   }
+// });
 app.use((req, res, next) => {
-  if (req.hostname === "app.desktopcrm.com") {
-    express.static(path.join(__dirname, "build"))(req, res, next);
-  } else if (req.hostname === "desktopcrm.com") {
-    express.static(path.join(__dirname, "build2"))(req, res, next);
+  const buildDir =
+    req.hostname === "app.desktopcrm.com"
+      ? "build"
+      : req.hostname === "desktopcrm.com" && "build2";
+  const buildPath = path.join(__dirname, buildDir);
+
+  if (fs.existsSync(buildPath)) {
+    express.static(buildPath)(req, res, next);
   } else {
-    next();
+    res.sendFile(path.join(__dirname, "maintainance.html"));
   }
 });
 app.use(passport.initialize());
@@ -54,15 +67,34 @@ passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 // Handle all other requests
+// app.get("*", (req, res, next) => {
+//   if (req.hostname === "app.desktopcrm.com") {
+//     if (!req.url.includes("/auth/google")) {
+//       res.sendFile(path.join(__dirname, "build", "index.html"));
+//     } else {
+//       next();
+//     }
+//   } else if (req.hostname === "desktopcrm.com") {
+//     res.sendFile(path.join(__dirname, "build2", "index.html"));
+//   }
+// });
 app.get("*", (req, res, next) => {
-  if (req.hostname === "app.desktopcrm.com") {
-    if (!req.url.includes("/auth/google")) {
-      res.sendFile(path.join(__dirname, "build", "index.html"));
+  const buildDir = req.hostname === "app.desktopcrm.com" ? "build" : "build2";
+  const buildPath = path.join(__dirname, buildDir);
+
+  if (fs.existsSync(buildPath)) {
+    if (
+      req.hostname === "app.desktopcrm.com" &&
+      !req.url.includes("/auth/google")
+    ) {
+      res.sendFile(path.join(buildPath, "index.html"));
+    } else if (req.hostname === "desktopcrm.com") {
+      res.sendFile(path.join(buildPath, "index.html"));
     } else {
       next();
     }
-  } else if (req.hostname === "desktopcrm.com") {
-    res.sendFile(path.join(__dirname, "build2", "index.html"));
+  } else {
+    res.sendFile(path.join(__dirname, "maintainance.html"));
   }
 });
 app.get(
