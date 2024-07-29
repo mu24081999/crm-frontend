@@ -25,8 +25,7 @@ const ResetPassword = () => {
       subject: "Reset Password",
     };
     dispatch(ForgotPassword(formData));
-    // navigate(`/reset-password-verification/${data?.email}`);
-    window.location.href = `https://app.desktopcrm.com/reset-password-verification/${data?.email}`;
+    navigate(`/reset-password-verification/${data?.email}`);
   };
   return (
     <div>

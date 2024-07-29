@@ -36,7 +36,8 @@ const VerifyEmailOtp = () => {
     const verificationSuccess = await dispatch(verifyEmail(formData));
     if (verificationSuccess?.verified === 1) {
       reset();
-      navigate(`/reset_password/${email}`);
+      // navigate(`/reset_password/${email}`);
+      window.location.href = `https://app.desktopcrm.com/reset_password/${email}`;
     }
   };
   const handleResendOTP = () => {
