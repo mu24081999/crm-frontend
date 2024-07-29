@@ -34,8 +34,8 @@ const Loader = () => {
     //     visible={true}
     //   />
     // </div>
-    <div class="text-center">
-      <div class="spinner-border" role="status">
+    <div class="text-center m-5">
+      <div class="spinner-border text-primary " role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>

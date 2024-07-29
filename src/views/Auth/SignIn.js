@@ -45,7 +45,7 @@ const SignIn = () => {
     if (logged_user) {
       console.log("🚀 ~ signInHandler ~ logged_user:", logged_user);
       // redirectTo(`/email-verification/${logged_user.email}`);
-      window.location.href = `http://app.desktopcrm.com/two-fa-verification/${logged_user.email}`;
+      window.location.href = `https://app.desktopcrm.com/two-fa-verification/${logged_user.email}`;
     }
   };
   // const formConfig = [

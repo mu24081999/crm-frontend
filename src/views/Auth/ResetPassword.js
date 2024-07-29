@@ -20,8 +20,13 @@ const ResetPassword = () => {
   } = useForm({});
   const dispatch = useDispatch();
   const submitResetPassword = async (data) => {
-    dispatch(ForgotPassword(data));
-    navigate(`/reset-password-verification/${data?.email}`);
+    const formData = {
+      email: data.email,
+      subject: "Reset Password",
+    };
+    dispatch(ForgotPassword(formData));
+    // navigate(`/reset-password-verification/${data?.email}`);
+    window.location.href = `https://app.desktopcrm.com/reset-password-verification/${data?.email}`;
   };
   return (
     <div>
