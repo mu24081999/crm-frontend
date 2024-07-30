@@ -33,6 +33,7 @@ import { SocketContext } from "../../Context";
 import { getUserBrandRec } from "../../redux/services/brand";
 import { FiPackage } from "react-icons/fi";
 import { IoPricetagsOutline } from "react-icons/io5";
+import { GiBundleGrenade } from "react-icons/gi";
 
 const VerticalNavbar = () => {
   const navigate = useNavigate();
@@ -579,7 +580,20 @@ const VerticalNavbar = () => {
                       <span className="nav-link-text">Contacts</span>
                     </Link>
                   </li>
-
+                  <li
+                    className={`nav-item ${
+                      location?.pathname === "/regulatory-bundle" && "active"
+                    }`}
+                  >
+                    <Link className="nav-link" to="/regulatory-bundle">
+                      <span className="nav-icon-wrap">
+                        <span className="svg-icon">
+                          <GiBundleGrenade />
+                        </span>
+                      </span>
+                      <span className="nav-link-text">Regulatory Bundles</span>
+                    </Link>
+                  </li>
                   <li
                     className={`nav-item ${
                       location?.pathname === "/agents" && "active"

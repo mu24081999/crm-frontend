@@ -14,7 +14,6 @@ import _ from "lodash";
 const ChatContent = () => {
   const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
   const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
-
   //Socket connection
   const socket = useMemo(() => io(socketURL), [socketURL]);
   const [selectedRoom, setSelectedRoom] = useState({});
@@ -172,7 +171,6 @@ const ChatContent = () => {
   return (
     <div>
       {/* <!-- Wrapper --> */}
-
       {/* <!-- Main Content --> */}
       <div class="hk-pg-wrapper pb-0">
         {/* <!-- Page Body --> */}

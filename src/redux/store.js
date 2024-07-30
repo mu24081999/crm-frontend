@@ -39,6 +39,7 @@ const persistConfig = {
     "verification",
     "package",
     "setting",
+    "bundle",
   ],
   whitelist: ["auth"],
 };

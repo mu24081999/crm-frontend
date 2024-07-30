@@ -30,6 +30,7 @@ import permissionReducer from "./slices/permissions";
 import verificationReducer from "./slices/verification";
 import packageReducer from "./slices/packages";
 import settingReducer from "./slices/generalSetring";
+import bundleReducer from "./slices/bundles";
 
 export const rootReducer = combineReducers({
   auth: authReducer,
@@ -63,4 +64,5 @@ export const rootReducer = combineReducers({
   verification: verificationReducer,
   package: packageReducer,
   setting: settingReducer,
+  bundle: bundleReducer,
 });
