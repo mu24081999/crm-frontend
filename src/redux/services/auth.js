@@ -15,7 +15,7 @@ import {
 // import { createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { redirect, useNavigate } from "react-router-dom";
-const backendURL = `${process.env.REACT_APP_BACKEND_URL_PRODUCTION}`;
+const backendURL = process.env.REACT_APP_BACKEND_URL_PRODUCTION;
 // const backendURL = process.env.REACT_APP_BACKEND_URL_LIVE;
 
 export const registerUser = (registerData) => async (dispatch) => {

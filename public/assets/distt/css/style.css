@@ -64039,7 +64039,7 @@ div.hopscotch-bubble
 }
 .hk-pg-header.pg-header-wth-img {
   position: relative;
-  background-image: url(../img/cropper.jpg);
+  /* background-image: url(../img/cropper.jpg); */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -87974,13 +87974,13 @@ div.hopscotch-bubble
 
 .lg-outer.galleryapp-info-active .lg-img-wrap {
   padding-right: 26.25rem !important;
-  background: url("../img/loading.gif") no-repeat scroll transparent;
+  /* background: url("../img/loading.gif") no-repeat scroll transparent; */
   background-position: center center;
   background-position: calc((100% - 300px) / 2) center;
 }
 .lg-outer.galleryapp-info-active .lg-video-cont {
   padding-right: 20rem !important;
-  background: url("../img/loading.gif") no-repeat scroll transparent;
+  /* background: url("../img/loading.gif") no-repeat scroll transparent; */
   background-position: center center;
   background-position: calc((100% - 300px) / 2) center;
 }
@@ -87996,7 +87996,7 @@ div.hopscotch-bubble
   color: inherit;
   padding: 0;
   text-align: left;
-  background: #fff url("../img/loading.gif") no-repeat scroll center center;
+  /* background: #fff url("../img/loading.gif") no-repeat scroll center center; */
 }
 .lg-outer.galleryapp-info-active .lg-sub-html header.gallery-header {
   display: -webkit-box;
@@ -88085,7 +88085,7 @@ div.hopscotch-bubble
 }
 .lg-outer.galleryapp-info-active
   .galleryapp-info-active.fb_iframe_widget.fb_iframe_widget_loader {
-  background: #fff url("../img/loading.gif") no-repeat scroll center center;
+  /* background: #fff url("../img/loading.gif") no-repeat scroll center center; */
 }
 .lg-outer.galleryapp-info-active .lg-toolbar {
   right: 420px;
