@@ -1,20 +1,10 @@
-import React, {
-  useEffect,
-  useContext,
-  useState,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { useEffect, useContext, useState } from "react";
 import TopNavbar from "../../components/TopNavbar/TopNavbar";
 import VerticalNavbar from "../../components/VerticalNavbar/VerticalNavbar";
-import ChatPopup from "../../components/ChatPopup/ChatPopup";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import InputField from "../../components/FormFields/InputField";
-import { useForm } from "react-hook-form";
 import { getUserSubAccountsList } from "../../redux/services/calling";
-import Loader from "../../components/Loader/Loader";
-import { addUserRec, getUsers } from "../../redux/services/users";
+import { getUsers } from "../../redux/services/users";
 import _ from "lodash";
 import Ticket from "./Ticket";
 import SubaccountForm from "./SubaccountForm";
