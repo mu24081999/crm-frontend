@@ -101,7 +101,7 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
                       </div>
                       <div className="border col-6 text-center p-1">
                         {" "}
-                        {parseFloat(pricing?.call?.outbound_call_price) * 2 ||
+                        {parseFloat(pricing?.call?.outbound_local_price) * 2 ||
                           0}
                       </div>
                     </div>
@@ -128,7 +128,8 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
                         Outbound SMS
                       </div>
                       <div className="border col-6 text-center p-1">
-                        {parseFloat(pricing?.sms?.outbound_call_price) * 2 || 0}
+                        {parseFloat(pricing?.sms?.outbound_local_price) * 2 ||
+                          0}
                       </div>
                     </div>
                   </div>{" "}
