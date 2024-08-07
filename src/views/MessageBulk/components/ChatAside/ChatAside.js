@@ -24,10 +24,11 @@ const ChatAside = ({
             </span>
             SMS Marketting
           </h1>
-          <a
-            href="/"
+          <button
             class="btn btn-icon btn-rounded show-compose-popup btn-primary"
             onClick={() => onShowAddForm(true)}
+            data-bs-target="#compose_messages_bulk"
+            data-bs-toggle="modal"
           >
             <span class="icon">
               <span class="feather-icon">
@@ -35,7 +36,7 @@ const ChatAside = ({
                 <TiMessages />
               </span>
             </span>
-          </a>
+          </button>
         </header>
         <div data-simplebar class="aside-body">
           <div className="alert alert-warning">

@@ -52,7 +52,8 @@ const Sidebar = ({ onDataFromChild, initialData, authUser }) => {
           <button
             type="button"
             className="btn btn-primary btn-rounded btn-block mb-4 show-compose-popup"
-            id="show_compose_popup"
+            data-bs-toggle="modal"
+            data-bs-target="#compose_email"
           >
             Compose email
           </button>

@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import ReactSelectField from "../../../components/FormFields/reactSelectField";
-import countryList from "react-select-country-list";
-import { getPricingServices } from "../../../redux/services/pricing";
-import { useSelector } from "react-redux";
 import Loader from "../../../components/Loader/Loader";
-
+import pricingData from "../pricing.json";
+console.log("🚀 ~ pricingData:", pricingData);
 const PricingGenerator = ({ authUser, dispatch, token }) => {
   const {
     handleSubmit,
@@ -14,15 +12,21 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
     // setValue,
     formState: { errors },
   } = useForm({});
-  const { pricing, isLoading } = useSelector((state) => state.pricing);
+  // const { pricing, isLoading } = useSelector((state) => state.pricing);
+  const [pricing, setPricing] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const handlePriceGeneration = (data) => {
-    const formData = {
-      accountSid: authUser.accountSid,
-      authToken: authUser.authToken,
-      country_code: data.country.value,
-    };
-    dispatch(getPricingServices(token, formData));
-    console.log("🚀 ~ handlePriceGeneration ~ data:", formData);
+    const filteredData = pricingData?.countries?.filter(
+      (cnt) => cnt?.country === data.country.label
+    )[0];
+    setPricing(filteredData);
+    // const formData = {
+    //   accountSid: authUser.accountSid,
+    //   authToken: authUser.authToken,
+    //   country_code: data.country.value,
+    // };
+    // dispatch(getPricingServices(token, formData));
+    // console.log("🚀 ~ handlePriceGeneration ~ data:", formData);
   };
   return (
     <div
@@ -45,7 +49,16 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
               control={control}
               errors={errors}
               mb={false}
-              options={countryList().getData() || []}
+              options={
+                pricingData?.countries?.length > 0
+                  ? pricingData?.countries?.map((country) => {
+                      return {
+                        label: country?.country,
+                        value: country?.iso_country,
+                      };
+                    })
+                  : []
+              }
               rules={{
                 required: {
                   value: true,
@@ -76,10 +89,8 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
                         Inbound Call
                       </div>
                       <div className="border col-6 text-center p-1">
-                        {parseFloat(
-                          pricing?.voicePricing?.inboundCallPrices[0]
-                            ?.base_price
-                        ) * 2 || 0}
+                        {parseFloat(pricing?.call?.inbound_local_price) * 2 ||
+                          0}
                       </div>
                     </div>
                   </div>
@@ -90,10 +101,8 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
                       </div>
                       <div className="border col-6 text-center p-1">
                         {" "}
-                        {parseFloat(
-                          pricing?.voicePricing?.outboundPrefixPrices[1]
-                            ?.base_price
-                        ) * 2 || 0}
+                        {parseFloat(pricing?.call?.outbound_call_price) * 2 ||
+                          0}
                       </div>
                     </div>
                   </div>{" "}
@@ -109,9 +118,7 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
                       </div>
                       <div className="border col-6 text-center p-1">
                         {" "}
-                        {parseFloat(
-                          pricing?.smsPricing?.inboundSmsPrices[0]?.base_price
-                        ) * 2 || 0}
+                        {parseFloat(pricing?.sms?.inbound_local_price) * 2 || 0}
                       </div>
                     </div>
                   </div>
@@ -121,10 +128,7 @@ const PricingGenerator = ({ authUser, dispatch, token }) => {
                         Outbound SMS
                       </div>
                       <div className="border col-6 text-center p-1">
-                        {parseFloat(
-                          pricing?.smsPricing?.outboundSmsPrices[0]?.prices[0]
-                            ?.base_price
-                        ) * 2 || 0}
+                        {parseFloat(pricing?.sms?.outbound_call_price) * 2 || 0}
                       </div>
                     </div>
                   </div>{" "}

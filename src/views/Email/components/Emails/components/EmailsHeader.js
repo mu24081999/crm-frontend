@@ -146,9 +146,10 @@ const EmailsHeader = ({ onDataFromChild, emailsData, authUser }) => {
             Report a problem{" "}
           </a>
         </div> */}
-        <a
-          href="/"
+        <button
           class="btn btn-icon btn-rounded show-compose-popup btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#compose_email"
         >
           <span class="icon">
             <span class="feather-icon">
@@ -156,7 +157,7 @@ const EmailsHeader = ({ onDataFromChild, emailsData, authUser }) => {
               <FaEdit />
             </span>
           </span>
-        </a>
+        </button>
       </div>
       <div class="hk-sidebar-togglable"></div>
     </header>

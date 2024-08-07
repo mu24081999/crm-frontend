@@ -66,7 +66,10 @@ const CallHistoryContent = () => {
                 <Header />
 
                 <div className="contact-body">
-                  <div data-simplebar className="nicescroll-bar">
+                  <div
+                    className="border border-success"
+                    style={{ overflow: "scroll", maxHeight: "98%" }}
+                  >
                     <RecordingList
                       contactsData={phoneNumbers}
                       isEdit={isEdit}

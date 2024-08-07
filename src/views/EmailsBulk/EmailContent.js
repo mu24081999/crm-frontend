@@ -108,7 +108,37 @@ const EmailContent = () => {
               token={token}
             />
             {/* <!-- Compose email --> */}
-            <ComposeEmail />
+            <div
+              id="compose_email_bulk"
+              className="modal fade add-new-contact"
+              tabIndex="-1"
+              role="dialog"
+              aria-hidden="true"
+            >
+              <div
+                className="modal-dialog modal-dialog-centered modal-lg"
+                role="document"
+              >
+                <div className="modal-content">
+                  <div className="modal-header bg-primary">
+                    <span style={{ color: "white", fontWeight: "bold" }}>
+                      Compose Email
+                    </span>
+                    <button
+                      type="button"
+                      className="btn-close btn-light"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  <div className="modal-body">
+                    <ComposeEmail />
+                  </div>
+                </div>
+              </div>
+            </div>
             {/* <!-- /Compose email --> */}
 
             {/* <!-- Add Category --> */}

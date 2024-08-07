@@ -73,50 +73,8 @@ const ComposeEmail = () => {
     }
   };
   return (
-    <div class="compose-email-popup">
+    <div class="">
       <div class="d-flex flex-column h-100">
-        <header class="d-flex align-items-center justify-content-between">
-          <h6 class="text-white mb-0">Compose Email</h6>
-          <div class="d-flex">
-            <button
-              id="min_compose_popup"
-              class="btn btn-sm btn-icon btn-dark btn-rounded d-lg-block d-none"
-            >
-              <span class="icon">
-                <span class="feather-icon">
-                  {/* <i data-feather="minus"></i> */}
-                  <FaMinus />
-                </span>
-              </span>
-            </button>
-            <button
-              id="max_compose_popup"
-              class="btn btn-sm btn-icon btn-dark btn-rounded d-lg-block d-none"
-            >
-              <span class="icon">
-                <span class="feather-icon">
-                  {/* <i data-feather="maximize-2"></i> */}
-                  <CgMaximize />
-                </span>
-                <span class="feather-icon">
-                  {/* <i data-feather="minimize-2"></i> */}
-                  <CiMinimize1 />
-                </span>
-              </span>
-            </button>
-            <button
-              id="close_compose_popup"
-              class="btn btn-sm btn-icon btn-dark btn-rounded"
-            >
-              <span class="icon">
-                <span class="feather-icon">
-                  {/* <i data-feather="x"></i> */}
-                  <RxCross2 />
-                </span>
-              </span>
-            </button>
-          </div>
-        </header>
         {isLoading ? (
           <Loader />
         ) : (

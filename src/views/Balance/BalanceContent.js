@@ -82,7 +82,7 @@ const BalanceContent = () => {
                         <span>
                           $
                           {balanceDetails?.credit
-                            ? balanceDetails?.credit / 100
+                            ? (balanceDetails?.credit / 100).toFixed(2)
                             : 0}
                         </span>
                       </div>

@@ -237,12 +237,16 @@ const Dialer = () => {
         console.log("Call accepted");
       });
       outgoingCall.on("disconnect", () => {
-        dispatch(
-          updateBalanceAfterCall(token, {
-            accountSid: accountSid,
-            authToken: accountAuthToken,
-            user_id: user.id,
-          })
+        setTimeout(
+          () =>
+            dispatch(
+              updateBalanceAfterCall(token, {
+                accountSid: accountSid,
+                authToken: accountAuthToken,
+                user_id: user.id,
+              })
+            ),
+          15000
         );
         setTimer({ hours: 0, mins: 0, sec: 0 });
         setShowCall(false);

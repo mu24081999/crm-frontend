@@ -51,7 +51,7 @@ const SearchNumber = ({
       <div className="m-5 d-flex justify-content-center">
         <div className=" w-100">
           <div className="row">
-            {/* <div className="col-md-4 col-sm-6">
+            <div className="col-md-4 col-sm-6">
               <ReactCountryField
                 name="country"
                 control={control}
@@ -63,8 +63,8 @@ const SearchNumber = ({
                   },
                 }}
               />
-            </div> */}
-            <div className="col-md-4 col-sm-6">
+            </div>
+            {/* <div className="col-md-4 col-sm-6">
               <ReactSelectField
                 name="country"
                 placeholder="Select Country"
@@ -107,7 +107,7 @@ const SearchNumber = ({
                   },
                 }}
               />
-            </div>
+            </div> */}
             <div className="col-md-4 col-sm-6">
               <ReactSelectField
                 name="numberType"

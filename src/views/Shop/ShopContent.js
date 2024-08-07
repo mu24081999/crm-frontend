@@ -119,7 +119,7 @@ const ContactsContent = () => {
                   />
                 )}
                 <div className="contact-body">
-                  <div data-simplebar className="nicescroll-bar">
+                  <div style={{ overflow: "scroll", maxHeight: "98%" }}>
                     <ContactList
                       contactsData={phoneNumbers}
                       onToggleEdit={handleToggleEdit}

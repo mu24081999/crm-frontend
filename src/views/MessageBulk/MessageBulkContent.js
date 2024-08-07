@@ -155,10 +155,40 @@ const MessageContent = () => {
           </div>
           {showForm && (
             <div class="emailapp-wrap">
-              <ComposeBulk
-                onShowAddForm={onShowAddForm}
-                a2pVerified={a2pVerified}
-              />
+              <div
+                id="compose_messages_bulk"
+                className="modal fade add-new-contact"
+                tabIndex="-1"
+                role="dialog"
+                aria-hidden="true"
+              >
+                <div
+                  className="modal-dialog modal-dialog-centered modal-lg"
+                  role="document"
+                >
+                  <div className="modal-content">
+                    <div className="modal-header bg-primary">
+                      <span style={{ color: "white", fontWeight: "bold" }}>
+                        Compose Bulk SMS
+                      </span>
+                      <button
+                        type="button"
+                        className="btn-close btn-light"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <div className="modal-body">
+                      <ComposeBulk
+                        onShowAddForm={onShowAddForm}
+                        a2pVerified={a2pVerified}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>

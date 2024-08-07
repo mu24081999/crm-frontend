@@ -1,0 +1,926 @@
+{
+  "countries": [
+    {
+      "country": "United States",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0140",
+        "inbound_local_price": "0.0085",
+        "outbound_tollfree_price": "0.0140",
+        "inbound_tollfree_price": "0.0220"
+      },
+      "sms": {
+        "inbound_local_price": "0.0200",
+        "outbound_local_price": "0.0079",
+        "outbound_tollfree_price": "0.0079",
+        "inbound_tollfree_price": "0.0200"
+      }
+    },
+    {
+      "country": "India",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0368",
+        "inbound_local_price": "0.2632",
+        "outbound_tollfree_price": "0.0368",
+        "inbound_tollfree_price": "0.2632"
+      },
+      "sms": {
+        "inbound_local_price": "0.0832",
+        "outbound_local_price": "0.0",
+        "outbound_tollfree_price": "0.0832",
+        "inbound_tollfree_price": "0.0"
+      }
+    },
+    {
+      "country": "Australia",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0240",
+        "inbound_local_price": "0.0100",
+        "outbound_tollfree_price": "0.0240",
+        "inbound_tollfree_price": "0.0500"
+      },
+      "sms": {
+        "inbound_local_price": "0.0075",
+        "outbound_local_price": "0.0515",
+        "outbound_tollfree_price": "0.0",
+        "inbound_tollfree_price": "0.0"
+      }
+    },
+    {
+      "country": "United Kingdom",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0150",
+        "inbound_local_price": "0.0100",
+        "outbound_tollfree_price": "0.0150",
+        "inbound_tollfree_price": "0.0575"
+      },
+      "sms": {
+        "inbound_local_price": "0.0463",
+        "outbound_local_price": "0.0075",
+        "outbound_tollfree_price": "0.0",
+        "inbound_tollfree_price": "0.0"
+      }
+    },
+    {
+      "country": "Canada",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0140",
+        "inbound_local_price": "0.0085",
+        "outbound_tollfree_price": "0.0140",
+        "inbound_tollfree_price": "0.0220"
+      },
+      "sms": {
+        "inbound_local_price": "0.0079",
+        "outbound_local_price": "0.0079",
+        "outbound_tollfree_price": "0.0079",
+        "inbound_tollfree_price": "0.0079"
+      }
+    },
+    {
+      "country": "Brazil",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0220",
+        "inbound_local_price": "0.0100"
+      },
+      "sms": {
+        "inbound_local_price": "0.0599",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "France",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0147",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.0798",
+        "outbound_local_price": "0.0075"
+      }
+    },
+    {
+      "country": "Germany",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0150",
+        "inbound_local_price": "0.0100."
+      },
+      "sms": {
+        "inbound_local_price": "0.0940",
+        "outbound_local_price": "0.0075"
+      }
+    },
+    {
+      "country": "Japan",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0610",
+        "inbound_local_price": "0.0100",
+        "outbound_tollfree_price": "0.0400",
+        "inbound_tollfree_price": "0.2780"
+      },
+      "sms": {
+        "inbound_local_price": "0.0840",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Afganistan",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.3200",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.3756",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Albania",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.2410",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.0910",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Algeria",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.1000",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.2575",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "American Samoa",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.4090",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1881",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Angola",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.8130",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.0887",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Anguilla",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.3770",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1387",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Anguilla",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.3770",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1387",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Antigua and Barbuda",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.3780",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.0980",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Argentina",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0185",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.0935",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Armenia",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.2150",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1384",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Aruba",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.1159",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1159",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Austria",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.1500",
+        "inbound_local_price": "0.0100",
+        "outbound_tollfree_price": "0.1500",
+        "inbound_tollfree_price": "0.0897"
+      },
+      "sms": {
+        "inbound_local_price": "0.0979",
+        "outbound_local_price": "0.0075"
+      }
+    },
+    {
+      "country": "Azerbaijan",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.2800",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.3877",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Bahamas",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.2300",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.0525",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Bahamas",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.2300",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.0525",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Bahrain",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.1540",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.0364",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Bangladesh",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0600",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.3222",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Barbodos",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.2800",
+        "inbound_local_price": "0.0290"
+      },
+      "sms": {
+        "inbound_local_price": "0.1289",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Belarus",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.5100",
+        "inbound_local_price": "0.0",
+        "outbound_tollfree_price": "0.5100",
+        "inbound_tollfree_price": "0.4565"
+      },
+      "sms": {
+        "inbound_local_price": "0.2521",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Belgium",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.1375",
+        "inbound_local_price": "0.0",
+        "inbound_tollfree_price": "0.3083"
+      },
+      "sms": {
+        "inbound_local_price": "0.1050",
+        "outbound_local_price": "0.0075"
+      }
+    },
+    {
+      "country": "Belize",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.3000",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.2738",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Benin",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.5280",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1445",
+        "outbound_local_price": "0.0100"
+      }
+    },
+    {
+      "country": "Bermuda",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0500",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1516",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Bhutan",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.1600",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.4007",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Bolivia",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.2379",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1452",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Bosnia and Herzegovina",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.2320",
+        "inbound_local_price": "0.0560"
+      },
+      "sms": {
+        "inbound_local_price": "0.0840",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Botswana",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.2310",
+        "inbound_local_price": "0.0",
+        "outbound_tollfree_price": "0.2310",
+        "inbound_tollfree_price": "0.4492"
+      },
+      "sms": {
+        "inbound_local_price": "0.0998",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "British Virgin Islands",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.2310",
+        "inbound_local_price": "0.0",
+        "outbound_tollfree_price": "0.2310",
+        "inbound_tollfree_price": "0.4492"
+      },
+      "sms": {
+        "inbound_local_price": "0.3120",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Brunei",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0930",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.0200",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Burundi",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.8850",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.3757",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Cambodia",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.1000",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1705",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Cameroon",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.4100",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1464",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Cape Verde",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.3300",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.2239",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Cayman Islands",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.3380",
+        "inbound_local_price": "0.0290"
+      },
+      "sms": {
+        "inbound_local_price": "0.1652",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Central African Republic",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "1.0760",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1218",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Chad",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "1.0006",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.2897",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Chile",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0400",
+        "inbound_local_price": "0.0100",
+        "outbound_tollfree_price": "0.0670"
+      },
+      "sms": {
+        "inbound_local_price": "0.0684",
+        "outbound_local_price": "0.0075"
+      }
+    },
+    {
+      "country": "Colombia",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0700",
+        "inbound_local_price": "0.0900",
+        "inbound_tollfree_price": "0.1707"
+      },
+      "sms": {
+        "inbound_local_price": "0.0525",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Comoros",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.7020",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.3119",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Cook Islands",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "2.3000",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1396",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Cote d'Ivoire",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.1996",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.5600",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Cuba",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "1.0150",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.0915",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Croatia",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0300",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.0915",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Cyprus",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0700",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.9864",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Democratic Republic Of The Congo",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.6660",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.2291",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Denmark",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0190",
+        "inbound_local_price": "0.0",
+        "inbound_tollfree_price": "0.0343"
+      },
+      "sms": {
+        "inbound_local_price": "0.0524",
+        "outbound_local_price": "0.0075"
+      }
+    },
+    {
+      "country": "Djibouti",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.5550",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1624",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Dominica",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.4050",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1768",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Ecuador",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.1650",
+        "inbound_local_price": "0.0100"
+      },
+      "sms": {
+        "inbound_local_price": "0.1810",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Egypt",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.1350",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.2777",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "El Salvador",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.2750",
+        "inbound_local_price": "0.0100"
+      },
+      "sms": {
+        "inbound_local_price": "0.0972",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Equatorial Guinea",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.6320",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1729",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Estonia",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0657",
+        "inbound_local_price": "0.0100"
+      },
+      "sms": {
+        "inbound_local_price": "0.1166",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Ethiopia",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.3250",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.3425",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "France",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.3250",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.0798",
+        "outbound_local_price": "0.0075"
+      }
+    },
+    {
+      "country": "Gambia",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.8250",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1660",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Georgia",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.2900",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1589",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Ghana",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.3800",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1889",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Gibraltar",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0460",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1091",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Gibraltar",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0460",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.1091",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Greece",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0200",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.0620",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Greenland",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.4750",
+        "inbound_local_price": "0.0"
+      },
+      "sms": {
+        "inbound_local_price": "0.0410",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Grenada",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.2900",
+        "inbound_local_price": "0.0100"
+      },
+      "sms": {
+        "inbound_local_price": "0.1930",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Germany",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0940",
+        "inbound_local_price": "0.0100"
+      },
+      "sms": {
+        "inbound_local_price": "0.0075",
+        "outbound_local_price": "0.0"
+      }
+    },
+    {
+      "country": "Hong Kong",
+      "iso_country": "US",
+      "call": {
+        "outbound_local_price": "0.0682",
+        "inbound_local_price": "0.0100"
+      },
+      "sms": {
+        "inbound_local_price": "0.0682",
+        "outbound_local_price": "0.0400"
+      }
+    }
+  ]
+}
