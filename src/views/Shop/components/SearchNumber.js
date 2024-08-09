@@ -24,19 +24,21 @@ const SearchNumber = ({
   } = useForm({});
   const [criteria, setCriteria] = useState("");
   const criteriaWatcher = watch("search_criteria");
+  const countryWatcher = watch("country");
+
   useEffect(() => {
     if (criteriaWatcher !== undefined) {
       setCriteria(criteriaWatcher?.value);
     }
   }, [criteriaWatcher]);
   const handleSearchNumber = (data) => {
-    console.log("🚀 ~ handleSearchNumber ~ data:", data.country.value);
+    console.log("🚀 ~ handleSearchNumber ~ data:", data);
     const formData = {
       ...data,
       authToken: authToken,
       accountSid: accountSid,
       numberType: data.numberType.value,
-      country: data.country.value,
+      country: data.country,
     };
     dispatch(searchAvailablePhoneNumber(token, formData));
     onDataFromChild(formData.numberType);

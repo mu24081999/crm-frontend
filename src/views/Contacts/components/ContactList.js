@@ -110,6 +110,8 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
         modify_key: "contact_delete",
       };
       dispatch(updateBulkContactRec(token, formData));
+      setValue("bulk", false);
+      setContactsToModify([]);
     } else {
       toast.error("Please select at least one contact.");
     }
@@ -126,6 +128,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
         modify_key: "status",
       };
       dispatch(updateBulkContactRec(token, formData));
+      setContactsToModify([]);
     } else {
       toast.error("Please select at least one contact.");
     }
@@ -315,6 +318,7 @@ const ContactList = ({ contactsData, onToggleEdit, isEdit }) => {
                         <div className="px-2">
                           <Checkbox
                             name={`contact-${contact.id}`}
+                            id="contacts_check"
                             control={control}
                             errors={errors}
                             onChange={(e) => handleSingleChange(e, contact)}

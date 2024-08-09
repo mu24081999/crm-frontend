@@ -19,13 +19,9 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useDispatch } from "react-redux";
 import { updateContactRec } from "../../redux/services/contact";
-import { Link } from "react-router-dom";
-import { CiMenuKebab } from "react-icons/ci";
-import { FaBell, FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import moment from "moment";
 import { MdAlternateEmail, MdOutlineSms } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
-import { first } from "lodash";
 import Loader from "../../components/Loader/Loader";
 
 const initialItems = {
@@ -54,7 +50,6 @@ const initialItems = {
     { id: "12", content: "Sixth task" },
   ],
 };
-
 const Droppable = ({ id, children }) => {
   const { setNodeRef } = useDroppable({ id });
 
