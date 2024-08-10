@@ -9,6 +9,7 @@ export const packageSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     packageRequestLoading: (state, action) => {
@@ -29,6 +30,7 @@ export const packageSlice = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     packageDetails: (state, action) => {
       state.isLoading = false;

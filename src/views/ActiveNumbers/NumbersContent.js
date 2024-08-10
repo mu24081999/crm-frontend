@@ -1,25 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader/Loader";
 import {
   getAllClaimedNumbers,
   getMainAccountClaimedNumbers,
 } from "../../redux/services/calling";
+import { SocketContext } from "../../Context";
 
 const NumbersContent = () => {
+  const { checkLastFetchedValid } = useContext(SocketContext);
   const { dashboardData } = useSelector((state) => state.dashboard);
   const { token, accountAuthToken, accountSid, user } = useSelector(
     (state) => state.auth
   );
   console.log(user?.twilio_numbers?.numbers);
-  const { claimedNumbers, isLoading } = useSelector((state) => state.calling);
+  const { claimedNumbers, isLoading, lastFetched } = useSelector(
+    (state) => state.calling
+  );
   const active_numbers =
     user?.role === "AGENT" ? user?.twilio_numbers?.numbers : claimedNumbers;
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getMainAccountClaimedNumbers(token));
-  }, [token, dispatch, accountSid, accountAuthToken]);
+    const shouldFetch = checkLastFetchedValid(lastFetched, 60000 * 15);
+    if (shouldFetch) dispatch(getMainAccountClaimedNumbers(token));
+  }, [
+    token,
+    dispatch,
+    accountSid,
+    accountAuthToken,
+    lastFetched,
+    checkLastFetchedValid,
+  ]);
 
   return (
     <div className="" style={{ margin: "7% 10% 7% 10%" }}>

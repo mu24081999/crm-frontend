@@ -13,21 +13,11 @@ import { useForm } from "react-hook-form";
 import Pagination from "../../components/Pagination/Pagination";
 
 const CallHistoryContent = () => {
-  const {
-    handleSubmit,
-    watch,
-    control,
-    setValue,
-    formState: { errors },
-  } = useForm({});
   const [data, setData] = useState([]);
   const [data_, setData_] = useState([]);
   const [phoneNumbers, setPhoneNumbers] = useState([]);
-  const [phoneNumbers_, setPhoneNumbers_] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
-  const { availableNumbers, callLogs, recordings } = useSelector(
-    (state) => state.calling
-  );
+  const { callLogs, recordings } = useSelector((state) => state.calling);
   const { token, accountSid, accountAuthToken, user } = useSelector(
     (state) => state.auth
   );

@@ -75,21 +75,21 @@ const ComposeEmail = () => {
   return (
     <div class="">
       <div class="d-flex flex-column h-100">
-        {isLoading ? (
+        {/* {isLoading ? (
           <Loader />
-        ) : (
-          <form onSubmit={handleSubmit(handleSendEmail)}>
-            <div className="w-100">
-              <InputField
-                name="subject"
-                // mb={true}
-                placeholder="Subject"
-                control={control}
-                errors={errors}
-              />
-            </div>
-            <div className="w-100">
-              {/* <ReactSelectField
+        ) : ( */}
+        <form onSubmit={handleSubmit(handleSendEmail)}>
+          <div className="w-100">
+            <InputField
+              name="subject"
+              // mb={true}
+              placeholder="Subject"
+              control={control}
+              errors={errors}
+            />
+          </div>
+          <div className="w-100">
+            {/* <ReactSelectField
             name="to"
             placeholder="Select"
             control={control}
@@ -107,63 +107,63 @@ const ComposeEmail = () => {
             }
             errors={errors}
           /> */}
-              <ReactTagInputComponent
-                errors={errors}
-                control={control}
-                placeHolder="Enter email and press enter"
-                name="to"
-              />
-            </div>
-            <div className="w-100">
-              {/* <TextAreaField
+            <ReactTagInputComponent
+              errors={errors}
+              control={control}
+              placeHolder="Enter email and press enter"
+              name="to"
+            />
+          </div>
+          <div className="w-100">
+            {/* <TextAreaField
                 name="body"
                 placeholder="Text"
                 control={control}
                 errors={errors}
               /> */}
-              <EditorField
-                name="body"
-                placeholder="Body text"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "Field required!",
-                  },
-                }}
-                errors={errors}
+            <EditorField
+              name="body"
+              placeholder="Body text"
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "Field required!",
+                },
+              }}
+              errors={errors}
+            />
+          </div>
+          <div className="mb-2">
+            <div
+              className="btn shadow btn-secondary rounded-circle btn-file"
+              style={{ width: "30px", height: "35px" }}
+            >
+              <FiPaperclip
+                size={17}
+                style={{ marginLeft: "-8px", marginBottom: "6px" }}
+              />
+              <input
+                type="file"
+                className="upload"
+                onChange={handleFileChange}
               />
             </div>
-            <div className="mb-2">
-              <div
-                className="btn shadow btn-secondary rounded-circle btn-file"
-                style={{ width: "30px", height: "35px" }}
-              >
-                <FiPaperclip
-                  size={17}
-                  style={{ marginLeft: "-8px", marginBottom: "6px" }}
-                />
-                <input
-                  type="file"
-                  className="upload"
-                  onChange={handleFileChange}
-                />
-              </div>
-              <span className="px-2">Attach files</span>
-            </div>
-            <div class="compose-email-footer">
-              <div className="w-100">
-                <button class="btn btn-primary float-end" type="submit">
-                  Send
-                </button>
-                {/* <input
+            <span className="px-2">Attach files</span>
+          </div>
+          <div class="compose-email-footer">
+            <div className="w-100">
+              <button class="btn btn-primary float-end" type="submit">
+                Send
+              </button>
+              {/* <input
                   type="file"
                   name="file"
                   multiple
                   onChange={handleFileChange}
                 /> */}
 
-                {/* <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
+              {/* <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
                   <span
                     class="icon"
                     data-bs-toggle="tooltip"
@@ -176,8 +176,8 @@ const ComposeEmail = () => {
                     </span>
                   </span>
                 </button> */}
-              </div>
-              {/* <div>
+            </div>
+            {/* <div>
                 <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
                   <span
                     class="icon"
@@ -205,9 +205,9 @@ const ComposeEmail = () => {
                   </span>
                 </button>
               </div> */}
-            </div>
-          </form>
-        )}
+          </div>
+        </form>
+        {/* )} */}
       </div>
     </div>
   );

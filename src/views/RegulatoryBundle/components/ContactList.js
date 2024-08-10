@@ -2,37 +2,22 @@ import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteContactRec,
-  getContactsList,
   permanentDeleteContactRec,
   updateBulkContactRec,
   updateContactRec,
 } from "../../../redux/services/contact";
 import Loader from "../../../components/Loader/Loader";
-import { FaArchive, FaEdit, FaRegStar, FaTrash } from "react-icons/fa";
-import moment from "moment";
 import { SocketContext } from "../../../Context";
-import { ImBlocked } from "react-icons/im";
-import Checkbox from "../../../components/FormFields/checkboxField";
-import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import exportToCSV from "../../../components/Papaparse/exportCSV";
 import _ from "lodash";
 
 const ContactList = ({ data, onToggleEdit, isEdit }) => {
-  const {
-    handleSubmit,
-    watch,
-    control,
-    setValue,
-    formState: { errors },
-  } = useForm({});
   const { handleToggleShowLeadDetail, setContactsToModify, contactsToModify } =
     useContext(SocketContext);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-  const { isLoading } = useSelector((state) => state.contact);
+  const { isLoading } = useSelector((state) => state.bundle);
   const [searchInput, setSearchInput] = useState(null);
-  const [contacts, setContacts] = useState();
   const handleDeleteContact = (contact_id) => {
     dispatch(deleteContactRec(token, contact_id));
     onToggleEdit(false);

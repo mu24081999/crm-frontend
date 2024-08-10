@@ -16,6 +16,7 @@ export const callingSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     callingRequestLoading: (state, action) => {
@@ -46,6 +47,7 @@ export const callingSlice = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     makeCall: (state, action) => {
       state.isLoading = false;

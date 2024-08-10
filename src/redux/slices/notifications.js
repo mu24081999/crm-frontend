@@ -9,6 +9,7 @@ export const notificationSlice = createSlice({
     error: "",
     token: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     notificationRequestLoading: (state, action) => {
@@ -29,6 +30,7 @@ export const notificationSlice = createSlice({
       state.error = "";
       state.token = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     updateNotification: (state, action) => {
       state.isLoading = false;

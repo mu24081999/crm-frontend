@@ -10,6 +10,7 @@ export const brandslice = createSlice({
     error: "",
     token: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     bundlesRequestLoading: (state, action) => {
@@ -31,6 +32,7 @@ export const brandslice = createSlice({
       state.error = "";
       state.token = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     getUserBundles: (state, action) => {
       state.isLoading = false;
@@ -38,6 +40,7 @@ export const brandslice = createSlice({
       state.error = "";
       state.token = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     readBundle: (state, action) => {
       state.isLoading = false;

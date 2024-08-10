@@ -10,6 +10,7 @@ export const postSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFeched: null,
   },
   reducers: {
     postRequestLoading: (state, action) => {
@@ -46,6 +47,7 @@ export const postSlice = createSlice({
       state.posts = action.payload;
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     readPost: (state, action) => {
       state.isLoading = false;

@@ -27,7 +27,6 @@ const persistConfig = {
     "agent",
     "payment",
     "subscription",
-    "dashboard",
     "billing",
     "kyc",
     "ticket",
@@ -41,7 +40,7 @@ const persistConfig = {
     "setting",
     "bundle",
   ],
-  whitelist: ["auth"],
+  whitelist: ["auth", "dashboard"],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({

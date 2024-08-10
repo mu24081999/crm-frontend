@@ -19,7 +19,7 @@ const RecordingList = ({ isEdit, recordingsData, user }) => {
   const { isLoading, callLogs } = useSelector((state) => state.calling);
   useEffect(() => {
     if (token) {
-      dispatch(getContactsList(token));
+      // dispatch(getContactsList(token));
 
       dispatch(getUsers(token));
     }

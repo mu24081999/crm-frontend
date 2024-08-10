@@ -23,7 +23,7 @@ import moment from "moment";
 import { MdAlternateEmail, MdOutlineSms } from "react-icons/md";
 import { IoCallOutline } from "react-icons/io5";
 import Loader from "../../components/Loader/Loader";
-
+import "./kanban.css";
 const initialItems = {
   pending: [
     { id: "1", content: "First task" },
@@ -56,7 +56,7 @@ const Droppable = ({ id, children }) => {
   return <div ref={setNodeRef}>{children}</div>;
 };
 const SortableItem = ({ id, content, containerId }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
+  const { attributes, listeners, setNodeRef, transform, transition, isOver } =
     useSortable({ id });
 
   const style = {

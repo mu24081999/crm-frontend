@@ -9,6 +9,7 @@ export const emailSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     emailRequestLoading: (state, action) => {
@@ -35,6 +36,7 @@ export const emailSlice = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     updateEmail: (state, action) => {
       state.isLoading = false;

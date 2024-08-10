@@ -9,6 +9,7 @@ export const contactSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     contactRequestLoading: (state, action) => {
@@ -39,6 +40,7 @@ export const contactSlice = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     deleteContact: (state, action) => {
       state.isLoading = false;

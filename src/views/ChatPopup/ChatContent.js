@@ -9,15 +9,18 @@ import { SocketContext } from "../../Context";
 import { getMessagesList } from "../../redux/services/message";
 
 const ChatContent = () => {
-  const { messagesArray } = useContext(SocketContext);
+  const { messagesArray, checkLastFetchedValid } = useContext(SocketContext);
   const [contactsData, setContactsData] = useState([]);
   const [messages, setMessages] = useState([]);
   const [selectedMessages, setSelectedMessages] = useState({});
   const [selectedContact, setSelectedContact] = useState({});
   const [showContact, setShowContact] = useState(true);
   const [showChat, setShowChat] = useState(false);
-  const { contacts } = useSelector((state) => state.contact);
-  const { messages: defaultMessages } = useSelector((state) => state.message);
+  const { contacts, lastFetched: contactsLastFetched } = useSelector(
+    (state) => state.contact
+  );
+  const { messages: defaultMessages, lastFetched: messageLastFetched } =
+    useSelector((state) => state.message);
   const { token, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -38,9 +41,23 @@ const ChatContent = () => {
     setMessages(defaultMessages);
   }, [defaultMessages]);
   useEffect(() => {
-    dispatch(getContactsList(token));
-    dispatch(getMessagesList(token));
-  }, [token, dispatch]);
+    const shouldFetchContacts = checkLastFetchedValid(
+      contactsLastFetched,
+      60000 * 15
+    );
+    const shouldFetchMessages = checkLastFetchedValid(
+      messageLastFetched,
+      60000 * 15
+    );
+    if (shouldFetchContacts) dispatch(getContactsList(token));
+    if (shouldFetchMessages) dispatch(getMessagesList(token));
+  }, [
+    token,
+    dispatch,
+    messageLastFetched,
+    contactsLastFetched,
+    checkLastFetchedValid,
+  ]);
   useEffect(() => {
     if (contacts?.length > 0) {
       const groupedUsers = contacts?.reduce((acc, contact) => {

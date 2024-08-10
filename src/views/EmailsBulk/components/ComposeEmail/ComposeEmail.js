@@ -154,82 +154,82 @@ const ComposeEmail = () => {
   return (
     <div class="">
       <div class="d-flex flex-column">
-        {isLoading ? (
+        {/* {isLoading ? (
           <Loader />
-        ) : (
-          <form
-            onSubmit={handleSubmit(handleSendEmail)}
-            style={{
-              maxHeight: "600px",
-              overflow: "scroll",
-              scrollBehavior: "smooth",
-            }}
-          >
-            <div className="w-100">
-              <InputField
-                name="subject"
-                placeholder="Subject"
-                control={control}
-                mb={true}
-                errors={errors}
-              />
-            </div>
-            <div className="w-100">
-              <TextAreaField
-                name="to"
-                height="150px"
-                placeholder="Enter list of email address"
-                rows={2}
-                control={control}
-                errors={errors}
-              />
-            </div>
-            <div className="w-100 form-group">
-              <label className="form-label">Upload CSV for emails</label>
-              <input
-                type="file"
-                className="form-control"
-                name="emails"
-                onChange={handleChangeCsvFile}
-              />
-            </div>
-            <div className="w-100">
-              {/* <TextAreaField
+        ) : ( */}
+        <form
+          onSubmit={handleSubmit(handleSendEmail)}
+          style={{
+            maxHeight: "600px",
+            overflow: "scroll",
+            scrollBehavior: "smooth",
+          }}
+        >
+          <div className="w-100">
+            <InputField
+              name="subject"
+              placeholder="Subject"
+              control={control}
+              mb={true}
+              errors={errors}
+            />
+          </div>
+          <div className="w-100">
+            <TextAreaField
+              name="to"
+              height="150px"
+              placeholder="Enter list of email address"
+              rows={2}
+              control={control}
+              errors={errors}
+            />
+          </div>
+          <div className="w-100 form-group">
+            <label className="form-label">Upload CSV for emails</label>
+            <input
+              type="file"
+              className="form-control"
+              name="emails"
+              onChange={handleChangeCsvFile}
+            />
+          </div>
+          <div className="w-100">
+            {/* <TextAreaField
               name="body"
               placeholder="Text"
               control={control}
               errors={errors}
             /> */}
-              <EditorField
-                name="body"
-                placeholder="Body text"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "Field required!",
-                  },
-                }}
-                errors={errors}
-              />
+            <EditorField
+              name="body"
+              placeholder="Body text"
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: "Field required!",
+                },
+              }}
+              errors={errors}
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Attachments</label>
+            <input
+              type="file"
+              name="file"
+              className="form-control"
+              multiple
+              onChange={handleFileChange}
+            />
+          </div>
+          <div class="compose-email-footer ">
+            <div className="w-100">
+              <button class="btn btn-primary float-end" type="submit">
+                Send
+              </button>
             </div>
-            <div className="form-group">
-              <label className="form-label">Attachments</label>
-              <input
-                type="file"
-                name="file"
-                className="form-control"
-                multiple
-                onChange={handleFileChange}
-              />
-            </div>
-            <div class="compose-email-footer ">
-              <div className="w-100">
-                <button class="btn btn-primary float-end" type="submit">
-                  Send
-                </button>
-              </div>
-              {/* <div>
+            {/* <div>
                 <button class="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover">
                   <span
                     class="icon"
@@ -257,9 +257,9 @@ const ComposeEmail = () => {
                   </span>
                 </button>
               </div> */}
-            </div>
-          </form>
-        )}
+          </div>
+        </form>
+        {/* )} */}
       </div>
     </div>
   );

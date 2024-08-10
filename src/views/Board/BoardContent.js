@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import SideNav from "./components/SideNav";
 import BoardHeader from "./components/BoardHeader";
@@ -14,14 +14,13 @@ import AddNewProjectTask from "./components/AddNewProjectTask";
 import { getTasksList } from "../../redux/services/project-task";
 import EditProjectTask from "./components/EditProjectTask";
 import Kanban from "./Kanban";
-import {
-  getContactsList,
-  getContactsListByBoard,
-} from "../../redux/services/contact";
-import { getUsers } from "../../redux/services/users";
+import { getContactsList } from "../../redux/services/contact";
 import _ from "lodash";
+import { SocketContext } from "../../Context";
 
 const BoardContent = () => {
+  const dispatch = useDispatch();
+  const { checkLastFetchedValid } = useContext(SocketContext);
   const [toggleType, setToggleType] = useState("board");
   const [boardsData, setBoardsData] = useState([]);
   const [contactsData, setContactsData] = useState([]);
@@ -36,23 +35,39 @@ const BoardContent = () => {
     boards,
     boardDetails,
     isLoading: boardsLoading,
+    lastFetched: boardLastFetched,
   } = useSelector((state) => state.board);
-  const { contacts } = useSelector((state) => state.contact);
-  const { teams } = useSelector((state) => state.board_team);
-  const { tasks, isLoading: tasksLoading } = useSelector(
-    (state) => state.board_task
+  const { contacts, lastFetched: contactsLastFetched } = useSelector(
+    (state) => state.contact
   );
+  const { teams } = useSelector((state) => state.board_team);
+  const {
+    tasks,
+    isLoading: tasksLoading,
+    lastFetched: boardTaskLastFetched,
+  } = useSelector((state) => state.board_task);
 
-  const dispatch = useDispatch();
   const handleToggleChange = (value) => {
     setToggleType(value);
   };
   useEffect(() => {
-    dispatch(getBoardList(token));
-    dispatch(getBoardTeamList(token));
-    dispatch(getUsers(token));
-    dispatch(getTasksList(token));
-    dispatch(getContactsList(token));
+    const shouldFetchBoards = checkLastFetchedValid(
+      boardLastFetched,
+      60000 * 15
+    );
+    const shouldFetchTasks = checkLastFetchedValid(
+      boardTaskLastFetched,
+      60000 * 15
+    );
+    const shouldFetchContacts = checkLastFetchedValid(
+      contactsLastFetched,
+      60000 * 15
+    );
+    if (shouldFetchBoards) dispatch(getBoardList(token));
+    // dispatch(getBoardTeamList(token));
+    // dispatch(getUsers(token));
+    if (shouldFetchTasks) dispatch(getTasksList(token));
+    if (shouldFetchContacts) dispatch(getContactsList(token));
     // dispatch(getContactsListByBoard(token, boardDetails?.id));
   }, [token, dispatch, boardDetails]);
   useEffect(() => {

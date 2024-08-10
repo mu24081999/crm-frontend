@@ -9,6 +9,7 @@ export const kycSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     kycRequestLoading: (state, action) => {
@@ -29,6 +30,7 @@ export const kycSlice = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     kycDetails: (state, action) => {
       state.isLoading = false;

@@ -63,7 +63,6 @@ const Dialer = () => {
     setTimer,
     Timer,
   } = useContext(SocketContext);
-  console.log("🚀 ~ Dialer ~ callStatus:", callStatus);
   const {
     // handleSubmit,
     watch,
@@ -71,6 +70,8 @@ const Dialer = () => {
     setValue,
     formState: { errors },
   } = useForm();
+  const { checkLastFetchedValid } = useContext(SocketContext);
+
   // const [inputValue, setInputValue] = useState("");
   // const [isDial, setIsDial] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -83,7 +84,6 @@ const Dialer = () => {
   // const [connection, setConnection] = useState(false);
   // const [activeCall, setActiveCall] = useState(null);
   // const [activeCallSid, setActiveCallSid] = useState(null);
-  const [anotherActiveCall, setAnotherActiveCall] = useState(null);
   const [active, setActive] = useState(true);
   const [alertMessage, setAlertMessage] = useState(null);
   const [agents, setAgents] = useState([]);
@@ -96,7 +96,7 @@ const Dialer = () => {
     (state) => state.auth
   );
   const { claimedNumbers } = useSelector((state) => state.calling);
-  const { contacts } = useSelector((state) => state.contact);
+  const { contacts, lastFetched } = useSelector((state) => state.contact);
   const { balanceDetails } = useSelector((state) => state.balance);
   const { users, isLoading: userLoading } = useSelector((state) => state.user);
   // const [activeRecordingSid, setActiveRecordingSid] = useState(null);
@@ -200,13 +200,22 @@ const Dialer = () => {
   }, [twilioDevice]);
 
   useEffect(() => {
+    const shouldFetch = checkLastFetchedValid(lastFetched, 60000 * 15);
+
     // dispatch(getUsers(token));
-    dispatch(getContactsList(token));
+    if (shouldFetch) dispatch(getContactsList(token));
     dispatch(getBalance(token));
     dispatch(
       getAllClaimedNumbers(token, { accountSid, authToken: accountAuthToken })
     );
-  }, [dispatch, token, accountAuthToken, accountSid]);
+  }, [
+    dispatch,
+    token,
+    accountAuthToken,
+    accountSid,
+    lastFetched,
+    checkLastFetchedValid,
+  ]);
   const makeCall = () => {
     const params = { To: inputValue };
     if (_.toInteger(balanceDetails?.credit) <= 0) {

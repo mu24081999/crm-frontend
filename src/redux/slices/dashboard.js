@@ -8,6 +8,7 @@ export const dashboardRoutes = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     dashboardRequestLoading: (state, action) => {
@@ -27,6 +28,7 @@ export const dashboardRoutes = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
   },
 });

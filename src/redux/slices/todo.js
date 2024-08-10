@@ -9,6 +9,7 @@ export const todoSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     todoRequestLoading: (state, action) => {
@@ -29,6 +30,7 @@ export const todoSlice = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     todoDetails: (state, action) => {
       state.isLoading = false;

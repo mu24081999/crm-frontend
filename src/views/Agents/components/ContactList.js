@@ -1,10 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getContactsList,
-  permanentDeleteContactRec,
-} from "../../../redux/services/contact";
-import Loader from "../../../components/Loader/Loader";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import moment from "moment";
 import { SocketContext } from "../../../Context";
@@ -19,12 +14,7 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
   const { handleToggleShowUserDetail } = useContext(SocketContext);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-  const { isLoading } = useSelector((state) => state.contact);
-  useEffect(() => {
-    if (token) {
-      dispatch(getContactsList(token));
-    }
-  }, [dispatch, token]);
+  const { isLoading } = useSelector((state) => state.user);
   const handleDeleteContact = (contact_id) => {
     dispatch(deleteUserRec(token, contact_id));
     onToggleEdit(false);
@@ -47,56 +37,56 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
     <div className="contact-list-view">
       {!isEdit && (
         <>
-          {isLoading ? (
+          {/* {isLoading ? (
             <Loader />
-          ) : (
-            <table className="table w-100 mb-5">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email Address</th>
-                  <th>Status</th>
-                  <th>Date Created</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
+          ) : ( */}
+          <table className="table w-100 mb-5">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email Address</th>
+                <th>Status</th>
+                <th>Date Created</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
 
-              <tbody>
-                {usersData?.length > 0 &&
-                  usersData?.map((contact) => (
-                    <tr>
-                      <td>
-                        <div className="media align-items-center">
-                          <div className="media-head me-2">
-                            <div className="avatar avatar-xs avatar-rounded">
-                              <img
-                                src={
-                                  contact.avatar ||
-                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj0HSlpGrcoSJqHfu9TPqo_WhhuWwq8t8zb5lbp5ES8w&s"
-                                }
-                                alt="user"
-                                className="avatar-img"
-                              />
-                            </div>
-                          </div>
-                          <div className="media-body">
-                            <a
-                              className="badge badge-primary "
-                              onClick={() => handleToggle(contact.id)}
-                            >
-                              <span
-                                className="d-block text-high-em"
-                                style={{ color: "white" }}
-                              >
-                                {contact.name}
-                              </span>
-                            </a>
+            <tbody>
+              {usersData?.length > 0 &&
+                usersData?.map((contact) => (
+                  <tr>
+                    <td>
+                      <div className="media align-items-center">
+                        <div className="media-head me-2">
+                          <div className="avatar avatar-xs avatar-rounded">
+                            <img
+                              src={
+                                contact.avatar ||
+                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj0HSlpGrcoSJqHfu9TPqo_WhhuWwq8t8zb5lbp5ES8w&s"
+                              }
+                              alt="user"
+                              className="avatar-img"
+                            />
                           </div>
                         </div>
-                      </td>
-                      <td className="text-truncate">{contact.email}</td>
+                        <div className="media-body">
+                          <a
+                            className="badge badge-primary "
+                            onClick={() => handleToggle(contact.id)}
+                          >
+                            <span
+                              className="d-block text-high-em"
+                              style={{ color: "white" }}
+                            >
+                              {contact.name}
+                            </span>
+                          </a>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="text-truncate">{contact.email}</td>
 
-                      {/* <td className="text-truncate">
+                    {/* <td className="text-truncate">
                         {contact.role || "user"}
                       </td>
                       <td>
@@ -111,25 +101,25 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                             </span>
                           ))}
                       </td> */}
-                      <td>
-                        <span
-                          className={`${
-                            contact?.status === "active"
-                              ? " badge rounded text-bg-primary "
-                              : "badge rounded text-bg-danger"
-                          }  justify-content-around mt-3`}
-                        >
-                          {contact?.status}
-                        </span>
-                      </td>
-                      {/* <td>{contact?.socket_id}</td> */}
-                      <td>
-                        {moment(contact?.created_at).format("DD, MMM YYYY")}
-                      </td>
-                      <td>
-                        <div className="d-flex align-items-center">
-                          <div className="d-flex">
-                            {/* <a
+                    <td>
+                      <span
+                        className={`${
+                          contact?.status === "active"
+                            ? " badge rounded text-bg-primary "
+                            : "badge rounded text-bg-danger"
+                        }  justify-content-around mt-3`}
+                      >
+                        {contact?.status}
+                      </span>
+                    </td>
+                    {/* <td>{contact?.socket_id}</td> */}
+                    <td>
+                      {moment(contact?.created_at).format("DD, MMM YYYY")}
+                    </td>
+                    <td>
+                      <div className="d-flex align-items-center">
+                        <div className="d-flex">
+                          {/* <a
                               className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
                               data-bs-toggle="tooltip"
                               data-placement="top"
@@ -146,34 +136,34 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                                 </span>
                               </span>
                             </a> */}
-                            <a
-                              className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
-                              data-bs-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              data-bs-original-title="Edit"
-                              // to={`/edit-contact/${contact.id}`}
-                              onClick={() => handleToggle(contact.id)}
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  {/* <i data-feather="edit"></i> */}
-                                  <FaEdit />
-                                </span>
+                          <a
+                            className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover"
+                            data-bs-toggle="tooltip"
+                            data-placement="top"
+                            title=""
+                            data-bs-original-title="Edit"
+                            // to={`/edit-contact/${contact.id}`}
+                            onClick={() => handleToggle(contact.id)}
+                          >
+                            <span className="icon">
+                              <span className="feather-icon">
+                                {/* <i data-feather="edit"></i> */}
+                                <FaEdit />
                               </span>
-                            </a>
-                            <button
-                              className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
-                              onClick={() => handleDeleteContact(contact.id)}
-                            >
-                              <span className="icon">
-                                <span className="feather-icon">
-                                  {/* <i data-feather="trash"></i> */}
-                                  <MdBlockFlipped fontSize={20} />
-                                </span>
+                            </span>
+                          </a>
+                          <button
+                            className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
+                            onClick={() => handleDeleteContact(contact.id)}
+                          >
+                            <span className="icon">
+                              <span className="feather-icon">
+                                {/* <i data-feather="trash"></i> */}
+                                <MdBlockFlipped fontSize={20} />
                               </span>
-                            </button>
-                            {/* <button
+                            </span>
+                          </button>
+                          {/* <button
                               className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover del-button"
                               onClick={() =>
                                 handlePermanentDeleteContact(contact.id)
@@ -185,8 +175,8 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                                 </span>
                               </span>
                             </button> */}
-                          </div>
-                          {/* <div className="dropdown">
+                        </div>
+                        {/* <div className="dropdown">
                             <button
                               className="btn btn-icon btn-flush-dark btn-rounded flush-soft-hover dropdown-toggle no-caret"
                               aria-expanded="false"
@@ -243,13 +233,13 @@ const ContactList = ({ usersData, onToggleEdit, isEdit }) => {
                               </a>
                             </div>
                           </div> */}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+          {/* )} */}
         </>
       )}
     </div>

@@ -10,6 +10,7 @@ export const settingSlice = createSlice({
     error: "",
     token: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     settingRequestLoading: (state, action) => {
@@ -31,6 +32,7 @@ export const settingSlice = createSlice({
       state.error = "";
       state.token = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     addSetting: (state, action) => {
       state.isLoading = false;

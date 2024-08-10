@@ -9,6 +9,7 @@ export const boardSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     boardRequestLoading: (state, action) => {
@@ -28,6 +29,7 @@ export const boardSlice = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     boardDetails: (state, action) => {
       state.isLoading = false;

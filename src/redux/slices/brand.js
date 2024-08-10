@@ -10,6 +10,7 @@ export const brandslice = createSlice({
     error: "",
     token: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     brandRequestLoading: (state, action) => {
@@ -31,6 +32,7 @@ export const brandslice = createSlice({
       state.error = "";
       state.token = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     addUpdateBrand: (state, action) => {
       state.isLoading = false;

@@ -8,6 +8,7 @@ export const pricingSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     pricingRequestLoading: (state, action) => {
@@ -27,6 +28,7 @@ export const pricingSlice = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
   },
 });

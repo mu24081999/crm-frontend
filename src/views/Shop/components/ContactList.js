@@ -15,12 +15,12 @@ const ContactList = ({
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { isLoading } = useSelector((state) => state.calling);
-  useEffect(() => {
-    if (token) {
-      dispatch(getContactsList(token));
-      dispatch(getUsers(token));
-    }
-  }, [dispatch, token]);
+  // useEffect(() => {
+  //   if (token) {
+  //     dispatch(getContactsList(token));
+  //     dispatch(getUsers(token));
+  //   }
+  // }, [dispatch, token]);
   const handleBuyClick = (phoneNumberData) => {
     onDataFromChild(phoneNumberData?.phoneNumber);
     dispatch(

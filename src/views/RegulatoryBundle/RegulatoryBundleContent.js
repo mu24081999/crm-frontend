@@ -16,19 +16,20 @@ import Pagination from "../../components/Pagination/Pagination";
 import { getUserBundlesList } from "../../redux/services/bundles";
 
 const RegulatoryBundleContent = () => {
-  const { showLeadDetails } = useContext(SocketContext);
+  const { showLeadDetails, checkLastFetchedValid } = useContext(SocketContext);
   const dispatch = useDispatch();
   const { token, user, user_id } = useSelector((state) => state.auth);
   const { contactDetails } = useSelector((state) => state.contact);
-  const { bundles } = useSelector((state) => state.bundle);
+  const { bundles, lastFetched } = useSelector((state) => state.bundle);
   const [data, setData] = useState([]);
   const [data_, setData_] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [view, setView] = useState("list");
   const { boards } = useSelector((state) => state.board);
   useEffect(() => {
-    dispatch(getUserBundlesList(token, user_id));
-  }, [dispatch, token, user_id]);
+    const shouldFetch = checkLastFetchedValid(lastFetched, 60000 * 15);
+    if (shouldFetch) dispatch(getUserBundlesList(token, user_id));
+  }, [dispatch, token, user_id, lastFetched, checkLastFetchedValid]);
   useEffect(() => {
     setData(bundles);
     setData_(bundles);

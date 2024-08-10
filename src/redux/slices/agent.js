@@ -10,6 +10,7 @@ export const agentSlice = createSlice({
     error: "",
     token: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     agentRequestLoading: (state, action) => {
@@ -30,6 +31,7 @@ export const agentSlice = createSlice({
       state.error = "";
       state.token = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     addAgent: (state, action) => {
       state.isLoading = false;

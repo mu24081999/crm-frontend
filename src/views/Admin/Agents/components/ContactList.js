@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getContactsList } from "../../../../redux/services/contact";
 import Loader from "../../../../components/Loader/Loader";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import moment from "moment";
@@ -12,12 +11,12 @@ const ContactList = ({ usersData, onToggleEdit, isEdit, allUsers }) => {
   const { handleToggleShowUserDetail } = useContext(SocketContext);
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-  const { isLoading } = useSelector((state) => state.contact);
-  useEffect(() => {
-    if (token) {
-      dispatch(getContactsList(token));
-    }
-  }, [dispatch, token]);
+  const { isLoading } = useSelector((state) => state.user);
+  // useEffect(() => {
+  //   if (token) {
+  //     dispatch(getContactsList(token));
+  //   }
+  // }, [dispatch, token]);
   const handleDeleteContact = (contact_id) => {
     dispatch(deleteUserRec(token, contact_id));
     onToggleEdit(false);

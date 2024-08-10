@@ -9,6 +9,7 @@ export const invoiceSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     invoiceRequestLoading: (state, action) => {
@@ -29,6 +30,7 @@ export const invoiceSlice = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     invoiceDetials: (state, action) => {
       state.isLoading = false;

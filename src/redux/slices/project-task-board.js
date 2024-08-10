@@ -9,6 +9,7 @@ export const taskBoardSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     taskBoardRequestLoading: (state, action) => {
@@ -35,6 +36,7 @@ export const taskBoardSlice = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     deleteTaskBoard: (state, action) => {
       state.isLoading = false;

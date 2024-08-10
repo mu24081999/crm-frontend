@@ -10,6 +10,7 @@ export const userSlice = createSlice({
     error: "",
     token: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     userRequestLoading: (state, action) => {
@@ -30,6 +31,7 @@ export const userSlice = createSlice({
       state.error = "";
       state.token = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     addUser: (state, action) => {
       state.isLoading = false;

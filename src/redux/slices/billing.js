@@ -10,6 +10,7 @@ export const billingSlice = createSlice({
     error: "",
     token: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     billingRequestLoading: (state, action) => {
@@ -31,6 +32,7 @@ export const billingSlice = createSlice({
       state.error = "";
       state.token = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     addBilling: (state, action) => {
       state.isLoading = false;

@@ -19,10 +19,14 @@ import ComposeBulk from "./components/ComposeBulk";
 
 const MessageContent = () => {
   const socketURL = process.env.REACT_APP_BACKEND_SOCKET_URL_PRODUCTION;
-  const { messagesArray } = useContext(SocketContext);
+  const { messagesArray, checkLastFetchedValid } = useContext(SocketContext);
   const [selectedMessages, setSelectedMessages] = useState({});
   const [showForm, setShowForm] = useState(false);
-  const { messages: defaultMessages } = useSelector((state) => state.message);
+  const { messages: defaultMessages, lastFetched: messageLastFetched } =
+    useSelector((state) => state.message);
+  const { contacts, lastFetched: contactsLastFetched } = useSelector(
+    (state) => state.contact
+  );
   //Socket connection
   const socket = useMemo(() => io(socketURL), [socketURL]);
   const [selectedRoom, setSelectedRoom] = useState({});
@@ -38,8 +42,16 @@ const MessageContent = () => {
     setMessages(defaultMessages);
   }, [defaultMessages]);
   useEffect(() => {
-    dispatch(getContactsList(token));
-    dispatch(getMessagesList(token));
+    const shouldFetchContacts = checkLastFetchedValid(
+      contactsLastFetched,
+      60000 * 15
+    );
+    const shouldFetchMessages = checkLastFetchedValid(
+      messageLastFetched,
+      60000 * 15
+    );
+    if (shouldFetchContacts) dispatch(getContactsList(token));
+    if (shouldFetchMessages) dispatch(getMessagesList(token));
   }, [token, dispatch]);
   useEffect(() => {
     if (defaultMessages?.length > 0) {

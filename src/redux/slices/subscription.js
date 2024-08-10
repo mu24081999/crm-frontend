@@ -10,6 +10,7 @@ export const subscriptionSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     subscriptionRequestLoading: (state, action) => {
@@ -31,6 +32,7 @@ export const subscriptionSlice = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     getUserSubscription: (state, action) => {
       state.isLoading = false;
@@ -38,6 +40,7 @@ export const subscriptionSlice = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     addSubscription: (state, action) => {
       state.isLoading = false;

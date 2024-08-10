@@ -9,6 +9,7 @@ export const verificationSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     verificationRequestLoading: (state, action) => {
@@ -29,6 +30,7 @@ export const verificationSlice = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     verificationDetails: (state, action) => {
       state.isLoading = false;

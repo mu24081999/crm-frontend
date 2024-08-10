@@ -9,6 +9,7 @@ export const ticketSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     ticketRequestLoading: (state, action) => {
@@ -29,6 +30,7 @@ export const ticketSlice = createSlice({
       state.message = "success";
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     ticketDetails: (state, action) => {
       state.isLoading = false;

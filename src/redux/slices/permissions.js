@@ -10,6 +10,7 @@ export const permissionSlice = createSlice({
     error: "",
     token: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     permissionRequestLoading: (state, action) => {
@@ -31,6 +32,7 @@ export const permissionSlice = createSlice({
       state.error = "";
       state.token = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     addPermissions: (state, action) => {
       state.isLoading = false;

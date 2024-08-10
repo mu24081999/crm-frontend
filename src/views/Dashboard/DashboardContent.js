@@ -1,17 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import Overview from "./components/Overview";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment/moment";
 import { FaCalendarAlt } from "react-icons/fa";
 import { getDashboardData } from "../../redux/services/dashboard";
+import { SocketContext } from "../../Context";
 
 const DashboardContent = () => {
+  const { checkLastFetchedValid } = useContext(SocketContext);
   const dispatch = useDispatch();
   const { token, user, accountSid, accountAuthToken } = useSelector(
     (state) => state.auth
   );
-  const { dashboardData, isLoading } = useSelector((state) => state.dashboard);
-  useEffect(() => {
+  const { dashboardData, isLoading, lastFetched } = useSelector(
+    (state) => state.dashboard
+  );
+  useMemo(() => {
+    const shouldFetch = checkLastFetchedValid(lastFetched, 60000 * 15);
     const data = {
       user_id: user.id,
       authToken: accountAuthToken,
@@ -19,8 +24,18 @@ const DashboardContent = () => {
       user_email: user.email,
       user_phone: user.phone,
     };
-    dispatch(getDashboardData(token, data));
-  }, [dispatch, token, accountAuthToken, accountSid, user]);
+    if (shouldFetch) {
+      dispatch(getDashboardData(token, data));
+    }
+  }, [
+    dispatch,
+    token,
+    accountAuthToken,
+    accountSid,
+    user,
+    lastFetched,
+    checkLastFetchedValid,
+  ]);
   //
   return (
     <div>
@@ -87,7 +102,6 @@ const DashboardContent = () => {
           </div>
           {/* <!-- /Page Body -->		 */}
         </div>
-
         {/* <!-- Page Footer --> */}
         {/* <div class="hk-footer">
           <footer class="container-xxl footer">

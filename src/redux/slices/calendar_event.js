@@ -10,6 +10,7 @@ export const calenderEventSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     eventRequstLoading: (state, action) => {
@@ -46,6 +47,7 @@ export const calenderEventSlice = createSlice({
       state.events = action.payload;
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     readEvent: (state, action) => {
       state.isLoading = false;

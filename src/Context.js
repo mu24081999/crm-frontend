@@ -52,6 +52,13 @@ const ContextProvider = ({ children }) => {
   const [kycApproved, setKycApproved] = useState(0);
   const [themeType, setThemeType] = useState("collapsed");
   const [timer, setTimer] = useState({ hours: 0, mins: 0, sec: 0 });
+  const checkLastFetchedValid = (lastFetched, lastCheckTime) => {
+    const now = new Date();
+    const lastFetchedDate = lastFetched ? new Date(lastFetched) : null;
+    const shouldFetch =
+      !lastFetchedDate || now - lastFetchedDate > lastCheckTime; // e.g., fetch if last fetched more than 1 minute ago
+    return shouldFetch;
+  };
   const Timer = () => {
     const getTime = () => {
       setTimer((state) => ({
@@ -401,6 +408,7 @@ const ContextProvider = ({ children }) => {
         setInputValue,
         setKycApproved,
         setThemeType,
+        checkLastFetchedValid,
       }}
     >
       {children}

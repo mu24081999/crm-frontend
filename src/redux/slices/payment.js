@@ -11,6 +11,7 @@ export const paymentSlice = createSlice({
     message: "",
     error: "",
     type: "",
+    lastFetched: null,
   },
   reducers: {
     paymentRequestLoading: (state, action) => {
@@ -36,6 +37,7 @@ export const paymentSlice = createSlice({
       state.payments = action.payload;
       state.error = "";
       state.type = "success";
+      state.lastFetched = new Date().toISOString(); // Update the lastFetched field
     },
     getUserPayments: (state, action) => {
       state.isLoading = false;

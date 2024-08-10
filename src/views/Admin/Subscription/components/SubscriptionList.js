@@ -19,11 +19,7 @@ const SubscriptionList = ({
   users,
 }) => {
   const {
-    handleSubmit,
-    // watch,
     control,
-    setValue,
-    reset,
     formState: { errors },
   } = useForm({});
   const { handleToggleShowLeadDetail } = useContext(SocketContext);
