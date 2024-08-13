@@ -11,6 +11,7 @@ const ContactList = ({
   numberPricing,
   isEdit,
   onDataFromChild,
+  numberType,
 }) => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
@@ -69,7 +70,7 @@ const ContactList = ({
                           {contact?.isoCountry}
                         </div>
                       </td>
-                      <td>Local</td>
+                      <td>{numberType || "Local"}</td>
                       <td className="">
                         <button className="btn btn-sm btn-primary">
                           {contact?.capabilities?.voice ? "true" : "false"}

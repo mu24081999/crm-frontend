@@ -57,7 +57,7 @@ const CallHistoryContent = () => {
 
                 <div className="contact-body">
                   <div
-                    className="border border-success"
+                    className=""
                     style={{ overflow: "scroll", maxHeight: "98%" }}
                   >
                     <RecordingList

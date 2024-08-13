@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import InputField from "../../../components/FormFields/InputField";
+import ReactSelectField from "../../../components/FormFields/reactSelectField";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserRec } from "../../../redux/services/users";
 import { setAccount } from "../../../redux/slices/auth";
+import _ from "lodash";
 
 const UpdatePassword = () => {
   const {
@@ -14,16 +16,29 @@ const UpdatePassword = () => {
     formState: { errors },
   } = useForm({});
   const dispatch = useDispatch();
+  const emailTypeWatcher = watch("email_type");
   const { token, user } = useSelector((state) => state.auth);
   useEffect(() => {
     setValue("google_app_password", user?.google_app_password);
+    setValue("mail_provider", user?.mail_provider);
+    setValue("email_type", {
+      label: user?.email_type,
+      value: user?.email_type,
+    });
   }, [user, setValue]);
   const handleUpdate = async (data) => {
-    const updated = await dispatch(updateUserRec(token, data, user.id));
+    const params = {
+      google_app_password: data?.google_app_password,
+      mail_provider: data?.mail_provider,
+      email_type: data?.email_type?.value,
+    };
+    const updated = await dispatch(updateUserRec(token, params, user.id));
     if (updated) {
       const newUser = {
         ...user,
-        google_app_password: data.google_app_password,
+        google_app_password: data?.google_app_password,
+        mail_provider: data?.mail_provider,
+        email_type: data?.email_type?.value,
       };
       dispatch(setAccount(newUser));
     }
@@ -34,6 +49,7 @@ const UpdatePassword = () => {
       <div className="title-lg fs-4">
         <span>Email Configuration</span>
       </div>
+
       {/* <p className="mb-4">
         The Avatar component is used to represent a user, and displays the
         profile picture, initials or fallback icon.
@@ -130,6 +146,35 @@ const UpdatePassword = () => {
         <div className="row gx-3 mt-5">
           <div className="col-sm-12">
             <div className="form-group">
+              <div>
+                <ReactSelectField
+                  name="email_type"
+                  placeholder="Email Type"
+                  label="Email Type"
+                  options={[
+                    {
+                      label: "Google_email",
+                      value: "google_email",
+                    },
+                    {
+                      label: "Professional_email",
+                      value: "professional_email",
+                    },
+                  ]}
+                  control={control}
+                  errors={errors}
+                />
+              </div>
+              {emailTypeWatcher !== undefined &&
+                emailTypeWatcher?.value === "professional_email" && (
+                  <InputField
+                    name="provider"
+                    placeholder="Your Email Service Provider"
+                    label="Email Provider"
+                    control={control}
+                    errors={errors}
+                  />
+                )}
               <InputField
                 name="google_app_password"
                 type="password"
@@ -138,6 +183,7 @@ const UpdatePassword = () => {
                 control={control}
                 errors={errors}
               />
+
               <button type="submit" className="btn btn-primary mt-3">
                 Submit
               </button>

@@ -123,6 +123,7 @@ const ContactsContent = () => {
                     <ContactList
                       contactsData={phoneNumbers}
                       onToggleEdit={handleToggleEdit}
+                      numberType={numberType}
                       numberPricing={
                         numberType === "tollFree"
                           ? settingDetails?.toll_free_number_price

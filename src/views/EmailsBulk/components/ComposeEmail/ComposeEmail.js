@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaMinus } from "react-icons/fa";
-import { RxCross2 } from "react-icons/rx";
-import { CiMinimize1 } from "react-icons/ci";
-import { CgMaximize } from "react-icons/cg";
 import InputField from "../../../../components/FormFields/InputField";
 import TextAreaField from "../../../../components/FormFields/textAreaField";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../../../redux/services/users";
 import { sendEmailBulk, sendEmailRec } from "../../../../redux/services/email";
 import EditorField from "../../../../components/FormFields/Editor";
-import Loader from "../../../../components/Loader/Loader";
 import { toast } from "react-toastify";
 
 const ComposeEmail = () => {
@@ -23,9 +18,9 @@ const ComposeEmail = () => {
     formState: { errors },
   } = useForm();
   const dispatch = useDispatch();
+
   const { token, user } = useSelector((state) => state.auth);
   const { users } = useSelector((state) => state.user);
-  const { isLoading } = useSelector((state) => state.email);
   const [usersData, setUsersData] = useState([]);
   const [emails, setEmails] = useState([]);
   useEffect(() => {
@@ -42,6 +37,7 @@ const ComposeEmail = () => {
     setValue("files", e.currentTarget.files);
   };
   const handleSendEmail = async (data) => {
+    console.log(user?.mail_provider);
     if (user?.google_app_password) {
       // const textEmails = data?.to?.split("\n");
       // textEmails?.length > 0
@@ -88,16 +84,25 @@ const ComposeEmail = () => {
       formData.append("from", user?.email);
       formData.append("from_name", user?.name);
       formData.append("google_app_password", user?.google_app_password);
+      formData.append("email_type", user?.email_type);
+      formData.append("mail_provider", user?.mail_provider);
       if (emails.length > 0) {
-        emails?.forEach((element) => {
-          formData.append("to", element);
-        });
+        if (emails?.length <= 100) {
+          emails?.forEach((element) => {
+            formData.append("to", element);
+          });
+        } else {
+          return toast.error("You can only send 100 emails on per request ");
+        }
       } else {
         const textEmails = data?.to?.split("\n");
-        console.log("🚀 ~ handleSendEmail ~ textEmails:", textEmails);
-        textEmails?.forEach((element) => {
-          formData.append("to", element);
-        });
+        if (textEmails?.length <= 100) {
+          textEmails?.forEach((element) => {
+            formData.append("to", element);
+          });
+        } else {
+          toast.error("You can only send 100 emails on per request");
+        }
       }
       data?.files &&
         data?.files.forEach((element) => {
@@ -134,6 +139,12 @@ const ComposeEmail = () => {
         // Trim the data and push it to the corresponding column array
         columnsData[headers[j]].push(columns[j].trim());
       }
+    }
+    // Validation: Ensure exactly 100 entries are selected from the 'emails' column
+    if (columnsData?.emails?.length !== 100) {
+      return toast.error(
+        `Expected exactly 100 emails, but found ${columnsData.emails.length}`
+      );
     }
     return columnsData?.emails;
     // console.log(columnsData);

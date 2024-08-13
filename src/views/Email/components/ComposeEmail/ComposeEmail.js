@@ -60,6 +60,8 @@ const ComposeEmail = () => {
       formData.append("from", user.email);
       formData.append("from_name", user.name);
       formData.append("google_app_password", user?.google_app_password);
+      formData.append("email_type", user?.email_type);
+      formData.append("mail_provider", user?.mail_provider);
       data?.to?.forEach((element) => {
         formData.append("to", element);
       });

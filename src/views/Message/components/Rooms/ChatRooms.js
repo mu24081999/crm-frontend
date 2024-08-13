@@ -107,7 +107,7 @@ const ChatRooms = ({
               );
             })
           ) : (
-            <li>No rooms till.</li>
+            <></>
           )}
         </ul>
       )}

@@ -118,8 +118,8 @@ const SearchNumber = ({
                 errors={errors}
                 mb={false}
                 options={[
-                  { label: "local", value: "local" },
-                  { label: "tollFree", value: "tollFree" },
+                  { label: "Local", value: "local" },
+                  { label: "Toll-Free", value: "tollFree" },
                 ]}
                 rules={{
                   required: {
