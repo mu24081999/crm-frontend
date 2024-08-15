@@ -102,13 +102,13 @@ const ComposeEmail = () => {
         // }
       } else {
         const textEmails = data?.to?.split("\n");
-        if (textEmails?.length <= 100) {
-          textEmails?.forEach((element) => {
-            formData.append("to", element);
-          });
-        } else {
-          toast.error("You can only send 100 emails on per request");
-        }
+        // if (textEmails?.length <= 100) {
+        textEmails?.forEach((element) => {
+          formData.append("to", element);
+        });
+        // } else {
+        //   toast.error("You can only send 100 emails on per request");
+        // }
       }
       data?.files &&
         data?.files.forEach((element) => {
