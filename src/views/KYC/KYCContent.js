@@ -87,6 +87,7 @@ const KYCContent = () => {
     }
   };
   const handleAddKYC = async (data) => {
+    console.log("🚀 ~ handleAddKYC ~ data:", data);
     // console.log("🚀 ~ handleAddKYC ~ data:", data);
     // console.log("image data", base64Image);
     const formData = new FormData();
@@ -592,11 +593,13 @@ const KYCContent = () => {
                   </div>
                 </div>
               </div> */}
-                <div className=" float-end">
+                <div className="float-end">
                   {isLoading ? (
                     <Loader />
                   ) : (
-                    <button className="btn btn-primary">Submit</button>
+                    <button class="btn btn-primary float-end" type="submit">
+                      Submit
+                    </button>
                   )}
                 </div>
               </form>

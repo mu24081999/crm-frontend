@@ -9,6 +9,7 @@ const ChatRooms = ({
   onMessagesDataFromChild,
   updateChat,
 }) => {
+  console.log("🚀 ~ messages:", messages);
   const [selectedRoom, setSelectedRoom] = useState("");
   const [prevData, setPrevData] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
@@ -72,7 +73,7 @@ const ChatRooms = ({
           {roomsData?.length > 0 ? (
             roomsData?.map((contact, index) => {
               const messageArray = messages?.filter(
-                (msg) => msg.room === contact.name
+                (msg) => msg.to_phone === contact
               );
               const lastMessage = messageArray[messageArray.length - 1];
               return (
