@@ -55,7 +55,7 @@ const Droppable = ({ id, children }) => {
 
   return <div ref={setNodeRef}>{children}</div>;
 };
-const SortableItem = ({ id, content, containerId }) => {
+const SortableItem = ({ id, content, containerId, barColor }) => {
   const { attributes, listeners, setNodeRef, transform, transition, isOver } =
     useSortable({ id });
 
@@ -74,16 +74,17 @@ const SortableItem = ({ id, content, containerId }) => {
     >
       {/* {content} */}
       <div className="card  tasklist-card">
-        <div className="card-header card-header-action bg-primary ">
-          <h6 className="fw-bold text-white">
+        {/* <div className="card-header card-header-action bg-primary ">
+        </div> */}
+
+        <div className="">
+          <h6
+            className="fw-bold text-dark pt-2 ps-3 rounded-4"
+            style={{ borderTop: `3px solid ${barColor}` }}
+          >
             {content?.firstname}({content?.phone})
           </h6>
-        </div>
-        <div className="card-body">
-          <div>
-            {content?.bio?.slice(0, 150)}
-            ...
-          </div>
+          <div>{content?.bio?.slice(0, 150)}</div>
         </div>
         <div className="card-footer text-muted justify-content-between">
           <div>
@@ -91,19 +92,19 @@ const SortableItem = ({ id, content, containerId }) => {
               <span>
                 <MdAlternateEmail />
               </span>
-              <span>4/8</span>
+              {/* <span>23</span> */}
             </span>
             <span className="task-discuss">
               <span>
                 <MdOutlineSms />
               </span>
-              <span>24</span>
+              {/* <span>24</span> */}
             </span>
             <span className="task-discuss">
               <span>
                 <IoCallOutline />
               </span>
-              <span>24</span>
+              {/* <span>24</span> */}
             </span>
           </div>
           <div>
@@ -168,10 +169,17 @@ const Column = ({ id, items, boardDetails }) => {
         style={{ borderTop: `5px solid ${status?.color}` }}
       >
         <div className="card-body">
-          <h5 className="text-center ">{id}</h5>
+          <h5 className="text-center">{id}</h5>
         </div>
       </div>
-      <div style={{ minHeight: "150px" }}>
+      <div
+        style={{
+          minHeight: "150px",
+          maxHeight: "100%",
+          overflow: "scroll",
+          scrollBehavior: "smooth",
+        }}
+      >
         <Droppable id={id}>
           <SortableContext
             items={items?.map((item) => item.id) || []}
@@ -184,6 +192,7 @@ const Column = ({ id, items, boardDetails }) => {
                 id={item?.id}
                 content={item}
                 containerId={id}
+                barColor={status?.color}
               />
             ))}
             {/* {items.length === 0 && <DropZone id={id} />} */}
@@ -287,7 +296,10 @@ const TasksContent = ({
         onDataViewFromChild={onDataViewFromChild}
         isShowTask={isShowTask}
       />
-      <div className="taskboard-body">
+      <div
+        className="taskboard-body"
+        style={{ height: "100vh", backgroundColor: "#87ceeb4d" }}
+      >
         {tasksLoading ? (
           <div className="w-100">
             <Loader />
