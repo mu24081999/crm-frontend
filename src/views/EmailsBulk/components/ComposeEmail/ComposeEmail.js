@@ -23,6 +23,8 @@ const ComposeEmail = () => {
   const { users } = useSelector((state) => state.user);
   const [usersData, setUsersData] = useState([]);
   const [emails, setEmails] = useState([]);
+  const [firstnames, setFirstNames] = useState([]);
+  const [lastNames, setLastNames] = useState([]);
   useEffect(() => {
     // if (token) {
     dispatch(getUsers(token));
@@ -86,14 +88,18 @@ const ComposeEmail = () => {
       formData.append("google_app_password", user?.google_app_password);
       formData.append("email_type", user?.email_type);
       formData.append("mail_provider", user?.mail_provider);
+      firstnames?.forEach((element) => {
+        formData.append("to_name", element);
+      });
       if (emails.length > 0) {
-        if (emails?.length <= 100) {
-          emails?.forEach((element) => {
-            formData.append("to", element);
-          });
-        } else {
-          return toast.error("You can only send 100 emails on per request ");
-        }
+        // if (emails?.length <= 100) {
+        emails?.forEach((element) => {
+          formData.append("to", element);
+        });
+
+        // } else {
+        //   return toast.error("You can only send 100 emails on per request ");
+        // }
       } else {
         const textEmails = data?.to?.split("\n");
         if (textEmails?.length <= 100) {
@@ -117,6 +123,39 @@ const ComposeEmail = () => {
   };
   // Function to extract email addresses from CSV contents
   // Function to extract all columns and their data from CSV contents
+  // const extractColumnsFromCSV = (csvContent) => {
+  //   const columnsData = {};
+
+  //   // Split CSV content by lines
+  //   const lines = csvContent.split("\n");
+
+  //   // Extract headers (first line)
+  //   const headers = lines[0].split(",").map((header) => header.trim());
+
+  //   // Initialize columnsData object with empty arrays for each column
+  //   headers.forEach((header) => {
+  //     columnsData[header] = [];
+  //   });
+
+  //   // Iterate over each row (starting from the second line)
+  //   for (let i = 1; i < lines.length; i++) {
+  //     const columns = lines[i].split(",");
+  //     console.log("🚀 ~ extractColumnsFromCSV ~ columns:", columns);
+  //     // Iterate over each column
+  //     for (let j = 0; j < headers.length && j < columns.length; j++) {
+  //       // Trim the data and push it to the corresponding column array
+  //       columnsData[headers[j]].push(columns[j].trim());
+  //     }
+  //   }
+  //   // // Validation: Ensure exactly 100 entries are selected from the 'emails' column
+  //   // if (columnsData?.emails?.length !== 100) {
+  //   //   return toast.error(
+  //   //     `Expected exactly 100 emails, but found ${columnsData.emails.length}`
+  //   //   );
+  //   // }
+  //   console.log(columnsData);
+  //   return columnsData?.emails;
+  // };
   const extractColumnsFromCSV = (csvContent) => {
     const columnsData = {};
 
@@ -134,30 +173,33 @@ const ComposeEmail = () => {
     // Iterate over each row (starting from the second line)
     for (let i = 1; i < lines.length; i++) {
       const columns = lines[i].split(",");
+
       // Iterate over each column
       for (let j = 0; j < headers.length && j < columns.length; j++) {
         // Trim the data and push it to the corresponding column array
         columnsData[headers[j]].push(columns[j].trim());
       }
     }
-    // Validation: Ensure exactly 100 entries are selected from the 'emails' column
-    if (columnsData?.emails?.length !== 100) {
-      return toast.error(
-        `Expected exactly 100 emails, but found ${columnsData.emails.length}`
-      );
-    }
-    return columnsData?.emails;
-    // console.log(columnsData);
+
+    // Extract the emails array from columnsData
+    const emails = columnsData.emails || [];
+
+    // Return both the emails array and the full columnsData object
+    console.log("🚀 ~ extractColumnsFromCSV ~ columnsData:", columnsData);
+    return { emails, columnsData };
   };
+
   const handleChangeCsvFile = (event) => {
     const file = event.currentTarget.files[0];
     const reader = new FileReader();
 
     reader.onload = function (e) {
       const contents = e.target.result;
-      const emailsArray = extractColumnsFromCSV(contents);
-      setEmails(emailsArray);
-      setValue("to", emailsArray);
+      console.log("🚀 ~ handleChangeCsvFile ~ contents:", contents);
+      const data = extractColumnsFromCSV(contents);
+      setEmails(data.emails);
+      setFirstNames(data?.columnsData?.fistname);
+      setValue("to", data?.emails);
     };
 
     reader.readAsText(file);
