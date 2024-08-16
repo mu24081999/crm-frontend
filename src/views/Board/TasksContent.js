@@ -173,12 +173,14 @@ const Column = ({ id, items, boardDetails }) => {
         </div>
       </div>
       <div
-        style={{
-          minHeight: "150px",
-          maxHeight: "100%",
-          overflow: "scroll",
-          scrollBehavior: "smooth",
-        }}
+        style={
+          {
+            // minHeight: "150px",
+            // maxHeight: "100%",
+            // overflow: "scroll",
+            // scrollBehavior: "smooth",
+          }
+        }
       >
         <Droppable id={id}>
           <SortableContext
@@ -298,7 +300,7 @@ const TasksContent = ({
       />
       <div
         className="taskboard-body"
-        style={{ height: "100vh", backgroundColor: "#87ceeb4d" }}
+        style={{ height: "100vh", backgroundColor: "rgb(135 206 235 / 13%)" }}
       >
         {tasksLoading ? (
           <div className="w-100">

@@ -16,3 +16,30 @@ code {
     monospace;
   color: rgba(0, 128, 128, 0.156);
 }
+/* Applies to the entire webpage */
+::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+/* The part of the scrollbar track */
+::-webkit-scrollbar-track {
+  background: transparent; /* Color of the track */
+  /* background: red; */
+  border-radius: 10px; /* Round corners */
+}
+
+/* The draggable part of the scrollbar */
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color of the thumb */
+  border-radius: 10px; /* Round corners */
+  border: 3px solid #f1f1f1; /* Space around the thumb */
+}
+
+/* Hover state for the scrollbar thumb */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker thumb on hover */
+}
+/* Thumb when active */
+::-webkit-scrollbar-thumb:active {
+  background-color: #444; /* Darker color when the thumb is active */
+}
