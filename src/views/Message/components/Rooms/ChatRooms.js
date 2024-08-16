@@ -7,9 +7,8 @@ const ChatRooms = ({
   messages,
   deleteChatRecord,
   onMessagesDataFromChild,
-  updateChat,
+  roomsLoading,
 }) => {
-  console.log("🚀 ~ messages:", messages);
   const [selectedRoom, setSelectedRoom] = useState("");
   const [prevData, setPrevData] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
@@ -66,7 +65,7 @@ const ChatRooms = ({
           onKeyUp={handleSearchRoom}
         />
       </form>
-      {isLoading ? (
+      {roomsLoading ? (
         <Loader />
       ) : (
         <ul class="chat-contacts-list list-group list-group-flush">

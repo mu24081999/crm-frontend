@@ -12,6 +12,7 @@ const ChatAside = ({
   updateChat,
   onMessagesDataFromChild,
   a2pVerified,
+  roomsLoading,
 }) => {
   return (
     <div>
@@ -48,6 +49,7 @@ const ChatAside = ({
           </div>
           <ChatRooms
             rooms={rooms}
+            roomsLoading={roomsLoading}
             authUser={authUser}
             socket={socket}
             onDataFromChild={onDataFromChild}

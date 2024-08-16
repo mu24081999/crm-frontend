@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import ChatAside from "./components/ChatAside/ChatAside";
 import SingleChat from "./components/Messages/SingleChat";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,19 +27,31 @@ const MessageContent = () => {
   const [contactsData, setContactsData] = useState([]);
   const { user, token } = useSelector((state) => state.auth);
   const [a2pVerified, setA2pVerified] = useState(false);
+  const [isLoadingConversations, setIsLoadingConversations] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     setMessages(defaultMessages);
   }, [defaultMessages]);
-  useEffect(() => {
-    dispatch(
+  const getRooms = useCallback(async () => {
+    setIsLoadingConversations(true);
+    await dispatch(
       getConversationsList(token, {
         authToken: user?.authToken,
-        accountSid: user.accountSid,
+        accountSid: user?.accountSid,
       })
     );
+    setIsLoadingConversations(false);
+  }, [dispatch, token, user]);
+  useEffect(() => {
+    // dispatch(
+    //   getConversationsList(token, {
+    //     authToken: user?.authToken,
+    //     accountSid: user.accountSid,
+    //   })
+    // );
+    getRooms();
     dispatch(getMessagesList(token));
-  }, [token, dispatch, user]);
+  }, [token, dispatch, user, getRooms]);
   useEffect(() => {
     setContactsData(conversations);
   }, [conversations]);
@@ -75,6 +93,7 @@ const MessageContent = () => {
                 socket={socket}
                 a2pVerified={a2pVerified}
                 rooms={contactsData}
+                roomsLoading={isLoadingConversations}
                 messages={messages}
                 onFilterDataFromChild={handleFilterDataFromChild}
                 authUser={user}
