@@ -18,8 +18,8 @@ const KYCList = ({ kycArray, dispatch, isEdit, users, isLoading, token }) => {
             <table className="table w-100 mb-5">
               <thead>
                 <tr>
-                  {/* <th>Customer</th> */}
                   <th>Customer</th>
+                  <th>Name</th>
                   <th>Email</th>
                   <th>Phone Number</th>
                   <th>Address</th>
@@ -34,6 +34,12 @@ const KYCList = ({ kycArray, dispatch, isEdit, users, isLoading, token }) => {
                 {kycArray?.length > 0 &&
                   kycArray?.map((form) => (
                     <tr>
+                      <td>
+                        <div className="border-bottom border-dark">
+                          {form?.user?.name}
+                        </div>
+                        <div>{form?.user?.email}</div>
+                      </td>
                       <td>{form?.firstname + " " + form?.lastname}</td>
                       <td>{form?.email}</td>
                       <td>{form?.phone}</td>

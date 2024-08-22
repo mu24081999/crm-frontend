@@ -1,19 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import brand from "../../assets/logo-light.png";
 import InputField from "../../components/FormFields/InputField";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ForgotPassword,
   loginUser,
   verifyEmail,
-  verifyOTP,
 } from "../../redux/services/auth";
 import logo from "./../../assets/3.png";
+import CountdownTimer from "../../components/Countdown/Countdown";
 
 const VerifyEmailOtp = () => {
   const navigate = useNavigate();
+  const [showCountdown, setShowCountdown] = useState(true);
+
   const {
     handleSubmit,
     // watch,
@@ -66,6 +67,8 @@ const VerifyEmailOtp = () => {
     // }
   };
   const handleResendOTP = () => {
+    setShowCountdown(true);
+
     const data = {
       email: email,
       subject: "OTP Verification",
@@ -107,17 +110,26 @@ const VerifyEmailOtp = () => {
                               <div class="card-body text-center">
                                 <h4>Verify your OTP</h4>
                                 <p class="mb-4">
-                                  No worries we will mail you 6 digit code to
-                                  your recovery email address to reset your
-                                  password
+                                  We've mailed 6 digits OTP to your email
+                                  address.
                                 </p>
                                 <div>
-                                  <p
-                                    className="float-end cursor-pointer"
-                                    onClick={handleResendOTP}
-                                  >
-                                    Resend OTP
-                                  </p>
+                                  {showCountdown ? (
+                                    <CountdownTimer
+                                      startCount={5}
+                                      onCountdownEnd={() =>
+                                        setShowCountdown(false)
+                                      }
+                                    />
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      className="float-end btn btn-light btn-xs"
+                                      onClick={handleResendOTP}
+                                    >
+                                      Resend OTP
+                                    </button>
+                                  )}
                                   <div>
                                     <InputField
                                       name="otp"

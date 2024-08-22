@@ -71,30 +71,8 @@ const ResetUserPassword = () => {
                           <div class="card card-flush">
                             <div class="card-body text-center">
                               <h4>Reset your Password</h4>
-                              <p class="mb-4">
-                                No worries we will mail you 6 digit code to your
-                                recovery email address to reset your password
-                              </p>
-                              {/* <div class="row gx-3">
-                                <div class="form-group col-lg-12">
-                                  <div class="form-label-group">
-                                    <label for="userName">Email</label>
-                                    <a href="/" class="fs-7 fw-medium">
-                                      Forgot Username ?
-                                    </a>
-                                  </div>
-                                  <input
-                                    class="form-control"
-                                    placeholder="Recovery email ID"
-                                    value=""
-                                    type="email"
-                                  />
-                                </div>
-                              </div> */}
+
                               <div>
-                                {/* <Link to="/reset-password" class="fs-7 fw-medium float-end">
-                                  Forgot Username ?
-                                </Link> */}
                                 <div>
                                   <InputField
                                     name="password"
