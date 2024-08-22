@@ -74,6 +74,7 @@ import Loader from "./components/Loader/Loader";
 import Dashboard from "./views/Dashboard/Dashboard";
 import SignIn from "./views/Auth/SignIn";
 import SignUp from "./views/Auth/SignUp";
+
 import ResetPassword from "./views/Auth/ResetPassword";
 import VerifyPassword from "./views/Auth/VerifyPassword";
 import ResetUserPassword from "./views/Auth/ResetUserPassword";
