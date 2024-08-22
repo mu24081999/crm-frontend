@@ -59,11 +59,11 @@ const KYCContent = () => {
       <div className="hk-pg-body py-0">
         <div className="contactapp-wrap">
           <div className="contactapp-content">
-            <Sidebar
+            {/* <Sidebar
               onSendData={handleReceiveData}
               onToggleEdit={handleToggleEdit}
               subscriptions={data_}
-            />
+            /> */}
             {!showLeadDetails && (
               <div className="contactapp-detail-wrap">
                 <Header

@@ -5,14 +5,9 @@ import AccountSetting from "./components/AccountSetting";
 import UpdatePassword from "./components/UpdatePassword";
 import CardInformation from "./components/CardInformation";
 import EmailConfig from "./components/EmailConfig";
-import Billing from "./components/Billing";
 import NumberConfig from "./components/NumberConfig";
 import { useDispatch, useSelector } from "react-redux";
 import VoiceSettings from "./components/VoiceSettings";
-import {
-  getSubscriptionsList,
-  getUserSubscriptions,
-} from "../../redux/services/subscription";
 import BrandDetails from "./components/BrandDetails";
 
 const ProfileContent = () => {

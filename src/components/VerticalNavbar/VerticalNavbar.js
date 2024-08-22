@@ -115,7 +115,7 @@ const VerticalNavbar = () => {
           </Link>
           {themeType === "collapsed" ? (
             <button
-              className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle"
+              className="btn btn-icon btn-rounded "
               onClick={handleMenuClick}
               style={{ cursor: "pointer" }}
             >
@@ -123,7 +123,7 @@ const VerticalNavbar = () => {
             </button>
           ) : (
             <button
-              className="btn btn-icon btn-rounded btn-flush-dark flush-soft-hover navbar-toggle"
+              className="btn btn-icon btn-rounded "
               onClick={handleMenuClickAgain}
             >
               <BsArrowBarRight />

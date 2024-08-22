@@ -52,22 +52,26 @@ const Sidebar = ({ user, subscription }) => {
               </a>
             </li>
           )}
-          <li className="nav-item">
-            <a
-              data-bs-toggle="tab"
-              href="#tab_voice_settings"
-              className="nav-link"
-            >
-              <span className="nav-link-text">Voice Settings</span>
-            </a>
-          </li>
-          {user?.parent_id === null && user?.client_id === null && (
+          {(user?.parent_id !== null || user?.client_id !== null) && (
             <li className="nav-item">
-              <a data-bs-toggle="tab" href="#tab_cards" className="nav-link">
-                <span className="nav-link-text">Card Information</span>
+              <a
+                data-bs-toggle="tab"
+                href="#tab_voice_settings"
+                className="nav-link"
+              >
+                <span className="nav-link-text">Voice Settings</span>
               </a>
             </li>
           )}
+          {user?.parent_id === null &&
+            user?.client_id === null &&
+            user?.role !== "ADMIN" && (
+              <li className="nav-item">
+                <a data-bs-toggle="tab" href="#tab_cards" className="nav-link">
+                  <span className="nav-link-text">Card Information</span>
+                </a>
+              </li>
+            )}
           {subscription?.plan?.includes("Enterprise") &&
             user?.parent_id !== null && (
               <li className="nav-item">

@@ -97,7 +97,6 @@ const FileField = React.forwardRef((props, ref) => {
           {props.rules && err && props.rules && err?.message}
         </p>
       )}
-      {/*  */}
     </div>
   );
 });

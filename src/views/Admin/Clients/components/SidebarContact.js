@@ -66,14 +66,14 @@ const ContactSidebar = ({ onSendData, contactsData, onToggleEdit }) => {
     <nav className="contactapp-sidebar">
       <div data-simplebar className="nicescroll-bar">
         <div className="menu-content-wrap">
-          <button
+          {/* <button
             type="button"
             className="btn btn-primary btn-rounded btn-block mb-4"
             data-bs-toggle="modal"
             data-bs-target="#add_new_contact"
           >
             Add new Client
-          </button>
+          </button> */}
           <div className="menu-group p-1">
             <ul className="nav nav-light navbar-nav flex-column">
               <li
