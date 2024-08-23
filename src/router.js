@@ -72,8 +72,8 @@ import Loader from "./components/Loader/Loader";
 //   import("./views/Admin/A2PRegistrationRequest/A2PRegistrationRequests")
 // );
 import Dashboard from "./views/Dashboard/Dashboard";
-import SignIn from "./views/Auth/SignIn";
-import SignUp from "./views/Auth/SignUp";
+// import SignIn from "./views/Auth/SignIn";
+// import SignUp from "./views/Auth/SignUp";
 
 import ResetPassword from "./views/Auth/ResetPassword";
 import VerifyPassword from "./views/Auth/VerifyPassword";
@@ -125,7 +125,8 @@ import PhoneNumberRates from "./views/Admin/PhoneNumberRates/PhoneNumberRates";
 import KYCNeeded from "./views/KYCNeeded/KYCNeeded";
 import RegulatoryBundle from "./views/RegulatoryBundle/RegulatoryBundle";
 import A2PRegistrationRequests from "./views/Admin/A2PRegistrationRequest/A2PRegistrationRequests";
-
+const SignIn = lazy(() => import("./views/Auth/SignIn"));
+const SignUp = lazy(() => import("./views/Auth/SignUp"));
 // Define allowed roles for each route
 const roles = {
   dashboard: ["USER", "ADMIN", "SUPER_ADMIN", "AGENT"],
