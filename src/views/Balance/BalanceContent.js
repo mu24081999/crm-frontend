@@ -98,7 +98,7 @@ const BalanceContent = () => {
                             onChange={(e) => setAmount(e.target.value)}
                           />
                         </div>
-                        {amount < 5 || amount > 100 ? (
+                        {amount < 5 ? (
                           <div>
                             <button
                               className="btn btn-primary btn-sm "
